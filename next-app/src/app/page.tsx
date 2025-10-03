@@ -369,7 +369,7 @@ export default function Home() {
           </div>
         </div>
 
-        <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium mb-4">Explore the marketplace</a>
+        <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium mb-4">Explore Screening Test tool</a>
         <p className="text-white/60 text-sm">Start from your free screening results or browse providers directly.</p>
       </section>
 
