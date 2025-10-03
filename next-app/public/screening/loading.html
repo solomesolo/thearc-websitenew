@@ -362,7 +362,7 @@
                 console.log('Making API call with answers:', answers);
                 document.getElementById('progressText').textContent = 'AI is analyzing your health data...';
                 
-                const response = await fetch('/api/analyze-health', {
+                const response = await fetch('/api/analyze_health', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

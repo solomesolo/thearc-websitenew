@@ -865,7 +865,7 @@
                 console.log('📧 Generated HTML content length:', htmlContent.length);
                 console.log('📧 Generated text content length:', textContent.length);
                 
-                const emailResponse = await fetch('/api/send-email', {
+                const emailResponse = await fetch('/api/send_email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
