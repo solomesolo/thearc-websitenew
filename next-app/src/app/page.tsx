@@ -129,83 +129,128 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 6: How Membership Works */}
-      <section className="flex flex-col items-center justify-center text-center mt-20 mb-16 px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-white">
-          How The Arc fits into your life
-        </h2>
-        <div className="max-w-6xl w-full">
-          {/* Desktop: Horizontal timeline */}
-          <div className="hidden md:flex items-center justify-between relative">
-            {/* Progress line */}
-            <div className="absolute top-8 left-0 w-full h-0.5 bg-gradient-to-r from-fuchsia-400 via-pink-400 to-purple-400"></div>
-            
-            {/* Step 1 */}
-            <div className="flex flex-col items-center text-center bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative z-10">
-              <div className="w-16 h-16 bg-gradient-to-r from-fuchsia-400 to-pink-400 rounded-full flex items-center justify-center mb-4">
-                <div className="w-8 h-8 border-2 border-white rounded-sm"></div>
+      {/* Section 6: How Membership Works - Roadmap Style */}
+      <section className="mt-32 mb-32 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-20 text-white">
+            How The Arc fits into your life
+          </h2>
+          
+          {/* Desktop Roadmap */}
+          <div className="hidden lg:block">
+            <div className="relative">
+              {/* Main Roadmap Line */}
+              <div className="absolute top-24 left-0 right-0 h-1 bg-gradient-to-r from-fuchsia-400 via-pink-400 to-purple-400 rounded-full"></div>
+              
+              {/* Step 1 */}
+              <div className="flex items-start justify-start mb-24">
+                <div className="flex items-center space-x-8">
+                  <div className="relative">
+                    <div className="w-20 h-20 bg-gradient-to-br from-fuchsia-400 to-pink-400 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 border-3 border-white transform rotate-45"></div>
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-fuchsia-400 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">1</span>
+                    </div>
+                  </div>
+                  <div className="max-w-md">
+                    <h3 className="text-2xl font-bold mb-3 text-white">Apply</h3>
+                    <p className="text-white/80 text-lg mb-4">Submit a short application. We keep cohorts focused and limited.</p>
+                    <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium text-lg">Apply Now →</a>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2 text-white">Apply</h3>
-              <p className="text-white/80 mb-4">Submit a short application. We keep cohorts focused and limited.</p>
-              <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 text-sm font-medium">Apply Now</a>
-            </div>
 
-            {/* Step 2 */}
-            <div className="flex flex-col items-center text-center bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative z-10">
-              <div className="w-16 h-16 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full flex items-center justify-center mb-4">
-                <div className="w-8 h-8 border-2 border-white rounded-full"></div>
+              {/* Step 2 */}
+              <div className="flex items-start justify-center mb-24">
+                <div className="flex items-center space-x-8">
+                  <div className="relative">
+                    <div className="w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 border-3 border-white rounded-full"></div>
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-pink-400 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">2</span>
+                    </div>
+                  </div>
+                  <div className="max-w-md">
+                    <h3 className="text-2xl font-bold mb-3 text-white">Onboarding & Baseline</h3>
+                    <p className="text-white/80 text-lg mb-4">Complete your health assessment and (if needed) minimal tests.</p>
+                    <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium text-lg">See Example Assessment →</a>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2 text-white">Onboarding & Baseline</h3>
-              <p className="text-white/80 mb-4">Complete your health assessment and (if needed) minimal tests.</p>
-              <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 text-sm font-medium">See Example Assessment</a>
-            </div>
 
-            {/* Step 3 */}
-            <div className="flex flex-col items-center text-center bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative z-10">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center mb-4">
-                <div className="w-8 h-8 border-2 border-white transform rotate-45"></div>
+              {/* Step 3 */}
+              <div className="flex items-start justify-end">
+                <div className="flex items-center space-x-8">
+                  <div className="relative">
+                    <div className="w-20 h-20 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 border-3 border-white transform rotate-12"></div>
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-purple-400 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">3</span>
+                    </div>
+                  </div>
+                  <div className="max-w-md">
+                    <h3 className="text-2xl font-bold mb-3 text-white">12 Months of Adaptive Care</h3>
+                    <p className="text-white/80 text-lg mb-4">Receive personalized monthly protocols and trend reviews that evolve with your body.</p>
+                    <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium text-lg">View Sample Plan →</a>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2 text-white">12 Months of Adaptive Care</h3>
-              <p className="text-white/80 mb-4">Receive personalized monthly protocols and trend reviews that evolve with your body.</p>
-              <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 text-sm font-medium">View Sample Plan</a>
             </div>
           </div>
 
-          {/* Mobile: Stacked vertically */}
-          <div className="md:hidden space-y-6">
+          {/* Mobile/Tablet Roadmap */}
+          <div className="lg:hidden space-y-16">
             {/* Step 1 */}
-            <div className="flex items-start space-x-4 bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-              <div className="w-12 h-12 bg-gradient-to-r from-fuchsia-400 to-pink-400 rounded-full flex items-center justify-center flex-shrink-0">
-                <div className="w-6 h-6 border-2 border-white rounded-sm"></div>
+            <div className="flex items-start space-x-6">
+              <div className="relative flex-shrink-0">
+                <div className="w-16 h-16 bg-gradient-to-br from-fuchsia-400 to-pink-400 rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 border-3 border-white transform rotate-45"></div>
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-fuchsia-400 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">1</span>
+                </div>
               </div>
               <div>
-                <h3 className="text-lg font-bold mb-2 text-white">Apply</h3>
-                <p className="text-white/80 mb-3">Submit a short application. We keep cohorts focused and limited.</p>
-                <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 text-sm font-medium">Apply Now</a>
+                <h3 className="text-xl font-bold mb-3 text-white">Apply</h3>
+                <p className="text-white/80 text-base mb-4">Submit a short application. We keep cohorts focused and limited.</p>
+                <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium">Apply Now →</a>
               </div>
             </div>
 
             {/* Step 2 */}
-            <div className="flex items-start space-x-4 bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full flex items-center justify-center flex-shrink-0">
-                <div className="w-6 h-6 border-2 border-white rounded-full"></div>
+            <div className="flex items-start space-x-6">
+              <div className="relative flex-shrink-0">
+                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 border-3 border-white rounded-full"></div>
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-pink-400 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">2</span>
+                </div>
               </div>
               <div>
-                <h3 className="text-lg font-bold mb-2 text-white">Onboarding & Baseline</h3>
-                <p className="text-white/80 mb-3">Complete your health assessment and (if needed) minimal tests.</p>
-                <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 text-sm font-medium">See Example Assessment</a>
+                <h3 className="text-xl font-bold mb-3 text-white">Onboarding & Baseline</h3>
+                <p className="text-white/80 text-base mb-4">Complete your health assessment and (if needed) minimal tests.</p>
+                <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium">See Example Assessment →</a>
               </div>
             </div>
 
             {/* Step 3 */}
-            <div className="flex items-start space-x-4 bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center flex-shrink-0">
-                <div className="w-6 h-6 border-2 border-white transform rotate-45"></div>
+            <div className="flex items-start space-x-6">
+              <div className="relative flex-shrink-0">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 border-3 border-white transform rotate-12"></div>
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-purple-400 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">3</span>
+                </div>
               </div>
               <div>
-                <h3 className="text-lg font-bold mb-2 text-white">12 Months of Adaptive Care</h3>
-                <p className="text-white/80 mb-3">Receive personalized monthly protocols and trend reviews that evolve with your body.</p>
-                <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 text-sm font-medium">View Sample Plan</a>
+                <h3 className="text-xl font-bold mb-3 text-white">12 Months of Adaptive Care</h3>
+                <p className="text-white/80 text-base mb-4">Receive personalized monthly protocols and trend reviews that evolve with your body.</p>
+                <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium">View Sample Plan →</a>
           </div>
             </div>
           </div>
@@ -233,7 +278,7 @@ export default function Home() {
               <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
                 Apply — Foundations
               </a>
-            </div>
+    </div>
 
             {/* Tier 2 - Full Arc (Recommended) */}
             <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 border-2 border-fuchsia-400 relative hover:border-fuchsia-300 transition-all">
@@ -249,7 +294,7 @@ export default function Home() {
                 <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Everything in Foundations</li>
                 <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Quarterly review</li>
                 <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Marketplace early access</li>
-              </ul>
+          </ul>
               <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
                 Apply — Full Arc
               </a>
@@ -265,14 +310,14 @@ export default function Home() {
                 <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Everything in Full Arc</li>
                 <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>2 private expert reviews</li>
                 <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Beta access to new tools</li>
-              </ul>
+          </ul>
               <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 mb-6">
                 <p className="text-red-400 text-sm font-medium text-center">Only 3 seats left</p>
-              </div>
+          </div>
               <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
                 Apply — Founders Circle
               </a>
-            </div>
+      </div>
           </div>
           
           <p className="text-white/60 text-sm mt-6">Payments processed via Stripe. VAT applied where required.</p>
@@ -378,8 +423,8 @@ export default function Home() {
           <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
             <h3 className="text-xl font-bold mb-3 text-white">What about VAT and invoices?</h3>
             <p className="text-white/80 text-lg">Prices are exclusive of VAT. A VAT-compliant invoice is generated automatically after payment.</p>
-          </div>
         </div>
+      </div>
     </section>
 
       {/* Footer */}
