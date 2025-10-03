@@ -30,38 +30,22 @@ export async function POST(request: NextRequest) {
       // If we can't get the database, just try to create a simple page
     }
     
-    // Create a simple page with minimal properties
+    // Create a simple page with just the title property
     const response = await notion.pages.create({
       parent: {
         database_id: process.env.NOTION_DATABASE_ID!,
       },
       properties: {
-        // Try different property types for email
-        ...(database && Object.keys(database.properties).length > 0 ? {
-          [Object.keys(database.properties)[0]]: {
-            title: [
-              {
-                text: {
-                  content: email,
-                },
+        // Use the first available property as title
+        [Object.keys(database?.properties || {})[0] || "Name"]: {
+          title: [
+            {
+              text: {
+                content: email,
               },
-            ],
-          }
-        } : {
-          // Fallback: try common property names with different types
-          "Email": {
-            email: email,
-          },
-          "Name": {
-            title: [
-              {
-                text: {
-                  content: email,
-                },
-              },
-            ],
-          }
-        }),
+            },
+          ],
+        },
       },
     });
     
