@@ -78,6 +78,45 @@ export default function Home() {
         </p>
       </section>
 
+      {/* What is The Arc Section */}
+      <section className="flex flex-col items-center justify-center text-center mt-16 mb-8 px-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-white">
+          What if your health wasn't a burden, but a system?
+        </h2>
+        <div className="max-w-4xl text-lg text-white/80 space-y-4">
+          <p>You don't need 20 biohacks.<br />
+          You don't need to perform health like a routine.<br />
+          You need TheArc, which evolves with you.<br />
+          This is a 6- or 12-month longevity protocol built from scientific evidence, not trends.<br />
+          Rooted in personalisation. Designed to last.</p>
+        </div>
+      </section>
+
+      {/* Behind the Curtains Section */}
+      <section className="flex flex-col items-center justify-center text-center mt-16 mb-8 px-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-white">
+          Behind the curtains
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-6xl">
+          <div className="text-left">
+            <h3 className="text-xl font-semibold mb-2 text-white">Personal Operating System</h3>
+            <p className="text-base text-white/80">Health begins when rhythm replaces routine.<br />Your path adapts to your health data, not to someone else's standard.</p>
+          </div>
+          <div className="text-left">
+            <h3 className="text-xl font-semibold mb-2 text-white">Quiet Circles, Deep Insight</h3>
+            <p className="text-base text-white/80">Ideas land differently in the right space.<br />Expert-led sessions and communication rooms—each designed to refine direction, not add noise.</p>
+          </div>
+          <div className="text-left">
+            <h3 className="text-xl font-semibold mb-2 text-white">No Overwhelm. No Guessing. No Performance.</h3>
+            <p className="text-base text-white/80">Most health advice creates friction. This removes it. What remains is the small percentage that quietly changes everything.</p>
+          </div>
+          <div className="text-left">
+            <h3 className="text-xl font-semibold mb-2 text-white">Evolving With You. Even after the program.</h3>
+            <p className="text-base text-white/80">Step by step, your system becomes second nature: flexible, intuitive, and lasting well beyond the program.</p>
+        </div>
+      </div>
+    </section>
+
       {/* Footer */}
       <Footer />
     </div>
