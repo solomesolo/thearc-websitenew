@@ -140,7 +140,8 @@ export default function Home() {
           <div className="hidden lg:block">
             <div className="relative">
               {/* Main Roadmap Line */}
-              <div className="absolute top-24 left-0 right-0 h-1 bg-gradient-to-r from-fuchsia-400 via-pink-400 to-purple-400 rounded-full"></div>
+              <div className="absolute top-24 left-20 right-20 h-2 bg-gradient-to-r from-fuchsia-400 via-pink-400 to-purple-400 rounded-full shadow-lg opacity-80"></div>
+              <div className="absolute top-24 left-20 right-20 h-1 bg-gradient-to-r from-fuchsia-300 via-pink-300 to-purple-300 rounded-full"></div>
               
               {/* Step 1 */}
               <div className="flex items-start justify-start mb-24">
@@ -324,54 +325,6 @@ export default function Home() {
       </div>
     </section>
 
-      {/* Section 8: Marketplace & Tests */}
-      <section className="flex flex-col items-center justify-center text-center mt-20 mb-16 px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-white">
-          Curated testing, made simple
-        </h2>
-        <p className="text-white/60 mb-4 text-sm font-medium tracking-wide uppercase">Available 2025</p>
-        <p className="text-white/80 mb-12 max-w-2xl text-lg">
-          Get the most relevant tests for your goals — vetted providers, transparent pricing, and a clear list of included biomarkers.
-        </p>
-        
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl w-full mb-6">
-          {/* Product Card 1 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg flex items-center justify-center mb-4">
-              <div className="w-6 h-6 border-2 border-white rounded-sm"></div>
-            </div>
-            <h3 className="text-lg font-bold mb-2 text-white">Comprehensive Panel</h3>
-            <p className="text-white/60 text-sm mb-2">LabCorp</p>
-            <div className="text-2xl font-bold text-white mb-2">€299</div>
-            <p className="text-white/80 text-sm">25+ biomarkers including lipids, hormones, vitamins</p>
-          </div>
-
-          {/* Product Card 2 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all">
-            <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-400 rounded-lg flex items-center justify-center mb-4">
-              <div className="w-6 h-6 border-2 border-white rounded-full"></div>
-            </div>
-            <h3 className="text-lg font-bold mb-2 text-white">Metabolic Panel</h3>
-            <p className="text-white/60 text-sm mb-2">Quest Diagnostics</p>
-            <div className="text-2xl font-bold text-white mb-2">€199</div>
-            <p className="text-white/80 text-sm">15+ metabolic markers for diabetes risk</p>
-          </div>
-
-          {/* Product Card 3 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all">
-            <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-red-400 rounded-lg flex items-center justify-center mb-4">
-              <div className="w-6 h-6 border-2 border-white transform rotate-45"></div>
-            </div>
-            <h3 className="text-lg font-bold mb-2 text-white">Cardiovascular Panel</h3>
-            <p className="text-white/60 text-sm mb-2">Private Lab</p>
-            <div className="text-2xl font-bold text-white mb-2">€149</div>
-            <p className="text-white/80 text-sm">12+ heart health markers and inflammation</p>
-          </div>
-        </div>
-
-        <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium mb-4">Explore Screening Test tool</a>
-        <p className="text-white/60 text-sm">Start from your free screening results or browse providers directly.</p>
-      </section>
 
       {/* Section 9: Cohort Scarcity Widget */}
       <section className="sticky bottom-0 left-0 right-0 bg-black/90 backdrop-blur-sm border-t border-white/10 py-4 px-4 z-50">
