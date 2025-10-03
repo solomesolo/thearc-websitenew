@@ -130,8 +130,8 @@ export default function Home() {
       </section>
 
       {/* Section 6: How Membership Works */}
-      <section className="flex flex-col items-center justify-center text-center mt-16 mb-8 px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-white">
+      <section className="flex flex-col items-center justify-center text-center mt-20 mb-16 px-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-white">
           How The Arc fits into your life
         </h2>
         <div className="max-w-6xl w-full">
@@ -143,7 +143,7 @@ export default function Home() {
             {/* Step 1 */}
             <div className="flex flex-col items-center text-center bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative z-10">
               <div className="w-16 h-16 bg-gradient-to-r from-fuchsia-400 to-pink-400 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl">📋</span>
+                <div className="w-8 h-8 border-2 border-white rounded-sm"></div>
               </div>
               <h3 className="text-xl font-bold mb-2 text-white">Apply</h3>
               <p className="text-white/80 mb-4">Submit a short application. We keep cohorts focused and limited.</p>
@@ -153,7 +153,7 @@ export default function Home() {
             {/* Step 2 */}
             <div className="flex flex-col items-center text-center bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative z-10">
               <div className="w-16 h-16 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl">❤️</span>
+                <div className="w-8 h-8 border-2 border-white rounded-full"></div>
               </div>
               <h3 className="text-xl font-bold mb-2 text-white">Onboarding & Baseline</h3>
               <p className="text-white/80 mb-4">Complete your health assessment and (if needed) minimal tests.</p>
@@ -163,7 +163,7 @@ export default function Home() {
             {/* Step 3 */}
             <div className="flex flex-col items-center text-center bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative z-10">
               <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl">📈</span>
+                <div className="w-8 h-8 border-2 border-white transform rotate-45"></div>
               </div>
               <h3 className="text-xl font-bold mb-2 text-white">12 Months of Adaptive Care</h3>
               <p className="text-white/80 mb-4">Receive personalized monthly protocols and trend reviews that evolve with your body.</p>
@@ -176,7 +176,7 @@ export default function Home() {
             {/* Step 1 */}
             <div className="flex items-start space-x-4 bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="w-12 h-12 bg-gradient-to-r from-fuchsia-400 to-pink-400 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-xl">📋</span>
+                <div className="w-6 h-6 border-2 border-white rounded-sm"></div>
               </div>
               <div>
                 <h3 className="text-lg font-bold mb-2 text-white">Apply</h3>
@@ -188,7 +188,7 @@ export default function Home() {
             {/* Step 2 */}
             <div className="flex items-start space-x-4 bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-xl">❤️</span>
+                <div className="w-6 h-6 border-2 border-white rounded-full"></div>
               </div>
               <div>
                 <h3 className="text-lg font-bold mb-2 text-white">Onboarding & Baseline</h3>
@@ -200,100 +200,100 @@ export default function Home() {
             {/* Step 3 */}
             <div className="flex items-start space-x-4 bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-xl">📈</span>
+                <div className="w-6 h-6 border-2 border-white transform rotate-45"></div>
               </div>
               <div>
                 <h3 className="text-lg font-bold mb-2 text-white">12 Months of Adaptive Care</h3>
                 <p className="text-white/80 mb-3">Receive personalized monthly protocols and trend reviews that evolve with your body.</p>
                 <a href="/contact" className="text-fuchsia-400 hover:text-fuchsia-300 text-sm font-medium">View Sample Plan</a>
-              </div>
+          </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Section 7: Pricing */}
-      <section className="flex flex-col items-center justify-center text-center mt-16 mb-8 px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-white">
+      <section className="flex flex-col items-center justify-center text-center mt-20 mb-16 px-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-white">
           Choose your path
         </h2>
         <div className="max-w-6xl w-full">
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-8">
             {/* Tier 1 - Foundations */}
-            <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10">
-              <h3 className="text-2xl font-bold mb-2 text-white">Foundations</h3>
-              <p className="text-white/60 mb-4">6 months</p>
-              <div className="text-3xl font-bold mb-2 text-white">€499</div>
-              <p className="text-white/60 mb-6">Short-term commitment — experience The Arc framework.</p>
-              <ul className="text-white/80 space-y-2 mb-8">
-                <li>• Baseline assessment</li>
-                <li>• Monthly protocols</li>
-                <li>• Community access</li>
+            <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all">
+              <h3 className="text-2xl font-bold mb-3 text-white">Foundations</h3>
+              <p className="text-white/60 mb-6 text-sm font-medium tracking-wide uppercase">6 months</p>
+              <div className="text-4xl font-bold mb-3 text-white">€499</div>
+              <p className="text-white/60 mb-8 text-lg">Short-term commitment — experience The Arc framework.</p>
+              <ul className="text-white/80 space-y-3 mb-10 text-lg">
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Baseline assessment</li>
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Monthly protocols</li>
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Community access</li>
               </ul>
-              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-3 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
+              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
                 Apply — Foundations
               </a>
             </div>
 
             {/* Tier 2 - Full Arc (Recommended) */}
-            <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border-2 border-fuchsia-400 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-fuchsia-400 to-pink-400 text-black px-4 py-1 rounded-full text-sm font-bold">
+            <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 border-2 border-fuchsia-400 relative hover:border-fuchsia-300 transition-all">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-fuchsia-400 to-pink-400 text-black px-6 py-2 rounded-full text-sm font-bold">
                 Most Chosen
               </div>
-              <h3 className="text-2xl font-bold mb-2 text-white">Full Arc</h3>
-              <p className="text-white/60 mb-4">12 months</p>
-              <div className="text-3xl font-bold mb-2 text-white">€999</div>
-              <p className="text-white/60 mb-2">Best value — full year of adaptive care.</p>
-              <p className="text-fuchsia-400 text-sm mb-6">Equivalent to €2.74/day</p>
-              <ul className="text-white/80 space-y-2 mb-8">
-                <li>• Everything in Foundations</li>
-                <li>• Quarterly review</li>
-                <li>• Marketplace early access</li>
+              <h3 className="text-2xl font-bold mb-3 text-white">Full Arc</h3>
+              <p className="text-white/60 mb-6 text-sm font-medium tracking-wide uppercase">12 months</p>
+              <div className="text-4xl font-bold mb-3 text-white">€999</div>
+              <p className="text-white/60 mb-2 text-lg">Best value — full year of adaptive care.</p>
+              <p className="text-fuchsia-400 text-sm mb-8 font-medium">Equivalent to €2.74/day</p>
+              <ul className="text-white/80 space-y-3 mb-10 text-lg">
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Everything in Foundations</li>
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Quarterly review</li>
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Marketplace early access</li>
               </ul>
-              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-3 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
+              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
                 Apply — Full Arc
               </a>
             </div>
 
             {/* Tier 3 - Founders Circle */}
-            <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10">
-              <h3 className="text-2xl font-bold mb-2 text-white">Founders Circle</h3>
-              <p className="text-white/60 mb-4">12 months, limited to 10 seats</p>
-              <div className="text-3xl font-bold mb-2 text-white">€1,400</div>
-              <p className="text-white/60 mb-6">Limited founding seats with exclusive benefits.</p>
-              <ul className="text-white/80 space-y-2 mb-8">
-                <li>• Everything in Full Arc</li>
-                <li>• 2 private expert reviews</li>
-                <li>• Beta access to new tools</li>
+            <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all">
+              <h3 className="text-2xl font-bold mb-3 text-white">Founders Circle</h3>
+              <p className="text-white/60 mb-6 text-sm font-medium tracking-wide uppercase">12 months, limited to 10 seats</p>
+              <div className="text-4xl font-bold mb-3 text-white">€1,400</div>
+              <p className="text-white/60 mb-8 text-lg">Limited founding seats with exclusive benefits.</p>
+              <ul className="text-white/80 space-y-3 mb-8 text-lg">
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Everything in Full Arc</li>
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>2 private expert reviews</li>
+                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Beta access to new tools</li>
               </ul>
-              <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 mb-4">
-                <p className="text-red-400 text-sm font-medium">Only 3 seats left</p>
+              <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 mb-6">
+                <p className="text-red-400 text-sm font-medium text-center">Only 3 seats left</p>
               </div>
-              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-3 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
+              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
                 Apply — Founders Circle
               </a>
             </div>
           </div>
           
           <p className="text-white/60 text-sm mt-6">Payments processed via Stripe. VAT applied where required.</p>
-        </div>
-      </section>
+      </div>
+    </section>
 
       {/* Section 8: Marketplace & Tests */}
-      <section className="flex flex-col items-center justify-center text-center mt-16 mb-8 px-4">
+      <section className="flex flex-col items-center justify-center text-center mt-20 mb-16 px-4">
         <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-white">
           Curated testing, made simple
         </h2>
-        <p className="text-white/60 mb-2">Available 2025</p>
-        <p className="text-white/80 mb-8 max-w-2xl">
+        <p className="text-white/60 mb-4 text-sm font-medium tracking-wide uppercase">Available 2025</p>
+        <p className="text-white/80 mb-12 max-w-2xl text-lg">
           Get the most relevant tests for your goals — vetted providers, transparent pricing, and a clear list of included biomarkers.
         </p>
         
         <div className="grid md:grid-cols-3 gap-6 max-w-4xl w-full mb-6">
           {/* Product Card 1 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg flex items-center justify-center mb-4">
-              <span className="text-xl">🧬</span>
+              <div className="w-6 h-6 border-2 border-white rounded-sm"></div>
             </div>
             <h3 className="text-lg font-bold mb-2 text-white">Comprehensive Panel</h3>
             <p className="text-white/60 text-sm mb-2">LabCorp</p>
@@ -302,9 +302,9 @@ export default function Home() {
           </div>
 
           {/* Product Card 2 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all">
             <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-400 rounded-lg flex items-center justify-center mb-4">
-              <span className="text-xl">💊</span>
+              <div className="w-6 h-6 border-2 border-white rounded-full"></div>
             </div>
             <h3 className="text-lg font-bold mb-2 text-white">Metabolic Panel</h3>
             <p className="text-white/60 text-sm mb-2">Quest Diagnostics</p>
@@ -313,9 +313,9 @@ export default function Home() {
           </div>
 
           {/* Product Card 3 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all">
             <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-red-400 rounded-lg flex items-center justify-center mb-4">
-              <span className="text-xl">❤️</span>
+              <div className="w-6 h-6 border-2 border-white transform rotate-45"></div>
             </div>
             <h3 className="text-lg font-bold mb-2 text-white">Cardiovascular Panel</h3>
             <p className="text-white/60 text-sm mb-2">Private Lab</p>
@@ -335,52 +335,52 @@ export default function Home() {
             <div className="text-white font-semibold">Next cohort capacity: 100 seats — 23 left</div>
             <div className="w-32 bg-white/20 rounded-full h-2">
               <div className="bg-gradient-to-r from-fuchsia-400 to-pink-400 h-2 rounded-full" style={{width: '77%'}}></div>
-            </div>
+          </div>
           </div>
           <a href="/contact" className="bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-2 px-6 rounded-full font-semibold hover:scale-105 transition-all">
             Apply now — 23 seats left
           </a>
         </div>
         <p className="text-white/60 text-xs text-center mt-2">Seats updated in real-time.</p>
-      </section>
+    </section>
 
       {/* Section 10: FAQs */}
-      <section className="flex flex-col items-center justify-center text-center mt-16 mb-8 px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-white">
+      <section className="flex flex-col items-center justify-center text-center mt-20 mb-16 px-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-white">
           Frequently asked questions
         </h2>
-        <div className="max-w-4xl w-full space-y-4">
+        <div className="max-w-4xl w-full space-y-6">
           {/* FAQ 1 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-left">
-            <h3 className="text-lg font-bold mb-2 text-white">What is the screening tool?</h3>
-            <p className="text-white/80">A quick online tool that suggests which biomarkers matter most for you.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-xl font-bold mb-3 text-white">What is the screening tool?</h3>
+            <p className="text-white/80 text-lg">A quick online tool that suggests which biomarkers matter most for you.</p>
           </div>
 
           {/* FAQ 2 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-left">
-            <h3 className="text-lg font-bold mb-2 text-white">Do I need to test before joining?</h3>
-            <p className="text-white/80">No. We start with your questionnaire; testing is optional and recommended.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-xl font-bold mb-3 text-white">Do I need to test before joining?</h3>
+            <p className="text-white/80 text-lg">No. We start with your questionnaire; testing is optional and recommended.</p>
           </div>
 
           {/* FAQ 3 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-left">
-            <h3 className="text-lg font-bold mb-2 text-white">How do applications work?</h3>
-            <p className="text-white/80">Submit in 2 minutes. We review within 72 hours.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-xl font-bold mb-3 text-white">How do applications work?</h3>
+            <p className="text-white/80 text-lg">Submit in 2 minutes. We review within 72 hours.</p>
           </div>
 
           {/* FAQ 4 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-left">
-            <h3 className="text-lg font-bold mb-2 text-white">How is my data handled?</h3>
-            <p className="text-white/80">Your information is private, secure, and fully exportable.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-xl font-bold mb-3 text-white">How is my data handled?</h3>
+            <p className="text-white/80 text-lg">Your information is private, secure, and fully exportable.</p>
           </div>
 
           {/* FAQ 5 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-left">
-            <h3 className="text-lg font-bold mb-2 text-white">What about VAT and invoices?</h3>
-            <p className="text-white/80">Prices are exclusive of VAT. A VAT-compliant invoice is generated automatically after payment.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-xl font-bold mb-3 text-white">What about VAT and invoices?</h3>
+            <p className="text-white/80 text-lg">Prices are exclusive of VAT. A VAT-compliant invoice is generated automatically after payment.</p>
           </div>
         </div>
-      </section>
+    </section>
 
       {/* Footer */}
       <Footer />
