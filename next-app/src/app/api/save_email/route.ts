@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
         database_id: process.env.NOTION_DATABASE_ID!,
       },
       properties: {
-        // Try to use the first available property
+        // Try different property types for email
         ...(database && Object.keys(database.properties).length > 0 ? {
           [Object.keys(database.properties)[0]]: {
             title: [
@@ -48,7 +48,10 @@ export async function POST(request: NextRequest) {
             ],
           }
         } : {
-          // Fallback: try common property names
+          // Fallback: try common property names with different types
+          "Email": {
+            email: email,
+          },
           "Name": {
             title: [
               {
