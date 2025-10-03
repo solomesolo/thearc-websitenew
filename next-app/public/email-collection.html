@@ -544,8 +544,8 @@
                 console.log('📧 Timestamp:', new Date().toISOString());
                 console.log('📧 Full data:', { email, timestamp: new Date().toISOString(), consent: true, source: 'questionnaire' });
                 
-                console.log('📧 Making API call to:', '/api/test_save_email - DEBUG VERSION 2');
-                const saveResponse = await fetch('/api/test_save_email', {
+                console.log('📧 Making API call to:', '/api/save_email - REAL API');
+                const saveResponse = await fetch('/api/save_email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
