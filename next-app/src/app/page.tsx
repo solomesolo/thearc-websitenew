@@ -62,7 +62,6 @@ export default function Home() {
               className="inline-flex items-center px-6 py-3 rounded-full text-base font-semibold bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 text-white shadow-lg border-2 border-blue-700 hover:scale-105 transition-all"
             >
               Free Health Screening
-              <span className="ml-3 text-xl">🔬</span>
             </Link>
           </div>
         </div>
