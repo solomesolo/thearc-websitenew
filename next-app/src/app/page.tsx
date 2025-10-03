@@ -114,8 +114,20 @@ export default function Home() {
             <h3 className="text-xl font-semibold mb-2 text-white">Evolving With You. Even after the program.</h3>
             <p className="text-base text-white/80">Step by step, your system becomes second nature: flexible, intuitive, and lasting well beyond the program.</p>
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* Community Section */}
+      <section className="flex flex-col items-center justify-center text-center mt-16 mb-8 px-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-white">
+          A Private Longevity Circle
+        </h2>
+        <div className="max-w-4xl text-lg text-white/80 space-y-4">
+          <p>Each cohort is limited to 100 people.<br />
+          Expert-led sessions and communication rooms—each designed to refine direction, not add noise.<br />
+          Ideas land differently in the right space.</p>
+        </div>
+      </section>
 
       {/* Footer */}
       <Footer />
