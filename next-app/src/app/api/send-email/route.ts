@@ -13,13 +13,13 @@ export async function POST(request: NextRequest) {
     
     const { to, subject, htmlContent, textContent } = await request.json();
     
-    const msg = {
-      to: to,
-      from: process.env.SENDGRID_FROM_EMAIL || 'thearc@thearcme.com',
-      subject: subject,
-      text: textContent,
-      html: htmlContent,
-    };
+      const msg = {
+        to: to,
+        from: 'thearc@thearcme.com', // Hardcoded to avoid Vercel env var issues
+        subject: subject,
+        text: textContent,
+        html: htmlContent,
+      };
     
     await sgMail.send(msg);
     console.log('Email sent successfully to:', to);
