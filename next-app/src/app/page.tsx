@@ -3,6 +3,7 @@
 import Link from "next/link";
 import DNAParticles from "../components/DNAParticles";
 import DNABackground from "../components/DNABackground";
+import Footer from "../components/Footer";
 import React, { useRef, useState, useEffect } from "react";
 
 export default function Home() {
@@ -30,7 +31,7 @@ export default function Home() {
                 Health Screening
               </Link>
               <Link href="/contact" className="border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-semibold text-base md:text-lg px-4 py-1.5 rounded-full tracking-wide">Apply to Join</Link>
-            </nav>
+          </nav>
           </div>
         </div>
         
@@ -41,7 +42,7 @@ export default function Home() {
             It's a process.<br />
             Most people drift.<br />
             We create structure, clarity, and belonging.
-          </h1>
+            </h1>
           <p className="text-base md:text-lg font-normal mb-8 max-w-lg mx-auto text-white/90">
             A private longevity circle guided by science, precision, and deep personalization.<br />
             Built around you. Evolving with you.<br />
@@ -66,6 +67,19 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* The Arc System Statement Section */}
+      <section className="flex flex-col items-center justify-center text-center mt-16 mb-4 px-4">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-fuchsia-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-4 drop-shadow-lg" style={{letterSpacing: '-0.01em'}}>
+          The Arc doesn't give you a plan. It gives you a system.
+        </h2>
+        <p className="text-lg md:text-xl max-w-2xl text-white/80 font-medium">
+          One that understands your biology, adapts with your life, and helps you make smarter health decisions month after month.
+        </p>
+      </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
