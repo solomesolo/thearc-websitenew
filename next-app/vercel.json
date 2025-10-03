@@ -5,31 +5,5 @@
       "src": "package.json",
       "use": "@vercel/next"
     }
-  ],
-  "routes": [
-    {
-      "src": "/screening/(.*)",
-      "dest": "/public/screening/$1"
-    },
-    {
-      "src": "/screening",
-      "dest": "/public/screening/index.html"
-    },
-    {
-      "src": "/email-collection.html",
-      "dest": "/public/screening/email-collection.html"
-    },
-    {
-      "src": "/loading.html",
-      "dest": "/public/screening/loading.html"
-    },
-    {
-      "src": "/results.html",
-      "dest": "/public/screening/results.html"
-    },
-    {
-      "src": "/questionnaire.html",
-      "dest": "/public/screening/questionnaire.html"
-    }
   ]
 }
