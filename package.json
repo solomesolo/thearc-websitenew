@@ -9,7 +9,7 @@
     "dev:screening": "cd next-app/website-extension-backup-20250918-104005/questionnaire-extension/public && npx http-server . -p 8085",
     "dev:backend": "cd next-app/website-extension-backup-20250918-104005/questionnaire-extension/backend && npm start",
     "install:all": "npm install && cd next-app && npm install && cd website-extension-backup-20250918-104005/questionnaire-extension/backend && npm install",
-    "build": "cd next-app && npm run build",
+    "build": "cd next-app && npm install && npm run build",
     "start": "concurrently \"npm run start:arc\" \"npm run start:screening\" \"npm run start:backend\"",
     "start:arc": "cd next-app && npm start",
     "start:screening": "cd next-app/website-extension-backup-20250918-104005/questionnaire-extension/public && npx http-server . -p 8085",
