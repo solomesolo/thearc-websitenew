@@ -138,9 +138,6 @@ export default function Home() {
           {/* Desktop Roadmap */}
           <div className="hidden lg:block">
             <div className="relative">
-              {/* Main Roadmap Line */}
-              <div className="absolute top-24 left-20 right-20 h-2 bg-gradient-to-r from-fuchsia-400 via-pink-400 to-purple-400 rounded-full shadow-lg opacity-80"></div>
-              <div className="absolute top-24 left-20 right-20 h-1 bg-gradient-to-r from-fuchsia-300 via-pink-300 to-purple-300 rounded-full"></div>
               
               {/* Step 1 */}
               <div className="flex items-start justify-start mb-24">
@@ -344,40 +341,69 @@ export default function Home() {
       {/* Section 10: FAQs */}
       <section className="flex flex-col items-center justify-center text-center mt-20 mb-16 px-4">
         <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-white">
-          Frequently asked questions
+          Frequently Asked Questions
         </h2>
         <div className="max-w-4xl w-full space-y-6">
           {/* FAQ 1 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-xl font-bold mb-3 text-white">What is the screening tool?</h3>
-            <p className="text-white/80 text-lg">A quick online tool that suggests which biomarkers matter most for you.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-lg md:text-xl font-bold mb-3 text-white">What is the free screening?</h3>
+            <p className="text-white/80 text-base md:text-lg leading-relaxed">
+              The free screening is an online self-assessment designed to help you identify which biomarkers and lifestyle areas may need the most attention.<br /><br />
+              It takes around 3–5 minutes and uses evidence-based scoring logic to guide you toward the most relevant tests or program focus areas, without any obligation to buy.<br /><br />
+              You'll receive a short report summarizing your potential longevity priorities, and optional next steps if you wish to explore them further through our marketplace or membership.
+            </p>
           </div>
 
           {/* FAQ 2 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-xl font-bold mb-3 text-white">Do I need to test before joining?</h3>
-            <p className="text-white/80 text-lg">No. We start with your questionnaire; testing is optional and recommended.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-lg md:text-xl font-bold mb-3 text-white">Do I need to test before joining The Arc?</h3>
+            <p className="text-white/80 text-base md:text-lg leading-relaxed">
+              No. You can begin your Arc journey without any prior testing.<br /><br />
+              The first step is your personalized health and longevity questionnaire, that gives us a baseline profile to start shaping your plan.<br /><br />
+              If you already have lab data, you can upload it to enrich your assessment.<br /><br />
+              Testing becomes relevant once we identify where deeper insights might be valuable, for example, metabolic markers, inflammation, or hormone balance.<br /><br />
+              We recommend only the most essential and actionable tests, not an overload of expensive panels.
+            </p>
           </div>
 
           {/* FAQ 3 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-xl font-bold mb-3 text-white">How do applications work?</h3>
-            <p className="text-white/80 text-lg">Submit in 2 minutes. We review within 72 hours.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-lg md:text-xl font-bold mb-3 text-white">How does the application process work?</h3>
+            <p className="text-white/80 text-base md:text-lg leading-relaxed">
+              Applications are designed to be simple and selective.<br /><br />
+              You complete a short form describing your goals, lifestyle, and expectations - it takes about 2 minutes.<br /><br />
+              We review each application manually to ensure every member benefits from the small-cohort structure (limited to 100 people per cycle).<br /><br />
+              Once approved, you'll receive a welcome email with onboarding details and access to your private member area.<br /><br />
+              Applications are processed within 72 hours, and spaces are confirmed on a first-come basis.
+            </p>
           </div>
 
           {/* FAQ 4 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-xl font-bold mb-3 text-white">How is my data handled?</h3>
-            <p className="text-white/80 text-lg">Your information is private, secure, and fully exportable.</p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-left hover:border-white/20 transition-all">
+            <h3 className="text-lg md:text-xl font-bold mb-3 text-white">How is my data handled and protected?</h3>
+            <p className="text-white/80 text-base md:text-lg leading-relaxed">
+              Your privacy is treated as a core part of your care.<br /><br />
+              All personal and health data are encrypted, stored securely on EU-based servers, and never shared with third parties without explicit consent.<br /><br />
+              You can export or delete your data at any time directly from your dashboard.<br /><br />
+              For testing services, results are transmitted securely from verified providers; only you control who can view or access them.<br /><br />
+              Our system fully complies with GDPR and medical-data handling standards, ensuring complete confidentiality.
+            </p>
           </div>
 
-          {/* FAQ 5 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-xl font-bold mb-3 text-white">What about VAT and invoices?</h3>
-            <p className="text-white/80 text-lg">Prices are exclusive of VAT. A VAT-compliant invoice is generated automatically after payment.</p>
+          {/* CTA */}
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-center hover:border-white/20 transition-all mt-8">
+            <p className="text-white/80 text-base md:text-lg mb-4">
+              Didn't find what you were looking for?
+            </p>
+            <a 
+              href="mailto:thearc@thearcme.com" 
+              className="text-fuchsia-400 hover:text-fuchsia-300 font-medium text-lg inline-flex items-center"
+            >
+              Ask your question privately →
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       {/* Footer */}
       <Footer />
