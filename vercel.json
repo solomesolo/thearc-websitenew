@@ -15,5 +15,10 @@
       "src": "/screening",
       "dest": "/next-app/public/screening/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "next-app/src/app/api/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }
