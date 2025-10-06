@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: "system",
-          content: "You are a medical AI assistant specializing in preventive health screening recommendations. Provide evidence-based, personalized screening plans."
+          content: "You are a preventive medicine specialist with expertise in evidence-based health screening. Your role is to analyze patient questionnaire data comprehensively, identify risk factors, and provide personalized screening recommendations that are clinically justified, patient-friendly, and prioritized by urgency. Always use all provided data and connect symptoms to specific test recommendations."
         },
         {
           role: "user",
@@ -147,7 +147,34 @@ export async function POST(request: NextRequest) {
 }
 
 function createHealthAssessmentPrompt(responses: Array<{question: string, answer: string}>) {
-  let prompt = `Based on the following health questionnaire responses, provide a personalized screening plan:\n\n`;
+  let prompt = `You are a preventive medicine specialist who helps people understand their current health status and what screenings can keep them healthy long-term.
+Your goal is to create a personalized preventive screening summary in clear, empathetic, and patient-friendly language — like a medical professional explaining test results to a smart but non-medical person.
+
+DECISION LOGIC (must follow this order):
+
+1. Summarize the User's Current Health Picture
+   - In 3–5 sentences, describe what their answers and lab history suggest overall.
+   - Mention any key strengths (e.g., healthy habits, normal results) and areas that need attention (e.g., rising blood sugar, missing tests).
+   - Use warm, supportive, human language — avoid medical jargon.
+
+2. Identify Risks and Gaps from Questionnaire Data
+   - Highlight symptoms or family history that raise risk in any area (e.g., fatigue → thyroid or iron; family history of heart disease → cholesterol, inflammation).
+   - Connect these risks directly to categories of screening.
+
+3. Cross-Check Against Clinical Guidelines
+   - Match findings with evidence-based screenings appropriate for the user's age and risk profile (use guidelines from USPSTF, AHA, ADA, WHO, Endocrine Society, NICE).
+
+4. Interpret Previous Lab History
+   - For each test: Mark as UP TO DATE if within validity range (6–12 months), DUE SOON if older or borderline, MISSING if never done.
+   - If a test result was borderline or abnormal, clearly explain it in plain English and recommend retesting.
+
+5. Generate Test Recommendations
+   - Include only clinically justified tests.
+   - Cover all categories: Cardiovascular Health, Metabolic Health, Hormonal Health, Nutritional Status, Longevity Biomarkers, Gut Health.
+   - For each test, explain why it matters specifically for the user.
+   - Always prioritize by urgency: URGENT (abnormal/borderline result or strong symptom), ROUTINE (recommended per guideline for their age), OPTIMIZATION (optional for longevity tracking).
+
+Based on the following health questionnaire responses, provide a personalized screening plan:\n\n`;
   
   responses.forEach((response, index) => {
     prompt += `Question ${index + 1}: ${response.question}\nAnswer: ${response.answer}\n\n`;
@@ -160,11 +187,18 @@ function createHealthAssessmentPrompt(responses: Array<{question: string, answer
   
   For each test, provide:
   - test: Test name
-  - reason: Why this test is recommended
+  - reason: Why this test is recommended (explain in patient-friendly terms)
   - timeframe: When to get it done
   - status: URGENT, DUE_SOON, or OPTIONAL
   
-  Return the response as a JSON object with "urgent", "dueSoon", and "optional" arrays.`;
+  Return the response as a JSON object with "urgent", "dueSoon", and "optional" arrays.
+  
+  Make sure to:
+  - Use ALL the questionnaire data provided
+  - Connect symptoms to specific test recommendations
+  - Consider family history and risk factors
+  - Provide clear, empathetic explanations
+  - Prioritize based on clinical urgency`;
   
   return prompt;
 }
