@@ -1,8 +1,19 @@
 {
   "version": 2,
-  "buildCommand": "cd next-app && npm run build",
-  "outputDirectory": "next-app/.next",
-  "installCommand": "cd next-app && npm install",
-  "framework": "nextjs",
-  "rootDirectory": "next-app"
+  "builds": [
+    {
+      "src": "next-app/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/screening/(.*)",
+      "dest": "/next-app/public/screening/$1"
+    },
+    {
+      "src": "/screening",
+      "dest": "/next-app/public/screening/index.html"
+    }
+  ]
 }
