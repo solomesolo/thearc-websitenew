@@ -30,14 +30,16 @@ export async function POST(request: NextRequest) {
       // If we can't get the database, just try to create a simple page
     }
     
-    // Create a simple page with just the title property
-    const response = await notion.pages.create({
-      parent: {
-        database_id: process.env.NOTION_DATABASE_ID!,
-      },
-      properties: {
-        // Use the first available property as title
-        [Object.keys(database?.properties || {})[0] || "Name"]: {
+    // Create a page with all the provided data
+    const properties: any = {};
+    
+    // Handle each property based on its type
+    Object.keys(database?.properties || {}).forEach(propName => {
+      const prop = database.properties[propName];
+      
+      if (propName.toLowerCase().includes('email') || propName.toLowerCase().includes('name')) {
+        // Title or email field
+        properties[propName] = {
           title: [
             {
               text: {
@@ -45,8 +47,51 @@ export async function POST(request: NextRequest) {
               },
             },
           ],
-        },
+        };
+      } else if (propName.toLowerCase().includes('consent')) {
+        // Checkbox field for consent
+        properties[propName] = {
+          checkbox: consent,
+        };
+      } else if (propName.toLowerCase().includes('timestamp') || propName.toLowerCase().includes('date')) {
+        // Date field
+        properties[propName] = {
+          date: {
+            start: timestamp,
+          },
+        };
+      } else if (propName.toLowerCase().includes('source')) {
+        // Text field for source
+        properties[propName] = {
+          rich_text: [
+            {
+              text: {
+                content: source,
+              },
+            },
+          ],
+        };
+      }
+    });
+    
+    // If no properties were set, use a default title
+    if (Object.keys(properties).length === 0) {
+      properties["Name"] = {
+        title: [
+          {
+            text: {
+              content: email,
+            },
+          },
+        ],
+      };
+    }
+    
+    const response = await notion.pages.create({
+      parent: {
+        database_id: process.env.NOTION_DATABASE_ID!,
       },
+      properties,
     });
     
     console.log('✅ Email saved to Notion:', response.id);
