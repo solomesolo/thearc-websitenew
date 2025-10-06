@@ -61,15 +61,11 @@ export async function POST(request: NextRequest) {
           },
         };
       } else if (propName.toLowerCase().includes('source')) {
-        // Text field for source
+        // Select field for source
         properties[propName] = {
-          rich_text: [
-            {
-              text: {
-                content: source,
-              },
-            },
-          ],
+          select: {
+            name: source,
+          },
         };
       }
     });
