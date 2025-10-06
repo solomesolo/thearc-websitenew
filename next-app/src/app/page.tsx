@@ -35,8 +35,8 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Hero Content */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center z-10 mt-0 md:mt-0 pt-4 md:pt-32 pb-32 md:pb-20">
+          {/* Hero Content */}
+          <div className="flex-1 flex flex-col items-center justify-center text-center z-10 mt-0 md:mt-0 pt-20 md:pt-40 pb-32 md:pb-20">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight max-w-2xl mx-auto" style={{textShadow: '0 2px 24px #000'}}>
             Longevity isn't a product.<br />
             It's a process.<br />
@@ -343,51 +343,127 @@ export default function Home() {
         <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-white">
           Frequently Asked Questions
         </h2>
-        <div className="max-w-4xl w-full space-y-6">
+        <div className="max-w-4xl w-full space-y-4">
           {/* FAQ 1 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-lg md:text-xl font-bold mb-3 text-white">What is the free screening?</h3>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed">
-              The free screening is an online self-assessment designed to help you identify which biomarkers and lifestyle areas may need the most attention.<br /><br />
-              It takes around 3–5 minutes and uses evidence-based scoring logic to guide you toward the most relevant tests or program focus areas, without any obligation to buy.<br /><br />
-              You'll receive a short report summarizing your potential longevity priorities, and optional next steps if you wish to explore them further through our marketplace or membership.
-            </p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/20 transition-all">
+            <button 
+              className="w-full text-left p-6 md:p-8 focus:outline-none"
+              onClick={() => {
+                const content = document.getElementById('faq1-content');
+                const icon = document.getElementById('faq1-icon');
+                if (content && icon) {
+                  content.classList.toggle('hidden');
+                  icon.classList.toggle('rotate-180');
+                }
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg md:text-xl font-bold text-white">What is the free screening?</h3>
+                <svg id="faq1-icon" className="w-6 h-6 text-white transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </button>
+            <div id="faq1-content" className="hidden px-6 md:px-8 pb-6 md:pb-8">
+              <p className="text-white/80 text-base md:text-lg leading-relaxed">
+                The free screening is an online self-assessment designed to help you identify which biomarkers and lifestyle areas may need the most attention.<br /><br />
+                It takes around 3–5 minutes and uses evidence-based scoring logic to guide you toward the most relevant tests or program focus areas, without any obligation to buy.<br /><br />
+                You'll receive a short report summarizing your potential longevity priorities, and optional next steps if you wish to explore them further through our marketplace or membership.
+              </p>
+            </div>
           </div>
 
           {/* FAQ 2 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-lg md:text-xl font-bold mb-3 text-white">Do I need to test before joining The Arc?</h3>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed">
-              No. You can begin your Arc journey without any prior testing.<br /><br />
-              The first step is your personalized health and longevity questionnaire, that gives us a baseline profile to start shaping your plan.<br /><br />
-              If you already have lab data, you can upload it to enrich your assessment.<br /><br />
-              Testing becomes relevant once we identify where deeper insights might be valuable, for example, metabolic markers, inflammation, or hormone balance.<br /><br />
-              We recommend only the most essential and actionable tests, not an overload of expensive panels.
-            </p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/20 transition-all">
+            <button 
+              className="w-full text-left p-6 md:p-8 focus:outline-none"
+              onClick={() => {
+                const content = document.getElementById('faq2-content');
+                const icon = document.getElementById('faq2-icon');
+                if (content && icon) {
+                  content.classList.toggle('hidden');
+                  icon.classList.toggle('rotate-180');
+                }
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg md:text-xl font-bold text-white">Do I need to test before joining The Arc?</h3>
+                <svg id="faq2-icon" className="w-6 h-6 text-white transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </button>
+            <div id="faq2-content" className="hidden px-6 md:px-8 pb-6 md:pb-8">
+              <p className="text-white/80 text-base md:text-lg leading-relaxed">
+                No. You can begin your Arc journey without any prior testing.<br /><br />
+                The first step is your personalized health and longevity questionnaire, that gives us a baseline profile to start shaping your plan.<br /><br />
+                If you already have lab data, you can upload it to enrich your assessment.<br /><br />
+                Testing becomes relevant once we identify where deeper insights might be valuable, for example, metabolic markers, inflammation, or hormone balance.<br /><br />
+                We recommend only the most essential and actionable tests, not an overload of expensive panels.
+              </p>
+            </div>
           </div>
 
           {/* FAQ 3 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-lg md:text-xl font-bold mb-3 text-white">How does the application process work?</h3>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed">
-              Applications are designed to be simple and selective.<br /><br />
-              You complete a short form describing your goals, lifestyle, and expectations - it takes about 2 minutes.<br /><br />
-              We review each application manually to ensure every member benefits from the small-cohort structure (limited to 100 people per cycle).<br /><br />
-              Once approved, you'll receive a welcome email with onboarding details and access to your private member area.<br /><br />
-              Applications are processed within 72 hours, and spaces are confirmed on a first-come basis.
-            </p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/20 transition-all">
+            <button 
+              className="w-full text-left p-6 md:p-8 focus:outline-none"
+              onClick={() => {
+                const content = document.getElementById('faq3-content');
+                const icon = document.getElementById('faq3-icon');
+                if (content && icon) {
+                  content.classList.toggle('hidden');
+                  icon.classList.toggle('rotate-180');
+                }
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg md:text-xl font-bold text-white">How does the application process work?</h3>
+                <svg id="faq3-icon" className="w-6 h-6 text-white transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </button>
+            <div id="faq3-content" className="hidden px-6 md:px-8 pb-6 md:pb-8">
+              <p className="text-white/80 text-base md:text-lg leading-relaxed">
+                Applications are designed to be simple and selective.<br /><br />
+                You complete a short form describing your goals, lifestyle, and expectations - it takes about 2 minutes.<br /><br />
+                We review each application manually to ensure every member benefits from the small-cohort structure (limited to 100 people per cycle).<br /><br />
+                Once approved, you'll receive a welcome email with onboarding details and access to your private member area.<br /><br />
+                Applications are processed within 72 hours, and spaces are confirmed on a first-come basis.
+              </p>
+            </div>
           </div>
 
           {/* FAQ 4 */}
-          <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 text-left hover:border-white/20 transition-all">
-            <h3 className="text-lg md:text-xl font-bold mb-3 text-white">How is my data handled and protected?</h3>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed">
-              Your privacy is treated as a core part of your care.<br /><br />
-              All personal and health data are encrypted, stored securely on EU-based servers, and never shared with third parties without explicit consent.<br /><br />
-              You can export or delete your data at any time directly from your dashboard.<br /><br />
-              For testing services, results are transmitted securely from verified providers; only you control who can view or access them.<br /><br />
-              Our system fully complies with GDPR and medical-data handling standards, ensuring complete confidentiality.
-            </p>
+          <div className="bg-black/50 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/20 transition-all">
+            <button 
+              className="w-full text-left p-6 md:p-8 focus:outline-none"
+              onClick={() => {
+                const content = document.getElementById('faq4-content');
+                const icon = document.getElementById('faq4-icon');
+                if (content && icon) {
+                  content.classList.toggle('hidden');
+                  icon.classList.toggle('rotate-180');
+                }
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg md:text-xl font-bold text-white">How is my data handled and protected?</h3>
+                <svg id="faq4-icon" className="w-6 h-6 text-white transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </button>
+            <div id="faq4-content" className="hidden px-6 md:px-8 pb-6 md:pb-8">
+              <p className="text-white/80 text-base md:text-lg leading-relaxed">
+                Your privacy is treated as a core part of your care.<br /><br />
+                All personal and health data are encrypted, stored securely on EU-based servers, and never shared with third parties without explicit consent.<br /><br />
+                You can export or delete your data at any time directly from your dashboard.<br /><br />
+                For testing services, results are transmitted securely from verified providers; only you control who can view or access them.<br /><br />
+                Our system fully complies with GDPR and medical-data handling standards, ensuring complete confidentiality.
+              </p>
+            </div>
           </div>
 
           {/* CTA */}
