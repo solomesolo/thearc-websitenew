@@ -30,43 +30,81 @@ export async function POST(request: NextRequest) {
       // If we can't get the database, just try to create a simple page
     }
     
-    // Create a page with all the provided data
+    // Create a page with dynamically detected field types
     const properties: any = {};
     
-    // Handle each property based on its type
+    // Handle each property based on its ACTUAL type from Notion
     Object.keys(database?.properties || {}).forEach(propName => {
       const prop = database.properties[propName];
+      console.log(`🔍 Processing property: ${propName}, type: ${prop.type}`);
       
-      if (propName.toLowerCase().includes('email') || propName.toLowerCase().includes('name')) {
-        // Title or email field
-        properties[propName] = {
-          title: [
-            {
-              text: {
-                content: email,
+      switch (prop.type) {
+        case 'title':
+          properties[propName] = {
+            title: [
+              {
+                text: {
+                  content: email,
+                },
               },
+            ],
+          };
+          break;
+          
+        case 'rich_text':
+          properties[propName] = {
+            rich_text: [
+              {
+                text: {
+                  content: email,
+                },
+              },
+            ],
+          };
+          break;
+          
+        case 'checkbox':
+          properties[propName] = {
+            checkbox: consent,
+          };
+          break;
+          
+        case 'date':
+          properties[propName] = {
+            date: {
+              start: timestamp,
             },
-          ],
-        };
-      } else if (propName.toLowerCase().includes('consent')) {
-        // Checkbox field for consent
-        properties[propName] = {
-          checkbox: consent,
-        };
-      } else if (propName.toLowerCase().includes('timestamp') || propName.toLowerCase().includes('date')) {
-        // Date field
-        properties[propName] = {
-          date: {
-            start: timestamp,
-          },
-        };
-      } else if (propName.toLowerCase().includes('source')) {
-        // Select field for source
-        properties[propName] = {
-          select: {
-            name: source,
-          },
-        };
+          };
+          break;
+          
+        case 'select':
+          properties[propName] = {
+            select: {
+              name: source,
+            },
+          };
+          break;
+          
+        case 'multi_select':
+          properties[propName] = {
+            multi_select: [
+              {
+                name: source,
+              },
+            ],
+          };
+          break;
+          
+        case 'number':
+          properties[propName] = {
+            number: 1, // Default number
+          };
+          break;
+          
+        default:
+          console.log(`⚠️ Unknown property type: ${prop.type} for ${propName}`);
+          // Skip unknown types
+          break;
       }
     });
     
