@@ -8,17 +8,28 @@
   ],
   "routes": [
     {
-      "src": "/screening/(.*)",
-      "dest": "/next-app/public/screening/$1"
+      "src": "/screening.html",
+      "dest": "/screening.html"
     },
     {
-      "src": "/screening",
-      "dest": "/next-app/public/screening/index.html"
+      "src": "/index.html",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/questionnaire.html",
+      "dest": "/questionnaire.html"
+    },
+    {
+      "src": "/loading.html",
+      "dest": "/loading.html"
+    },
+    {
+      "src": "/results.html",
+      "dest": "/results.html"
+    },
+    {
+      "src": "/email-collection.html",
+      "dest": "/email-collection.html"
     }
-  ],
-  "functions": {
-    "next-app/src/app/api/**/*.ts": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  ]
 }
