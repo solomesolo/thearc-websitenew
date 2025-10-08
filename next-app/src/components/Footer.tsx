@@ -12,6 +12,16 @@ export default function Footer() {
       <div className="flex items-center space-x-6 mb-2 md:mb-0">
         <Link href="/privacy-policy" className="hover:text-fuchsia-400 transition-colors">Privacy Policy</Link>
         <Link href="/terms" className="hover:text-fuchsia-400 transition-colors">Terms and Conditions</Link>
+        <button 
+          onClick={() => {
+            // Trigger cookie settings modal
+            localStorage.removeItem('cookie-consent');
+            window.location.reload();
+          }}
+          className="hover:text-fuchsia-400 transition-colors"
+        >
+          Cookie Settings
+        </button>
       </div>
       <div className="flex items-center space-x-4 mb-2 md:mb-0">
         <a href="https://www.instagram.com/thearc_me?igsh=MTc2NXc4dDdoemJxYg%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-fuchsia-400 transition-colors" aria-label="Instagram">

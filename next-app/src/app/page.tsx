@@ -25,7 +25,7 @@ export default function Home() {
             <div className="text-3xl md:text-4xl font-bold tracking-tight text-white select-none mt-0 md:mt-0">TheArc</div>
             <nav className="flex space-x-4 text-base font-light">
               <Link 
-                href="/screening" 
+                href="/screening.html" 
                 className="border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-semibold text-base md:text-lg px-4 py-1.5 rounded-full tracking-wide"
               >
                 Health Screening
@@ -35,7 +35,7 @@ export default function Home() {
           </div>
         </div>
         
-          {/* Hero Content */}
+        {/* Hero Content */}
           <div className="flex-1 flex flex-col items-center justify-center text-center z-10 mt-0 md:mt-0 pt-20 md:pt-40 pb-32 md:pb-20">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight max-w-2xl mx-auto" style={{textShadow: '0 2px 24px #000'}}>
             Longevity isn't a product.<br />
@@ -58,7 +58,7 @@ export default function Home() {
             
             {/* Health Screening Button */}
             <Link 
-              href="/screening" 
+              href="/screening.html" 
               className="inline-flex items-center px-6 py-3 rounded-full text-base font-semibold bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 text-white shadow-lg border-2 border-blue-700 hover:scale-105 transition-all"
             >
               Free Health Screening
@@ -172,7 +172,7 @@ export default function Home() {
                   <div className="max-w-md">
                     <h3 className="text-2xl font-bold mb-3 text-white">Onboarding & Baseline</h3>
                     <p className="text-white/80 text-lg mb-4">Complete your health assessment and (if needed) minimal tests.</p>
-                    <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium text-lg">See Example Assessment →</a>
+                    <a href="/screening.html" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium text-lg">See Example Assessment →</a>
                   </div>
                 </div>
               </div>
@@ -230,7 +230,7 @@ export default function Home() {
               <div>
                 <h3 className="text-xl font-bold mb-3 text-white">Onboarding & Baseline</h3>
                 <p className="text-white/80 text-base mb-4">Complete your health assessment and (if needed) minimal tests.</p>
-                <a href="/screening" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium">See Example Assessment →</a>
+                <a href="/screening.html" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium">See Example Assessment →</a>
               </div>
             </div>
 
@@ -362,7 +362,7 @@ export default function Home() {
                 <svg id="faq1-icon" className="w-6 h-6 text-white transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </div>
+          </div>
             </button>
             <div id="faq1-content" className="hidden px-6 md:px-8 pb-6 md:pb-8">
               <p className="text-white/80 text-base md:text-lg leading-relaxed">
@@ -370,7 +370,7 @@ export default function Home() {
                 It takes around 3–5 minutes and uses evidence-based scoring logic to guide you toward the most relevant tests or program focus areas, without any obligation to buy.<br /><br />
                 You'll receive a short report summarizing your potential longevity priorities, and optional next steps if you wish to explore them further through our marketplace or membership.
               </p>
-            </div>
+        </div>
           </div>
 
           {/* FAQ 2 */}
@@ -391,7 +391,7 @@ export default function Home() {
                 <svg id="faq2-icon" className="w-6 h-6 text-white transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </div>
+        </div>
             </button>
             <div id="faq2-content" className="hidden px-6 md:px-8 pb-6 md:pb-8">
               <p className="text-white/80 text-base md:text-lg leading-relaxed">
@@ -401,7 +401,7 @@ export default function Home() {
                 Testing becomes relevant once we identify where deeper insights might be valuable, for example, metabolic markers, inflammation, or hormone balance.<br /><br />
                 We recommend only the most essential and actionable tests, not an overload of expensive panels.
               </p>
-            </div>
+      </div>
           </div>
 
           {/* FAQ 3 */}
@@ -422,7 +422,7 @@ export default function Home() {
                 <svg id="faq3-icon" className="w-6 h-6 text-white transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </div>
+        </div>
             </button>
             <div id="faq3-content" className="hidden px-6 md:px-8 pb-6 md:pb-8">
               <p className="text-white/80 text-base md:text-lg leading-relaxed">
@@ -432,7 +432,7 @@ export default function Home() {
                 Once approved, you'll receive a welcome email with onboarding details and access to your private member area.<br /><br />
                 Applications are processed within 72 hours, and spaces are confirmed on a first-come basis.
               </p>
-            </div>
+        </div>
           </div>
 
           {/* FAQ 4 */}
@@ -479,7 +479,7 @@ export default function Home() {
             </a>
           </div>
         </div>
-      </section>
+    </section>
 
       {/* Footer */}
       <Footer />

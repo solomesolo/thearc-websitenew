@@ -8,6 +8,7 @@ import MainLayoutClient from "../components/MainLayoutClient";
 import { Analytics } from "@vercel/analytics/next";
 import { Montserrat } from "next/font/google";
 import Script from "next/script";
+import CookieConsent from "../components/CookieConsent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
         </MainLayoutClient>
         <Footer />
+        <CookieConsent />
         <Analytics />
       </body>
     </html>
