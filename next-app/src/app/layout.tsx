@@ -36,7 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         {/* Google tag (gtag.js) */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-2Z54G93PVP"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17631760134"
           strategy="afterInteractive"
           async
         />
@@ -45,7 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-2Z54G93PVP');
+            gtag('config', 'AW-17631760134');
           `}
         </Script>
       </head>
