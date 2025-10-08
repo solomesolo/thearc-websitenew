@@ -1,43 +1,81 @@
-'use client';
-import React from "react";
-import Link from "next/link";
+"use client";
 
-export default function About() {
+import Link from "next/link";
+import DNAParticles from "../../components/DNAParticles";
+import DNABackground from "../../components/DNABackground";
+import Footer from "../../components/Footer";
+import BurgerMenu from "../../components/BurgerMenu";
+
+export default function AboutPage() {
   return (
-    <aside className="fixed top-0 right-0 h-screen w-full sm:w-[600px] bg-black text-white z-50 shadow-2xl flex flex-col items-center px-4 py-8 sm:px-8 sm:py-16 animate-slide-in overflow-y-auto font-montserrat custom-scrollbar">
-      <Link href="/" className="absolute top-6 right-8 text-3xl text-gray-400 hover:text-fuchsia-400 transition-colors" aria-label="Close About">&times;</Link>
-      <div className="w-full max-w-2xl flex flex-col items-start mt-4 pt-16 sm:pt-2 min-h-0 flex-1 pb-40 font-montserrat overflow-y-auto">
-        <h1 className="text-4xl font-extrabold mb-6 font-montserrat">TheArc</h1>
-        <p className="text-lg mb-8 text-gray-200 max-w-2xl">
-          What if your health wasn’t a burden, but a system?
-        </p>
-        <div className="space-y-4 text-gray-200 text-base mb-10">
-          <p>You don’t need 20 biohacks.<br />
-          You don’t need to perform health like a routine.<br />
-          You need TheArc, which evolves with you.<br />
-          This is a 6- or 12-month longevity protocol built from scientific evidence, not trends.<br />
-          Rooted in personalisation. Designed to last.</p>
-        </div>
-        <h2 className="text-3xl font-bold mb-6 mt-10">Behind the curtains</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Personal Operating System</h3>
-            <p className="text-base text-gray-200">Health begins when rhythm replaces routine.<br />Your path adapts to your health data, not to someone else’s standard.</p>
+    <div className="w-full min-h-screen bg-black text-white font-montserrat">
+      {/* Background */}
+      <div className="hidden md:block w-full h-full absolute top-0 left-0 z-0">
+        <DNAParticles />
+      </div>
+      <div className="block md:hidden w-full h-full absolute top-0 left-0 z-0" style={{opacity: 0.25}}>
+        <DNABackground />
+      </div>
+      
+      {/* Header */}
+      <div className="sticky md:fixed top-0 left-0 z-30 w-full pointer-events-none bg-black/80 md:bg-transparent" style={{WebkitBackdropFilter: 'blur(2px)'}}>
+        <div className="flex flex-row justify-between items-center w-full px-4 md:px-12 pt-4 md:pt-[5vh] pointer-events-auto">
+          {/* Left side - Logo and Navigation */}
+          <div className="flex items-center">
+            <Link href="/" className="text-2xl md:text-4xl font-bold tracking-tight text-white select-none hover:text-fuchsia-300 transition-colors">TheArc</Link>
+            <nav className="hidden md:flex space-x-6 text-base font-medium ml-8">
+              <Link href="/about" className="text-white hover:text-fuchsia-300 transition-colors">About TheArc</Link>
+              <Link href="/knowledgebase" className="text-gray-400 hover:text-white transition-colors">Knowledgebase</Link>
+              <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors">Catalog of Services</Link>
+              <Link href="/events" className="text-gray-400 hover:text-white transition-colors">Events</Link>
+            </nav>
           </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Quiet Circles, Deep Insight</h3>
-            <p className="text-base text-gray-200">Ideas land differently in the right space.<br />Expert-led sessions and communication rooms—each designed to refine direction, not add noise.</p>
+          
+          {/* Right side - Desktop Action buttons / Mobile Burger Menu */}
+          <div className="hidden md:flex space-x-4 text-base font-light">
+            <Link 
+              href="/screening" 
+              className="border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-semibold text-base md:text-lg px-4 py-1.5 rounded-full tracking-wide"
+            >
+              Health Screening
+            </Link>
+            <Link href="/contact" className="border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-semibold text-base md:text-lg px-4 py-1.5 rounded-full tracking-wide">Apply to Join</Link>
           </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-2">No Overwhelm. No Guessing. No Performance.</h3>
-            <p className="text-base text-gray-200">Most health advice creates friction. This removes it. What remains is the small percentage that quietly changes everything.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Evolving With You. Even after the program.</h3>
-            <p className="text-base text-gray-200">Step by step, your system becomes second nature: flexible, intuitive, and lasting well beyond the program.</p>
+          
+          {/* Mobile Burger Menu */}
+          <div className="md:hidden">
+            <BurgerMenu />
           </div>
         </div>
       </div>
-    </aside>
+
+      {/* Main Content */}
+      <div className="relative z-10 pt-32 md:pt-40 pb-20 px-4 md:px-12">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-8 text-white">
+            About TheArc
+          </h1>
+          
+          <div className="space-y-8 text-lg text-white/80 leading-relaxed">
+            <p>
+              TheArc is a private longevity circle guided by science, precision, and deep personalization. 
+              We believe longevity isn't a product—it's a process that requires structure, clarity, and belonging.
+            </p>
+            
+            <p>
+              Our mission is to help you make smarter health decisions with evidence-based screening recommendations 
+              and personalized protocols that evolve with your biology and lifestyle.
+            </p>
+            
+            <p>
+              Each cohort is limited to 100 people, ensuring focused, expert-led sessions and meaningful connections 
+              within our community of health-conscious individuals.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
   );
-} 
+}
