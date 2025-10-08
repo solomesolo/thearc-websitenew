@@ -2,22 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "next-app/package.json",
       "use": "@vercel/next"
     }
   ],
   "routes": [
     {
       "src": "/screening/(.*)",
-      "dest": "/public/screening/$1"
+      "dest": "/next-app/public/screening/$1"
     },
     {
       "src": "/screening",
-      "dest": "/public/screening/index.html"
+      "dest": "/next-app/public/screening/index.html"
     }
   ],
   "functions": {
-    "src/app/api/**/*.ts": {
+    "next-app/src/app/api/**/*.ts": {
       "runtime": "nodejs18.x"
     }
   }
