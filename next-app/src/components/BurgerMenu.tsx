@@ -26,13 +26,13 @@ const BurgerMenu = () => {
       {/* Overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/70 backdrop-blur-md z-40 md:hidden"
           onClick={toggleMenu}
         ></div>
       )}
 
       {/* Menu */}
-      <div className={`fixed top-0 right-0 h-full w-80 bg-black/95 backdrop-blur-lg border-l border-white/10 transform transition-transform duration-300 z-50 md:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 right-0 h-full w-80 bg-black/98 backdrop-blur-xl border-l border-white/20 shadow-2xl transform transition-transform duration-300 z-50 md:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-white/10">
@@ -50,31 +50,31 @@ const BurgerMenu = () => {
 
           {/* Navigation Links */}
           <nav className="flex-1 px-6 py-8">
-            <div className="space-y-6">
+            <div className="space-y-8">
               <Link 
                 href="/about" 
-                className="block text-lg font-medium text-white hover:text-fuchsia-300 transition-colors"
+                className="block text-xl font-semibold text-white hover:text-fuchsia-300 transition-colors py-2"
                 onClick={toggleMenu}
               >
                 About TheArc
               </Link>
               <Link 
                 href="/knowledgebase" 
-                className="block text-lg font-medium text-gray-400 hover:text-white transition-colors"
+                className="block text-xl font-semibold text-gray-300 hover:text-white transition-colors py-2"
                 onClick={toggleMenu}
               >
                 Knowledgebase
               </Link>
               <Link 
                 href="/catalog" 
-                className="block text-lg font-medium text-gray-400 hover:text-white transition-colors"
+                className="block text-xl font-semibold text-gray-300 hover:text-white transition-colors py-2"
                 onClick={toggleMenu}
               >
                 Catalog of Services
               </Link>
               <Link 
                 href="/events" 
-                className="block text-lg font-medium text-gray-400 hover:text-white transition-colors"
+                className="block text-xl font-semibold text-gray-300 hover:text-white transition-colors py-2"
                 onClick={toggleMenu}
               >
                 Events
@@ -83,17 +83,17 @@ const BurgerMenu = () => {
           </nav>
 
           {/* Action Buttons */}
-          <div className="p-6 border-t border-white/10 space-y-4">
+          <div className="p-6 border-t border-white/20 space-y-4">
             <Link 
               href="/screening" 
-              className="block w-full text-center border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-semibold text-base px-6 py-3 rounded-full tracking-wide"
+              className="block w-full text-center border-2 border-blue-400 text-blue-200 bg-blue-500/10 hover:bg-blue-500/20 hover:text-blue-100 hover:border-blue-300 transition-all font-bold text-lg px-6 py-4 rounded-full tracking-wide"
               onClick={toggleMenu}
             >
               Health Screening
             </Link>
             <Link 
               href="/contact" 
-              className="block w-full text-center border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-semibold text-base px-6 py-3 rounded-full tracking-wide"
+              className="block w-full text-center bg-gradient-to-r from-fuchsia-600 to-fuchsia-500 text-white hover:from-fuchsia-700 hover:to-fuchsia-600 transition-all font-bold text-lg px-6 py-4 rounded-full tracking-wide shadow-lg"
               onClick={toggleMenu}
             >
               Apply to Join
