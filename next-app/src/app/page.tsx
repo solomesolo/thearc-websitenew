@@ -8,6 +8,7 @@ import BurgerMenu from "../components/BurgerMenu";
 import React, { useRef, useState, useEffect } from "react";
 
 export default function Home() {
+  // Updated deployment trigger
   return (
     <div className="w-full min-h-screen bg-black text-white font-montserrat">
       {/* HERO SECTION */}
