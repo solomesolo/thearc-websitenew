@@ -362,7 +362,7 @@
                 console.log('Making API call with answers:', answers);
                 document.getElementById('progressText').textContent = 'AI is analyzing your health data...';
                 
-                const response = await fetch('/api/analyze-health', {
+                const response = await fetch('/api/analyze_health', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -383,11 +383,21 @@
                 
                 const results = await response.json();
                 console.log('API results:', results);
+                console.log('API results type:', typeof results);
+                console.log('API results keys:', Object.keys(results));
                 
                 // Use the results field from successful API response
                 const healthData = results.results;
                 console.log('Health data to save:', healthData);
-                console.log('Number of categories:', healthData.categories ? healthData.categories.length : 'No categories');
+                console.log('Health data type:', typeof healthData);
+                console.log('Health data keys:', healthData ? Object.keys(healthData) : 'No healthData');
+                console.log('Number of categories:', healthData && healthData.categories ? healthData.categories.length : 'No categories');
+                
+                // Check if we have valid data
+                if (!healthData) {
+                    console.error('❌ No healthData in API response');
+                    throw new Error('No health data received from API');
+                }
                 
                 // Store results in localStorage
                 localStorage.setItem('healthAssessmentResults', JSON.stringify(healthData));
@@ -409,12 +419,18 @@
                 }, 2000);
                 
             } catch (error) {
-                console.log('Error in processHealthData:', error);
-                console.log('Error details:', error.message);
+                console.error('❌ Error in processHealthData:', error);
+                console.error('❌ Error details:', error.message);
+                console.error('❌ Error stack:', error.stack);
                 
-                // If there's an error, redirect to start new assessment
-                console.log('API call failed, redirecting to start new assessment');
-                window.location.href = 'index.html';
+                // Show error message to user
+                document.getElementById('progressText').textContent = 'Error occurred. Please try again.';
+                
+                // If there's an error, redirect to start new assessment after a delay
+                setTimeout(() => {
+                    console.log('API call failed, redirecting to start new assessment');
+                    window.location.href = 'index.html';
+                }, 3000);
                 return;
             }
         }
@@ -422,6 +438,16 @@
         // Initialize loading screen
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Loading page initialized');
+            
+            // Check if we already have results and redirect immediately
+            const existingResults = localStorage.getItem('healthAssessmentResults');
+            if (existingResults) {
+                console.log('Found existing results, redirecting to results page');
+                setTimeout(() => {
+                    window.location.href = 'results.html';
+                }, 1000);
+                return;
+            }
             
             // Clear any old cached results to ensure fresh data
             localStorage.removeItem('cachedResults');

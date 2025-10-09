@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API</title>
+</head>
+<body>
+    <h1>Testing Analyze Health API</h1>
+    <button onclick="testAPI()">Test API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const testData = {
+                responses: [
+                    { question: "What is your age?", answer: "30" },
+                    { question: "Do you have any family history of heart disease?", answer: "Yes, my father had a heart attack at 50" },
+                    { question: "Do you experience fatigue?", answer: "Yes, often" }
+                ],
+                userEmail: "test@example.com"
+            };
+
+            try {
+                console.log('Testing API with data:', testData);
+                const response = await fetch('/api/analyze_health', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+
+                console.log('Response status:', response.status);
+                const result = await response.json();
+                console.log('API result:', result);
+                
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+            } catch (error) {
+                console.error('API test error:', error);
+                document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -793,11 +793,18 @@
         
         if (cachedResults) {
             console.log('✅ Using cached results from loading page');
-            const data = JSON.parse(cachedResults);
-            console.log('🔍 Parsed data:', data);
-            console.log('🔍 Data type:', typeof data);
-            console.log('🔍 Data keys:', Object.keys(data));
-            displayResults(data);
+            try {
+                const data = JSON.parse(cachedResults);
+                console.log('🔍 Parsed data:', data);
+                console.log('🔍 Data type:', typeof data);
+                console.log('🔍 Data keys:', Object.keys(data));
+                console.log('🔍 Data has categories:', data.categories ? 'Yes' : 'No');
+                console.log('🔍 Data has assessment_summary:', data.assessment_summary ? 'Yes' : 'No');
+                displayResults(data);
+            } catch (error) {
+                console.error('❌ Error parsing cached results:', error);
+                console.log('❌ Raw cached results:', cachedResults);
+            }
         } else if (questionnaireData) {
             console.log('❌ No cached results, but have questionnaire data - redirecting to loading page');
             window.location.href = '/loading.html';
@@ -808,7 +815,7 @@
             let foundResults = null;
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-                if (key && key.includes('result') || key.includes('assessment') || key.includes('health')) {
+                if (key && (key.includes('result') || key.includes('assessment') || key.includes('health'))) {
                     const value = localStorage.getItem(key);
                     console.log('🔍 Found potential results data in key:', key);
                     try {
@@ -828,8 +835,28 @@
                 console.log('✅ Using found results data');
                 displayResults(foundResults);
             } else {
-                console.log('❌ No data found anywhere, redirecting to start new assessment');
-                window.location.href = 'index.html';
+                console.log('❌ No data found anywhere, showing error page');
+                // Show a message and provide options
+                document.body.innerHTML = `
+                    <div style="text-align: center; padding: 50px; color: white; background: #0a0a0a; min-height: 100vh; font-family: Arial, sans-serif;">
+                        <h1>No Results Found</h1>
+                        <p>We couldn't find your health assessment results.</p>
+                        <p>This might be because:</p>
+                        <ul style="text-align: left; max-width: 500px; margin: 20px auto;">
+                            <li>The assessment wasn't completed</li>
+                            <li>There was an error during processing</li>
+                            <li>Your browser data was cleared</li>
+                        </ul>
+                        <div style="margin-top: 30px;">
+                            <button onclick="window.location.href='index.html'" style="padding: 10px 20px; margin: 10px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">Start New Assessment</button>
+                            <button onclick="window.location.href='loading.html'" style="padding: 10px 20px; margin: 10px; background: #8b5cf6; color: white; border: none; border-radius: 5px; cursor: pointer;">Try Again</button>
+                        </div>
+                        <div style="margin-top: 30px; font-size: 12px; color: #666;">
+                            <p>Debug info:</p>
+                            <p>localStorage keys: ${Object.keys(localStorage).join(', ')}</p>
+                        </div>
+                    </div>
+                `;
             }
         }
         
