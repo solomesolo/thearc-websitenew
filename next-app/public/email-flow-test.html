@@ -50,7 +50,7 @@
             log('✅ Email stored: ' + testEmail);
             
             // Also simulate saving to backend
-            fetch('http://localhost:3001/api/save-email', {
+            fetch('http://localhost:3000/api/save_email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -124,7 +124,7 @@
                 const htmlContent = generateEmailHTML(results);
                 const textContent = generateEmailText(results);
                 
-                const response = await fetch('http://localhost:3001/api/send-email', {
+                const response = await fetch('http://localhost:3000/api/send_email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -195,7 +195,7 @@
                 const htmlContent = generateEmailHTML(sampleResults);
                 const textContent = generateEmailText(sampleResults);
                 
-                const response = await fetch('http://localhost:3001/api/send-email', {
+                const response = await fetch('http://localhost:3000/api/send_email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -341,7 +341,7 @@
 
         // Initialize
         log('🔧 Email Flow Test Page Loaded');
-        log('📧 Backend URL: http://localhost:3001');
+        log('📧 Backend URL: http://localhost:3000');
         log('🌐 Frontend URL: http://localhost:8086');
     </script>
 </body>

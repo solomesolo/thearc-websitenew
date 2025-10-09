@@ -17,7 +17,12 @@ export default function Contact() {
     // Track form submission attempt
     mixpanel.track('Contact Form Submission', {
       form_type: 'registration',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      page: window.location.pathname,
+      user_agent: navigator.userAgent,
+      screen_resolution: `${screen.width}x${screen.height}`,
+      viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
     });
     
     try {
@@ -33,8 +38,26 @@ export default function Contact() {
         // Track successful form submission
         mixpanel.track('Contact Form Success', {
           form_type: 'registration',
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          page: window.location.pathname,
+          user_agent: navigator.userAgent,
+          screen_resolution: `${screen.width}x${screen.height}`,
+          viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         });
+        
+        // Update user profile with form data
+        mixpanel.people.set({
+          '$first_name': firstName,
+          '$last_name': lastName,
+          '$email': email,
+          'user_type': 'registered',
+          'registration_date': new Date().toISOString(),
+          'registration_reason': reason,
+          'form_submissions': 1
+        });
+        
+        mixpanel.people.increment('form_submissions');
         
         setFirstName("");
         setLastName("");
@@ -47,7 +70,12 @@ export default function Contact() {
         mixpanel.track('Contact Form Error', {
           form_type: 'registration',
           error: result.message,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          page: window.location.pathname,
+          user_agent: navigator.userAgent,
+          screen_resolution: `${screen.width}x${screen.height}`,
+          viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         });
       }
     } catch (error) {
@@ -57,7 +85,12 @@ export default function Contact() {
       mixpanel.track('Contact Form Error', {
         form_type: 'registration',
         error: 'Network error',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        page: window.location.pathname,
+        user_agent: navigator.userAgent,
+        screen_resolution: `${screen.width}x${screen.height}`,
+        viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       });
     }
   };

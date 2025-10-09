@@ -24,7 +24,7 @@ export default function Home() {
         
         {/* Top Bar */}
         <div className="sticky md:fixed top-0 left-0 z-30 w-full pointer-events-none bg-black/80 md:bg-transparent" style={{WebkitBackdropFilter: 'blur(2px)'}}>
-        <div className="flex flex-row justify-between items-center w-full px-4 md:px-12 pt-6 md:pt-[5vh] pointer-events-auto">
+        <div className="flex flex-row justify-between items-center w-full px-4 md:px-12 pt-4 md:pt-[5vh] pointer-events-auto">
           {/* Left side - Logo and Navigation */}
           <div className="flex items-center">
             <Link href="/" className="text-2xl md:text-4xl font-bold tracking-tight text-white select-none hover:text-fuchsia-300 transition-colors">TheArc</Link>
@@ -60,7 +60,7 @@ export default function Home() {
         </div>
         
         {/* Hero Content */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center z-10 mt-0 md:mt-0 pt-20 md:pt-40 pb-24 md:pb-20 px-4 w-full">
+        <div className="flex-1 flex flex-col items-center justify-center text-center z-10 mt-0 md:mt-0 pt-16 md:pt-40 pb-20 md:pb-20 px-4 w-full">
           <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight max-w-4xl mx-auto px-2" style={{textShadow: '0 2px 24px #000'}}>
             Longevity isn't a product.<br />
             It's a process.<br />
@@ -74,10 +74,27 @@ export default function Home() {
           </p>
           
           {/* Action Buttons - Centered on All Devices */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center w-full max-w-lg mx-auto px-4">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-4 items-center justify-center w-full max-w-lg mx-auto px-4 mt-4">
             <Link 
               href="/contact" 
-              onClick={() => mixpanel.track('Button Click', { button: 'Apply to Join', location: 'hero' })}
+              onClick={() => {
+                mixpanel.track('Button Click', { 
+                  button: 'Apply to Join', 
+                  location: 'hero',
+                  timestamp: new Date().toISOString(),
+                  page: window.location.pathname,
+                  user_agent: navigator.userAgent,
+                  screen_resolution: `${screen.width}x${screen.height}`,
+                  viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                });
+                mixpanel.people.increment('button_clicks');
+                mixpanel.people.set({
+                  'last_button_clicked': 'Apply to Join',
+                  'last_click_location': 'hero',
+                  'last_click_timestamp': new Date().toISOString()
+                });
+              }}
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all"
             >
               Apply to Join
@@ -88,7 +105,24 @@ export default function Home() {
               href="/screening" 
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => mixpanel.track('Button Click', { button: 'Free Health Screening', location: 'hero' })}
+              onClick={() => {
+                mixpanel.track('Button Click', { 
+                  button: 'Free Health Screening', 
+                  location: 'hero',
+                  timestamp: new Date().toISOString(),
+                  page: window.location.pathname,
+                  user_agent: navigator.userAgent,
+                  screen_resolution: `${screen.width}x${screen.height}`,
+                  viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                });
+                mixpanel.people.increment('button_clicks');
+                mixpanel.people.set({
+                  'last_button_clicked': 'Free Health Screening',
+                  'last_click_location': 'hero',
+                  'last_click_timestamp': new Date().toISOString()
+                });
+              }}
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 text-white shadow-lg border-2 border-blue-700 hover:scale-105 transition-all"
             >
               Free Health Screening

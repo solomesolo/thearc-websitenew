@@ -124,7 +124,7 @@
                 
                 log('📧 Sending email to: ' + userEmail);
                 
-                const response = await fetch('http://localhost:3001/api/send-email', {
+                const response = await fetch('http://localhost:3000/api/send_email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -209,7 +209,7 @@
                 const htmlContent = generateEmailHTML(sampleResults);
                 const textContent = generateEmailText(sampleResults);
                 
-                const response = await fetch('http://localhost:3001/api/send-email', {
+                const response = await fetch('http://localhost:3000/api/send_email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -357,7 +357,7 @@
 
         // Initialize
         log('🔧 Email Debug Test Page Loaded');
-        log('📧 Backend URL: http://localhost:3001');
+        log('📧 Backend URL: http://localhost:3000');
         log('🌐 Frontend URL: http://localhost:8086');
     </script>
 </body>
