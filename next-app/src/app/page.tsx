@@ -23,7 +23,7 @@ export default function Home() {
         
         {/* Top Bar */}
         <div className="sticky md:fixed top-0 left-0 z-30 w-full pointer-events-none bg-black/80 md:bg-transparent" style={{WebkitBackdropFilter: 'blur(2px)'}}>
-          <div className="flex flex-row justify-between items-center w-full px-4 md:px-12 pt-4 md:pt-[5vh] pointer-events-auto">
+          <div className="relative flex flex-row justify-between items-center w-full px-4 md:px-12 pt-4 md:pt-[5vh] pointer-events-auto">
             {/* Left side - Logo and Navigation */}
             <div className="flex items-center">
               <Link href="/" className="text-2xl md:text-4xl font-bold tracking-tight text-white select-none hover:text-fuchsia-300 transition-colors">TheArc</Link>
@@ -32,11 +32,11 @@ export default function Home() {
                 <Link href="/knowledgebase" className="text-gray-400 hover:text-white transition-colors">Knowledgebase</Link>
                 <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors">Catalog of Services</Link>
                 <Link href="/events" className="text-gray-400 hover:text-white transition-colors">Events</Link>
-          </nav>
+              </nav>
             </div>
             
-            {/* Center - Desktop Action buttons */}
-            <div className="hidden md:flex items-center justify-center space-x-4 text-base font-light">
+            {/* Center - Desktop Action buttons (absolutely positioned) */}
+            <div className="hidden md:flex items-center space-x-4 text-base font-light absolute left-1/2 transform -translate-x-1/2">
               <Link 
                 href="/screening" 
                 className="border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-semibold text-base md:text-lg px-6 py-2 rounded-full tracking-wide"
