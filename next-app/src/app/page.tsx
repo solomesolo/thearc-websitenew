@@ -78,22 +78,28 @@ export default function Home() {
             <Link 
               href="/contact" 
               onClick={() => {
-                mixpanel.track('Button Click', { 
-                  button: 'Apply to Join', 
-                  location: 'hero',
-                  timestamp: new Date().toISOString(),
-                  page: window.location.pathname,
-                  user_agent: navigator.userAgent,
-                  screen_resolution: `${screen.width}x${screen.height}`,
-                  viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-                });
-                mixpanel.people.increment('button_clicks');
-                mixpanel.people.set({
-                  'last_button_clicked': 'Apply to Join',
-                  'last_click_location': 'hero',
-                  'last_click_timestamp': new Date().toISOString()
-                });
+                try {
+                  if (mixpanel.track && typeof mixpanel.track === 'function') {
+                    mixpanel.track('Button Click', { 
+                      button: 'Apply to Join', 
+                      location: 'hero',
+                      timestamp: new Date().toISOString(),
+                      page: window.location.pathname,
+                      user_agent: navigator.userAgent,
+                      screen_resolution: `${screen.width}x${screen.height}`,
+                      viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+                      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                    });
+                    mixpanel.people.increment('button_clicks');
+                    mixpanel.people.set({
+                      'last_button_clicked': 'Apply to Join',
+                      'last_click_location': 'hero',
+                      'last_click_timestamp': new Date().toISOString()
+                    });
+                  }
+                } catch (error) {
+                  console.error('MixPanel button tracking error:', error);
+                }
               }}
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all"
             >
@@ -106,22 +112,28 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
-                mixpanel.track('Button Click', { 
-                  button: 'Free Health Screening', 
-                  location: 'hero',
-                  timestamp: new Date().toISOString(),
-                  page: window.location.pathname,
-                  user_agent: navigator.userAgent,
-                  screen_resolution: `${screen.width}x${screen.height}`,
-                  viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-                });
-                mixpanel.people.increment('button_clicks');
-                mixpanel.people.set({
-                  'last_button_clicked': 'Free Health Screening',
-                  'last_click_location': 'hero',
-                  'last_click_timestamp': new Date().toISOString()
-                });
+                try {
+                  if (mixpanel.track && typeof mixpanel.track === 'function') {
+                    mixpanel.track('Button Click', { 
+                      button: 'Free Health Screening', 
+                      location: 'hero',
+                      timestamp: new Date().toISOString(),
+                      page: window.location.pathname,
+                      user_agent: navigator.userAgent,
+                      screen_resolution: `${screen.width}x${screen.height}`,
+                      viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+                      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                    });
+                    mixpanel.people.increment('button_clicks');
+                    mixpanel.people.set({
+                      'last_button_clicked': 'Free Health Screening',
+                      'last_click_location': 'hero',
+                      'last_click_timestamp': new Date().toISOString()
+                    });
+                  }
+                } catch (error) {
+                  console.error('MixPanel button tracking error:', error);
+                }
               }}
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 text-white shadow-lg border-2 border-blue-700 hover:scale-105 transition-all"
             >

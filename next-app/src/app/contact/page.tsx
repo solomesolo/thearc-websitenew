@@ -15,15 +15,21 @@ export default function Contact() {
     setStatus(null);
     
     // Track form submission attempt
-    mixpanel.track('Contact Form Submission', {
-      form_type: 'registration',
-      timestamp: new Date().toISOString(),
-      page: window.location.pathname,
-      user_agent: navigator.userAgent,
-      screen_resolution: `${screen.width}x${screen.height}`,
-      viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-    });
+    try {
+      if (mixpanel.track && typeof mixpanel.track === 'function') {
+        mixpanel.track('Contact Form Submission', {
+          form_type: 'registration',
+          timestamp: new Date().toISOString(),
+          page: window.location.pathname,
+          user_agent: navigator.userAgent,
+          screen_resolution: `${screen.width}x${screen.height}`,
+          viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        });
+      }
+    } catch (error) {
+      console.error('MixPanel form tracking error:', error);
+    }
     
     try {
       const res = await fetch("/api/register", {
@@ -36,28 +42,34 @@ export default function Contact() {
         setStatus("success");
         
         // Track successful form submission
-        mixpanel.track('Contact Form Success', {
-          form_type: 'registration',
-          timestamp: new Date().toISOString(),
-          page: window.location.pathname,
-          user_agent: navigator.userAgent,
-          screen_resolution: `${screen.width}x${screen.height}`,
-          viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-        });
-        
-        // Update user profile with form data
-        mixpanel.people.set({
-          '$first_name': firstName,
-          '$last_name': lastName,
-          '$email': email,
-          'user_type': 'registered',
-          'registration_date': new Date().toISOString(),
-          'registration_reason': reason,
-          'form_submissions': 1
-        });
-        
-        mixpanel.people.increment('form_submissions');
+        try {
+          if (mixpanel.track && typeof mixpanel.track === 'function') {
+            mixpanel.track('Contact Form Success', {
+              form_type: 'registration',
+              timestamp: new Date().toISOString(),
+              page: window.location.pathname,
+              user_agent: navigator.userAgent,
+              screen_resolution: `${screen.width}x${screen.height}`,
+              viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+              timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            });
+            
+            // Update user profile with form data
+            mixpanel.people.set({
+              '$first_name': firstName,
+              '$last_name': lastName,
+              '$email': email,
+              'user_type': 'registered',
+              'registration_date': new Date().toISOString(),
+              'registration_reason': reason,
+              'form_submissions': 1
+            });
+            
+            mixpanel.people.increment('form_submissions');
+          }
+        } catch (error) {
+          console.error('MixPanel success tracking error:', error);
+        }
         
         setFirstName("");
         setLastName("");
@@ -67,31 +79,43 @@ export default function Contact() {
         setStatus("error");
         
         // Track form submission error
-        mixpanel.track('Contact Form Error', {
-          form_type: 'registration',
-          error: result.message,
-          timestamp: new Date().toISOString(),
-          page: window.location.pathname,
-          user_agent: navigator.userAgent,
-          screen_resolution: `${screen.width}x${screen.height}`,
-          viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-        });
+        try {
+          if (mixpanel.track && typeof mixpanel.track === 'function') {
+            mixpanel.track('Contact Form Error', {
+              form_type: 'registration',
+              error: result.message,
+              timestamp: new Date().toISOString(),
+              page: window.location.pathname,
+              user_agent: navigator.userAgent,
+              screen_resolution: `${screen.width}x${screen.height}`,
+              viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+              timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            });
+          }
+        } catch (error) {
+          console.error('MixPanel error tracking error:', error);
+        }
       }
     } catch (error) {
       setStatus("error");
       
       // Track form submission error
-      mixpanel.track('Contact Form Error', {
-        form_type: 'registration',
-        error: 'Network error',
-        timestamp: new Date().toISOString(),
-        page: window.location.pathname,
-        user_agent: navigator.userAgent,
-        screen_resolution: `${screen.width}x${screen.height}`,
-        viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-      });
+      try {
+        if (mixpanel.track && typeof mixpanel.track === 'function') {
+          mixpanel.track('Contact Form Error', {
+            form_type: 'registration',
+            error: 'Network error',
+            timestamp: new Date().toISOString(),
+            page: window.location.pathname,
+            user_agent: navigator.userAgent,
+            screen_resolution: `${screen.width}x${screen.height}`,
+            viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+          });
+        }
+      } catch (error) {
+        console.error('MixPanel network error tracking error:', error);
+      }
     }
   };
 
