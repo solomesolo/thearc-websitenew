@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from "react";
 import Link from "next/link";
+import mixpanel from 'mixpanel-browser';
 
 export default function Contact() {
   const [firstName, setFirstName] = useState("");
@@ -12,6 +13,13 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus(null);
+    
+    // Track form submission attempt
+    mixpanel.track('Contact Form Submission', {
+      form_type: 'registration',
+      timestamp: new Date().toISOString()
+    });
+    
     try {
       const res = await fetch("/api/register", {
         method: "POST",
@@ -21,15 +29,36 @@ export default function Contact() {
       const result = await res.json();
       if (result.message === "Registration successful!") {
         setStatus("success");
+        
+        // Track successful form submission
+        mixpanel.track('Contact Form Success', {
+          form_type: 'registration',
+          timestamp: new Date().toISOString()
+        });
+        
         setFirstName("");
         setLastName("");
         setEmail("");
         setReason("");
       } else {
         setStatus("error");
+        
+        // Track form submission error
+        mixpanel.track('Contact Form Error', {
+          form_type: 'registration',
+          error: result.message,
+          timestamp: new Date().toISOString()
+        });
       }
-    } catch {
+    } catch (error) {
       setStatus("error");
+      
+      // Track form submission error
+      mixpanel.track('Contact Form Error', {
+        form_type: 'registration',
+        error: 'Network error',
+        timestamp: new Date().toISOString()
+      });
     }
   };
 

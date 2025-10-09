@@ -12,6 +12,7 @@
     "@notionhq/client": "^4.0.2",
     "@sendgrid/mail": "^8.1.6",
     "@vercel/analytics": "^1.5.0",
+    "mixpanel-browser": "^2.71.0",
     "next": "15.4.1",
     "openai": "^6.0.0",
     "react": "19.1.0",

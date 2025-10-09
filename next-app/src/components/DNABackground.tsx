@@ -3,8 +3,8 @@ import React from "react";
 
 const WAVE_WIDTH = 1920;
 const WAVE_HEIGHT = 1080;
-const getAmplitude = () => (typeof window !== "undefined" && window.innerWidth < 600 ? 180 : 120);
-const getYOffset = () => (typeof window !== "undefined" && window.innerWidth < 600 ? 400 : 600);
+const getAmplitude = () => (typeof window !== "undefined" && window.innerWidth < 768 ? 200 : 120);
+const getYOffset = () => (typeof window !== "undefined" && window.innerWidth < 768 ? 350 : 600);
 const FREQUENCY = 1; // Only one full arc across the width
 const STROKE_WIDTH = 16;
 
@@ -37,6 +37,8 @@ const DNABackground: React.FC = () => (
       pointerEvents: "none",
       overflow: "hidden",
       background: "#000",
+      margin: 0,
+      padding: 0,
     }}
   >
     <svg
@@ -53,6 +55,8 @@ const DNABackground: React.FC = () => (
         minHeight: "100vh",
         width: "200vw",
         height: "100vh",
+        margin: 0,
+        padding: 0,
       }}
     >
       <defs>

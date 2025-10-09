@@ -93,6 +93,8 @@ const BurgerMenu = () => {
           <div className="p-6 border-t border-fuchsia-500/20 bg-gray-800 space-y-4">
             <Link 
               href="/screening" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="block w-full text-center border-2 border-blue-400 text-blue-200 bg-blue-500/20 hover:bg-blue-500/30 hover:text-blue-100 hover:border-blue-300 transition-all font-bold text-lg px-6 py-4 rounded-full tracking-wide shadow-lg"
               onClick={toggleMenu}
             >
