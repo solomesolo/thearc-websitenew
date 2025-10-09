@@ -32,7 +32,7 @@ const BurgerMenu = () => {
       )}
 
       {/* Menu */}
-      <div className={`fixed top-0 right-0 h-full w-80 bg-gray-900 border-l-2 border-fuchsia-500/30 shadow-2xl transform transition-transform duration-300 z-50 md:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 right-0 h-full w-80 bg-gray-900 shadow-2xl transform transition-transform duration-300 z-50 md:hidden ${isOpen ? 'translate-x-0 border-l-2 border-fuchsia-500/30' : 'translate-x-full'}`}>
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-fuchsia-500/20 bg-gray-800">
@@ -51,6 +51,13 @@ const BurgerMenu = () => {
           {/* Navigation Links */}
           <nav className="flex-1 px-6 py-8 bg-gray-800">
             <div className="space-y-6">
+              <Link 
+                href="/" 
+                className="block text-xl font-semibold text-white hover:text-fuchsia-300 transition-colors py-3 px-4 rounded-lg hover:bg-white/10 border-l-4 border-fuchsia-500"
+                onClick={toggleMenu}
+              >
+                🏠 Home
+              </Link>
               <Link 
                 href="/about" 
                 className="block text-xl font-semibold text-white hover:text-fuchsia-300 transition-colors py-3 px-4 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
