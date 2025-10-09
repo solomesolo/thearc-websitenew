@@ -58,7 +58,7 @@ export default function MixPanelProvider() {
     try {
       // Track page views with enhanced data
       if (mixpanel.track && typeof mixpanel.track === 'function') {
-        mixpanel.track('Page View', {
+        mixpanel.track('page_view', {
           page: pathname,
           page_title: document.title,
           timestamp: new Date().toISOString(),

@@ -1,9 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
+import { trackTestComplete } from "../../utils/mixpanel";
 
 export default function ResultsPage() {
   useEffect(() => {
+    // Track test completion
+    trackTestComplete('health_screening', {
+      results_source: 'results_page',
+      has_results: true
+    });
+    
     // Redirect to the static results HTML file
     window.location.href = '/results.html';
   }, []);

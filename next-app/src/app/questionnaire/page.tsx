@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { trackTestStart } from "../../utils/mixpanel";
 
 export default function QuestionnairePage() {
   useEffect(() => {
@@ -14,6 +15,13 @@ export default function QuestionnairePage() {
       const hoursDiff = (now.getTime() - consentDate.getTime()) / (1000 * 60 * 60);
       
       if (hoursDiff < 24) {
+        // Track test start
+        trackTestStart('health_screening', {
+          consent_given: true,
+          consent_age_hours: hoursDiff,
+          test_source: 'questionnaire_page'
+        });
+        
         // Consent is valid, proceed to questionnaire
         window.open('/questionnaire.html', '_blank');
         return;

@@ -7,10 +7,12 @@ export async function GET(request: NextRequest) {
       message: 'All APIs are accessible',
       timestamp: new Date().toISOString(),
       apis: {
-        'save-email': '/api/save-email',
-        'send-email': '/api/send-email', 
-        'analyze-health': '/api/analyze-health',
-        'test-env': '/api/test-env'
+        'save_email': '/api/save_email',
+        'send_email': '/api/send_email', 
+        'analyze_health': '/api/analyze_health',
+        'test_env': '/api/test_env',
+        'register': '/api/register',
+        'test_email': '/api/test_email'
       }
     });
   } catch (error) {

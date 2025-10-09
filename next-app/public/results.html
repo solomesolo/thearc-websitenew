@@ -633,6 +633,25 @@
             transform: none;
         }
         
+        .share-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.4);
+        }
+        
         .new-assessment-btn {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: #ffffff;
@@ -757,6 +776,7 @@
         <!-- Download Button -->
         <div class="download-section">
             <button class="download-btn" onclick="downloadPlan()">DOWNLOAD YOUR SCREENING PLAN</button>
+            <button class="share-btn" onclick="shareResults()">SHARE YOUR RESULTS</button>
             <button class="new-assessment-btn" onclick="startNewAssessment()">START NEW ASSESSMENT</button>
         </div>
         
@@ -793,18 +813,11 @@
         
         if (cachedResults) {
             console.log('✅ Using cached results from loading page');
-            try {
-                const data = JSON.parse(cachedResults);
-                console.log('🔍 Parsed data:', data);
-                console.log('🔍 Data type:', typeof data);
-                console.log('🔍 Data keys:', Object.keys(data));
-                console.log('🔍 Data has categories:', data.categories ? 'Yes' : 'No');
-                console.log('🔍 Data has assessment_summary:', data.assessment_summary ? 'Yes' : 'No');
-                displayResults(data);
-            } catch (error) {
-                console.error('❌ Error parsing cached results:', error);
-                console.log('❌ Raw cached results:', cachedResults);
-            }
+            const data = JSON.parse(cachedResults);
+            console.log('🔍 Parsed data:', data);
+            console.log('🔍 Data type:', typeof data);
+            console.log('🔍 Data keys:', Object.keys(data));
+            displayResults(data);
         } else if (questionnaireData) {
             console.log('❌ No cached results, but have questionnaire data - redirecting to loading page');
             window.location.href = '/loading.html';
@@ -815,7 +828,7 @@
             let foundResults = null;
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-                if (key && (key.includes('result') || key.includes('assessment') || key.includes('health'))) {
+                if (key && key.includes('result') || key.includes('assessment') || key.includes('health')) {
                     const value = localStorage.getItem(key);
                     console.log('🔍 Found potential results data in key:', key);
                     try {
@@ -835,28 +848,8 @@
                 console.log('✅ Using found results data');
                 displayResults(foundResults);
             } else {
-                console.log('❌ No data found anywhere, showing error page');
-                // Show a message and provide options
-                document.body.innerHTML = `
-                    <div style="text-align: center; padding: 50px; color: white; background: #0a0a0a; min-height: 100vh; font-family: Arial, sans-serif;">
-                        <h1>No Results Found</h1>
-                        <p>We couldn't find your health assessment results.</p>
-                        <p>This might be because:</p>
-                        <ul style="text-align: left; max-width: 500px; margin: 20px auto;">
-                            <li>The assessment wasn't completed</li>
-                            <li>There was an error during processing</li>
-                            <li>Your browser data was cleared</li>
-                        </ul>
-                        <div style="margin-top: 30px;">
-                            <button onclick="window.location.href='index.html'" style="padding: 10px 20px; margin: 10px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">Start New Assessment</button>
-                            <button onclick="window.location.href='loading.html'" style="padding: 10px 20px; margin: 10px; background: #8b5cf6; color: white; border: none; border-radius: 5px; cursor: pointer;">Try Again</button>
-                        </div>
-                        <div style="margin-top: 30px; font-size: 12px; color: #666;">
-                            <p>Debug info:</p>
-                            <p>localStorage keys: ${Object.keys(localStorage).join(', ')}</p>
-                        </div>
-                    </div>
-                `;
+                console.log('❌ No data found anywhere, redirecting to start new assessment');
+                window.location.href = 'index.html';
             }
         }
         
@@ -892,7 +885,7 @@
                 console.log('📧 Generated HTML content length:', htmlContent.length);
                 console.log('📧 Generated text content length:', textContent.length);
                 
-                const emailResponse = await fetch('/api/send-email', {
+                const emailResponse = await fetch('/api/send_email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1347,6 +1340,62 @@
             
             // Redirect to questionnaire
             window.location.href = '/questionnaire.html';
+        }
+        
+        function shareResults() {
+            // Track share reveal event
+            try {
+                if (typeof mixpanel !== 'undefined' && mixpanel.track) {
+                    mixpanel.track('share_reveal', {
+                        share_type: 'results',
+                        timestamp: new Date().toISOString(),
+                        page: window.location.pathname,
+                        user_agent: navigator.userAgent,
+                        screen_resolution: `${screen.width}x${screen.height}`,
+                        viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                    });
+                }
+            } catch (error) {
+                console.error('MixPanel share tracking error:', error);
+            }
+            
+            // Get the results data
+            const results = JSON.parse(localStorage.getItem('healthAssessmentResults') || '{}');
+            
+            if (navigator.share) {
+                // Use native sharing if available
+                navigator.share({
+                    title: 'My Health Screening Results - TheArc',
+                    text: 'I just completed my personalized health screening with TheArc. Check out my results!',
+                    url: window.location.href
+                }).then(() => {
+                    console.log('Results shared successfully');
+                }).catch((error) => {
+                    console.error('Error sharing:', error);
+                    fallbackShare();
+                });
+            } else {
+                // Fallback to copy to clipboard
+                fallbackShare();
+            }
+        }
+        
+        function fallbackShare() {
+            const shareText = 'I just completed my personalized health screening with TheArc. Check out my results!';
+            const shareUrl = window.location.href;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(`${shareText} ${shareUrl}`).then(() => {
+                    alert('Results link copied to clipboard!');
+                }).catch(() => {
+                    // Final fallback - show the URL
+                    prompt('Copy this link to share your results:', shareUrl);
+                });
+            } else {
+                // Final fallback - show the URL
+                prompt('Copy this link to share your results:', shareUrl);
+            }
         }
         
         

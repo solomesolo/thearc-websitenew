@@ -1,12 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import DNAParticles from "../../components/DNAParticles";
 import DNABackground from "../../components/DNABackground";
 import Footer from "../../components/Footer";
 import BurgerMenu from "../../components/BurgerMenu";
+import { trackMarketplaceView } from "../../utils/mixpanel";
 
 export default function CatalogPage() {
+  useEffect(() => {
+    // Track marketplace view
+    trackMarketplaceView('catalog_main', {
+      page_type: 'catalog',
+      services_available: true
+    });
+  }, []);
   return (
     <div className="w-full min-h-screen bg-black text-white font-montserrat">
       {/* Background */}

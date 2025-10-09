@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     console.log('📧 Received data:', { email, timestamp, consent, source });
     
     // Try to get database schema first
-    let database;
+    let database: any = null;
     try {
       database = await notion.databases.retrieve({
         database_id: process.env.NOTION_DATABASE_ID!,
@@ -46,10 +46,10 @@ export async function POST(request: NextRequest) {
     
     // Handle each property based on its ACTUAL type from Notion
     Object.keys(database?.properties || {}).forEach(propName => {
-      const prop = database.properties[propName];
-      console.log(`🔍 Processing property: ${propName}, type: ${prop.type}`);
+      const prop = database?.properties[propName];
+      console.log(`🔍 Processing property: ${propName}, type: ${prop?.type}`);
       
-      switch (prop.type) {
+      switch (prop?.type) {
         case 'title':
           properties[propName] = {
             title: [
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
           break;
           
         default:
-          console.log(`⚠️ Unknown property type: ${prop.type} for ${propName}`);
+          console.log(`⚠️ Unknown property type: ${prop?.type} for ${propName}`);
           // Skip unknown types
           break;
       }

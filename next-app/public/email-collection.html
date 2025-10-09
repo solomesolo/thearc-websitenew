@@ -355,6 +355,30 @@
             document.getElementById('successMessage').style.display = 'none';
         }
         
+        function showSuccessMessage(message) {
+            const successElement = document.getElementById('successMessage');
+            if (successElement) {
+                successElement.textContent = message;
+                successElement.style.display = 'block';
+                hideMessages();
+                setTimeout(() => {
+                    successElement.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        function showErrorMessage(message) {
+            const errorElement = document.getElementById('errorMessage');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+                hideMessages();
+                setTimeout(() => {
+                    errorElement.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
         async function sendResultsEmail(email) {
             try {
                 // Get the health assessment results from localStorage
@@ -371,7 +395,7 @@
                 
                 console.log('📧 Sending email with results to:', email);
                 
-                const emailResponse = await fetch('/api/send-email', {
+                const emailResponse = await fetch('/api/send_email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -385,17 +409,21 @@
                 });
                 
                 if (!emailResponse.ok) {
-                    const errorText = await emailResponse.text();
-                    console.error('📧 Email send error:', errorText);
-                    throw new Error(`Failed to send email: ${errorText}`);
+                    const errorData = await emailResponse.json().catch(() => ({ error: 'Unknown error' }));
+                    console.error('📧 Email API error:', errorData);
+                    throw new Error(errorData.error || `Failed to send email: ${emailResponse.status}`);
                 }
                 
                 const emailData = await emailResponse.json();
                 console.log('📧 Email sent successfully:', emailData);
                 
+                // Show success message to user
+                showSuccessMessage('Your results have been sent to your email!');
+                
             } catch (error) {
                 console.error('📧 Error sending email:', error);
-                // Don't throw error - email sending is optional
+                // Show user-friendly error message
+                showErrorMessage('Unable to send email automatically. Your results are still saved and you can view them below.');
                 console.log('📧 Continuing without email...');
             }
         }
@@ -544,8 +572,8 @@
                 console.log('📧 Timestamp:', new Date().toISOString());
                 console.log('📧 Full data:', { email, timestamp: new Date().toISOString(), consent: true, source: 'questionnaire' });
                 
-                console.log('📧 Making API call to:', 'http://localhost:3000/api/save_email');
-                const saveResponse = await fetch('http://localhost:3000/api/save_email', {
+                console.log('📧 Making API call to:', '/api/save_email');
+                const saveResponse = await fetch('/api/save_email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Client } from "@notionhq/client";
 
+export async function OPTIONS(request: NextRequest) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     console.log('🚀 REGISTER API CALLED');
@@ -112,6 +123,12 @@ export async function POST(req: NextRequest) {
       success: true,
       message: "Registration successful!",
       notionId: response.id
+    }, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      }
     });
   } catch (error) {
     console.error('❌ Error saving registration to Notion:', error);
@@ -119,6 +136,13 @@ export async function POST(req: NextRequest) {
       success: false,
       message: "Registration failed.",
       error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    }, { 
+      status: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      }
+    });
   }
 } 
