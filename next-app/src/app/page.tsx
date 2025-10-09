@@ -22,8 +22,8 @@ export default function Home() {
           <DNABackground />
         </div>
         
-        {/* Top Bar */}
-        <div className="sticky md:fixed top-0 left-0 z-30 w-full pointer-events-none bg-black/80 md:bg-transparent" style={{WebkitBackdropFilter: 'blur(2px)'}}>
+        {/* Top Bar - Enhanced Mobile Design */}
+        <div className="sticky md:fixed top-0 left-0 z-30 w-full pointer-events-none bg-black/90 md:bg-transparent backdrop-blur-md" style={{WebkitBackdropFilter: 'blur(8px)'}}>
         <div className="flex flex-row justify-between items-center w-full px-4 md:px-12 pt-4 md:pt-[5vh] pointer-events-auto">
           {/* Left side - Logo and Navigation */}
           <div className="flex items-center">
