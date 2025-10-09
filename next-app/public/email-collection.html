@@ -379,14 +379,76 @@
             }
         }
         
+        async function processQuestionnaireData(formData) {
+            try {
+                console.log("🔄 Processing questionnaire data with AI analysis...");
+                
+                // Convert form data to the format expected by the API
+                const responses = Object.entries(formData).map(([question, answer]) => ({
+                    question: question,
+                    answer: answer
+                }));
+                
+                console.log("📋 Sending data to analyze_health API:", responses);
+                
+                const response = await fetch('/api/analyze_health', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ responses: responses })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log("✅ AI analysis completed:", result);
+                
+                if (result.success && result.results) {
+                    // Store the processed results in localStorage
+                    localStorage.setItem("healthAssessmentResults", JSON.stringify(result.results));
+                    console.log("✅ Health assessment results saved to localStorage");
+                } else {
+                    console.error("❌ API returned unsuccessful result:", result);
+                    throw new Error("AI analysis failed");
+                }
+                
+            } catch (error) {
+                console.error("❌ Error processing questionnaire data:", error);
+                // Create a fallback result structure
+                const fallbackResults = {
+                    summary: "Health assessment completed",
+                    recommendations: ["Please consult with a healthcare provider for personalized advice"],
+                    riskFactors: [],
+                    nextSteps: ["Schedule a consultation with your healthcare provider"]
+                };
+                localStorage.setItem("healthAssessmentResults", JSON.stringify(fallbackResults));
+                console.log("⚠️ Using fallback results due to API error");
+            }
+        }
+        
         async function sendResultsEmail(email) {
             try {
                 // Get the health assessment results from localStorage
-                const results = JSON.parse(localStorage.getItem('healthAssessmentResults') || '{}');
+                let results = JSON.parse(localStorage.getItem('healthAssessmentResults') || '{}');
                 
                 if (!results || Object.keys(results).length === 0) {
-                    console.log('📧 No results found in localStorage, skipping email send');
-                    return;
+                    console.log('📧 No results found in localStorage, attempting to process questionnaire data...');
+                    
+                    // Try to process questionnaire data if results don't exist
+                    const questionnaireData = JSON.parse(localStorage.getItem('questionnaireData') || '{}');
+                    if (questionnaireData && Object.keys(questionnaireData).length > 0) {
+                        console.log('📧 Found questionnaire data, processing with AI...');
+                        await processQuestionnaireData(questionnaireData);
+                        results = JSON.parse(localStorage.getItem('healthAssessmentResults') || '{}');
+                    }
+                    
+                    if (!results || Object.keys(results).length === 0) {
+                        console.log('📧 Still no results found, skipping email send');
+                        return;
+                    }
                 }
                 
                 // Generate HTML email content
