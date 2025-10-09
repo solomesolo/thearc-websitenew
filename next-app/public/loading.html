@@ -332,31 +332,14 @@
                     console.log('Using cached results');
                     localStorage.setItem('healthAssessmentResults', cachedResults);
                     setTimeout(() => {
-                        console.log('Redirecting to results.html');
-                        window.location.href = 'results.html';
+                        console.log('Redirecting to /email-collection');
+                        window.location.href = '/email-collection';
                     }, 2000);
                     return;
                 }
                 
-                // Get user email from localStorage with detailed debugging
-                console.log('🔍 DEBUGGING LOCALSTORAGE:');
-                console.log('🔍 All localStorage keys:', Object.keys(localStorage));
-                console.log('🔍 userEmail value:', localStorage.getItem('userEmail'));
-                console.log('🔍 userEmail type:', typeof localStorage.getItem('userEmail'));
-                console.log('🔍 userEmail length:', localStorage.getItem('userEmail')?.length);
-                
-                let userEmail = localStorage.getItem('userEmail');
-                console.log('📧 User email for API call:', userEmail);
-                
-                // If no email found, redirect to email collection page (proper flow)
-                if (!userEmail || userEmail === 'null' || userEmail === '') {
-                    console.log('📧 No email found, redirecting to email collection page');
-                    console.log('📧 Email check failed - userEmail:', userEmail, 'type:', typeof userEmail);
-                    window.location.href = 'email-collection.html';
-                    return;
-                }
-                
-                console.log('📧 Using existing email from localStorage:', userEmail);
+                // Process the data first, then redirect to email collection
+                console.log('🔄 Processing questionnaire data without email requirement...');
                 
                 // Make API call to analyze health
                 console.log('Making API call with answers:', answers);
@@ -402,10 +385,10 @@
                 document.getElementById('progressFill').style.width = '100%';
                 document.getElementById('progressText').textContent = 'Analysis complete! Redirecting...';
                 
-                // Redirect to results page
+                // Redirect to email collection page
                 setTimeout(() => {
-                    console.log('Redirecting to results.html');
-                    window.location.href = 'results.html';
+                    console.log('Redirecting to /email-collection');
+                    window.location.href = '/email-collection';
                 }, 2000);
                 
             } catch (error) {
@@ -414,7 +397,7 @@
                 
                 // If there's an error, redirect to start new assessment
                 console.log('API call failed, redirecting to start new assessment');
-                window.location.href = 'index.html';
+                window.location.href = '/';
                 return;
             }
         }

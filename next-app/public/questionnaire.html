@@ -1645,6 +1645,34 @@
                 currentSectionIndex = index;
                 updateNavigationButtons();
                 updateSectionLinks();
+                
+                // Scroll to top of the page when switching sections
+                // Use a small delay to ensure DOM has updated
+                setTimeout(() => {
+                    // Scroll the main content container to top (primary scroll container)
+                    const mainContent = document.querySelector('.main-content');
+                    if (mainContent) {
+                        mainContent.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }
+                    
+                    // Also scroll the main window to top
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    
+                    // For mobile devices, also try to scroll the body and document element
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                    
+                    // Additional mobile browser compatibility
+                    if (window.pageYOffset) {
+                        window.pageYOffset = 0;
+                    }
+                }, 100);
             }
         }
         
@@ -1784,78 +1812,25 @@
             }
         }
         
-        async function processQuestionnaireData(formData) {
-            try {
-                console.log("🔄 Processing questionnaire data with AI analysis...");
-                
-                // Convert form data to the format expected by the API
-                const responses = Object.entries(formData).map(([question, answer]) => ({
-                    question: question,
-                    answer: answer
-                }));
-                
-                console.log("📋 Sending data to analyze_health API:", responses);
-                
-                const response = await fetch('/api/analyze_health', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ responses: responses })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`API call failed: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                console.log("✅ AI analysis completed:", result);
-                
-                if (result.success && result.results) {
-                    // Store the processed results in localStorage
-                    localStorage.setItem("healthAssessmentResults", JSON.stringify(result.results));
-                    console.log("✅ Health assessment results saved to localStorage");
-                } else {
-                    console.error("❌ API returned unsuccessful result:", result);
-                    throw new Error("AI analysis failed");
-                }
-                
-            } catch (error) {
-                console.error("❌ Error processing questionnaire data:", error);
-                // Create a fallback result structure
-                const fallbackResults = {
-                    summary: "Health assessment completed",
-                    recommendations: ["Please consult with a healthcare provider for personalized advice"],
-                    riskFactors: [],
-                    nextSteps: ["Schedule a consultation with your healthcare provider"]
-                };
-                localStorage.setItem("healthAssessmentResults", JSON.stringify(fallbackResults));
-                console.log("⚠️ Using fallback results due to API error");
-            }
-        }
 
         function submitForm() {
             try {
                 console.log("Submitting form...", formData);
                 
-                // Save form data to localStorage for results page to process
+                // Save form data to localStorage for processing
                 localStorage.setItem("questionnaireData", JSON.stringify(formData));
                 console.log("Form data saved to localStorage");
                 
-                // Process the questionnaire data with AI analysis
-                processQuestionnaireData(formData).then(() => {
-                    // Redirect to email collection page after processing
-                    window.location.href = "/email-collection.html";
-                }).catch((error) => {
-                    console.error("Error in processQuestionnaireData:", error);
-                    // Still redirect even if there's an error
-                    window.location.href = "/email-collection.html";
-                });
+                // Clear any existing results to ensure fresh processing
+                localStorage.removeItem("healthAssessmentResults");
+                
+                // Redirect immediately to loading page for processing
+                window.location.href = "/loading";
                 
             } catch (error) {
                 console.error("Error in submitForm:", error);
                 // Still redirect even if there's an error
-                window.location.href = "/email-collection.html";
+                window.location.href = "/loading";
             }
         }
         

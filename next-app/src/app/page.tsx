@@ -74,7 +74,7 @@ export default function Home() {
           </p>
           
           {/* Action Buttons - Centered on All Devices */}
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-4 items-center justify-center w-full max-w-lg mx-auto px-4 mt-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center w-full max-w-lg mx-auto px-4 mt-4">
             <Link 
               href="/contact" 
               onClick={() => {
@@ -83,10 +83,10 @@ export default function Home() {
                   section: 'hero'
                 });
               }}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all"
             >
               Apply to Join
-              <span className="ml-2 sm:ml-3 text-lg sm:text-xl">&rarr;</span>
+              <span className="ml-2 sm:ml-3 text-base sm:text-lg">&rarr;</span>
             </Link>
             
             <Link 
@@ -99,7 +99,7 @@ export default function Home() {
                   section: 'hero'
                 });
               }}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 text-white shadow-lg border-2 border-blue-700 hover:scale-105 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 text-white shadow-lg border-2 border-blue-700 hover:scale-105 transition-all"
             >
               Free Health Screening
             </Link>

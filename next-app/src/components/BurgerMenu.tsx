@@ -32,10 +32,10 @@ const BurgerMenu = () => {
       )}
 
       {/* Menu */}
-      <div className={`mobile-menu fixed top-0 right-0 h-full w-80 sm:w-96 bg-gray-900 shadow-2xl transform transition-transform duration-300 z-50 md:hidden ${isOpen ? 'translate-x-0 border-l-2 border-fuchsia-500/30' : 'translate-x-full'}`}>
+      <div className={`mobile-menu fixed top-0 right-0 h-full w-72 sm:w-80 bg-gray-900 shadow-2xl transform transition-transform duration-300 z-50 md:hidden ${isOpen ? 'translate-x-0 border-l-2 border-fuchsia-500/30' : 'translate-x-full'}`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-fuchsia-500/20 bg-gray-800">
+          <div className="flex items-center justify-between p-4 border-b border-fuchsia-500/20 bg-gray-800">
             <div className="text-xl font-bold text-white drop-shadow-lg">TheArc</div>
             <button
               onClick={toggleMenu}
@@ -49,39 +49,39 @@ const BurgerMenu = () => {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex-1 px-6 py-6 bg-gray-800">
+          <nav className="flex-1 px-4 py-4 bg-gray-800">
             <div className="space-y-2">
               <Link 
                 href="/" 
-                className="block text-lg font-medium text-white hover:text-fuchsia-300 transition-colors py-3 px-4 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
+                className="block text-base font-medium text-white hover:text-fuchsia-300 transition-colors py-2.5 px-3 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
                 onClick={toggleMenu}
               >
                 Home
               </Link>
               <Link 
                 href="/about" 
-                className="block text-lg font-medium text-gray-200 hover:text-white transition-colors py-3 px-4 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
+                className="block text-base font-medium text-gray-200 hover:text-white transition-colors py-2.5 px-3 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
                 onClick={toggleMenu}
               >
                 About TheArc
               </Link>
               <Link 
                 href="/knowledgebase" 
-                className="block text-lg font-medium text-gray-200 hover:text-white transition-colors py-3 px-4 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
+                className="block text-base font-medium text-gray-200 hover:text-white transition-colors py-2.5 px-3 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
                 onClick={toggleMenu}
               >
                 Knowledgebase
               </Link>
               <Link 
                 href="/catalog" 
-                className="block text-lg font-medium text-gray-200 hover:text-white transition-colors py-3 px-4 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
+                className="block text-base font-medium text-gray-200 hover:text-white transition-colors py-2.5 px-3 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
                 onClick={toggleMenu}
               >
                 Catalog of Services
               </Link>
               <Link 
                 href="/events" 
-                className="block text-lg font-medium text-gray-200 hover:text-white transition-colors py-3 px-4 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
+                className="block text-base font-medium text-gray-200 hover:text-white transition-colors py-2.5 px-3 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500"
                 onClick={toggleMenu}
               >
                 Events
@@ -90,23 +90,23 @@ const BurgerMenu = () => {
           </nav>
 
           {/* Action Buttons */}
-          <div className="p-6 border-t border-fuchsia-500/20 bg-gray-800 space-y-4">
+          <div className="p-4 border-t border-fuchsia-500/20 bg-gray-800 space-y-3">
             <Link 
               href="/screening" 
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 text-white shadow-lg border-2 border-blue-700 hover:scale-105 transition-all font-semibold text-base px-4 py-3 rounded-full tracking-wide"
+              className="block w-full text-center bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 text-white shadow-lg border-2 border-blue-700 hover:scale-105 transition-all font-semibold text-sm px-3 py-2.5 rounded-full tracking-wide"
               onClick={toggleMenu}
             >
               Free Health Screening
             </Link>
             <Link 
               href="/contact" 
-              className="block w-full text-center bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all font-semibold text-base px-4 py-3 rounded-full tracking-wide"
+              className="block w-full text-center bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all font-semibold text-sm px-3 py-2.5 rounded-full tracking-wide"
               onClick={toggleMenu}
             >
               Apply to Join
-              <span className="ml-2 text-lg">&rarr;</span>
+              <span className="ml-1.5 text-sm">&rarr;</span>
             </Link>
           </div>
         </div>
