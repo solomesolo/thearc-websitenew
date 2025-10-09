@@ -820,7 +820,7 @@
             displayResults(data);
         } else if (questionnaireData) {
             console.log('❌ No cached results, but have questionnaire data - redirecting to loading page');
-            window.location.href = '/loading';
+            window.location.href = '/loading.html';
         } else {
             console.log('❌ No data found, redirecting to start new assessment');
             window.location.href = '/';
@@ -1313,7 +1313,7 @@
             console.log('✅ All data cleared - redirecting to questionnaire');
             
             // Redirect to questionnaire
-            window.location.href = '/questionnaire';
+            window.location.href = '/questionnaire.html';
         }
         
         function shareResults() {

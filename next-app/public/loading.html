@@ -332,8 +332,8 @@
                     console.log('Using cached results');
                     localStorage.setItem('healthAssessmentResults', cachedResults);
                     setTimeout(() => {
-                        console.log('Redirecting to /email-collection');
-                        window.location.href = '/email-collection';
+                        console.log('Redirecting to /email-collection.html');
+                        window.location.href = '/email-collection.html';
                     }, 2000);
                     return;
                 }
@@ -345,14 +345,13 @@
                 console.log('Making API call with answers:', answers);
                 document.getElementById('progressText').textContent = 'AI is analyzing your health data...';
                 
-                const response = await fetch('/api/analyze-health', {
+                const response = await fetch('/api/analyze_health', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ 
-                        responses: answers,
-                        userEmail: userEmail 
+                        responses: answers
                     })
                 });
                 
@@ -387,8 +386,8 @@
                 
                 // Redirect to email collection page
                 setTimeout(() => {
-                    console.log('Redirecting to /email-collection');
-                    window.location.href = '/email-collection';
+                    console.log('Redirecting to /email-collection.html');
+                    window.location.href = '/email-collection.html';
                 }, 2000);
                 
             } catch (error) {

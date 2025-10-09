@@ -1825,12 +1825,12 @@
                 localStorage.removeItem("healthAssessmentResults");
                 
                 // Redirect immediately to loading page for processing
-                window.location.href = "/loading";
+                window.location.href = "/loading.html";
                 
             } catch (error) {
                 console.error("Error in submitForm:", error);
                 // Still redirect even if there's an error
-                window.location.href = "/loading";
+                window.location.href = "/loading.html";
             }
         }
         
