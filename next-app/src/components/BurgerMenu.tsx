@@ -19,7 +19,7 @@ const BurgerMenu = () => {
       {/* Burger Button */}
       <button
         onClick={toggleMenu}
-        className="md:hidden relative flex flex-col justify-center items-center w-8 h-8 p-1"
+        className="md:hidden relative flex flex-col justify-center items-center w-8 h-8 p-1 burger-button"
         aria-label="Toggle menu"
       >
         <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${isOpen ? 'rotate-45 translate-y-1' : ''}`}></span>
@@ -37,9 +37,10 @@ const BurgerMenu = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-gray-900 transform transition-transform duration-300 z-50 ${
+        className={`fixed top-0 right-0 h-full bg-gray-900 transform transition-transform duration-300 z-50 mobile-menu ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        style={{ width: 'min(320px, 85vw)', maxWidth: '85vw' }}
       >
         <div className="flex flex-col h-full">
           
@@ -77,20 +78,32 @@ const BurgerMenu = () => {
             </div>
           </nav>
 
-          {/* Action Buttons - COMPLETELY REWRITTEN */}
+          {/* Action Buttons - MOBILE OPTIMIZED */}
           <div className="p-2 border-t border-gray-700 space-y-1 bg-gray-800">
             <Link
               href="/screening"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-3 rounded text-sm"
+              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center rounded text-sm action-button"
+              style={{ 
+                padding: '0.5rem 0.75rem',
+                fontSize: '0.875rem',
+                lineHeight: '1.25',
+                minHeight: '2.5rem'
+              }}
               onClick={closeMenu}
             >
               Health Screening
             </Link>
             <Link
               href="/contact"
-              className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center py-2 px-3 rounded text-sm"
+              className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center rounded text-sm action-button"
+              style={{ 
+                padding: '0.5rem 0.75rem',
+                fontSize: '0.875rem',
+                lineHeight: '1.25',
+                minHeight: '2.5rem'
+              }}
               onClick={closeMenu}
             >
               Apply to Join

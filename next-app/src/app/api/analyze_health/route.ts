@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { portkeyService } from '../../../lib/portkey';
 
 export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
@@ -18,35 +19,79 @@ export async function POST(request: NextRequest) {
     console.log('🔍 Environment check:');
     console.log('OPENAI_API_KEY exists:', !!process.env.OPENAI_API_KEY);
     console.log('OPENAI_API_KEY length:', process.env.OPENAI_API_KEY?.length || 0);
+    console.log('PORTKEY_API_KEY exists:', !!process.env.PORTKEY_API_KEY);
+    console.log('PORTKEY_API_KEY length:', process.env.PORTKEY_API_KEY?.length || 0);
     
-    // Initialize OpenAI client inside the handler
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
+    const { responses, userEmail } = await request.json();
     
-    const { responses } = await request.json();
+    let aiResponse: string;
+    let completion: any;
     
-    // Create comprehensive prompt for ChatGPT
-    const prompt = createHealthAssessmentPrompt(responses);
-    
-    // Get AI analysis
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [
-        {
-          role: "system",
-          content: "You are a preventive medicine specialist with expertise in evidence-based health screening. Your role is to analyze patient questionnaire data comprehensively, identify risk factors, and provide personalized screening recommendations that are clinically justified, patient-friendly, and prioritized by urgency. Always use all provided data and connect symptoms to specific test recommendations."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      max_tokens: 2000,
-      temperature: 0.7,
-    });
-    
-    const aiResponse = completion.choices[0].message.content;
+    // Try Portkey monitoring first, fallback to OpenAI if not available
+    if (portkeyService.isMonitoringEnabled()) {
+      console.log('🔍 Using Portkey for AI monitoring...');
+      try {
+        completion = await portkeyService.createHealthAnalysis({
+          questionnaireResponses: responses,
+          userEmail: userEmail,
+          userId: userEmail || 'anonymous'
+        });
+        aiResponse = completion.choices[0].message.content;
+        console.log('✅ Portkey monitoring successful');
+      } catch (portkeyError) {
+        console.warn('⚠️ Portkey monitoring failed, falling back to OpenAI:', portkeyError);
+        // Fallback to OpenAI
+        const openai = new OpenAI({
+          apiKey: process.env.OPENAI_API_KEY,
+        });
+        
+        const prompt = createHealthAssessmentPrompt(responses);
+        completion = await openai.chat.completions.create({
+          model: "gpt-4",
+          messages: [
+            {
+              role: "system",
+              content: "You are a preventive medicine specialist with expertise in evidence-based health screening. Your role is to analyze patient questionnaire data comprehensively, identify risk factors, and provide personalized screening recommendations that are clinically justified, patient-friendly, and prioritized by urgency. Always use all provided data and connect symptoms to specific test recommendations."
+            },
+            {
+              role: "user",
+              content: prompt
+            }
+          ],
+          max_tokens: 2000,
+          temperature: 0.7,
+        });
+        aiResponse = completion.choices[0].message.content;
+      }
+    } else {
+      console.log('🔍 Portkey not available, using OpenAI directly...');
+      // Initialize OpenAI client inside the handler
+      const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      
+      // Create comprehensive prompt for ChatGPT
+      const prompt = createHealthAssessmentPrompt(responses);
+      
+      // Get AI analysis
+      completion = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: "You are a preventive medicine specialist with expertise in evidence-based health screening. Your role is to analyze patient questionnaire data comprehensively, identify risk factors, and provide personalized screening recommendations that are clinically justified, patient-friendly, and prioritized by urgency. Always use all provided data and connect symptoms to specific test recommendations."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        max_tokens: 2000,
+        temperature: 0.7,
+      });
+      
+      aiResponse = completion.choices[0].message.content;
+    }
     
     // Parse AI response into structured format
     const results = parseAIResponse(aiResponse || '');
@@ -146,7 +191,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       results: transformedResults,
-      aiResponse: aiResponse
+      aiResponse: aiResponse,
+      monitoring: {
+        portkeyEnabled: portkeyService.isMonitoringEnabled(),
+        portkeyStatus: portkeyService.getStatus()
+      }
     }, {
       headers: {
         'Access-Control-Allow-Origin': '*',
