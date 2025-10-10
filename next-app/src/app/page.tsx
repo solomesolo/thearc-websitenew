@@ -48,36 +48,18 @@ export default function Home() {
                 </Link>
               </nav>
 
-              {/* Desktop Buttons - COMPLETELY REWRITTEN */}
+              {/* Desktop Buttons - FIXED SIZING */}
               <div className="hidden md:flex items-center space-x-2">
                 <Link
                   href="/screening"
                   target="_blank"
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-sm text-xs leading-tight"
-                  style={{ 
-                    padding: '1px 4px', 
-                    fontSize: '10px', 
-                    lineHeight: '14px',
-                    minHeight: '18px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-md py-1.5 px-3 text-xs font-medium whitespace-nowrap"
                 >
                   Health Screening
                 </Link>
                 <Link
                   href="/contact"
-                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white rounded-sm text-xs leading-tight"
-                  style={{ 
-                    padding: '1px 4px', 
-                    fontSize: '10px', 
-                    lineHeight: '14px',
-                    minHeight: '18px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
+                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white rounded-md py-1.5 px-3 text-xs font-medium whitespace-nowrap"
                 >
                   Apply to Join
                 </Link>
