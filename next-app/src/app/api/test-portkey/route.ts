@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     // Test basic Portkey functionality
     try {
       const testResponse = await portkeyService.createMonitoredCompletion({
-        model: 'gpt-3.5-turbo',
+        model: '@TheArc/text-moderation-stable',
         messages: [
           { role: 'user', content: 'What is Portkey?' }
         ],
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
       default:
         // Test basic completion
         testResponse = await portkeyService.createMonitoredCompletion({
-          model: 'gpt-3.5-turbo',
+          model: '@TheArc/text-moderation-stable',
           messages: [
             { role: 'user', content: 'Hello, this is a test message.' }
           ],

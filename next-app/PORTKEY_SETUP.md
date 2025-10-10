@@ -101,7 +101,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 ### Portkey Model Configuration
 ```typescript
 {
-  model: 'gpt-3.5-turbo',
+  model: '@TheArc/text-moderation-stable',
   max_tokens: 2000,
   temperature: 0.7,
   messages: [

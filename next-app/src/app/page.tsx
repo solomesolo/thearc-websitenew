@@ -309,69 +309,69 @@ export default function Home() {
       </section>
 
       {/* Section 7: Pricing */}
-      <section className="flex flex-col items-center justify-center text-center mt-20 mb-16 px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-white">
+      <section className="flex flex-col items-center justify-center text-center mt-16 md:mt-20 mb-12 md:mb-16 px-3 sm:px-4">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-8 md:mb-12 text-white">
           Choose your path
         </h2>
         <div className="max-w-6xl w-full">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {/* Tier 1 - Foundations */}
-            <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all">
-              <h3 className="text-2xl font-bold mb-3 text-white">Foundations</h3>
-              <p className="text-white/60 mb-6 text-sm font-medium tracking-wide uppercase">6 months</p>
-              <div className="text-4xl font-bold mb-3 text-white">€499</div>
-              <p className="text-white/60 mb-8 text-lg">Short-term commitment — experience The Arc framework.</p>
-              <ul className="text-white/80 space-y-3 mb-10 text-lg">
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Baseline assessment</li>
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Monthly protocols</li>
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Community access</li>
+            <div className="bg-black/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-white/10 hover:border-white/20 transition-all">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-white">Foundations</h3>
+              <p className="text-white/60 mb-4 sm:mb-6 text-xs sm:text-sm font-medium tracking-wide uppercase">6 months</p>
+              <div className="text-3xl sm:text-4xl font-bold mb-2 sm:mb-3 text-white">€499</div>
+              <p className="text-white/60 mb-6 sm:mb-8 text-sm sm:text-base md:text-lg leading-relaxed">Short-term commitment — experience The Arc framework.</p>
+              <ul className="text-white/80 space-y-2 sm:space-y-3 mb-6 sm:mb-10 text-sm sm:text-base md:text-lg">
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>Baseline assessment</li>
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>Monthly protocols</li>
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>Community access</li>
               </ul>
-              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
+              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center text-sm sm:text-base">
                 Apply — Foundations
               </a>
-    </div>
+            </div>
 
             {/* Tier 2 - Full Arc (Recommended) */}
-            <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 border-2 border-fuchsia-400 relative hover:border-fuchsia-300 transition-all">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-fuchsia-400 to-pink-400 text-black px-6 py-2 rounded-full text-sm font-bold">
+            <div className="bg-black/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border-2 border-fuchsia-400 relative hover:border-fuchsia-300 transition-all">
+              <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-fuchsia-400 to-pink-400 text-black px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold">
                 Most Chosen
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-white">Full Arc</h3>
-              <p className="text-white/60 mb-6 text-sm font-medium tracking-wide uppercase">12 months</p>
-              <div className="text-4xl font-bold mb-3 text-white">€999</div>
-              <p className="text-white/60 mb-2 text-lg">Best value — full year of adaptive care.</p>
-              <p className="text-fuchsia-400 text-sm mb-8 font-medium">Equivalent to €2.74/day</p>
-              <ul className="text-white/80 space-y-3 mb-10 text-lg">
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Everything in Foundations</li>
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Quarterly review</li>
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Marketplace early access</li>
-          </ul>
-              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-white">Full Arc</h3>
+              <p className="text-white/60 mb-4 sm:mb-6 text-xs sm:text-sm font-medium tracking-wide uppercase">12 months</p>
+              <div className="text-3xl sm:text-4xl font-bold mb-2 sm:mb-3 text-white">€999</div>
+              <p className="text-white/60 mb-1 sm:mb-2 text-sm sm:text-base md:text-lg leading-relaxed">Best value — full year of adaptive care.</p>
+              <p className="text-fuchsia-400 text-xs sm:text-sm mb-6 sm:mb-8 font-medium">Equivalent to €2.74/day</p>
+              <ul className="text-white/80 space-y-2 sm:space-y-3 mb-6 sm:mb-10 text-sm sm:text-base md:text-lg">
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>Everything in Foundations</li>
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>Quarterly review</li>
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>Marketplace early access</li>
+              </ul>
+              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center text-sm sm:text-base">
                 Apply — Full Arc
               </a>
             </div>
 
             {/* Tier 3 - Founders Circle */}
-            <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all">
-              <h3 className="text-2xl font-bold mb-3 text-white">Founders Circle</h3>
-              <p className="text-white/60 mb-6 text-sm font-medium tracking-wide uppercase">12 months, limited to 10 seats</p>
-              <div className="text-4xl font-bold mb-3 text-white">€1,400</div>
-              <p className="text-white/60 mb-8 text-lg">Limited founding seats with exclusive benefits.</p>
-              <ul className="text-white/80 space-y-3 mb-8 text-lg">
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Everything in Full Arc</li>
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>2 private expert reviews</li>
-                <li className="flex items-center"><span className="w-2 h-2 bg-fuchsia-400 rounded-full mr-3"></span>Beta access to new tools</li>
-          </ul>
-              <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 mb-6">
-                <p className="text-red-400 text-sm font-medium text-center">Only 3 seats left</p>
-          </div>
-              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-4 px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center">
+            <div className="bg-black/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-white/10 hover:border-white/20 transition-all">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-white">Founders Circle</h3>
+              <p className="text-white/60 mb-4 sm:mb-6 text-xs sm:text-sm font-medium tracking-wide uppercase">12 months, limited to 10 seats</p>
+              <div className="text-3xl sm:text-4xl font-bold mb-2 sm:mb-3 text-white">€1,400</div>
+              <p className="text-white/60 mb-6 sm:mb-8 text-sm sm:text-base md:text-lg leading-relaxed">Limited founding seats with exclusive benefits.</p>
+              <ul className="text-white/80 space-y-2 sm:space-y-3 mb-6 sm:mb-8 text-sm sm:text-base md:text-lg">
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>Everything in Full Arc</li>
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>2 private expert reviews</li>
+                <li className="flex items-center"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-fuchsia-400 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>Beta access to new tools</li>
+              </ul>
+              <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+                <p className="text-red-400 text-xs sm:text-sm font-medium text-center">Only 3 seats left</p>
+              </div>
+              <a href="/contact" className="w-full bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-full font-semibold hover:scale-105 transition-all inline-block text-center text-sm sm:text-base">
                 Apply — Founders Circle
               </a>
-      </div>
+            </div>
           </div>
           
-          <p className="text-white/60 text-sm mt-6">Payments processed via Stripe. VAT applied where required.</p>
+          <p className="text-white/60 text-xs sm:text-sm mt-4 sm:mt-6 px-2">Payments processed via Stripe. VAT applied where required.</p>
       </div>
     </section>
 

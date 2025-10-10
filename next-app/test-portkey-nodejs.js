@@ -2,14 +2,13 @@
 import Portkey from 'portkey-ai';
 
 const portkey = new Portkey({
-  apiKey: "YOUR_PORTKEY_API_KEY",
-  provider: "@YOUR_PROVIDER"
+  apiKey: "YOUR_PORTKEY_API_KEY"
 });
 
 async function createChatCompletion() {
   try {
     const chat_complete = await portkey.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "@TheArc/text-moderation-stable",
       messages: [
         { role: "system", content: "You are a helpful assistant." },
         { role: "user", content: "Hello!" }
@@ -28,7 +27,7 @@ async function createChatCompletion() {
 async function testHealthAnalysis() {
   try {
     const healthResponse = await portkey.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "@TheArc/text-moderation-stable",
       messages: [
         { 
           role: "system", 

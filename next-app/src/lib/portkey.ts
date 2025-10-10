@@ -10,8 +10,7 @@ export class PortkeyService {
     
     if (this.isEnabled) {
       this.portkey = new Portkey({
-        apiKey: process.env.PORTKEY_API_KEY!,
-        provider: "@YOUR_PROVIDER" // Update this with your actual provider
+        apiKey: process.env.PORTKEY_API_KEY!
       });
       console.log('✅ Portkey AI monitoring initialized');
     } else {
@@ -119,7 +118,7 @@ export class PortkeyService {
     const userPrompt = this.createHealthAssessmentPrompt(params.questionnaireResponses);
 
     return await this.createMonitoredCompletion({
-      model: 'gpt-3.5-turbo', // Using standard OpenAI model through Portkey
+      model: '@TheArc/text-moderation-stable', // Using the correct Portkey model
       messages: [
         { role: 'user', content: userPrompt }
       ],
