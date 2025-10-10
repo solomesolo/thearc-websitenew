@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Personalized Screening Plan - Right Screening Finder</title>
     
-    <!-- Robust Mixpanel Script -->
-    <script src="/mixpanel-robust.js"></script>
+    <!-- Fixed Mixpanel Script -->
+    <script src="/mixpanel-fixed.js"></script>
     
     <!-- Simple PDF Generation without external libraries -->
     <script>
@@ -830,7 +830,7 @@
         } else if (questionnaireData) {
             console.log('❌ No cached results, but have questionnaire data - redirecting to loading page');
             window.location.href = '/loading.html';
-                    } else {
+        } else {
             console.log('❌ No data found, redirecting to start new assessment');
             window.location.href = '/';
         }
