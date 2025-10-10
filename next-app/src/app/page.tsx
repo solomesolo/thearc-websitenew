@@ -54,14 +54,12 @@ export default function Home() {
                   href="/screening"
                   target="_blank"
                   className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded"
-                  style={{ padding: '2px 6px', fontSize: '11px', lineHeight: '14px' }}
                 >
                   Health Screening
                 </Link>
                 <Link
                   href="/contact"
                   className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-xs px-2 py-1 rounded"
-                  style={{ padding: '2px 6px', fontSize: '11px', lineHeight: '14px' }}
                 >
                   Apply to Join
                 </Link>
