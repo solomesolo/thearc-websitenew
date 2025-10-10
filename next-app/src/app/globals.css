@@ -59,36 +59,32 @@ html, body {
 
 /* NEW MOBILE DESIGN - CLEAN SLATE */
 
-/* AGGRESSIVE BUTTON SIZE OVERRIDES */
-/* Force mobile menu buttons to be tiny */
+/* SPECIFIC BUTTON SIZE OVERRIDES */
+/* Force mobile menu buttons to be extremely small */
 .mobile-menu a[href="/screening"],
 .mobile-menu a[href="/contact"] {
-  padding: 2px 4px !important;
-  font-size: 10px !important;
-  line-height: 12px !important;
+  padding: 1px 2px !important;
+  font-size: 8px !important;
+  line-height: 10px !important;
   min-height: auto !important;
   height: auto !important;
+  margin: 0 !important;
+  border: none !important;
 }
 
-/* Force header buttons to be tiny */
+/* Force header buttons to be extremely small */
 header a[href="/screening"],
 header a[href="/contact"] {
-  padding: 1px 4px !important;
-  font-size: 10px !important;
-  line-height: 12px !important;
+  padding: 1px 2px !important;
+  font-size: 8px !important;
+  line-height: 10px !important;
   min-height: auto !important;
   height: auto !important;
+  margin: 0 !important;
+  border: none !important;
 }
 
-/* Override any Tailwind classes */
-.py-1, .py-2, .px-2, .px-3 {
-  padding: 2px 4px !important;
-}
-
-.text-xs {
-  font-size: 10px !important;
-  line-height: 12px !important;
-}
+/* SPECIFIC BUTTON OVERRIDES ONLY - NO GLOBAL OVERRIDES */
 
 body, body * {
   font-family: var(--font-montserrat), ui-sans-serif, system-ui !important;
