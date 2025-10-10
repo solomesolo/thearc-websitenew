@@ -77,22 +77,38 @@ const BurgerMenu = () => {
             </div>
           </nav>
 
-          {/* Action Buttons */}
-          <div className="p-4 border-t border-gray-700 space-y-2 bg-gray-800">
+          {/* Action Buttons - COMPLETELY REWRITTEN */}
+          <div className="p-2 border-t border-gray-700 space-y-1 bg-gray-800">
             <Link
               href="/screening"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center rounded"
-              style={{ padding: '2px 8px', fontSize: '12px', lineHeight: '16px', height: '24px' }}
+              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center rounded-sm text-xs leading-tight"
+              style={{ 
+                padding: '1px 4px', 
+                fontSize: '10px', 
+                lineHeight: '14px',
+                minHeight: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
               onClick={closeMenu}
             >
               Health Screening
             </Link>
             <Link
               href="/contact"
-              className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center rounded"
-              style={{ padding: '2px 8px', fontSize: '12px', lineHeight: '16px', height: '24px' }}
+              className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center rounded-sm text-xs leading-tight"
+              style={{ 
+                padding: '1px 4px', 
+                fontSize: '10px', 
+                lineHeight: '14px',
+                minHeight: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
               onClick={closeMenu}
             >
               Apply to Join

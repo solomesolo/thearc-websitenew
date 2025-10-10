@@ -48,20 +48,36 @@ export default function Home() {
                 </Link>
               </nav>
 
-              {/* Desktop Buttons */}
-              <div className="hidden md:flex items-center space-x-3">
+              {/* Desktop Buttons - COMPLETELY REWRITTEN */}
+              <div className="hidden md:flex items-center space-x-2">
                 <Link
                   href="/screening"
                   target="_blank"
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded"
-                  style={{ padding: '2px 8px', fontSize: '12px', lineHeight: '16px', height: '24px' }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-sm text-xs leading-tight"
+                  style={{ 
+                    padding: '1px 4px', 
+                    fontSize: '10px', 
+                    lineHeight: '14px',
+                    minHeight: '18px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
                 >
                   Health Screening
                 </Link>
                 <Link
                   href="/contact"
-                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white rounded"
-                  style={{ padding: '2px 8px', fontSize: '12px', lineHeight: '16px', height: '24px' }}
+                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white rounded-sm text-xs leading-tight"
+                  style={{ 
+                    padding: '1px 4px', 
+                    fontSize: '10px', 
+                    lineHeight: '14px',
+                    minHeight: '18px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
                 >
                   Apply to Join
                 </Link>
