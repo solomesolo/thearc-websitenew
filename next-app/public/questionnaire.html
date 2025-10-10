@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Right Screening Finder - Health Assessment</title>
     
-    <!-- Unified Mixpanel Script -->
-    <script src="/mixpanel-unified.js"></script>
+    <!-- Simple Mixpanel Script -->
+    <script src="/mixpanel-simple.js"></script>
     
     <style>
         /* Reset and Base Styles */
@@ -1692,9 +1692,11 @@
             if (nextBtn) {
                 if (currentSectionIndex === sections.length - 1) {
                     nextBtn.textContent = "Submit Assessment";
+                    nextBtn.id = "start-test-btn"; // Add ID for Mixpanel tracking
                     nextBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
                 } else {
                     nextBtn.textContent = "Next";
+                    nextBtn.id = "nextBtn"; // Reset ID
                     nextBtn.style.background = "#4a4a4a";
                 }
                 nextBtn.style.display = "inline-block";
@@ -1842,15 +1844,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             loadFormData();
             
-            // Start tracking after a short delay to ensure Mixpanel is ready
-            setTimeout(function() {
-                if (window.trackTestStart) {
-                    window.trackTestStart();
-                } else {
-                    console.log('⚠️ Unified MixPanel not loaded yet, retrying in 1 second...');
-                    setTimeout(arguments.callee, 1000);
-                }
-            }, 500);
+            // Mixpanel tracking is now handled automatically by mixpanel-simple.js
         });
     </script>
 </body>

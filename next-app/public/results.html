@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Personalized Screening Plan - Right Screening Finder</title>
     
-    <!-- Unified Mixpanel Script -->
-    <script src="/mixpanel-unified.js"></script>
+    <!-- Simple Mixpanel Script -->
+    <script src="/mixpanel-simple.js"></script>
     
     <!-- Simple PDF Generation without external libraries -->
     <script>
@@ -822,15 +822,10 @@
             console.log('🔍 Data keys:', Object.keys(data));
             displayResults(data);
             
-            // Start tracking after a short delay to ensure Mixpanel is ready
-            setTimeout(function() {
-                if (window.trackTestComplete) {
-                    window.trackTestComplete();
-            } else {
-                    console.log('⚠️ Unified MixPanel not loaded yet, retrying in 1 second...');
-                    setTimeout(arguments.callee, 1000);
-                }
-            }, 500);
+            // Track test completion
+            if (window.onTestComplete) {
+                window.onTestComplete('health_screening_results');
+            }
             
         } else if (questionnaireData) {
             console.log('❌ No cached results, but have questionnaire data - redirecting to loading page');
@@ -1153,16 +1148,9 @@
         }
         
     function shareResults() {
-        // Track share reveal event using unified function
+        // Track share reveal event
         if (window.trackShareReveal) {
             window.trackShareReveal();
-        } else {
-            console.log('⚠️ Unified MixPanel not loaded yet, retrying in 1 second...');
-            setTimeout(function() {
-                if (window.trackShareReveal) {
-                    window.trackShareReveal();
-                }
-            }, 1000);
         }
             
             // Get the results data
