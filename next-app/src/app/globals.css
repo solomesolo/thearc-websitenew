@@ -97,6 +97,20 @@ html, body {
   }
 }
 
+/* Force smaller button sizes */
+.header-buttons {
+  padding: 2px 4px !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
+.mobile-menu .action-button {
+  padding: 2px 4px !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  min-height: auto !important;
+}
+
 /* Clean scrollbar for menu content */
 .mobile-menu nav {
   scrollbar-width: thin;

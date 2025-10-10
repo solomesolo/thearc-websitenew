@@ -59,13 +59,13 @@ export default function Home() {
                   href="/screening"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-medium text-sm px-2 py-0.5 rounded-full tracking-wide"
+                  className="header-buttons border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-medium text-sm px-1 py-0.5 rounded-full tracking-wide"
                 >
                   Health Screening
                 </Link>
                 <Link
                   href="/contact"
-                  className="border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-medium text-sm px-2 py-0.5 rounded-full tracking-wide"
+                  className="header-buttons border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-medium text-sm px-1 py-0.5 rounded-full tracking-wide"
                 >
                   Apply to Join
                 </Link>

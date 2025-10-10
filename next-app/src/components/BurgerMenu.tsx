@@ -104,14 +104,14 @@ const BurgerMenu = () => {
               href="/screening"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-1.5 py-1 rounded transition-colors"
+              className="action-button block w-full text-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-1 py-0.5 rounded transition-colors"
               onClick={closeMenu}
             >
               Health Screening
             </Link>
             <Link
               href="/contact"
-              className="block w-full text-center bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-sm font-medium px-1.5 py-1 rounded transition-colors"
+              className="action-button block w-full text-center bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-sm font-medium px-1 py-0.5 rounded transition-colors"
               onClick={closeMenu}
             >
               Apply to Join
