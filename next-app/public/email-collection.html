@@ -485,7 +485,7 @@
                                         <strong>${category.category_name}</strong><br>
                                         ${category.category_description}<br>
                                         <ul>
-                                            ${category.tests.map(test => `<li>${test.name} - ${test.description}</li>`).join('')}
+                                            ${category.tests.map(test => `<li>${test.test || test.name || 'Test'} - ${test.reason || test.description || test.explanation || 'No description'}</li>`).join('')}
                                         </ul>
                                     </div>
                                 `).join('')}
@@ -533,7 +533,7 @@
                 ${results.categories.map(category => `
                 ${category.category_name}:
                 ${category.category_description}
-                Tests: ${category.tests.map(test => test.name).join(', ')}
+                Tests: ${category.tests.map(test => test.test || test.name || 'Test').join(', ')}
                 `).join('\n')}
                 ` : ''}
                 
