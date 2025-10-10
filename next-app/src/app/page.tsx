@@ -22,63 +22,62 @@ export default function Home() {
           <DNABackground />
         </div>
         
-        {/* Top Bar - Enhanced Mobile Design (Fixed and Safe) */}
-        <div
-          className="fixed top-0 left-0 z-30 w-full bg-black/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b border-white/10"
-          style={{ WebkitBackdropFilter: 'blur(8px)' }}
-        >
-          <div className="flex flex-row justify-between items-center w-full px-4 md:px-12 py-3 md:pt-[5vh]">
-            
-            {/* Left side - Logo and Navigation */}
-            <div className="flex items-center">
-              <Link
-                href="/"
-                className="text-2xl md:text-4xl font-bold tracking-tight text-white select-none hover:text-fuchsia-300 transition-colors"
-              >
-                TheArc
-              </Link>
+        {/* Top Bar - Elegant Mobile-First Design */}
+        <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 md:bg-transparent backdrop-blur-lg md:backdrop-blur-none border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 md:px-12">
+            <div className="flex items-center justify-between h-16 md:h-auto md:pt-[5vh]">
+              
+              {/* Logo */}
+              <div className="flex-shrink-0">
+                <Link
+                  href="/"
+                  className="text-2xl md:text-4xl font-bold tracking-tight text-white select-none hover:text-fuchsia-300 transition-colors"
+                >
+                  TheArc
+                </Link>
+              </div>
 
-              {/* Desktop Nav */}
-              <nav className="hidden md:flex space-x-6 text-base font-medium ml-8">
-                <Link href="/about" className="text-white hover:text-fuchsia-300 transition-colors">
+              {/* Desktop Navigation */}
+              <nav className="hidden md:flex items-center space-x-8">
+                <Link href="/about" className="text-white hover:text-fuchsia-300 transition-colors text-base font-medium">
                   About TheArc
                 </Link>
-                <Link href="/knowledgebase" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/knowledgebase" className="text-gray-400 hover:text-white transition-colors text-base font-medium">
                   Knowledgebase
                 </Link>
-                <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors text-base font-medium">
                   Catalog of Services
                 </Link>
-                <Link href="/events" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/events" className="text-gray-400 hover:text-white transition-colors text-base font-medium">
                   Events
                 </Link>
               </nav>
-            </div>
 
-            {/* Right side - Desktop buttons / Mobile menu */}
-            <div className="hidden md:flex items-center space-x-4 text-base font-light">
-              <Link
-                href="/screening"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-semibold text-base md:text-lg px-6 py-2 rounded-full tracking-wide"
-              >
-                Health Screening
-              </Link>
-              <Link
-                href="/contact"
-                className="border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-semibold text-base md:text-lg px-6 py-2 rounded-full tracking-wide"
-              >
-                Apply to Join
-              </Link>
-            </div>
+              {/* Desktop Action Buttons */}
+              <div className="hidden md:flex items-center space-x-4">
+                <Link
+                  href="/screening"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-semibold text-base px-6 py-2 rounded-full tracking-wide"
+                >
+                  Health Screening
+                </Link>
+                <Link
+                  href="/contact"
+                  className="border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-semibold text-base px-6 py-2 rounded-full tracking-wide"
+                >
+                  Apply to Join
+                </Link>
+              </div>
 
-            {/* Mobile Burger */}
-            <div className="md:hidden flex items-center">
-              <BurgerMenu />
+              {/* Mobile Menu Button */}
+              <div className="md:hidden">
+                <BurgerMenu />
+              </div>
             </div>
           </div>
-        </div>
+        </header>
         
         {/* Hero Content */}
         <div className="flex-1 flex flex-col items-center justify-center text-center z-10 mt-0 md:mt-0 pt-16 md:pt-40 pb-20 md:pb-20 px-4 w-full">

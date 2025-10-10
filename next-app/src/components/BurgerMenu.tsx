@@ -10,105 +10,115 @@ const BurgerMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
-      {/* Burger Button */}
+      {/* Burger Button - Elegant Design */}
       <button
         onClick={toggleMenu}
-        className="md:hidden relative flex flex-col justify-center items-center w-10 h-10 z-50 p-2 rounded-lg bg-black/20 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-200"
+        className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 group"
         aria-label="Toggle menu"
       >
-        <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out ${isOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-        <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out mt-1 ${isOpen ? 'opacity-0 scale-0' : ''}`}></span>
-        <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out mt-1 ${isOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+        <div className="flex flex-col items-center justify-center w-5 h-5">
+          <span 
+            className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+              isOpen ? 'rotate-45 translate-y-1.5' : ''
+            }`}
+          ></span>
+          <span 
+            className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out mt-1 ${
+              isOpen ? 'opacity-0 scale-0' : ''
+            }`}
+          ></span>
+          <span 
+            className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out mt-1 ${
+              isOpen ? '-rotate-45 -translate-y-1.5' : ''
+            }`}
+          ></span>
+        </div>
       </button>
 
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/90 z-40 md:hidden"
-          onClick={toggleMenu}
-        ></div>
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
+          onClick={closeMenu}
+        />
       )}
 
-      {/* Menu */}
+      {/* Mobile Menu - Elegant Slide-in */}
       <div
-        className={`mobile-menu fixed top-0 right-0 h-full w-72 bg-gray-900 shadow-2xl transform transition-all duration-300 ease-in-out z-50 md:hidden ${
+        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-gray-900/95 backdrop-blur-xl border-l border-white/10 shadow-2xl transform transition-all duration-300 ease-in-out z-50 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gray-800 sticky top-0 z-10">
+        <div className="flex flex-col h-full">
+          {/* Menu Header */}
+          <div className="flex items-center justify-between p-6 border-b border-white/10 bg-gray-800/50">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-fuchsia-500 to-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">A</span>
+              <div className="w-10 h-10 bg-gradient-to-br from-fuchsia-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-lg">A</span>
               </div>
-              <div className="text-xl font-bold text-white">TheArc</div>
+              <div className="text-2xl font-bold text-white">TheArc</div>
             </div>
             <button
-              onClick={toggleMenu}
-              className="text-white hover:text-fuchsia-300 transition-colors p-2 rounded-full hover:bg-white/10"
+              onClick={closeMenu}
+              className="p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
               aria-label="Close menu"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
-          {/* Links */}
-          <nav className="flex-1 px-4 py-4 bg-gray-800">
-            <div className="space-y-1">
+          {/* Navigation Links */}
+          <nav className="flex-1 px-6 py-6 overflow-y-auto">
+            <div className="space-y-2">
               {[
-                { href: '/', text: 'Home', isActive: true },
-                { href: '/about', text: 'About TheArc', isActive: false },
-                { href: '/knowledgebase', text: 'Knowledgebase', isActive: false },
-                { href: '/catalog', text: 'Catalog of Services', isActive: false },
-                { href: '/events', text: 'Events', isActive: false },
+                { href: '/', text: 'Home', icon: '🏠' },
+                { href: '/about', text: 'About TheArc', icon: 'ℹ️' },
+                { href: '/knowledgebase', text: 'Knowledgebase', icon: '📚' },
+                { href: '/catalog', text: 'Catalog of Services', icon: '📋' },
+                { href: '/events', text: 'Events', icon: '📅' },
               ].map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`block text-base font-medium transition-colors py-3 px-3 rounded-lg hover:bg-white/10 border-l-4 border-transparent hover:border-fuchsia-500 ${
-                    item.isActive 
-                      ? 'text-white hover:text-fuchsia-300' 
-                      : 'text-gray-200 hover:text-white'
-                  }`}
-                  onClick={toggleMenu}
+                  className="flex items-center space-x-4 p-4 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-200 group"
+                  onClick={closeMenu}
                 >
-                  {item.text}
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="font-medium text-lg">{item.text}</span>
+                  <svg className="w-5 h-5 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </Link>
               ))}
             </div>
           </nav>
 
           {/* Action Buttons */}
-          <div className="p-4 border-t border-gray-700 bg-gray-800 space-y-3">
+          <div className="p-6 border-t border-white/10 bg-gray-800/50 space-y-4">
             <Link
               href="/screening"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white transition-colors font-semibold text-sm px-3 py-2.5 rounded-lg"
-              onClick={toggleMenu}
+              className="flex items-center justify-center w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+              onClick={closeMenu}
             >
+              <span className="mr-2">🔍</span>
               Health Screening
             </Link>
             <Link
               href="/contact"
-              className="block w-full text-center bg-fuchsia-600 hover:bg-fuchsia-700 text-white transition-colors font-semibold text-sm px-3 py-2.5 rounded-lg"
-              onClick={toggleMenu}
+              className="flex items-center justify-center w-full px-6 py-4 bg-gradient-to-r from-fuchsia-600 to-fuchsia-500 hover:from-fuchsia-700 hover:to-fuchsia-600 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+              onClick={closeMenu}
             >
+              <span className="mr-2">✨</span>
               Apply to Join
             </Link>
           </div>
