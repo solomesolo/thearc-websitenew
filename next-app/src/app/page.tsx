@@ -22,7 +22,7 @@ export default function Home() {
           <DNABackground />
         </div>
         
-        {/* NEW MOBILE-FIRST HEADER */}
+        {/* Header */}
         <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-center justify-between h-14">
@@ -32,7 +32,7 @@ export default function Home() {
                 TheArc
               </Link>
 
-              {/* Desktop Navigation - Hidden on Mobile */}
+              {/* Desktop Navigation */}
               <nav className="hidden md:flex items-center space-x-6">
                 <Link href="/about" className="text-gray-300 hover:text-white text-sm">
                   About
@@ -48,7 +48,7 @@ export default function Home() {
                 </Link>
               </nav>
 
-              {/* Desktop Buttons - Hidden on Mobile */}
+              {/* Desktop Buttons */}
               <div className="hidden md:flex items-center space-x-3">
                 <Link
                   href="/screening"
