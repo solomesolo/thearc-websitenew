@@ -59,6 +59,37 @@ html, body {
 
 /* NEW MOBILE DESIGN - CLEAN SLATE */
 
+/* AGGRESSIVE BUTTON SIZE OVERRIDES */
+/* Force mobile menu buttons to be tiny */
+.mobile-menu a[href="/screening"],
+.mobile-menu a[href="/contact"] {
+  padding: 2px 4px !important;
+  font-size: 10px !important;
+  line-height: 12px !important;
+  min-height: auto !important;
+  height: auto !important;
+}
+
+/* Force header buttons to be tiny */
+header a[href="/screening"],
+header a[href="/contact"] {
+  padding: 1px 4px !important;
+  font-size: 10px !important;
+  line-height: 12px !important;
+  min-height: auto !important;
+  height: auto !important;
+}
+
+/* Override any Tailwind classes */
+.py-1, .py-2, .px-2, .px-3 {
+  padding: 2px 4px !important;
+}
+
+.text-xs {
+  font-size: 10px !important;
+  line-height: 12px !important;
+}
+
 body, body * {
   font-family: var(--font-montserrat), ui-sans-serif, system-ui !important;
 }
