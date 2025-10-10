@@ -57,25 +57,25 @@ html, body {
   }
 }
 
-/* Elegant Mobile Menu - Responsive Design */
+/* Clean Compact Mobile Menu */
 .mobile-menu {
-  /* Responsive width with max constraint */
-  width: 320px !important; /* w-80 = 20rem = 320px */
-  max-width: 85vw !important; /* Never exceed 85% of viewport width */
-  min-width: 280px !important; /* Minimum usable width */
+  /* Fixed compact width */
+  width: 256px !important; /* w-64 = 16rem = 256px */
+  max-width: 256px !important;
+  min-width: 256px !important;
   
-  /* Enhanced styling */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  /* Clean styling */
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  background-color: #111827 !important; /* bg-gray-900 */
 }
 
 /* Ensure all elements fit properly */
 .mobile-menu button, 
 .mobile-menu a {
   word-wrap: break-word;
-  white-space: normal;
-  overflow: visible;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -83,28 +83,28 @@ html, body {
 /* Responsive adjustments for smaller screens */
 @media (max-width: 375px) {
   .mobile-menu {
-    width: 90vw !important;
-    max-width: 90vw !important;
-    min-width: 280px !important;
+    width: 240px !important;
+    max-width: 240px !important;
+    min-width: 240px !important;
   }
 }
 
 @media (max-width: 320px) {
   .mobile-menu {
-    width: 95vw !important;
-    max-width: 95vw !important;
-    min-width: 260px !important;
+    width: 220px !important;
+    max-width: 220px !important;
+    min-width: 220px !important;
   }
 }
 
-/* Smooth scrolling for menu content */
+/* Clean scrollbar for menu content */
 .mobile-menu nav {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 .mobile-menu nav::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 
 .mobile-menu nav::-webkit-scrollbar-track {
@@ -112,12 +112,12 @@ html, body {
 }
 
 .mobile-menu nav::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 2px;
 }
 
 .mobile-menu nav::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 body, body * {

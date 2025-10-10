@@ -53,19 +53,19 @@ export default function Home() {
                 </Link>
               </nav>
 
-              {/* Desktop Action Buttons */}
-              <div className="hidden md:flex items-center space-x-4">
+              {/* Desktop Action Buttons - Compact */}
+              <div className="hidden md:flex items-center space-x-3">
                 <Link
                   href="/screening"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-semibold text-base px-6 py-2 rounded-full tracking-wide"
+                  className="border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-medium text-sm px-4 py-1.5 rounded-full tracking-wide"
                 >
                   Health Screening
                 </Link>
                 <Link
                   href="/contact"
-                  className="border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-semibold text-base px-6 py-2 rounded-full tracking-wide"
+                  className="border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-medium text-sm px-4 py-1.5 rounded-full tracking-wide"
                 >
                   Apply to Join
                 </Link>
