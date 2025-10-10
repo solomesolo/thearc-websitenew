@@ -22,50 +22,44 @@ export default function Home() {
           <DNABackground />
         </div>
         
-        {/* Top Bar - Elegant Mobile-First Design */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 md:bg-transparent backdrop-blur-lg md:backdrop-blur-none border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-4 md:px-12">
-            <div className="flex items-center justify-between h-16 md:h-auto md:pt-[5vh]">
+        {/* NEW MOBILE-FIRST HEADER */}
+        <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-center justify-between h-14">
               
               {/* Logo */}
-              <div className="flex-shrink-0">
-                <Link
-                  href="/"
-                  className="text-2xl md:text-4xl font-bold tracking-tight text-white select-none hover:text-fuchsia-300 transition-colors"
-                >
-                  TheArc
-                </Link>
-              </div>
+              <Link href="/" className="text-xl font-bold text-white">
+                TheArc
+              </Link>
 
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex items-center space-x-8">
-                <Link href="/about" className="text-white hover:text-fuchsia-300 transition-colors text-base font-medium">
-                  About TheArc
+              {/* Desktop Navigation - Hidden on Mobile */}
+              <nav className="hidden md:flex items-center space-x-6">
+                <Link href="/about" className="text-gray-300 hover:text-white text-sm">
+                  About
                 </Link>
-                <Link href="/knowledgebase" className="text-gray-400 hover:text-white transition-colors text-base font-medium">
+                <Link href="/knowledgebase" className="text-gray-300 hover:text-white text-sm">
                   Knowledgebase
                 </Link>
-                <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors text-base font-medium">
-                  Catalog of Services
+                <Link href="/catalog" className="text-gray-300 hover:text-white text-sm">
+                  Catalog
                 </Link>
-                <Link href="/events" className="text-gray-400 hover:text-white transition-colors text-base font-medium">
+                <Link href="/events" className="text-gray-300 hover:text-white text-sm">
                   Events
                 </Link>
               </nav>
 
-              {/* Desktop Action Buttons - 50% Smaller Padding */}
-              <div className="hidden md:flex items-center space-x-2">
+              {/* Desktop Buttons - Hidden on Mobile */}
+              <div className="hidden md:flex items-center space-x-3">
                 <Link
                   href="/screening"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="header-buttons border border-blue-400 text-blue-200 bg-transparent hover:bg-blue-900/10 hover:text-blue-300 hover:ring-2 hover:ring-blue-400/40 backdrop-blur-sm transition-all font-medium text-sm px-1 py-0.5 rounded-full tracking-wide"
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded"
                 >
                   Health Screening
                 </Link>
                 <Link
                   href="/contact"
-                  className="header-buttons border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-medium text-sm px-1 py-0.5 rounded-full tracking-wide"
+                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-xs px-3 py-1 rounded"
                 >
                   Apply to Join
                 </Link>
