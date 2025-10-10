@@ -469,8 +469,8 @@
                                 <h3>Urgent Tests</h3>
                                 ${(results.urgent_tests || results.urgentTests).map(test => `
                                     <div class="test-item urgent">
-                                        <strong>${test.name}</strong><br>
-                                        ${test.explanation}<br>
+                                        <strong>${test.test || test.name}</strong><br>
+                                        ${test.reason || test.explanation}<br>
                                         <em>Timeframe: ${test.timeframe}</em>
                                     </div>
                                 `).join('')}
@@ -525,7 +525,7 @@
                 
                 ${results.urgent_tests || results.urgentTests ? `
                 Urgent Tests:
-                ${(results.urgent_tests || results.urgentTests).map(test => `- ${test.name}: ${test.explanation} (${test.timeframe})`).join('\n')}
+                ${(results.urgent_tests || results.urgentTests).map(test => `- ${test.test || test.name}: ${test.reason || test.explanation} (${test.timeframe})`).join('\n')}
                 ` : ''}
                 
                 ${results.categories ? `
