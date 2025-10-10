@@ -54,10 +54,11 @@ const BurgerMenu = () => {
         className={`fixed top-0 right-0 h-full w-64 bg-gray-900 border-l border-gray-700 shadow-xl transform transition-all duration-300 ease-in-out z-50 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        style={{ backgroundColor: '#111827' }}
       >
         <div className="flex flex-col h-full">
           {/* Compact Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gray-800">
+          <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gray-800" style={{ backgroundColor: '#1f2937' }}>
             <div className="flex items-center space-x-2">
               <div className="w-6 h-6 bg-gradient-to-br from-fuchsia-500 to-blue-500 rounded flex items-center justify-center">
                 <span className="text-white font-bold text-xs">A</span>
@@ -76,7 +77,7 @@ const BurgerMenu = () => {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex-1 px-3 py-4 overflow-y-auto">
+          <nav className="flex-1 px-3 py-4 overflow-y-auto bg-gray-900" style={{ backgroundColor: '#111827' }}>
             <div className="space-y-1">
               {[
                 { href: '/', text: 'Home' },
@@ -97,20 +98,20 @@ const BurgerMenu = () => {
             </div>
           </nav>
 
-          {/* Compact Action Buttons */}
-          <div className="p-3 border-t border-gray-700 bg-gray-800 space-y-2">
+          {/* Compact Action Buttons - 50% Smaller Padding */}
+          <div className="p-3 border-t border-gray-700 bg-gray-800 space-y-2" style={{ backgroundColor: '#1f2937' }}>
             <Link
               href="/screening"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-2 rounded transition-colors"
+              className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-1.5 py-1 rounded transition-colors"
               onClick={closeMenu}
             >
               Health Screening
             </Link>
             <Link
               href="/contact"
-              className="block w-full text-center bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-sm font-medium px-3 py-2 rounded transition-colors"
+              className="block w-full text-center bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-sm font-medium px-1.5 py-1 rounded transition-colors"
               onClick={closeMenu}
             >
               Apply to Join
