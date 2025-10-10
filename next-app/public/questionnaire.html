@@ -1837,6 +1837,36 @@
         // Load saved data when page loads
         document.addEventListener("DOMContentLoaded", function() {
             loadFormData();
+            
+            // Track test start event and store start time for duration calculation
+            try {
+                const testStartTime = Date.now();
+                const testId = 'test_' + testStartTime + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // Store test start time and ID for duration calculation in results page
+                localStorage.setItem('testStartTime', testStartTime.toString());
+                localStorage.setItem('testId', testId);
+                
+                if (typeof mixpanel !== 'undefined' && mixpanel.track) {
+                    mixpanel.track('test_start', {
+                        test_type: 'health_screening',
+                        test_id: testId,
+                        timestamp: new Date().toISOString(),
+                        page: window.location.pathname,
+                        url: window.location.href,
+                        user_agent: navigator.userAgent,
+                        screen_resolution: screen.width + 'x' + screen.height,
+                        viewport_size: window.innerWidth + 'x' + window.innerHeight,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        referrer: document.referrer
+                    });
+                    console.log('✅ MixPanel: test_start event tracked with ID:', testId);
+                } else {
+                    console.log('⚠️ MixPanel not available for test_start tracking');
+                }
+            } catch (error) {
+                console.error('❌ MixPanel test_start tracking error:', error);
+            }
         });
     </script>
 </body>

@@ -818,6 +818,46 @@
             console.log('🔍 Data type:', typeof data);
             console.log('🔍 Data keys:', Object.keys(data));
             displayResults(data);
+            
+            // Track test complete event with timing
+            try {
+                const testStartTime = localStorage.getItem('testStartTime');
+                const testId = localStorage.getItem('testId');
+                const testCompleteTime = Date.now();
+                
+                let testDuration = null;
+                let testDurationSeconds = null;
+                
+                if (testStartTime) {
+                    testDuration = testCompleteTime - parseInt(testStartTime);
+                    testDurationSeconds = Math.round(testDuration / 1000);
+                }
+                
+                if (typeof mixpanel !== 'undefined' && mixpanel.track) {
+                    mixpanel.track('test_complete', {
+                        test_type: 'health_screening',
+                        test_id: testId || 'unknown',
+                        test_duration_ms: testDuration,
+                        test_duration_seconds: testDurationSeconds,
+                        timestamp: new Date().toISOString(),
+                        page: window.location.pathname,
+                        url: window.location.href,
+                        user_agent: navigator.userAgent,
+                        screen_resolution: screen.width + 'x' + screen.height,
+                        viewport_size: window.innerWidth + 'x' + window.innerHeight,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        referrer: document.referrer,
+                        has_results: true,
+                        results_source: 'cached'
+                    });
+                    console.log('✅ MixPanel: test_complete event tracked with duration:', testDurationSeconds + 's');
+                } else {
+                    console.log('⚠️ MixPanel not available for test_complete tracking');
+                }
+            } catch (error) {
+                console.error('❌ MixPanel test_complete tracking error:', error);
+            }
+            
         } else if (questionnaireData) {
             console.log('❌ No cached results, but have questionnaire data - redirecting to loading page');
             window.location.href = '/loading.html';
@@ -1324,14 +1364,19 @@
                         share_type: 'results',
                         timestamp: new Date().toISOString(),
                         page: window.location.pathname,
+                        url: window.location.href,
                         user_agent: navigator.userAgent,
                         screen_resolution: `${screen.width}x${screen.height}`,
                         viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        referrer: document.referrer
                     });
+                    console.log('✅ MixPanel: share_reveal event tracked');
+                } else {
+                    console.log('⚠️ MixPanel not available for share_reveal tracking');
                 }
             } catch (error) {
-                console.error('MixPanel share tracking error:', error);
+                console.error('❌ MixPanel share_reveal tracking error:', error);
             }
             
             // Get the results data
