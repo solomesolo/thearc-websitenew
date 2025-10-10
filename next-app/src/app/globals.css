@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "./mobile-fixes.css";
+@import "./mobile-fixes-v2.css";
 
 :root {
   --background: #000000;

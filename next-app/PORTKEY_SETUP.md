@@ -1,15 +1,15 @@
-# Portkey AI Monitoring Integration
+# Portkey AI Monitoring Integration - NodeJS SDK
 
 ## Overview
-Portkey AI monitoring has been integrated into TheArc health analysis system to provide comprehensive AI output monitoring, logging, and analytics.
+Portkey AI monitoring has been integrated into TheArc health analysis system using the NodeJS SDK to provide comprehensive AI output monitoring, logging, and analytics.
 
 ## Environment Variables
 
 Add the following to your `.env.local` file:
 
 ```bash
-# Portkey AI Monitoring
-PORTKEY_API_KEY=rh1EFJioiosWBOgkpDiUeZf3WqrI
+# Portkey AI Monitoring - NodeJS SDK
+PORTKEY_API_KEY=YOUR_PORTKEY_API_KEY
 
 # Existing OpenAI (fallback)
 OPENAI_API_KEY=your_openai_api_key_here
@@ -101,15 +101,13 @@ OPENAI_API_KEY=your_openai_api_key_here
 ### Portkey Model Configuration
 ```typescript
 {
-  model: '@TheArc/text-moderation-stable',
+  model: 'gpt-3.5-turbo',
   max_tokens: 2000,
   temperature: 0.7,
-  metadata: {
-    userId: 'user@example.com',
-    sessionId: 'health_analysis_1234567890',
-    analysisType: 'health_screening',
-    source: 'thearc_questionnaire'
-  }
+  messages: [
+    { role: 'system', content: 'You are a helpful assistant.' },
+    { role: 'user', content: 'Hello!' }
+  ]
 }
 ```
 

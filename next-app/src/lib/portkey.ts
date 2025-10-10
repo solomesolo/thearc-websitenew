@@ -11,6 +11,7 @@ export class PortkeyService {
     if (this.isEnabled) {
       this.portkey = new Portkey({
         apiKey: process.env.PORTKEY_API_KEY!,
+        provider: "@YOUR_PROVIDER" // Update this with your actual provider
       });
       console.log('✅ Portkey AI monitoring initialized');
     } else {
@@ -52,15 +53,7 @@ export class PortkeyService {
         model: params.model,
         messages,
         max_tokens: params.max_tokens || 2000,
-        temperature: params.temperature || 0.7,
-        // Portkey-specific monitoring parameters
-        metadata: {
-          userId: params.userId || 'anonymous',
-          sessionId: params.sessionId || `session_${Date.now()}`,
-          source: 'thearc_health_analysis',
-          timestamp: new Date().toISOString(),
-          ...params.metadata
-        }
+        temperature: params.temperature || 0.7
       });
 
       console.log('✅ Portkey: AI completion monitored successfully');
@@ -126,21 +119,13 @@ export class PortkeyService {
     const userPrompt = this.createHealthAssessmentPrompt(params.questionnaireResponses);
 
     return await this.createMonitoredCompletion({
-      model: '@TheArc/text-moderation-stable', // Using the Portkey model from your example
+      model: 'gpt-3.5-turbo', // Using standard OpenAI model through Portkey
       messages: [
         { role: 'user', content: userPrompt }
       ],
       systemPrompt,
       max_tokens: 2000,
-      temperature: 0.7,
-      userId: params.userId || params.userEmail || 'anonymous',
-      sessionId: `health_analysis_${Date.now()}`,
-      metadata: {
-        analysisType: 'health_screening',
-        responseCount: params.questionnaireResponses.length,
-        hasUserEmail: !!params.userEmail,
-        source: 'thearc_questionnaire'
-      }
+      temperature: 0.7
     });
   }
 

@@ -20,18 +20,12 @@ export async function GET(request: NextRequest) {
     // Test basic Portkey functionality
     try {
       const testResponse = await portkeyService.createMonitoredCompletion({
-        model: '@TheArc/text-moderation-stable',
+        model: 'gpt-3.5-turbo',
         messages: [
           { role: 'user', content: 'What is Portkey?' }
         ],
         max_tokens: 100,
-        temperature: 0.7,
-        userId: 'test_user',
-        sessionId: `test_${Date.now()}`,
-        metadata: {
-          testType: 'integration_test',
-          source: 'thearc_test_endpoint'
-        }
+        temperature: 0.7
       });
 
       return NextResponse.json({
@@ -100,17 +94,11 @@ export async function POST(request: NextRequest) {
       default:
         // Test basic completion
         testResponse = await portkeyService.createMonitoredCompletion({
-          model: '@TheArc/text-moderation-stable',
+          model: 'gpt-3.5-turbo',
           messages: [
             { role: 'user', content: 'Hello, this is a test message.' }
           ],
-          max_tokens: 50,
-          userId: 'test_user',
-          sessionId: `test_${Date.now()}`,
-          metadata: {
-            testType: testType,
-            source: 'thearc_test_endpoint'
-          }
+          max_tokens: 50
         });
         break;
     }

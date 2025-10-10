@@ -40,7 +40,6 @@ const BurgerMenu = () => {
         className={`fixed top-0 right-0 h-full bg-gray-900 transform transition-transform duration-300 z-50 mobile-menu ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
-        style={{ width: 'min(320px, 85vw)', maxWidth: '85vw' }}
       >
         <div className="flex flex-col h-full">
           
@@ -85,12 +84,6 @@ const BurgerMenu = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center rounded text-sm action-button"
-              style={{ 
-                padding: '0.5rem 0.75rem',
-                fontSize: '0.875rem',
-                lineHeight: '1.25',
-                minHeight: '2.5rem'
-              }}
               onClick={closeMenu}
             >
               Health Screening
@@ -98,12 +91,6 @@ const BurgerMenu = () => {
             <Link
               href="/contact"
               className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center rounded text-sm action-button"
-              style={{ 
-                padding: '0.5rem 0.75rem',
-                fontSize: '0.875rem',
-                lineHeight: '1.25',
-                minHeight: '2.5rem'
-              }}
               onClick={closeMenu}
             >
               Apply to Join
