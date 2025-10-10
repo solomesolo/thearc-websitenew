@@ -83,32 +83,14 @@ const BurgerMenu = () => {
               href="/screening"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center rounded-sm text-xs leading-tight"
-              style={{ 
-                padding: '1px 4px', 
-                fontSize: '10px', 
-                lineHeight: '14px',
-                minHeight: '18px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
+              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-3 rounded text-sm"
               onClick={closeMenu}
             >
               Health Screening
             </Link>
             <Link
               href="/contact"
-              className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center rounded-sm text-xs leading-tight"
-              style={{ 
-                padding: '1px 4px', 
-                fontSize: '10px', 
-                lineHeight: '14px',
-                minHeight: '18px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
+              className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center py-2 px-3 rounded text-sm"
               onClick={closeMenu}
             >
               Apply to Join

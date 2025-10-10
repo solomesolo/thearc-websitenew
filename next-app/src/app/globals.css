@@ -90,9 +90,12 @@ html, body {
   animation: slide-in 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* FORCE BUTTON SIZES - AGGRESSIVE OVERRIDE */
-a[href="/screening"],
-a[href="/contact"] {
+/* FORCE BUTTON SIZES - ONLY FOR HEADER BUTTONS */
+/* Target only desktop header buttons, not burger menu buttons */
+header nav a[href="/screening"],
+header nav a[href="/contact"],
+header .hidden.md\\:flex a[href="/screening"],
+header .hidden.md\\:flex a[href="/contact"] {
   padding: 1px 4px !important;
   font-size: 10px !important;
   line-height: 14px !important;
@@ -104,4 +107,11 @@ a[href="/contact"] {
   text-decoration: none !important;
   border: none !important;
   margin: 0 !important;
+}
+
+/* Burger menu buttons - allow proper sizing */
+.fixed.top-0.right-0 a[href="/screening"],
+.fixed.top-0.right-0 a[href="/contact"] {
+  height: auto !important;
+  min-height: auto !important;
 }
