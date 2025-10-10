@@ -826,7 +826,7 @@
             setTimeout(function() {
                 if (window.trackTestComplete) {
                     window.trackTestComplete();
-                } else {
+            } else {
                     console.log('⚠️ Unified MixPanel not loaded yet, retrying in 1 second...');
                     setTimeout(arguments.callee, 1000);
                 }
@@ -835,192 +835,15 @@
         } else if (questionnaireData) {
             console.log('❌ No cached results, but have questionnaire data - redirecting to loading page');
             window.location.href = '/loading.html';
-        } else {
+                    } else {
             console.log('❌ No data found, redirecting to start new assessment');
             window.location.href = '/';
         }
         
 
-        // Function to send results via email
-        async function sendResultsEmail(results) {
-            try {
-                console.log('📧 sendResultsEmail called with:', results);
-                
-                // Get the user's email from localStorage
-                const userEmail = localStorage.getItem('userEmail');
-                console.log('📧 Retrieved userEmail from localStorage:', userEmail);
-                
-                if (!userEmail) {
-                    console.log('📧 No user email found, prompting for email');
-                    const email = prompt('Please enter your email address to receive your personalized health screening plan:');
-                    if (email && email.includes('@')) {
-                        localStorage.setItem('userEmail', email);
-                        console.log('📧 Email collected and stored:', email);
-                        // Retry sending email
-                        return sendResultsEmail(results);
-                    } else {
-                        console.log('📧 Invalid email or user cancelled, skipping email send');
-                        return;
-                    }
-                }
-                
-                console.log('📧 Sending results via email to:', userEmail);
-                
-                // Generate HTML email content
-                console.log('📧 Generating email content for results:', results);
-                const htmlContent = generateEmailHTML(results);
-                const textContent = generateEmailText(results);
-                console.log('📧 Generated HTML content length:', htmlContent.length);
-                console.log('📧 Generated text content length:', textContent.length);
-                
-                const emailResponse = await fetch('/api/send_email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        to: userEmail,
-                        subject: 'Your Personalized Health Screening Plan - Right Screening Finder',
-                        htmlContent: htmlContent,
-                        textContent: textContent
-                    })
-                });
-                
-                if (!emailResponse.ok) {
-                    const errorText = await emailResponse.text();
-                    console.error('📧 Email send error:', errorText);
-                    throw new Error(`Failed to send email: ${errorText}`);
-                }
-                
-                const emailData = await emailResponse.json();
-                console.log('📧 Email sent successfully:', emailData);
-                
-            } catch (error) {
-                console.error('📧 Error sending email:', error);
-                // Don't show error to user - email sending is optional
-                console.log('📧 Continuing without email...');
-            }
-        }
+        // Email sending is handled by email-collection page, no need for duplicate function here
         
-        // Function to generate HTML email content
-        function generateEmailHTML(results) {
-            return `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Your Health Screening Plan</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-                        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                        .header { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
-                        .content { background: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; }
-                        .section { margin-bottom: 25px; }
-                        .section h3 { color: #3b82f6; margin-bottom: 15px; }
-                        .test-item { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #3b82f6; }
-                        .urgent { border-left-color: #ef4444; }
-                        .footer { text-align: center; margin-top: 30px; padding: 20px; color: #666; font-size: 14px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="header">
-                            <h1>Your Personalized Health Screening Plan</h1>
-                            <p>Based on your health assessment responses</p>
-                        </div>
-                        <div class="content">
-                            <div class="section">
-                                <h3>Assessment Summary</h3>
-                                <p>${results.assessment_summary || results.assessmentSummary || 'Your personalized health screening plan has been generated based on your responses.'}</p>
-                            </div>
-                            
-                            ${results.urgent_tests || results.urgentTests ? `
-                            <div class="section">
-                                <h3>Urgent Tests</h3>
-                                ${(results.urgent_tests || results.urgentTests).map(test => `
-                                    <div class="test-item urgent">
-                                        <strong>${test.test || test.name || 'Test'}</strong><br>
-                                        ${test.reason || test.explanation || 'No description available'}<br>
-                                        <em>Timeframe: ${test.timeframe}</em>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            ` : ''}
-                            
-                            ${results.categories ? `
-                            <div class="section">
-                                <h3>Health Categories</h3>
-                                ${results.categories.map(category => `
-                                    <div class="test-item">
-                                        <strong>${category.category_name}</strong><br>
-                                        ${category.category_description}<br>
-                                        <ul>
-                                            ${category.tests.map(test => `<li>${test.test || test.name || 'Test'} - ${test.reason || test.description || 'No description'}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            ` : ''}
-                            
-                            ${results.next_steps || results.nextSteps ? `
-                            <div class="section">
-                                <h3>Next Steps</h3>
-                                ${(results.next_steps || results.nextSteps).map(step => `
-                                    <div class="test-item">
-                                        <strong>${step.timeframe}</strong><br>
-                                        <ul>
-                                            ${step.actions.map(action => `<li>${action}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            ` : ''}
-                        </div>
-                        <div class="footer">
-                            <p>This email was generated by Right Screening Finder</p>
-                            <p>For questions, contact us at thearc@thearcme.com</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-            `;
-        }
-        
-        // Function to generate text email content
-        function generateEmailText(results) {
-            return `
-                Your Personalized Health Screening Plan
-                
-                Assessment Summary:
-                ${results.assessment_summary || results.assessmentSummary || 'Your personalized health screening plan has been generated based on your responses.'}
-                
-                ${results.urgent_tests || results.urgentTests ? `
-                Urgent Tests:
-                ${(results.urgent_tests || results.urgentTests).map(test => `- ${test.test || test.name || 'Test'}: ${test.reason || test.explanation || 'No description'} (${test.timeframe})`).join('\n')}
-                ` : ''}
-                
-                ${results.categories ? `
-                Health Categories:
-                ${results.categories.map(category => `
-                ${category.category_name}:
-                ${category.category_description}
-                Tests: ${category.tests.map(test => test.test || test.name || 'Test').join(', ')}
-                `).join('\n')}
-                ` : ''}
-                
-                ${results.next_steps || results.nextSteps ? `
-                Next Steps:
-                ${(results.next_steps || results.nextSteps).map(step => `
-                ${step.timeframe}:
-                ${step.actions.map(action => `- ${action}`).join('\n')}
-                `).join('\n')}
-                ` : ''}
-                
-                ---
-                This email was generated by Right Screening Finder
-                For questions, contact us at thearc@thearcme.com
-            `;
-        }
+        // Email generation functions removed - handled by email-collection page
         
         // Function to display results from API response
         function displayResults(data) {
@@ -1037,9 +860,8 @@
                 console.log('🎯 Using fallback data:', actualData);
             }
             
-            // Send results via email
-            console.log('📧 Sending results via email...');
-            sendResultsEmail(actualData);
+            // Email already sent from email-collection page, no need to send again
+            console.log('📧 Email already sent from email-collection page, skipping duplicate send');
             
             console.log('🎯 Urgent tests:', actualData.urgentTests || actualData.urgent_tests);
             console.log('🎯 Categories:', actualData.categories);
