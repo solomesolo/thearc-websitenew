@@ -83,14 +83,16 @@ const BurgerMenu = () => {
               href="/screening"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-1 px-2 rounded text-xs"
+              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center rounded"
+              style={{ padding: '2px 8px', fontSize: '12px', lineHeight: '16px', height: '24px' }}
               onClick={closeMenu}
             >
               Health Screening
             </Link>
             <Link
               href="/contact"
-              className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center py-1 px-2 rounded text-xs"
+              className="block w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-center rounded"
+              style={{ padding: '2px 8px', fontSize: '12px', lineHeight: '16px', height: '24px' }}
               onClick={closeMenu}
             >
               Apply to Join

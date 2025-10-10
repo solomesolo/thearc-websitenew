@@ -53,13 +53,15 @@ export default function Home() {
                 <Link
                   href="/screening"
                   target="_blank"
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded"
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded"
+                  style={{ padding: '2px 8px', fontSize: '12px', lineHeight: '16px', height: '24px' }}
                 >
                   Health Screening
                 </Link>
                 <Link
                   href="/contact"
-                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-xs px-2 py-1 rounded"
+                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white rounded"
+                  style={{ padding: '2px 8px', fontSize: '12px', lineHeight: '16px', height: '24px' }}
                 >
                   Apply to Join
                 </Link>
