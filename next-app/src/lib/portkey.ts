@@ -10,9 +10,19 @@ export class PortkeyService {
     
     if (this.isEnabled) {
       this.portkey = new Portkey({
-        apiKey: process.env.PORTKEY_API_KEY!
+        apiKey: process.env.PORTKEY_API_KEY!,
+        // Add OpenAI project header to match the API key
+        defaultHeaders: {
+          'OpenAI-Project': process.env.OPENAI_PROJECT_ID || '@TheArc' // Use env var or default to '@TheArc'
+        }
       });
       console.log('✅ Portkey AI monitoring initialized');
+      console.log('   - PORTKEY_API_KEY (length):', process.env.PORTKEY_API_KEY?.length);
+      console.log('   - PORTKEY_API_KEY (first 10 chars):', process.env.PORTKEY_API_KEY?.substring(0, 10));
+      console.log('   - OPENAI_PROJECT_ID:', process.env.OPENAI_PROJECT_ID || '@TheArc');
+      console.log('   - Portkey config headers:', {
+        'OpenAI-Project': process.env.OPENAI_PROJECT_ID || '@TheArc'
+      });
     } else {
       console.warn('⚠️ Portkey API key not found - AI monitoring disabled');
     }
@@ -46,6 +56,11 @@ export class PortkeyService {
             ...params.messages
           ]
         : params.messages;
+      
+      console.log('   - Model:', params.model);
+      console.log('   - Messages count:', messages.length);
+      console.log('   - Max tokens:', params.max_tokens || 2000);
+      console.log('   - Temperature:', params.temperature || 0.7);
 
       // Create monitored completion using Portkey
       const response = await this.portkey.chat.completions.create({
@@ -158,7 +173,9 @@ export class PortkeyService {
     return {
       enabled: this.isEnabled,
       hasApiKey: !!process.env.PORTKEY_API_KEY,
-      apiKeyLength: process.env.PORTKEY_API_KEY?.length || 0
+      apiKeyLength: process.env.PORTKEY_API_KEY?.length || 0,
+      projectId: process.env.OPENAI_PROJECT_ID || '@TheArc',
+      hasProjectId: !!process.env.OPENAI_PROJECT_ID
     };
   }
 }

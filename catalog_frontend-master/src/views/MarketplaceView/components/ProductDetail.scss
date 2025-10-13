@@ -1,0 +1,476 @@
+/* Elegant Product Detail Page - Matching ProvidersGrid Design */
+.elegant-product-detail-container {
+  background: radial-gradient(ellipse at top, #000000 0%, #0a0a0a 50%, #000000 100%);
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 3rem 0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.elegant-product-detail-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Loading State */
+.elegant-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: #d1d5db;
+  text-align: center;
+  animation: elegantFadeIn 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: elegantSpinLarge 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+  margin-bottom: 2rem;
+}
+
+@keyframes elegantSpinLarge {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes elegantFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Error State */
+.elegant-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: #ef4444;
+  text-align: center;
+  padding: 3rem 2rem;
+  animation: elegantFadeIn 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+/* Product Header */
+.elegant-product-header {
+  max-width: 1400px;
+  margin: 0 auto 4rem auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  background: linear-gradient(145deg, #0f0f0f 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.elegant-product-info {
+  flex: 1;
+}
+
+.elegant-product-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.elegant-company-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.elegant-company-info:hover {
+  transform: translateX(4px);
+}
+
+.elegant-company-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.elegant-company-location {
+  font-size: 1rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.elegant-product-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #10b981;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.elegant-labels-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  max-width: 300px;
+}
+
+.elegant-product-tag {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #10b981;
+  text-transform: capitalize;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.elegant-product-tag:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.3) 100%);
+  transform: translateY(-1px);
+}
+
+/* Main Layout */
+.elegant-main-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+/* Product Info Column */
+.elegant-product-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.elegant-product-description-section,
+.elegant-about-test-section,
+.elegant-what-can-help-section,
+.elegant-who-is-for-section {
+  background: linear-gradient(145deg, #0f0f0f 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.elegant-product-description-section h2,
+.elegant-about-test-section h2,
+.elegant-what-can-help-section h2,
+.elegant-who-is-for-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.elegant-product-description,
+.elegant-about-test-text,
+.elegant-what-can-help-text,
+.elegant-who-is-for-text {
+  color: #d1d5db;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Biomarker Column */
+.elegant-biomarker-description-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.elegant-biomarkers-section {
+  background: linear-gradient(145deg, #0f0f0f 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.elegant-biomarkers-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.elegant-biomarkers-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.elegant-biomarker-chip {
+  background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.elegant-biomarker-chip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-radius: 16px;
+  z-index: 0;
+}
+
+.elegant-biomarker-chip:hover {
+  transform: translateY(-4px);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.elegant-biomarker-chip:hover::before {
+  opacity: 1;
+}
+
+.elegant-biomarker-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-biomarker-category {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #10b981;
+  margin: 0 0 0.25rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-biomarker-code {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-no-biomarkers {
+  color: #9ca3af;
+  text-align: center;
+  font-style: italic;
+  margin: 2rem 0;
+}
+
+/* Similar Products */
+.elegant-similar-products-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-similar-products-section h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.elegant-similar-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.elegant-similar-product-card {
+  background: linear-gradient(145deg, #0f0f0f 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.elegant-similar-product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-radius: 20px;
+  z-index: 0;
+}
+
+.elegant-similar-product-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(59, 130, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.elegant-similar-product-card:hover::before {
+  opacity: 1;
+}
+
+.elegant-similar-product-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-similar-product-description {
+  color: #9ca3af;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  margin: 0 0 1rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-similar-product-price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #10b981;
+  margin: 0 0 1rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-similar-product-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-similar-product-tag {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 12px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #10b981;
+  text-transform: capitalize;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .elegant-main-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .elegant-product-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .elegant-labels-container {
+    max-width: none;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .elegant-product-detail-container {
+    padding: 2rem 0;
+  }
+  
+  .elegant-product-header,
+  .elegant-main-layout,
+  .elegant-similar-products-section {
+    padding: 0 1rem;
+  }
+  
+  .elegant-product-name {
+    font-size: 2rem;
+  }
+  
+  .elegant-similar-products-grid {
+    grid-template-columns: 1fr;
+  }
+}

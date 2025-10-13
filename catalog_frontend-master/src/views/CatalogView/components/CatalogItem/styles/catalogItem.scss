@@ -1,0 +1,417 @@
+/* CatalogItem - Clean, no-twitching styles */
+
+.catalog-item {
+  /* Basic layout */
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  
+  /* No transitions, no animations, no hover effects */
+  /* This prevents any visual twitching */
+  
+  .catalog-item-card {
+    /* Card container */
+    background-color: #111;
+    border-radius: 28px;
+    padding: 30px;
+    box-shadow: 0 4px 32px 0 rgba(162, 28, 175, 0.10);
+    position: relative;
+    
+    /* Layout */
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    
+    /* Make it clear this is clickable */
+    cursor: pointer;
+    
+    /* No hover effects, no transitions */
+    /* Static appearance to prevent twitching */
+    
+    /* Active state for click feedback */
+    &:active {
+      background-color: #1a1a1a;
+    }
+  }
+  
+  .catalog-item-card-logo {
+    /* Logo container */
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    
+    /* Center logo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    img {
+      /* Logo image */
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      
+      /* Prevent layout shifts */
+      object-fit: contain;
+      
+      /* No transitions, no animations */
+      /* Static rendering to prevent twitching */
+    }
+  }
+  
+  .catalog-item-card-description {
+    /* Content container */
+    flex: 1;
+    min-width: 0; /* Prevent flex item overflow */
+    
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    .catalog-item-card-description-header {
+      /* Header section */
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      
+      &-name {
+        /* Service name */
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 26px;
+        color: #ffffff;
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+        
+        /* Prevent text wrapping issues */
+        word-break: break-word;
+        hyphens: auto;
+        
+        /* No hover effects, no transitions */
+        /* Static appearance to prevent twitching */
+      }
+      
+      &-price {
+        /* Price section */
+        flex-shrink: 0;
+        
+        span {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 22px;
+          margin-right: 5px;
+          color: #ffffff;
+        }
+      }
+    }
+    
+    .card-subheader {
+      /* Subheader section */
+      margin-bottom: 20px;
+      
+      &-top {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        
+        &-categories {
+          /* Categories */
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+          
+          &-category {
+            /* Individual category */
+            color: #b3b3b3;
+            font-size: 14px;
+          }
+        }
+        
+        &-ratings {
+          /* Ratings */
+          display: flex;
+          align-items: center;
+        }
+      }
+      
+      &-bot {
+        /* Bottom section */
+        &-feature-list {
+          margin-top: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          
+          &-item {
+            display: flex;
+            align-items: center;
+            
+            .dot {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              background-color: #a21caf;
+              margin: 0 5px;
+            }
+            
+            span {
+              margin-left: 5px;
+              color: #b3b3b3;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+    
+    .divider {
+      /* Divider line */
+      height: 1px;
+      width: 100%;
+      background-color: #b3b3b3;
+      margin: 0;
+    }
+    
+    .description-block {
+      /* Description section */
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 22px;
+      letter-spacing: 0.015em;
+      color: #ffffff;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      
+      &-text-main {
+        /* Main text */
+        margin: 0;
+      }
+      
+      &-text-secondary {
+        /* Secondary text */
+        width: 60%;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0em;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px 10px;
+        
+        .text {
+          width: fit-content;
+          white-space: nowrap;
+          color: #b3b3b3;
+        }
+      }
+      
+      &-certificates {
+        /* Certificates section */
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        
+        .certificate {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          
+          .react-tooltip {
+            background-color: #a21caf;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+  
+  .catalog-item-click-indicator {
+    /* Click indicator */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    
+    .click-text {
+      background: #a21caf;
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      
+      /* No transitions, no animations */
+    }
+  }
+}
+
+/* Responsive design without animations */
+@media (max-width: 768px) {
+  .catalog-item {
+    .catalog-item-card {
+      /* Stack vertically on mobile */
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    
+    .catalog-item-card-logo {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .catalog-item-card-description {
+      .catalog-item-card-description-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        
+        &-name {
+          font-size: 18px;
+          text-align: center;
+        }
+      }
+      
+      .card-subheader {
+        &-top {
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+        }
+      }
+      
+      .description-block {
+        &-text-secondary {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    }
+    
+    .catalog-item-click-indicator {
+      position: static;
+      margin-top: 15px;
+      
+      .click-text {
+        font-size: 11px;
+        padding: 5px 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-item {
+    .catalog-item-card {
+      padding: 16px;
+      border-radius: 20px;
+    }
+    
+    .catalog-item-card-logo {
+      width: 60px;
+      height: 60px;
+    }
+    
+    .catalog-item-card-description {
+      .catalog-item-card-description-header {
+        &-name {
+          font-size: 16px;
+        }
+      }
+      
+      .description-block {
+        font-size: 14px;
+        gap: 20px;
+        
+        &-text-secondary {
+          font-size: 12px;
+        }
+      }
+    }
+    
+    .catalog-item-click-indicator {
+      .click-text {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+    }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .catalog-item {
+    .catalog-item-card {
+      border: 2px solid #ffffff;
+    }
+    
+    .catalog-item-card-description {
+      .catalog-item-card-description-header-name {
+        color: #ffffff;
+      }
+      
+      .divider {
+        background-color: #ffffff;
+      }
+    }
+    
+    .catalog-item-click-indicator .click-text {
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #000000;
+    }
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .catalog-item {
+    /* Already no animations, but explicit */
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+/* Print styles */
+@media print {
+  .catalog-item {
+    .catalog-item-card {
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #000000;
+      cursor: default;
+    }
+    
+    .catalog-item-card-description {
+      .catalog-item-card-description-header-name {
+        color: #000000;
+      }
+      
+      .divider {
+        background-color: #000000;
+      }
+      
+      .description-block {
+        color: #000000;
+      }
+    }
+    
+    .catalog-item-click-indicator {
+      display: none;
+    }
+  }
+}

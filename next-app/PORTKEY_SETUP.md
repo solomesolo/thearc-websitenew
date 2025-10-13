@@ -11,6 +11,9 @@ Add the following to your `.env.local` file:
 # Portkey AI Monitoring - NodeJS SDK
 PORTKEY_API_KEY=YOUR_PORTKEY_API_KEY
 
+# OpenAI Project ID (required for Portkey integration)
+OPENAI_PROJECT_ID=@TheArc
+
 # Existing OpenAI (fallback)
 OPENAI_API_KEY=your_openai_api_key_here
 ```
@@ -165,6 +168,7 @@ Response should include:
 
 ### Common Issues
 - **API Key Missing**: Add `PORTKEY_API_KEY` to `.env.local`
+- **OpenAI-Project Header Error**: Set `OPENAI_PROJECT_ID` to match your OpenAI project name
 - **Network Errors**: Check internet connectivity
 - **Model Errors**: Verify model name `@TheArc/text-moderation-stable`
 - **Rate Limits**: Monitor Portkey usage limits

@@ -1,0 +1,570 @@
+/* Company Detail Page - Dark Theme */
+.company-detail-container {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #000000;
+  color: #ffffff;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #333333;
+  border-top: 2px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #cccccc;
+  font-weight: 400;
+}
+
+/* Error State */
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #000000;
+  color: #ffffff;
+}
+
+.error-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.error-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  color: #ff6b6b;
+  letter-spacing: -0.01em;
+}
+
+.error-message {
+  font-size: 0.875rem;
+  color: #cccccc;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.company-header {
+  background: #000000;
+  padding: 3rem 0;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+}
+
+.company-name {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.company-tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.company-tag {
+  background: #007bff;
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid #007bff;
+  transition: all 0.3s ease;
+}
+
+.company-tag:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Main Content Area */
+.main-content {
+  background: #000000;
+  padding: 3rem 0;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Left Column */
+.left-column {
+  background: #000000;
+}
+
+.section-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+}
+
+.company-description {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.read-more-link {
+  color: #007bff;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.read-more-link:hover {
+  color: #0056b3;
+}
+
+/* Company Links Section */
+.company-links {
+  margin-top: 3rem;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #333333;
+  transition: all 0.3s ease;
+}
+
+.link-item:hover {
+  background: #111111;
+  padding-left: 1rem;
+}
+
+.link-item:last-child {
+  border-bottom: none;
+}
+
+.link-icon {
+  width: 24px;
+  height: 24px;
+  color: #007bff;
+}
+
+.link-text {
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.link-text:hover {
+  color: #007bff;
+}
+
+/* Right Column */
+.right-column {
+  background: #000000;
+}
+
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.products-count {
+  background: #007bff;
+  color: #ffffff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+/* Product Card */
+.product-card {
+  background: #111111;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  border-color: #007bff;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+}
+
+.product-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+}
+
+.product-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+/* Product Tags - Match Marketplace Cards Exactly */
+.product-tags {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tags-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tags-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #333333;
+  padding-bottom: 0.25rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tag-chip {
+  background: #007bff;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.tag-chip:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.tag-chip.tag-type {
+  background: #6f42c1;
+  color: #ffffff;
+}
+
+.tag-chip.tag-type:hover {
+  background: #5a32a3;
+}
+
+/* Product Biomarkers - Match Marketplace Cards Exactly */
+.product-biomarkers {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.biomarkers-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.biomarkers-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #333333;
+  padding-bottom: 0.25rem;
+}
+
+.biomarkers-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.biomarker-chip {
+  background: #28a745;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.biomarker-chip:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.biomarker-more {
+  font-size: 0.75rem;
+  color: #cccccc;
+  font-style: italic;
+  margin-left: 0.5rem;
+  text-transform: lowercase;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.view-product-btn {
+  background: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-product-btn:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* No Products */
+.no-products {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #111111;
+  border-radius: 12px;
+  border: 2px dashed #333333;
+  color: #cccccc;
+}
+
+.no-products-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}
+
+.no-products h3 {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.no-products p {
+  color: #999999;
+  font-size: 0.875rem;
+}
+
+/* Similar Companies Section */
+.similar-companies-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #333333;
+  background: #000000;
+}
+
+.similar-companies-section .section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.similar-companies-section .section-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.similar-companies-section .section-header p {
+  color: #cccccc;
+  margin: 0;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.75px;
+}
+
+.similar-companies-carousel {
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.carousel-container {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0 1rem;
+}
+
+.similar-company-card {
+  background: #111111;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 240px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.similar-company-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  border-color: #007bff;
+}
+
+.similar-company-info {
+  margin: 1rem 0;
+}
+
+.similar-company-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.01em;
+}
+
+.similar-company-location {
+  color: #cccccc;
+  font-size: 0.75rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Back Navigation */
+.back-navigation {
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid #333333;
+  text-align: center;
+  background: #000000;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .company-tags-grid {
+    gap: 0.75rem;
+  }
+  
+  .company-tag {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .company-name {
+    font-size: 2.5rem;
+  }
+  
+  .company-tags-grid {
+    gap: 0.5rem;
+  }
+  
+  .company-tag {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  .content-grid {
+    padding: 0 1rem;
+  }
+  
+  .product-card {
+    padding: 1.5rem;
+  }
+} 

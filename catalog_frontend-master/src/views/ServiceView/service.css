@@ -1,0 +1,23 @@
+@media screen and (max-width: 575px ){
+    .review-list {
+        margin: 0 15px 0 0!important;
+    }
+    .review-title {
+        padding-left: 12px;
+    }
+
+    .reviews {
+        flex-direction: column;
+    }
+
+    .thumb > div {
+        width: max-content!important;
+    }
+
+    .thumb {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-align: left!important;
+    }
+}

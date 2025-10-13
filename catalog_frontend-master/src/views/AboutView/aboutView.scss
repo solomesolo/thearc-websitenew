@@ -1,0 +1,120 @@
+.section-box {
+  background: #000 !important;
+  color: #fff;
+  min-height: 100vh;
+  .breadcrumbs-div {
+    background-color: #000;
+    .breadcrumb {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 22px;
+      li a {
+        color: #a21caf;
+        transition: color 0.2s;
+        &:hover {
+          color: #e040fb;
+        }
+      }
+    }
+  }
+  .about-us-block {
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.93rem;
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+    overflow-y: auto;
+    padding-bottom: 60px;
+    color: #e0e0e0;
+    .about-us-container {
+      max-width: 540px;
+      min-width: 0;
+      margin: 0 auto;
+      padding: 0 8px;
+      .about-us-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.6rem;
+        font-weight: 800;
+        line-height: 1.1;
+        text-align: left;
+        margin-bottom: 22px;
+        color: #a21caf;
+        letter-spacing: -0.5px;
+      }
+      .about-us-main-text {
+        margin-bottom: 18px;
+        .block {
+          margin-bottom: 14px;
+          color: #e0e0e0;
+          font-size: 0.93rem;
+          line-height: 1.65;
+          letter-spacing: 0.01em;
+          font-weight: 400;
+          text-align: left;
+          transition: color 0.2s;
+          a {
+            margin-left: 2px;
+            color: #a21caf;
+            text-decoration: underline;
+            &:hover {
+              color: #e040fb;
+            }
+          }
+        }
+      }
+      .about-us-footer {
+        display: flex;
+        flex-direction: column;
+        margin-top: 32px;
+        &__highlighted {
+          font-weight: 700;
+          line-height: 1.5;
+          text-align: left;
+          margin-bottom: 12px;
+          color: #a21caf;
+        }
+        span {
+          color: #bdbdbd;
+          font-size: 1.05rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .section-box .about-us-block .about-us-container {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 0 4px;
+  }
+  .section-box .about-us-block {
+    font-size: 0.91rem;
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width:460px) {
+  .footer {
+    &.fixed {
+      margin-top: 0;
+      position: relative;
+      bottom: 0px;
+    }
+  }
+}
+
+@media (max-height:1440px) and (min-height:1080px) {
+  .section-box {
+    .about-us-block {
+      .about-us-container {
+        max-width: 850px;
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.mention-card-main{
+  font-family: DM Sans;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-bottom: 0.5px #B1B1B6 solid;
+  width: 50%;
+  padding-bottom: 20px;
+  .card-header-text{
+
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
+  }
+  .card-main-text{
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.015em;
+
+
+  }
+}
+
+@media (max-width:768px) {
+  .mention-card-main{
+    width: 100%;
+  }
+}

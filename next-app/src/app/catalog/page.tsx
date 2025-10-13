@@ -149,26 +149,22 @@ export default function CatalogPage() {
         </div>
       </div>
 
-      {/* Coming Soon Overlay */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm">
-        <div className="bg-white/20 backdrop-blur-lg rounded-2xl p-8 md:p-12 border border-white/30 shadow-2xl max-w-md mx-4 text-center">
-          <div className="text-6xl mb-6">🚀</div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">
-            Coming Soon
+      {/* Redirect to Countries Selection */}
+      <div className="flex items-center justify-center py-20">
+        <div className="text-center">
+          <div className="text-6xl mb-6">🌍</div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+            Select Your Region
           </h2>
-          <p className="text-2xl text-white font-bold mb-6 drop-shadow-md">
-            in 2025
-          </p>
-          <p className="text-white/90 text-base font-medium mb-8">
-            We're building something amazing for you. Stay tuned!
+          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+            Choose your country or region to view available health and longevity services in your area.
           </p>
           
-          {/* Back to Home Button */}
           <Link 
-            href="/" 
-            className="inline-flex items-center justify-center px-6 py-3 rounded-full text-base font-semibold bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all"
+            href="/catalog/countries" 
+            className="inline-flex items-center justify-center px-8 py-4 rounded-full text-lg font-semibold bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all"
           >
-            ← Back to Home
+            Choose Region →
           </Link>
         </div>
       </div>

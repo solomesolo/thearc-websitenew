@@ -40,7 +40,7 @@ export default function Home() {
                 <Link href="/knowledgebase" className="text-gray-300 hover:text-white text-sm">
                   Knowledgebase
                 </Link>
-                <Link href="/catalog" className="text-gray-300 hover:text-white text-sm">
+                <Link href="/catalog/countries" className="text-gray-300 hover:text-white text-sm">
                   Catalog
                 </Link>
                 <Link href="/events" className="text-gray-300 hover:text-white text-sm">

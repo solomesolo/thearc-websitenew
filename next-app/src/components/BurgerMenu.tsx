@@ -68,9 +68,9 @@ const BurgerMenu = () => {
               <Link href="/knowledgebase" className="block text-gray-300 hover:text-white py-2" onClick={closeMenu}>
                 Knowledgebase
               </Link>
-              <Link href="/catalog" className="block text-gray-300 hover:text-white py-2" onClick={closeMenu}>
-                Catalog of Services
-              </Link>
+                  <Link href="/catalog/countries" className="block text-gray-300 hover:text-white py-2" onClick={closeMenu}>
+                    Catalog of Services
+                  </Link>
               <Link href="/events" className="block text-gray-300 hover:text-white py-2" onClick={closeMenu}>
                 Events
               </Link>

@@ -1,0 +1,38 @@
+.services-main{
+  margin-top: 100px;
+  h3{
+    margin-left: 240px;
+  }
+  .services{
+    display: flex;
+    justify-content: center;
+    gap:10px;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width:576px) {
+  .services-main{
+    margin-top: 100px;
+    h3{
+      margin-left: 0
+    }
+
+  }
+
+}
+
+@media (max-width:460px) {
+  .services-main{
+    margin-top: 100px;
+    .services{
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none;  
+      scrollbar-width: none;   
+    }
+  }
+}

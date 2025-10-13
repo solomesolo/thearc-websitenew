@@ -1,0 +1,8 @@
+@media screen and (max-width: 575px) {
+    .article {
+        margin-bottom: 16px!important;
+    }
+    .article-img {
+        margin-bottom: 0!important;
+    }
+}

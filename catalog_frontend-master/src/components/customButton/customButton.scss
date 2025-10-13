@@ -1,0 +1,66 @@
+button {
+  &.custom-button{
+    width:154px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.015em;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #FF8200;
+    color: #FFFFFF;
+    border: 0;
+    flex: 1;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    &:after,
+    &:before {
+      width: 0%;
+      height: 0%;
+      content: "";
+      position: absolute;
+      border-radius: 100%;
+    }
+    &:after {
+      transition: all 0.5s ease;
+      background-color: #FFD580;
+    }
+    &:before {
+      transition: all 0.5s ease-out;
+      background: #FF8200;
+    }
+    span {
+      z-index: 1;
+      transition: all 0.3s ease-out;
+    }
+    &.cta-01 {
+      background: #FF8200;
+      color: #FFFFFF;
+    }
+    &:hover {
+      &.cta-01 {
+        color: #231F20;
+        background: #FFD580;
+      }
+      &:after,
+      &:before {
+        width: 200px;
+        height: 200px;
+        border-radius: 4px;
+      }
+      &:after {
+        transition: all 0.7s ease-in;
+      }
+      &:before {
+        transition: all 0.5s ease-in;
+      }
+    }
+  }
+}  

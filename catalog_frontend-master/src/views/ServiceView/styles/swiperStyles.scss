@@ -1,0 +1,26 @@
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  height: 100%;
+
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper-pagination-bullet{
+  width: 12px;
+  height: 12px;
+  background: rgba(177, 177, 182, 1)!important;
+  &-active{
+    background: #36BEF9!important;
+  }
+}

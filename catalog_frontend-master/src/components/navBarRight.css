@@ -1,0 +1,28 @@
+.menu-topbar-right .dropdown .btn .dropdown-right img{
+  width: 15px;
+  padding-bottom: 3px;
+}
+
+.burger-menu .burger-menu-list .menu-topbar-right .dropdown-language .dropdown-menu {
+  display: none;
+}
+.dropdown .dropdown-menu {
+  width: auto;
+}
+.menu-topbar-right .dropdown-menu {
+  border: 1px solid #D5DFE4;
+  border-radius: 14px;
+  display: none;
+}
+.dropdown-menu.show {
+  display: block;
+}
+
+
+
+@media (max-width:1199.98px) {
+  .container .menu-topbar-right{
+    display: none;
+  }
+}
+

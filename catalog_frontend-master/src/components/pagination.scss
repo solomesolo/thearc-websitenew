@@ -1,0 +1,40 @@
+.pagination{
+
+  li{
+    border: none;
+    &.page-item{
+      
+      a{
+        &.page-link{
+          border-radius: 12px;
+          color: #425A8B;
+        border: none;
+        background-color: transparent;
+        &:hover{
+          border: none;
+          color: white;
+          background-color: #36BEF9;
+        }
+      }
+    }
+      &.active{
+        color: #425A8B;
+        border-radius: 12px;
+        a{
+          &.page-link{
+            color: #425A8B;
+            border-radius: 12px;
+            border: none;
+            color: white;
+            background-color: #36BEF9;
+            &:hover{
+              border: none;
+              color: white;
+              background-color: #36BEF9;
+            }
+        }
+      }
+    }
+  }
+}
+}

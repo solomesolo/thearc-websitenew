@@ -1,0 +1,32 @@
+.checkbox-slider-container {
+  width: 50px;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+
+  & .checkbox-slider {
+    position: relative;
+    bottom:25%;
+
+    & .slider {
+      width: 30px;
+      height: 30px;
+      background-color: #FFFEFB;
+      border-radius: 50%;
+      position: absolute;
+      transition: transform 0.3s ease;
+      border: 1px solid #B1B1B6;
+    }
+  }
+
+  &.checked {
+    background-color: #36BEF9;
+
+    & .checkbox-slider .slider {
+      transform: translateX(30px);
+      border: 1px solid #36BEF9;
+    }
+  }
+}

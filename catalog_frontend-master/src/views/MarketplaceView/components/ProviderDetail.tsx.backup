@@ -1,0 +1,266 @@
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+import { ProviderWithProducts, Product, Provider } from '../../../api/types';
+import { SupabaseService } from '../../../api/supabaseService';
+import { getCurrencyForCountry, formatPrice } from '../../../utils/currencyMapping';
+import './ProviderDetail.scss';
+
+const ProviderDetail: React.FC = () => {
+	const { providerId } = useParams<{ providerId: string }>();
+	const [provider, setProvider] = useState<ProviderWithProducts | null>(null);
+	const [products, setProducts] = useState<Product[]>([]);
+	const [similarProviders, setSimilarProviders] = useState<Provider[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	// Memoized values to prevent unnecessary re-renders
+	const providerTags = useMemo(() => {
+		if (!provider) return [];
+		if (Array.isArray(provider.Tag)) {
+			return provider.Tag.map((tag: any) => {
+				if (tag && typeof tag === 'object' && tag.tag) {
+					return tag.tag;
+				} else if (typeof tag === 'string') {
+					return tag;
+				}
+				return String(tag || 'Unknown Tag');
+			});
+		} else if (typeof provider.Tag === 'string') {
+			return [provider.Tag];
+		}
+		return [];
+	}, [provider]);
+
+	const companyName = useMemo(() => provider?.['Company Name'] || 'Unknown Company', [provider]);
+	const companyLocation = useMemo(() => provider?.['Company Location'] || 'Unknown Location', [provider]);
+	const companyDescription = useMemo(() => provider?.['Company Description'] || 'No description available', [provider]);
+
+	// Memoized handlers to prevent re-creation
+	const handleBackToMarketplace = useCallback(() => {
+		window.open('/marketplace', '_blank', 'noopener,noreferrer');
+	}, []);
+
+	const handleProductClick = useCallback((productId: number) => {
+		window.open(`/marketplace/product/${productId}`, '_blank', 'noopener,noreferrer');
+	}, []);
+
+	const handleSimilarCompanyClick = useCallback((companyId: number) => {
+		window.open(`/marketplace/provider/${companyId}`, '_blank', 'noopener,noreferrer');
+	}, []);
+
+	useEffect(() => {
+		const loadProvider = async () => {
+			if (!providerId) return;
+			setLoading(true);
+			try {
+				const id = parseInt(providerId);
+				
+				const data = await SupabaseService.getProviderById(id);
+				setProvider(data);
+
+				// Ensure products are present; fetch if missing
+				let providerProducts: Product[] = Array.isArray((data as any).products) ? (data as any).products : [];
+				
+				if (providerProducts.length === 0) {
+					providerProducts = await SupabaseService.getProductsByProvider(id);
+				}
+				setProducts(providerProducts);
+
+				// Load similar providers based on overlapping biomarker NAMES
+				const similar = await SupabaseService.getSimilarProvidersByBiomarkerNames(id, 12);
+				setSimilarProviders(similar.filter(p => p.id !== id));
+			} catch (err) {
+				setError('Failed to load provider details');
+				console.error('Error loading provider:', err);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		loadProvider();
+	}, [providerId]);
+
+	if (loading) {
+		return (
+			<div className="company-detail-container">
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+					<p className="loading-text">Loading company details...</p>
+				</div>
+			</div>
+		);
+	}
+
+	if (error || !provider) {
+		return (
+			<div className="company-detail-container">
+				<div className="error-container">
+					<div className="error-content">
+						<div className="error-icon">⚠️</div>
+						<h2 className="error-title">Error</h2>
+						<p className="error-message">{error || 'Company not found'}</p>
+						<button 
+							className="view-product-btn"
+							onClick={handleBackToMarketplace}
+						>
+							← Back to Marketplace
+						</button>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<div className="company-detail-container">
+			{/* Company Header */}
+			<header className="company-header">
+				<h1 className="company-name">{companyName}</h1>
+				<div className="company-tags-grid">
+					{providerTags.map(tag => (
+						<span key={tag} className="company-tag">{tag}</span>
+					))}
+				</div>
+			</header>
+
+			{/* Main Content */}
+			<main className="main-content">
+				<div className="content-grid">
+					{/* Left Column */}
+					<aside className="left-column">
+						<div className="about-section">
+							<h2 className="section-header">About the Company</h2>
+							<p className="company-description">{companyDescription}</p>
+							<a href="#" className="read-more-link">READ MORE</a>
+						</div>
+
+						<div className="company-links">
+							<h2 className="section-header">Company Links</h2>
+							<div className="link-item">
+								<span className="link-icon">🌐</span>
+								<a href="#" className="link-text">Website</a>
+							</div>
+							<div className="link-item">
+								<span className="link-icon">💼</span>
+								<a href="#" className="link-text">LinkedIn</a>
+							</div>
+							<div className="link-item">
+								<span className="link-icon">🐦</span>
+								<a href="#" className="link-text">Twitter</a>
+							</div>
+						</div>
+					</aside>
+
+					{/* Right Column */}
+					<section className="right-column">
+						<div className="products-header">
+							<h2 className="section-header">Products & Services</h2>
+							{products.length > 0 && (
+								<span className="products-count">{products.length} PRODUCTS</span>
+							)}
+						</div>
+						
+						{products && products.length > 0 ? (
+							<div className="products-grid">
+								{products.map(product => (
+									<div key={product.id} className="product-card">
+										<h3 className="product-title">{product.name}</h3>
+										<p className="product-description">{product.description}</p>
+										
+										{/* Product Tags */}
+										{product.tags && product.tags.type && product.tags.type.length > 0 && (
+											<div className="product-tags">
+												<div className="tags-section">
+													<div className="tags-label">Service Types</div>
+													<div className="tags-container">
+														{product.tags.type.map((tag: string, index: number) => (
+															<span key={index} className="tag-chip tag-type">{tag}</span>
+														))}
+													</div>
+												</div>
+											</div>
+										)}
+										
+										{/* Product Biomarkers */}
+										{product.biomarkers && product.biomarkers.biomarkers && product.biomarkers.biomarkers.length > 0 && (
+											<div className="product-biomarkers">
+												<div className="biomarkers-section">
+													<div className="biomarkers-label">Biomarkers</div>
+													<div className="biomarkers-container">
+														{product.biomarkers.biomarkers.slice(0, 3).map((biomarker: any, index: number) => (
+															<span key={index} className="biomarker-chip">{biomarker.name}</span>
+														))}
+														{product.biomarkers.biomarkers.length > 3 && (
+															<span className="biomarker-more">+{product.biomarkers.biomarkers.length - 3} more</span>
+														)}
+													</div>
+												</div>
+											</div>
+										)}
+										
+										<div className="product-price">
+											{formatPrice(product.price, product.currency || getCurrencyForCountry(companyLocation))}
+										</div>
+										<button 
+											className="view-product-btn"
+											onClick={() => handleProductClick(product.id)}
+										>
+											VIEW PRODUCT
+										</button>
+									</div>
+								))}
+							</div>
+						) : (
+							<div className="no-products">
+								<div className="no-products-icon">📦</div>
+								<h3>No Products Available</h3>
+								<p>This company doesn't have any products listed yet.</p>
+							</div>
+						)}
+					</section>
+				</div>
+			</main>
+
+			{/* Similar Companies Section */}
+			{similarProviders && similarProviders.length > 0 && (
+				<section className="similar-companies-section">
+					<div className="section-header">
+						<h2>Similar Companies</h2>
+						<p>Based on overlapping biomarker names</p>
+					</div>
+					
+					<div className="similar-companies-carousel">
+						<div className="carousel-container">
+							{similarProviders.map(sp => (
+								<div key={sp.id} className="similar-company-card">
+									<div className="similar-company-info">
+										<h4 className="similar-company-name">{(sp as any)['Company Name']}</h4>
+										<p className="similar-company-location">{(sp as any)['Company Location']}</p>
+									</div>
+									<button 
+										className="view-product-btn"
+										onClick={() => handleSimilarCompanyClick(sp.id)}
+									>
+										View Profile
+									</button>
+								</div>
+							))}
+						</div>
+					</div>
+				</section>
+			)}
+
+			{/* Back Navigation */}
+			<div className="back-navigation">
+				<button 
+					className="view-product-btn"
+					onClick={handleBackToMarketplace}
+				>
+					← Back to Marketplace
+				</button>
+			</div>
+		</div>
+	);
+};
+
+export default React.memo(ProviderDetail); 

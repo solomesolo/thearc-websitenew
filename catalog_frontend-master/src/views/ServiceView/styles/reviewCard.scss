@@ -1,0 +1,49 @@
+.review-card{
+  text-align: start;
+  margin-top: 20px;
+  font-family: DM Sans;
+  display: flex;
+  gap: 60px;
+  padding-bottom: 25px;
+  box-shadow: 0px 0.5px 0px 0px #B1B1B6;
+  .review-left-part{
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .review-image-container{
+      border-radius: 50%;
+      width: 85px;
+      height: 85px;
+      margin-bottom: 20px;
+      img{
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .reviewer-username{
+
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
+    margin-bottom: 10px;
+    text-align: center;
+    }
+  }
+  .review-right-part{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    .review-header{
+      
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0.015em;
+      text-align: left;
+      margin-bottom: 15px;
+
+    }
+  }
+}

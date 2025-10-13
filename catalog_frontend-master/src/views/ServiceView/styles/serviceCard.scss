@@ -1,0 +1,301 @@
+/* ServiceCard - Clean, no-twitching styles */
+
+/* Override any conflicting styles from main CSS */
+.card-main,
+.card-vendor,
+.card-top-vendor,
+.card-top-vendor-left,
+.card-top-vendor-right,
+.card-bottom-vendor {
+  /* Disable all transitions and animations */
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  
+  /* Disable hover effects */
+  &:hover,
+  &:focus,
+  &:active {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    border-color: inherit !important;
+    box-shadow: inherit !important;
+    color: inherit !important;
+    background-color: inherit !important;
+  }
+}
+
+.service-card {
+  /* Basic layout */
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  
+  /* No transitions, no animations, no hover effects */
+  /* This prevents any visual twitching */
+  
+  .service-card-content {
+    /* Card container */
+    background: #ffffff;
+    border: 1px solid #D5DFE4;
+    border-radius: 8px;
+    padding: 20px;
+    
+    /* Layout */
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+    
+    /* Make it clear this is clickable */
+    cursor: pointer;
+    
+    /* No hover effects, no transitions */
+    /* Static appearance to prevent twitching */
+    
+    /* Override any hover effects from main CSS */
+    &:hover {
+      border-color: #D5DFE4 !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+    
+    /* Active state for click feedback */
+    &:active {
+      background-color: #f8f9fa;
+    }
+  }
+  
+  .service-card-logo {
+    /* Logo container */
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    
+    /* Center logo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .service-logo-image {
+      /* Logo image */
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      
+      /* Prevent layout shifts */
+      object-fit: contain;
+      
+      /* No transitions, no animations */
+      /* Static rendering to prevent twitching */
+    }
+  }
+  
+  .service-card-info {
+    /* Content container */
+    flex: 1;
+    min-width: 0; /* Prevent flex item overflow */
+    
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .service-name {
+    /* Service name */
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333333;
+    line-height: 1.3;
+    
+    /* Prevent text wrapping issues */
+    word-break: break-word;
+    hyphens: auto;
+    
+    /* No hover effects, no transitions */
+    /* Static appearance to prevent twitching */
+  }
+  
+  .service-rating {
+    /* Rating container */
+    display: flex;
+    align-items: center;
+    
+    /* No transitions, no animations */
+  }
+  
+  .service-categories {
+    /* Categories container */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    
+    /* No transitions, no animations */
+  }
+  
+  .category-tag {
+    /* Individual category tag */
+    background: #f0f0f0;
+    color: #666666;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    
+    /* Prevent text wrapping */
+    white-space: nowrap;
+    
+    /* No hover effects, no transitions */
+    /* Static appearance to prevent twitching */
+  }
+  
+  .service-card-click-indicator {
+    /* Click indicator */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    
+    .click-text {
+      background: #007bff;
+      color: #ffffff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      
+      /* No transitions, no animations */
+    }
+  }
+}
+
+/* Responsive design without animations */
+@media (max-width: 768px) {
+  .service-card {
+    .service-card-content {
+      /* Stack vertically on mobile */
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+    }
+    
+    .service-card-logo {
+      width: 60px;
+      height: 60px;
+    }
+    
+    .service-name {
+      font-size: 16px;
+      text-align: center;
+    }
+    
+    .service-categories {
+      justify-content: center;
+    }
+    
+    .service-card-click-indicator {
+      position: static;
+      margin-top: 10px;
+      
+      .click-text {
+        font-size: 10px;
+        padding: 3px 6px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .service-card {
+    .service-card-content {
+      padding: 16px;
+    }
+    
+    .service-card-logo {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .service-name {
+      font-size: 15px;
+    }
+    
+    .category-tag {
+      font-size: 11px;
+      padding: 3px 6px;
+    }
+    
+    .service-card-click-indicator {
+      .click-text {
+        font-size: 9px;
+        padding: 2px 5px;
+      }
+    }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .service-card {
+    .service-card-content {
+      border: 2px solid #000000;
+    }
+    
+    .service-name {
+      color: #000000;
+    }
+    
+    .category-tag {
+      background: #000000;
+      color: #ffffff;
+    }
+    
+    .service-card-click-indicator .click-text {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #ffffff;
+    }
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .service-card {
+    /* Already no animations, but explicit */
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+/* Print styles */
+@media print {
+  .service-card {
+    .service-card-content {
+      border: 1px solid #000000;
+      background: #ffffff;
+      cursor: default;
+    }
+    
+    .service-name {
+      color: #000000;
+    }
+    
+    .category-tag {
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #000000;
+    }
+    
+    .service-card-click-indicator {
+      display: none;
+    }
+  }
+}

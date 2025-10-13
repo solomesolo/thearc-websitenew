@@ -1,0 +1,416 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent twitching - completely static */
+  will-change: auto;
+  transform: none;
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading, .display-1, .display-2, .heading-lg, .heading-sm-1 {
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+}
+
+input, select, button, textarea {
+  font-family: 'Open Sans', sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* ===========================================
+   COMPREHENSIVE ANTI-TWITCHING OVERRIDES
+   =========================================== */
+
+/* Disable ALL animations, transitions, and transforms globally */
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Specific overrides for cards and images */
+.card-grid-style-1,
+.card-grid-style-2,
+.card-grid-style-3,
+.card-grid-style-4,
+.card-grid-style-1 *,
+.card-grid-style-2 *,
+.card-grid-style-3 *,
+.card-grid-style-4 * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable hover effects on cards */
+.card-grid-style-2:hover,
+.card-grid-style-3:hover,
+.card-grid-style-4:hover {
+  border-color: inherit !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Disable image animations */
+.image-box,
+.image-box img,
+.card-grid-inner .image-box,
+.card-grid-inner .image-box img {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable header animations */
+.header,
+.header *,
+.navbar,
+.navbar * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable logo animations */
+.logo,
+.logo img,
+.thearc-logo,
+.thearc-logo img {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable button animations */
+.btn,
+.btn *,
+button,
+button * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable link animations */
+a,
+a *,
+a:hover,
+a:focus,
+a:active {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable form element animations */
+input,
+select,
+textarea,
+.form-control,
+.form-control * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable dropdown animations */
+.dropdown,
+.dropdown *,
+.dropdown-menu,
+.dropdown-menu * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable modal animations */
+.modal,
+.modal *,
+.modal-dialog,
+.modal-dialog * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable carousel animations */
+.carousel,
+.carousel *,
+.swiper,
+.swiper * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable loading animations */
+.spinner,
+.spinner *,
+.loading,
+.loading * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable all CSS animations */
+[class*="animate"],
+[class*="fade"],
+[class*="slide"],
+[class*="bounce"],
+[class*="pulse"],
+[class*="shake"],
+[class*="swing"],
+[class*="tada"],
+[class*="wobble"],
+[class*="jello"],
+[class*="hinge"],
+[class*="rollIn"],
+[class*="rollOut"],
+[class*="zoomIn"],
+[class*="zoomOut"],
+[class*="flip"],
+[class*="lightSpeedIn"],
+[class*="lightSpeedOut"] {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Force static positioning for all elements */
+* {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure images are static */
+img {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure cards are static */
+.card,
+.card *,
+[class*="card"] {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure headers are static */
+header,
+header *,
+[class*="header"] {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure navigation is static */
+nav,
+nav *,
+[class*="nav"] {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure buttons are static */
+button,
+button *,
+[class*="btn"] {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure links are static */
+a,
+a *,
+[class*="link"] {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure forms are static */
+form,
+form *,
+[class*="form"] {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure all interactive elements are static */
+[class*="hover"],
+[class*="focus"],
+[class*="active"] {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Disable any remaining animations */
+*:hover,
+*:focus,
+*:active {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Force hardware acceleration off */
+* {
+  transform: none !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure no transforms on any elements */
+* {
+  transform: none !important;
+  transform-origin: unset !important;
+  transform-style: flat !important;
+}
+
+/* Ensure no transitions on any elements */
+* {
+  transition: none !important;
+  transition-delay: 0s !important;
+  transition-duration: 0s !important;
+  transition-property: none !important;
+  transition-timing-function: unset !important;
+}
+
+/* Ensure no animations on any elements */
+* {
+  animation: none !important;
+  animation-delay: 0s !important;
+  animation-direction: unset !important;
+  animation-duration: 0s !important;
+  animation-fill-mode: unset !important;
+  animation-iteration-count: 1 !important;
+  animation-name: none !important;
+  animation-play-state: unset !important;
+  animation-timing-function: unset !important;
+}
+
+/* Specific overrides for marketplace components */
+.company-page-container *,
+.company-header *,
+.company-logo *,
+.company-identity *,
+.company-actions *,
+.company-content *,
+.company-details-column *,
+.company-products-column *,
+.product-card *,
+.similar-companies-section * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Disable any remaining hover effects */
+*:hover {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure all elements are completely static */
+* {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+  transform-origin: unset !important;
+  transform-style: flat !important;
+}
+
+/* Prevent layout shifts */
+* {
+  box-sizing: border-box;
+}
+
+/* Smooth scrolling - but static */
+html {
+  scroll-behavior: auto;
+  will-change: auto;
+}
+
+/* Prevent text selection on rapid clicks */
+button, a {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Prevent layout shifts on form elements */
+input, select, textarea {
+  box-sizing: border-box;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  * {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    will-change: auto !important;
+  }
+}
