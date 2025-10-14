@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import DNAParticles from "../../../components/DNAParticles";
 import DNABackground from "../../../components/DNABackground";
@@ -30,7 +30,7 @@ interface PageStats {
   per_page: number;
 }
 
-export default function ServicesPage() {
+function ServicesPageContent() {
   const searchParams = useSearchParams();
   const country = searchParams.get('country');
   const [services, setServices] = useState<Service[]>([]);
@@ -426,5 +426,20 @@ export default function ServicesPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function ServicesPage() {
+  return (
+    <Suspense fallback={
+      <div className="w-full min-h-screen bg-black text-white font-montserrat flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-fuchsia-400 mx-auto mb-4"></div>
+          <p className="text-white/80">Loading services...</p>
+        </div>
+      </div>
+    }>
+      <ServicesPageContent />
+    </Suspense>
   );
 }

@@ -89,8 +89,8 @@ export default function ProviderDetailPage() {
         const productsData = await SupabaseService.getProductsByProviderId(parseInt(providerId));
         setProducts(productsData);
 
-        // Fetch similar providers
-        const similarData = await SupabaseService.getSimilarProviders(parseInt(providerId));
+        // Fetch similar providers based on biomarker overlap
+        const similarData = await SupabaseService.getSimilarProvidersByBiomarkers(parseInt(providerId));
         setSimilarProviders(similarData);
 
       } catch (err) {
@@ -380,7 +380,7 @@ export default function ProviderDetailPage() {
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-fuchsia-400 font-semibold">
-                        {product.price} EUR
+                        {product.price && parseFloat(product.price) > 0 ? `${product.price} EUR` : 'Price Unknown'}
                       </span>
                       <span className="text-white/60 text-sm">
                         View Details →

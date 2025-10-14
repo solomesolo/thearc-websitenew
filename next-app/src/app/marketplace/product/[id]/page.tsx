@@ -31,7 +31,10 @@ export default function ProductDetailPage() {
 
   const productName = useMemo(() => product?.name || 'Unknown Product', [product]);
   const productDescription = useMemo(() => product?.description || 'No description available', [product]);
-  const productPrice = useMemo(() => product?.price || '0', [product]);
+  const productPrice = useMemo(() => {
+    const price = product?.price;
+    return price && parseFloat(price) > 0 ? price : 'Price Unknown';
+  }, [product]);
   const aboutTest = useMemo(() => product?.['about this test'] || '', [product]);
   const whatCanItHelp = useMemo(() => product?.['What can it help check or prevent?'] || '', [product]);
   const whoIsItFor = useMemo(() => product?.['Who is this most important for?'] || '', [product]);
@@ -247,7 +250,7 @@ export default function ProductDetailPage() {
                 </h1>
                 <div className="flex items-center gap-4 mb-4">
                   <span className="text-2xl font-bold text-fuchsia-400">
-                    {productPrice} EUR
+                    {productPrice === 'Price Unknown' ? 'Price Unknown' : `${productPrice} EUR`}
                   </span>
                   {provider && (
                     <button
@@ -389,7 +392,7 @@ export default function ProductDetailPage() {
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-fuchsia-400 font-semibold">
-                        {similarProduct.price} EUR
+                        {similarProduct.price && parseFloat(similarProduct.price) > 0 ? `${similarProduct.price} EUR` : 'Price Unknown'}
                       </span>
                       <span className="text-white/60 text-sm">
                         View Details →

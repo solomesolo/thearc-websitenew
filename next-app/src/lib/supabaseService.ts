@@ -4,6 +4,11 @@ import { Provider, Product, ProviderWithProducts, ProductFilters, ProviderFilter
 export class SupabaseService {
 	// Provider operations
 	static async getProviders(filters?: ProviderFilters) {
+		if (!supabase) {
+			console.warn('Supabase client not initialized - returning empty array');
+			return [];
+		}
+		
 		let query = supabase
 			.from(TABLES.PROVIDERS)
 			.select('*');
@@ -82,6 +87,11 @@ export class SupabaseService {
 
 	// Product operations
 	static async getProducts(filters?: ProductFilters) {
+		if (!supabase) {
+			console.warn('Supabase client not initialized - returning empty array');
+			return [];
+		}
+		
 		let query = supabase
 			.from(TABLES.PRODUCTS)
 			.select('*');
@@ -128,6 +138,11 @@ export class SupabaseService {
 	}
 
 	static async getProductById(id: number) {
+		if (!supabase) {
+			console.warn('Supabase client not initialized - returning null');
+			return null;
+		}
+		
 		const { data, error } = await supabase
 			.from(TABLES.PRODUCTS)
 			.select('*')
@@ -203,13 +218,15 @@ export class SupabaseService {
 
 	static async getSimilarProducts(productId: number, limit: number = 4) {
 		const product = await this.getProductById(productId);
-		if (!product.tags) {
+		if (!product.biomarkers) {
 			return [];
 		}
 
-		const productTags = this.extractProductTags(product.tags);
+		// Get biomarkers for the current product
+		const currentProductBiomarkers = this.extractProductBiomarkers(product.biomarkers);
+		const currentBiomarkerNames = currentProductBiomarkers.map(bio => bio.name.toLowerCase());
 
-		if (productTags.length === 0) {
+		if (currentBiomarkerNames.length === 0) {
 			return [];
 		}
 
@@ -223,15 +240,107 @@ export class SupabaseService {
 			throw error;
 		}
 
-		// Filter products with similar tags
-		const similarProducts = (data as Product[]).filter(p => {
-			if (!p.tags) return false;
-			
-			const pTags = this.extractProductTags(p.tags);
-			return productTags.some(tag => pTags.includes(tag));
-		}).slice(0, limit);
+		// Calculate biomarker similarity for each product
+		const productsWithSimilarity = (data as Product[]).map(p => {
+			if (!p.biomarkers) {
+				return { product: p, similarity: 0 };
+			}
 
-		return similarProducts;
+			const productBiomarkers = this.extractProductBiomarkers(p.biomarkers);
+			const productBiomarkerNames = productBiomarkers.map(bio => bio.name.toLowerCase());
+
+			// Calculate intersection of biomarkers
+			const commonBiomarkers = currentBiomarkerNames.filter(bio => 
+				productBiomarkerNames.includes(bio)
+			);
+
+			// Calculate similarity percentage (at least 50% overlap required)
+			const similarity = commonBiomarkers.length / currentBiomarkerNames.length;
+			
+			return { product: p, similarity };
+		}).filter(item => item.similarity >= 0.5) // Only products with 50%+ biomarker overlap
+		.sort((a, b) => b.similarity - a.similarity) // Sort by similarity (highest first)
+		.slice(0, limit)
+		.map(item => item.product);
+
+		return productsWithSimilarity;
+	}
+
+	// Get similar providers based on biomarker overlap from their products
+	static async getSimilarProvidersByBiomarkers(providerId: number, limit: number = 4) {
+		// Get all products from the current provider
+		const currentProviderProducts = await this.getProductsByProviderId(providerId);
+		
+		if (currentProviderProducts.length === 0) {
+			return [];
+		}
+
+		// Collect all biomarkers from current provider's products
+		const currentProviderBiomarkers = new Set<string>();
+		currentProviderProducts.forEach(product => {
+			if (product.biomarkers) {
+				const biomarkers = this.extractProductBiomarkers(product.biomarkers);
+				biomarkers.forEach(bio => {
+					currentProviderBiomarkers.add(bio.name.toLowerCase());
+				});
+			}
+		});
+
+		if (currentProviderBiomarkers.size === 0) {
+			return [];
+		}
+
+		// Get all other providers
+		const { data: allProviders, error } = await supabase
+			.from(TABLES.PROVIDERS)
+			.select('*')
+			.neq('id', providerId);
+
+		if (error) {
+			console.error('Error fetching providers for biomarker similarity:', error);
+			return [];
+		}
+
+		// Calculate biomarker similarity for each provider
+		const providersWithSimilarity = await Promise.all(
+			(allProviders as Provider[]).map(async (provider) => {
+				const providerProducts = await this.getProductsByProviderId(provider.id);
+				
+				if (providerProducts.length === 0) {
+					return { provider, similarity: 0 };
+				}
+
+				// Collect biomarkers from this provider's products
+				const providerBiomarkers = new Set<string>();
+				providerProducts.forEach(product => {
+					if (product.biomarkers) {
+						const biomarkers = this.extractProductBiomarkers(product.biomarkers);
+						biomarkers.forEach(bio => {
+							providerBiomarkers.add(bio.name.toLowerCase());
+						});
+					}
+				});
+
+				// Calculate intersection of biomarkers
+				const commonBiomarkers = Array.from(currentProviderBiomarkers).filter(bio => 
+					providerBiomarkers.has(bio)
+				);
+
+				// Calculate similarity percentage (at least 50% overlap required)
+				const similarity = commonBiomarkers.length / currentProviderBiomarkers.size;
+				
+				return { provider, similarity };
+			})
+		);
+
+		// Filter providers with 50%+ biomarker overlap and sort by similarity
+		const similarProviders = providersWithSimilarity
+			.filter(item => item.similarity >= 0.5)
+			.sort((a, b) => b.similarity - a.similarity)
+			.slice(0, limit)
+			.map(item => item.provider);
+
+		return similarProviders;
 	}
 
 	// Helper methods for extracting data from JSON fields

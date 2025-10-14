@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import DNAParticles from "../../components/DNAParticles";
 import DNABackground from "../../components/DNABackground";
@@ -11,7 +11,7 @@ import { trackMarketplaceView } from "../../utils/mixpanel";
 import { SupabaseService } from "../../lib/supabaseService";
 import { Provider, Product, ProviderFilters, ProductFilters } from "../../lib/types";
 
-export default function MarketplacePage() {
+function MarketplacePageContent() {
   const searchParams = useSearchParams();
   const [providers, setProviders] = useState<Provider[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,13 +30,31 @@ export default function MarketplacePage() {
   });
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
 
-  // Handle country selection from URL params
+  // Handle country selection and search from URL params
   useEffect(() => {
     const countryFromUrl = searchParams.get('country');
+    const searchFromUrl = searchParams.get('search');
+    
     if (countryFromUrl && countryFromUrl !== selectedCountry) {
       setSelectedCountry(countryFromUrl);
     }
-  }, [searchParams, selectedCountry]);
+    
+    if (searchFromUrl) {
+      // Filter products based on search term
+      const filtered = products.filter(product => 
+        product.name.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
+        product.biomarkers.some(biomarker => 
+          biomarker.toLowerCase().includes(searchFromUrl.toLowerCase())
+        )
+      );
+      setFilteredProviders(providers.filter(provider => 
+        provider.products.some(productId => 
+          filtered.some(product => product.id === productId)
+        )
+      ));
+    }
+  }, [searchParams, selectedCountry, products, providers]);
 
   // Load initial data
   useEffect(() => {
@@ -590,5 +608,20 @@ function ProvidersGrid({
         );
       })}
     </div>
+  );
+}
+
+export default function MarketplacePage() {
+  return (
+    <Suspense fallback={
+      <div className="w-full min-h-screen bg-black text-white font-montserrat flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-fuchsia-400 mx-auto mb-4"></div>
+          <p className="text-white/80">Loading marketplace...</p>
+        </div>
+      </div>
+    }>
+      <MarketplacePageContent />
+    </Suspense>
   );
 }

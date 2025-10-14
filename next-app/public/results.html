@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Personalized Screening Plan - Right Screening Finder</title>
+    <!-- Cache bust: v3 - Force invalidation -->
+    <meta name="cache-bust" content="v3-1760462000">
     
     <!-- Fixed Mixpanel Script -->
     <script src="/mixpanel-fixed.js"></script>
@@ -132,11 +134,249 @@
                             border-radius: 8px;
                         }
                         .categories-grid {
-                            display: grid;
-                            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-                            gap: 3rem;
-                            margin-top: 3rem;
-                        }
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        /* Elegant Urgent Tests Section */
+        .urgent-tests-section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.98) 0%, rgba(20, 20, 20, 0.98) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .urgent-tests-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .urgent-tests-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            font-size: 2rem;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+        
+        .urgent-tests-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0;
+            background: linear-gradient(135deg, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .urgent-tests-subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin: 0.5rem 0 0 0;
+            font-weight: 500;
+        }
+        
+        .urgent-tests-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .urgent-test-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid #8b5cf6;
+            transition: all 0.3s ease;
+        }
+        
+        .urgent-test-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #a855f7;
+            transform: translateY(-2px);
+        }
+        
+        .urgent-test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .urgent-test-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            flex: 1;
+            margin-right: 2rem;
+        }
+        
+        .urgent-test-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            white-space: nowrap;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        .urgent-test-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .urgent-test-explanation {
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        .urgent-test-explanation h4 {
+            color: #8b5cf6;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0 0 0.75rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .urgent-test-explanation p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .urgent-test-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        
+        .urgent-catalog-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+            border: none;
+            cursor: pointer;
+            min-width: 180px;
+            letter-spacing: 0.5px;
+        }
+        
+        .urgent-catalog-btn:hover {
+            background: linear-gradient(135deg, #a855f7, #c084fc);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+        
+        .urgent-match-info {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-style: italic;
+            text-align: right;
+            margin: 0;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .urgent-tests-section {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .urgent-tests-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                padding-bottom: 1.5rem;
+            }
+            
+            .urgent-tests-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .urgent-tests-title {
+                font-size: 2rem;
+            }
+            
+            .urgent-tests-subtitle {
+                font-size: 1rem;
+            }
+            
+            .urgent-tests-grid {
+                gap: 1.5rem;
+            }
+            
+            .urgent-test-card {
+                padding: 1.5rem;
+            }
+            
+            .urgent-test-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .urgent-test-title {
+                font-size: 1.1rem;
+                margin-right: 0;
+            }
+            
+            .urgent-test-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .urgent-test-actions {
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            
+            .urgent-catalog-btn {
+                min-width: 180px;
+                padding: 0.875rem 1.5rem;
+                font-size: 0.9rem;
+                width: 100%;
+            }
+            
+            .urgent-match-info {
+                text-align: left;
+                width: 100%;
+            }
+        }
                         .category-card {
                             background: rgba(26, 26, 26, 0.95);
                             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -399,63 +639,376 @@
             text-transform: uppercase;
         }
         
-        .urgent-test {
-            background-color: rgba(255, 255, 255, 0.05);
+        /* Catalog Link Styles */
+        .catalog-link {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: flex-end;
+        }
+        
+        .catalog-btn {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
             border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+            border: none;
+            cursor: pointer;
+            min-width: 180px;
+            justify-content: center;
+            letter-spacing: 0.5px;
+        }
+        
+        .catalog-btn:hover {
+            background: linear-gradient(135deg, #a855f7, #c084fc);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+        
+        .match-info {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-style: italic;
+            text-align: right;
+            margin: 0;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
         }
         
-        .test-info {
-            flex: 1;
-        }
-        
-        .test-name {
-            font-size: 1.1rem;
+        .modal-header h2 {
+            color: white;
+            margin: 0;
+            font-size: 1.5rem;
             font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
         }
         
-        .test-description {
-            font-size: 0.95rem;
-            color: #cbd5e1;
-            margin-bottom: 0.5rem;
+        .close {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
         }
         
-        .test-timeframe {
+        .close:hover {
+            opacity: 0.7;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .loading-state {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(139, 92, 246, 0.3);
+            border-top: 3px solid #8b5cf6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .provider-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .provider-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .provider-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .provider-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .provider-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+        
+        .provider-info h3 {
+            color: white;
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .provider-location {
+            color: #94a3b8;
             font-size: 0.9rem;
-            color: #f87171;
-            font-weight: 500;
+        }
+        
+        .provider-description {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .provider-price {
+            color: #8b5cf6;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .provider-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #a855f7, #c084fc);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #8b5cf6;
+            border: 1px solid #8b5cf6;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .urgent-test-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .urgent-test-actions {
+                align-items: flex-start;
+            }
+            
+            .catalog-btn {
+                min-width: 160px;
+                padding: 0.875rem 1.5rem;
+            font-size: 0.9rem;
+            }
+            
+            .test-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .test-actions {
+                align-items: flex-start;
+            }
+            
+            .urgent-test-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            
+            .urgent-test-status {
+                align-self: flex-start;
+            }
+            
+            .test-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
         }
         
         .test-status {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+                align-self: flex-start;
+            }
+            
+            .category-tests {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .category-test {
+                min-width: auto;
+                max-width: none;
+            }
+        }
+        
+        .urgent-test {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .urgent-test:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .urgent-test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .urgent-test-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            flex: 1;
+        }
+        
+        .urgent-test-status {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 700;
             text-transform: uppercase;
-            margin-left: 1rem;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         
         .status-recommended {
-            background-color: #1e40af;
-            color: #ffffff;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
         
         .status-never-done {
-            background-color: #dc2626;
-            color: #ffffff;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        .urgent-test-content {
+            display: grid !important;
+            grid-template-columns: 3fr 1fr !important;
+            gap: 2rem !important;
+            align-items: start !important;
+            width: 100% !important;
+        }
+        
+        .urgent-test-explanation {
+            color: #e2e8f0;
+            line-height: 1.7;
+            font-size: 1rem;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .urgent-test-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        
+        .urgent-test-timeframe {
+            color: #8b5cf6;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: right;
+            margin: 0;
         }
         
         /* Categories Grid */
         .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
             margin-bottom: 2rem;
         }
         
@@ -463,29 +1016,40 @@
             background-color: rgba(26, 26, 26, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 2rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover {
+            background-color: rgba(26, 26, 26, 1);
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
         }
         
         .category-header {
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         
         .category-icon {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
-            font-size: 1.8rem;
+            margin-right: 1.5rem;
+            font-size: 2rem;
             transition: all 0.3s ease;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
         }
         
         .category-icon:hover {
             transform: scale(1.1);
+            background: rgba(139, 92, 246, 0.2);
         }
         
         .icon-cardiovascular { }
@@ -496,47 +1060,124 @@
         .icon-gut { }
         
         .category-title {
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #ffffff;
         }
         
         .category-description {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #cbd5e1;
-            margin-bottom: 1rem;
-            line-height: 1.5;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+        
+        .category-tests {
+            display: flex;
+            flex-direction: row;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
         
         .category-test {
             background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid #8b5cf6;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 300px;
+            width: 100%;
+        }
+        
+        .category-test:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-left-color: #a855f7;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
         .test-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            gap: 1rem;
         }
         
         .test-title {
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 1.1rem;
+            font-weight: 700;
             color: #ffffff;
+            flex: 1;
+        }
+        
+        .test-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         
         .status-due-soon {
-            background-color: #f59e0b;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             color: #ffffff;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        .test-content {
+            display: grid !important;
+            grid-template-columns: 3fr 1fr !important;
+            gap: 2rem !important;
+            align-items: start !important;
+            width: 100% !important;
         }
         
         .test-explanation {
-            font-size: 0.85rem;
-            color: #cbd5e1;
-            line-height: 1.4;
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .explanation-section {
+            background: rgba(255, 255, 255, 0.03) !important;
+            padding: 1.5rem !important;
+            border-radius: 12px !important;
+            border-left: 4px solid #8b5cf6 !important;
+            margin-bottom: 1rem !important;
+            width: 100% !important;
+            max-width: none !important;
+        }
+        
+        .explanation-section h4 {
+            color: #8b5cf6 !important;
+            font-size: 1rem !important;
+            font-weight: 700 !important;
+            margin: 0 0 0.75rem 0 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }
+        
+        .explanation-section p {
+            color: #e2e8f0 !important;
+            margin: 0 !important;
+            font-size: 1rem !important;
+            line-height: 1.6 !important;
+            max-width: none !important;
+            width: 100% !important;
+        }
+        
+        .test-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: flex-end;
         }
         
         /* Next Steps Section */
@@ -703,7 +1344,7 @@
             }
             
             .categories-grid {
-                grid-template-columns: 1fr;
+                flex-direction: column;
             }
             
             .urgent-test {
@@ -781,20 +1422,26 @@
         </div>
         
         <!-- Urgent Tests Section -->
-        <div class="urgent-section">
-            <h2 class="urgent-title">URGENT TESTS (TOP PRIORITY)</h2>
-            <div id="urgentTests">
+        <div class="urgent-tests-section">
+            <div class="urgent-tests-header">
+                <div class="urgent-tests-icon">🚨</div>
+                <div>
+                    <h2 class="urgent-tests-title">Urgent Tests</h2>
+                    <p class="urgent-tests-subtitle">Tests that should be completed within the next month</p>
+                </div>
+            </div>
+            <div class="urgent-tests-grid" id="urgentTests">
                 <!-- Urgent tests will be populated here -->
             </div>
         </div>
         
-        <!-- Categories Grid -->
-        <div class="categories-grid" id="categoriesGrid">
+        <!-- Categories Grid - Hidden for clean layout -->
+        <div class="categories-grid" id="categoriesGrid" style="display: none;">
             <!-- Categories will be populated here -->
         </div>
         
-        <!-- Next Steps -->
-        <div class="next-steps">
+        <!-- Next Steps - Hidden for clean layout -->
+        <div class="next-steps" style="display: none;">
             <h2 class="next-steps-title">NEXT STEPS</h2>
             <div id="nextSteps">
                 <!-- Next steps will be populated here -->
@@ -813,6 +1460,25 @@
             <p class="quote-text">
                 "By completing these screenings, you're building the foundation for a longer, healthier life. Each test brings you closer to understanding your body's unique needs and optimizing your healthspan."
             </p>
+        </div>
+    </div>
+
+    <!-- Provider Selection Modal -->
+    <div id="providerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Available Tests</h2>
+                <span class="close" onclick="closeProviderModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="modalLoading" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading available tests...</p>
+                </div>
+                <div id="modalContent" class="provider-list" style="display: none;">
+                    <!-- Provider options will be loaded here -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -865,8 +1531,207 @@
         
         // Email generation functions removed - handled by email-collection page
         
+        // Function to break description into horizontal sections
+        function breakDescriptionIntoSections(description) {
+            console.log('🔍 Breaking description into sections:', description);
+            
+            if (!description || description === 'No description available') {
+                return `<div class="explanation-section">
+                    <h4>Description</h4>
+                    <p>No description available</p>
+                </div>`;
+            }
+            
+            // Split the description into sentences
+            const sentences = description.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            
+            // Group sentences into logical sections
+            const sections = [];
+            let currentSection = [];
+            
+            for (let i = 0; i < sentences.length; i++) {
+                const sentence = sentences[i].trim();
+                if (sentence.length === 0) continue;
+                
+                currentSection.push(sentence);
+                
+                // Create a new section every 2-3 sentences or when we hit certain keywords
+                if (currentSection.length >= 2 || 
+                    sentence.toLowerCase().includes('this test') ||
+                    sentence.toLowerCase().includes('given your') ||
+                    sentence.toLowerCase().includes('the results') ||
+                    sentence.toLowerCase().includes('early detection') ||
+                    sentence.toLowerCase().includes('adequate') ||
+                    i === sentences.length - 1) {
+                    
+                    if (currentSection.length > 0) {
+                        sections.push(currentSection.join('. ') + '.');
+                        currentSection = [];
+                    }
+                }
+            }
+            
+            // If we have remaining sentences, add them as a final section
+            if (currentSection.length > 0) {
+                sections.push(currentSection.join('. ') + '.');
+            }
+            
+            // Generate section titles based on content
+            const sectionTitles = [
+                'Why This Test Matters',
+                'What It Measures',
+                'Health Benefits',
+                'Personalized Results'
+            ];
+            
+            // Create HTML for each section
+            const result = sections.map((section, index) => {
+                const title = sectionTitles[index] || `Key Point ${index + 1}`;
+                return `
+                    <div class="explanation-section">
+                        <h4>${title}</h4>
+                        <p>${section}</p>
+                    </div>
+                `;
+            }).join('');
+            
+            console.log('✅ Generated sections HTML:', result);
+            return result;
+        }
+        
+        // Provider Modal Functions
+        async function openProviderModal(testName) {
+            console.log('Opening provider modal for:', testName);
+            
+            const modal = document.getElementById('providerModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalLoading = document.getElementById('modalLoading');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Set modal title
+            modalTitle.textContent = `Available ${testName} Tests`;
+            
+            // Show modal and loading state
+            modal.style.display = 'block';
+            modalLoading.style.display = 'block';
+            modalContent.style.display = 'none';
+            
+            try {
+                // Fetch available tests for this type
+                const response = await fetch(`https://thearc-website-nzer-kwqu90dlv-annas-projects-3d23b0f3.vercel.app/api/tests-by-type?type=${encodeURIComponent(testName)}`);
+                const data = await response.json();
+                
+                if (data.success && data.data.products.length > 0) {
+                    displayProviderOptions(data.data.products, testName);
+                } else {
+                    displayNoResults(testName);
+                }
+            } catch (error) {
+                console.error('Error fetching provider options:', error);
+                displayError();
+            }
+        }
+        
+        function displayProviderOptions(products, testName) {
+            const modalLoading = document.getElementById('modalLoading');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalLoading.style.display = 'none';
+            modalContent.style.display = 'block';
+            
+            const providerList = products.map(product => `
+                <div class="provider-card">
+                    <div class="provider-header">
+                        ${product.provider.logo ? 
+                            `<img src="${product.provider.logo}" alt="${product.provider.name}" class="provider-logo">` :
+                            `<div class="provider-logo" style="background: #8b5cf6; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${product.provider.name.charAt(0)}</div>`
+                        }
+                        <div class="provider-info">
+                            <h3>${product.provider.name}</h3>
+                            <div class="provider-location">${product.provider.location}</div>
+                                    </div>
+                            </div>
+                    <div class="provider-description">
+                        ${product.description}
+                                    </div>
+                    <div class="provider-price">
+                        ${product.price && product.price > 0 ? `${product.price} EUR` : 'Price Unknown'}
+                            </div>
+                    <div class="provider-actions">
+                        <a href="/marketplace/product/${product.id}" target="_blank" class="btn-primary">
+                            View Details
+                        </a>
+                        <a href="/marketplace/provider/${product.provider.id}" target="_blank" class="btn-secondary">
+                            View Provider
+                        </a>
+                        </div>
+                        </div>
+            `).join('');
+            
+            modalContent.innerHTML = `
+                <div class="provider-list">
+                    ${providerList}
+                    </div>
+            `;
+        }
+        
+        function displayNoResults(testName) {
+            const modalLoading = document.getElementById('modalLoading');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalLoading.style.display = 'none';
+            modalContent.style.display = 'block';
+            
+            modalContent.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">No specific ${testName} tests found</h3>
+                    <p style="color: #cbd5e1; margin-bottom: 2rem;">
+                        We couldn't find exact matches for "${testName}" in our catalog, but you can explore related tests in our marketplace.
+                    </p>
+                    <a href="/marketplace" target="_blank" class="btn-primary">
+                        Browse All Tests
+                    </a>
+                </div>
+            `;
+        }
+        
+        function displayError() {
+            const modalLoading = document.getElementById('modalLoading');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalLoading.style.display = 'none';
+            modalContent.style.display = 'block';
+            
+            modalContent.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">Unable to load tests</h3>
+                    <p style="color: #cbd5e1; margin-bottom: 2rem;">
+                        There was an error loading the available tests. Please try again or browse our marketplace directly.
+                    </p>
+                    <a href="/marketplace" target="_blank" class="btn-primary">
+                        Browse Marketplace
+                    </a>
+                </div>
+            `;
+        }
+        
+        function closeProviderModal() {
+            const modal = document.getElementById('providerModal');
+            modal.style.display = 'none';
+        }
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('providerModal');
+            if (event.target === modal) {
+                closeProviderModal();
+            }
+        }
+        
         // Function to display results from API response
-        function displayResults(data) {
+        async function displayResults(data) {
             console.log('🎯 Displaying results:', data);
             console.log('🎯 Data keys:', Object.keys(data));
             
@@ -895,21 +1760,60 @@
                 console.error('❌ No assessment summary found');
             }
             
-            // Update urgent tests
+            // Map recommendations to catalog products
+            const allRecommendations = [];
             const urgentTests = actualData.urgentTests || actualData.urgent_tests;
             if (urgentTests && Array.isArray(urgentTests)) {
+                allRecommendations.push(...urgentTests);
+            }
+            
+            if (actualData.categories && Array.isArray(actualData.categories)) {
+                actualData.categories.forEach(category => {
+                    if (category.tests && Array.isArray(category.tests)) {
+                        allRecommendations.push(...category.tests);
+                    }
+                });
+            }
+            
+            // Map recommendations to catalog products
+            let mappedRecommendations = [];
+            if (allRecommendations.length > 0) {
+                try {
+                    console.log('🔗 Mapping recommendations to catalog products...');
+                    const response = await fetch('https://thearc-website-nzer-kwqu90dlv-annas-projects-3d23b0f3.vercel.app/api/map-screening-results', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ recommendations: allRecommendations })
+                    });
+                    
+                    if (response.ok) {
+                        const mappingData = await response.json();
+                        mappedRecommendations = mappingData.data.mappedRecommendations;
+                        console.log('✅ Mapped recommendations:', mappedRecommendations);
+                    } else {
+                        console.warn('⚠️ Failed to map recommendations, using original data');
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Error mapping recommendations:', error);
+                }
+            }
+            
+            // Update urgent tests with catalog links
+            if (urgentTests && Array.isArray(urgentTests)) {
                 console.log('🎯 Calling displayUrgentTests with:', urgentTests);
-                displayUrgentTests(urgentTests);
+                displayUrgentTestsWithLinks(urgentTests, mappedRecommendations);
             } else {
                 console.error('❌ No urgent tests data found or not an array:', urgentTests);
             }
             
-            // Update categories
+            // Update categories with catalog links
             if (actualData.categories && Array.isArray(actualData.categories)) {
                 console.log('🎯 Calling displayCategoriesFromAPI with:', actualData.categories);
                 console.log('🎯 Number of categories:', actualData.categories.length);
                 console.log('🎯 Category names:', actualData.categories.map(c => c.category_name));
-                displayCategoriesFromAPI(actualData.categories);
+                displayCategoriesFromAPIWithLinks(actualData.categories, mappedRecommendations);
             } else {
                 console.error('❌ No categories data found or not an array:', actualData.categories);
             }
@@ -1085,6 +1989,158 @@
                     <div class="step-text">${step.action}</div>
                 `;
                 nextStepsContainer.appendChild(stepElement);
+            });
+        }
+        
+        // New function to display urgent tests with catalog links
+        function displayUrgentTestsWithLinks(urgentTests, mappedRecommendations) {
+            console.log('🚨 displayUrgentTestsWithLinks called with:', urgentTests);
+            const urgentContainer = document.getElementById('urgentTests');
+            console.log('🚨 Urgent container element:', urgentContainer);
+            urgentContainer.innerHTML = '';
+            
+            if (!urgentTests || !Array.isArray(urgentTests)) {
+                console.error('❌ No urgent tests data provided or not an array:', urgentTests);
+                return;
+            }
+            
+            console.log('✅ Processing urgent tests with catalog links:', urgentTests.length, 'items');
+            
+            urgentTests.forEach(test => {
+                const testElement = document.createElement('div');
+                testElement.className = 'urgent-test-card';
+                
+                // Find matching catalog product
+                const mappedTest = mappedRecommendations.find(mapped => 
+                    mapped.name === test.name || mapped.test === test.name
+                );
+                
+                let catalogLink = '';
+                if (mappedTest && mappedTest.catalogProduct) {
+                    catalogLink = `
+                        <button class="urgent-catalog-btn" onclick="openProviderModal('${test.test || test.name}')">
+                            View in Catalog →
+                        </button>
+                        <p class="urgent-match-info">${mappedTest.matchReason}</p>
+                    `;
+                } else {
+                    catalogLink = `
+                        <button class="urgent-catalog-btn" onclick="openProviderModal('${test.test || test.name}')">
+                            View in Catalog →
+                        </button>
+                        <p class="urgent-match-info">Searching available options</p>
+                    `;
+                }
+                
+                testElement.innerHTML = `
+                    <div class="urgent-test-header">
+                        <div class="urgent-test-title">${test.test || test.name || 'Test'}</div>
+                        <div class="urgent-test-status">URGENT</div>
+                    </div>
+                    <div class="urgent-test-content">
+                        <div class="urgent-test-explanation">
+                            <h4>WHY THIS TEST MATTERS</h4>
+                            <p>${test.reason || test.explanation || 'This test is important for your health and should be completed as soon as possible.'}</p>
+                        </div>
+                        <div class="urgent-test-actions">
+                            ${catalogLink}
+                        </div>
+                    </div>
+                `;
+                
+                urgentContainer.appendChild(testElement);
+            });
+        }
+        
+        // New function to display categories with catalog links
+        function displayCategoriesFromAPIWithLinks(categories, mappedRecommendations) {
+            const categoriesContainer = document.getElementById('categoriesGrid');
+            categoriesContainer.innerHTML = '';
+            
+            const iconMap = {
+                'Cardiovascular Health': { icon: '❤️', class: 'icon-cardiovascular' },
+                'Metabolic Health': { icon: '⚡', class: 'icon-metabolic' },
+                'Hormonal Health': { icon: '⚖️', class: 'icon-hormonal' },
+                'Nutritional Status': { icon: '🌿', class: 'icon-nutritional' },
+                'Longevity Biomarkers': { icon: '🧬', class: 'icon-longevity' },
+                'Gut Health': { icon: '🎯', class: 'icon-gut' }
+            };
+            
+            categories.forEach(category => {
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'category-card';
+                
+                const iconInfo = iconMap[category.category_name] || { icon: '📊', class: 'icon-metabolic' };
+                
+                let testsHtml = '';
+                if (category.tests && category.tests.length > 0) {
+                    testsHtml = category.tests.map(test => {
+                        const statusClass = test.status === 'RECOMMENDED' ? 'status-recommended' : 'status-due-soon';
+                        
+                        // Find matching catalog product
+                        const mappedTest = mappedRecommendations.find(mapped => 
+                            mapped.name === test.name || mapped.test === test.name
+                        );
+                        
+                        let catalogLink = '';
+                        if (mappedTest && mappedTest.catalogProduct) {
+                            catalogLink = `
+                                <div class="catalog-link">
+                                    <button onclick="openProviderModal('${test.test || test.name}')" class="catalog-btn">
+                                        View in Catalog →
+                                    </button>
+                                    <span class="match-info">${mappedTest.matchReason}</span>
+                                </div>
+                            `;
+                        } else {
+                            // Show modal even if no exact match found
+                            catalogLink = `
+                                <div class="catalog-link">
+                                    <button onclick="openProviderModal('${test.test || test.name}')" class="catalog-btn">
+                                        View in Catalog →
+                                    </button>
+                                    <span class="match-info">Searching available options</span>
+                                </div>
+                            `;
+                        }
+                        
+                        // Break description into horizontal sections
+                        const description = test.reason || test.description || 'No description available';
+                        const explanationSections = breakDescriptionIntoSections(description);
+                        
+                        return `
+                            <div class="category-test">
+                                <div class="test-header">
+                                    <div class="test-title">${test.test || test.name || 'Test'}</div>
+                                    <div class="test-status ${statusClass}">${test.status}</div>
+                                </div>
+                                <div class="test-content">
+                                    <div class="test-explanation">
+                                        ${explanationSections}
+                                    </div>
+                                    <div class="test-actions">
+                                        ${catalogLink}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+                
+                categoryElement.innerHTML = `
+                    <div class="category-header">
+                        <div class="category-icon ${iconInfo.class}">${iconInfo.icon}</div>
+                        <div class="category-info">
+                            <h3 class="category-title">${category.category_name}</h3>
+                            <p class="category-description">${category.category_description}</p>
+                        </div>
+                    </div>
+                    <div class="category-tests">
+                        ${testsHtml}
+                    </div>
+                `;
+                
+                categoriesContainer.appendChild(categoryElement);
             });
         }
         
