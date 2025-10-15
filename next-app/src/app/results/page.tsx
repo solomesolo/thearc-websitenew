@@ -32,12 +32,9 @@ const getFallbackData = (): TestRecommendation[] => [
 ];
 
 export default function ResultsPage() {
-  const [recommendations, setRecommendations] = useState<TestRecommendation[]>([]);
-  const [isClient, setIsClient] = useState(false);
+  const [recommendations, setRecommendations] = useState<TestRecommendation[]>(getFallbackData());
 
   useEffect(() => {
-    setIsClient(true);
-    
     // Load test data from localStorage or use fallback
     let tests = getFallbackData();
     
@@ -65,18 +62,6 @@ export default function ResultsPage() {
     const catalogUrl = `/marketplace?search=${encodeURIComponent(testName)}`;
     window.open(catalogUrl, '_blank');
   };
-
-  // Prevent hydration mismatch by not rendering until client-side
-  if (!isClient) {
-    return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold mb-6 text-white">Your Health Results</h1>
-          <p className="text-lg mb-4">Loading your personalized screening plan...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-black text-white">
