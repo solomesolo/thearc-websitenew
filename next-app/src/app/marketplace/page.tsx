@@ -38,6 +38,7 @@ function MarketplacePageContent() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [modalProducts, setModalProducts] = useState<Product[]>([]);
   const [modalSearchTerm, setModalSearchTerm] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Set mounted flag to prevent hydration issues
   useEffect(() => {
@@ -234,6 +235,40 @@ function MarketplacePageContent() {
     window.open(`/marketplace/provider/${providerId}`, '_blank', 'noopener,noreferrer');
   }, []);
 
+  const handleSearch = useCallback((query: string) => {
+    if (!query.trim()) {
+      setFilteredProviders(providers);
+      return;
+    }
+
+    const searchTerm = query.toLowerCase();
+    
+    // Find products that match the search term
+    const matchingProducts = products.filter(product => 
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.description.toLowerCase().includes(searchTerm) ||
+      safeBiomarkersIncludes(product.biomarkers, searchTerm)
+    );
+    
+    // Find providers that match the search term or have matching products
+    const matchingProviders = providers.filter(provider => {
+      // Check if provider name or location matches
+      const providerMatches = 
+        provider['Company Name']?.toLowerCase().includes(searchTerm) ||
+        provider['Company Location']?.toLowerCase().includes(searchTerm) ||
+        provider['Company Description']?.toLowerCase().includes(searchTerm);
+      
+      // Check if provider has matching products
+      const hasMatchingProducts = matchingProducts.some(product => 
+        product.provider_id === provider.id
+      );
+      
+      return providerMatches || hasMatchingProducts;
+    });
+    
+    setFilteredProviders(matchingProviders);
+  }, [products, providers]);
+
   if (!mounted || loading) {
     return (
       <div className="min-h-screen bg-black text-white">
@@ -370,21 +405,71 @@ function MarketplacePageContent() {
             <div className="flex-1">
               <div className="mb-6">
                 <h1 className="text-3xl font-bold text-white mb-2">Health & Longevity Marketplace</h1>
-                <p className="text-gray-300">
+                <p className="text-gray-300 mb-4">
                   {filteredProviders.length} providers • {products.length} products available
                 </p>
+                
+                {/* Search Bar */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search biomarkers, companies, or tests..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      handleSearch(e.target.value);
+                    }}
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 pr-20 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
+                    {searchQuery && (
+                      <button
+                        onClick={() => {
+                          setSearchQuery('');
+                          handleSearch('');
+                        }}
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    )}
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               {filteredProviders.length === 0 ? (
                 <div className="text-center py-12">
                   <h3 className="text-xl font-semibold text-white mb-2">No providers found</h3>
-                  <p className="text-gray-400 mb-4">Try adjusting your filters or search terms</p>
-                  <button 
-                    onClick={clearAllFilters}
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg"
-                  >
-                    Clear Filters
-                  </button>
+                  <p className="text-gray-400 mb-4">
+                    {searchQuery ? 
+                      `No results found for "${searchQuery}". Try a different search term or clear the search.` :
+                      'Try adjusting your filters or search terms'
+                    }
+                  </p>
+                  <div className="flex gap-3 justify-center">
+                    {searchQuery && (
+                      <button 
+                        onClick={() => {
+                          setSearchQuery('');
+                          handleSearch('');
+                        }}
+                        className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
+                      >
+                        Clear Search
+                      </button>
+                    )}
+                    <button 
+                      onClick={clearAllFilters}
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Clear Filters
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
