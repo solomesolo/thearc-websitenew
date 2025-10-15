@@ -35,6 +35,9 @@ function MarketplacePageContent() {
   const [filterData, setFilterData] = useState({
     serviceTypes: ['blood tests', 'urine tests', 'stool tests', 'saliva tests', 'genetic testing']
   });
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [modalProducts, setModalProducts] = useState<Product[]>([]);
+  const [modalSearchTerm, setModalSearchTerm] = useState('');
 
   // Set mounted flag to prevent hydration issues
   useEffect(() => {
@@ -101,15 +104,18 @@ function MarketplacePageContent() {
       
       console.log('🔍 Matching products found:', matchingProducts.length, matchingProducts.map(p => p.name));
       
-      // Find providers that have these products
+      // Find providers that have these products (using provider_id from products)
+      const matchingProviderIds = new Set(matchingProducts.map(product => product.provider_id));
       const matchingProviders = providers.filter(provider => 
-        provider.products && provider.products.some(productId => 
-          matchingProducts.some(product => product.id === productId)
-        )
+        matchingProviderIds.has(provider.id)
       );
       
       console.log('🔍 Matching providers found:', matchingProviders.length);
-      setFilteredProviders(matchingProviders);
+      
+      // Show modal with matching products instead of filtering providers
+      setModalProducts(matchingProducts);
+      setModalSearchTerm(searchFromUrl);
+      setShowProductModal(true);
       
       // Auto-select relevant biomarkers
       const relevantBiomarkers = new Set<string>();
@@ -141,9 +147,10 @@ function MarketplacePageContent() {
 
   // Apply filters
   useEffect(() => {
-    if (products.length === 0 || providers.length === 0) return;
+    const applyFilters = async () => {
+      if (products.length === 0 || providers.length === 0) return;
 
-    let filtered = [...providers];
+      let filtered = [...providers];
 
     // Apply provider filters
     if (providerFilters.locations.length > 0) {
@@ -169,19 +176,21 @@ function MarketplacePageContent() {
 
     // Apply product filters
     if (productFilters.tags.length > 0 || productFilters.biomarkers.length > 0) {
-      const filteredProducts = SupabaseService.getProducts({
+      const filteredProducts = await SupabaseService.getProducts({
         ...productFilters,
         available: true
       });
       
+      const filteredProviderIds = new Set(filteredProducts.map(product => product.provider_id));
       filtered = filtered.filter(provider => 
-        provider.products && provider.products.some(productId => 
-          filteredProducts.some(product => product.id === productId)
-        )
+        filteredProviderIds.has(provider.id)
       );
     }
 
-    setFilteredProviders(filtered);
+      setFilteredProviders(filtered);
+    };
+
+    applyFilters();
   }, [providers, products, providerFilters, productFilters]);
 
   const handleProviderTagChange = useCallback((tag: string, checked: boolean) => {
@@ -340,8 +349,8 @@ function MarketplacePageContent() {
                 {/* Biomarkers */}
                 <div>
                   <h4 className="text-sm font-medium text-white/80 mb-3">Biomarkers</h4>
-                  <div className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
-                    {availableBiomarkers.slice(0, 20).map(biomarker => (
+                  <div className="space-y-1 max-h-96 overflow-y-auto custom-scrollbar">
+                    {availableBiomarkers.map(biomarker => (
                       <label key={biomarker} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="checkbox"
@@ -353,9 +362,6 @@ function MarketplacePageContent() {
                       </label>
                     ))}
                   </div>
-                  {availableBiomarkers.length > 20 && (
-                    <p className="text-white/60 text-xs mt-2">+ {availableBiomarkers.length - 20} more biomarkers available</p>
-                  )}
                 </div>
               </div>
             </aside>
@@ -445,6 +451,84 @@ function MarketplacePageContent() {
       </main>
 
       <Footer />
+
+      {/* Product Modal */}
+      {showProductModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gray-900 rounded-2xl border border-white/10 max-w-4xl w-full max-h-[80vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Available Tests</h2>
+                <p className="text-gray-400 mt-1">Search: "{modalSearchTerm}"</p>
+              </div>
+              <button
+                onClick={() => setShowProductModal(false)}
+                className="text-gray-400 hover:text-white text-2xl"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 overflow-y-auto max-h-[60vh]">
+              {modalProducts.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-400">No products found for this search term.</p>
+                </div>
+              ) : (
+                <div className="grid gap-4">
+                  {modalProducts.map(product => {
+                    const provider = providers.find(p => p.id === product.provider_id);
+                    const productPrice = product.price && product.price !== '0' ? `${product.price} EUR` : 'Price Unknown';
+                    
+                    return (
+                      <div
+                        key={product.id}
+                        onClick={() => window.open(`/marketplace/product/${product.id}`, '_blank')}
+                        className="bg-white/5 border border-white/10 rounded-xl p-4 hover:border-purple-500/30 transition-all duration-300 cursor-pointer group"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors mb-2">
+                              {product.name}
+                            </h3>
+                            <p className="text-gray-300 text-sm mb-3 line-clamp-2">
+                              {product.description}
+                            </p>
+                            <div className="flex items-center gap-4 text-sm">
+                              <div className="flex items-center gap-2">
+                                <span className="text-gray-400">Provider:</span>
+                                <span className="text-white font-medium">
+                                  {provider?.['Company Name'] || 'Unknown Provider'}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-gray-400">Location:</span>
+                                <span className="text-white">
+                                  {provider?.['Company Location'] || 'Unknown'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-right ml-4">
+                            <div className="text-xl font-bold text-purple-400 mb-2">
+                              {productPrice}
+                            </div>
+                            <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                              View Details →
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
