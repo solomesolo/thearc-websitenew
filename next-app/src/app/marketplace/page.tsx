@@ -19,6 +19,7 @@ function MarketplacePageContent() {
   const [filteredProviders, setFilteredProviders] = useState<Provider[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const [providerFilters, setProviderFilters] = useState<ProviderFilters>({
     locations: [],
     tags: [],
@@ -35,6 +36,11 @@ function MarketplacePageContent() {
     serviceTypes: ['blood tests', 'urine tests', 'stool tests', 'saliva tests', 'genetic testing']
   });
 
+  // Set mounted flag to prevent hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Load initial data
   useEffect(() => {
     const loadData = async () => {
@@ -49,24 +55,17 @@ function MarketplacePageContent() {
         setProducts(productsData);
         setFilteredProviders(providersData);
         
-        // Load biomarkers
-        try {
-          const biomarkers = await SupabaseService.getBiomarkers();
-          setAvailableBiomarkers(biomarkers.map(b => b.name).sort());
-        } catch (error) {
-          console.error('Error loading biomarkers:', error);
-          // Fallback to extracting from products
-          const allBiomarkers = new Set<string>();
-          productsData.forEach(product => {
-            if (product.biomarkers) {
-              const biomarkers = SupabaseService.extractProductBiomarkers(product.biomarkers);
-              biomarkers.forEach(bio => {
-                allBiomarkers.add(bio.name);
-              });
-            }
-          });
-          setAvailableBiomarkers(Array.from(allBiomarkers).sort());
-        }
+        // Extract biomarkers from products (simpler approach)
+        const allBiomarkers = new Set<string>();
+        productsData.forEach(product => {
+          if (product.biomarkers) {
+            const biomarkers = SupabaseService.extractProductBiomarkers(product.biomarkers);
+            biomarkers.forEach(bio => {
+              allBiomarkers.add(bio.name);
+            });
+          }
+        });
+        setAvailableBiomarkers(Array.from(allBiomarkers).sort());
       } catch (error) {
         console.error('Error loading data:', error);
         setError('Failed to load marketplace data');
@@ -78,8 +77,10 @@ function MarketplacePageContent() {
     loadData();
   }, []);
 
-  // Handle search parameters from URL
+  // Handle search parameters from URL (simplified)
   useEffect(() => {
+    if (!mounted || products.length === 0 || providers.length === 0) return;
+    
     const searchFromUrl = searchParams.get('search');
     const countryFromUrl = searchParams.get('country');
     
@@ -87,7 +88,7 @@ function MarketplacePageContent() {
       setSelectedCountry(countryFromUrl);
     }
     
-    if (searchFromUrl && products.length > 0) {
+    if (searchFromUrl) {
       // Find products that match the search term
       const matchingProducts = products.filter(product => 
         product.name.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
@@ -125,7 +126,7 @@ function MarketplacePageContent() {
         }));
       }
     }
-  }, [searchParams, products, providers]);
+  }, [mounted, searchParams, products, providers]);
 
   // Apply filters
   useEffect(() => {
@@ -213,7 +214,7 @@ function MarketplacePageContent() {
     window.open(`/marketplace/provider/${providerId}`, '_blank', 'noopener,noreferrer');
   }, []);
 
-  if (loading) {
+  if (!mounted || loading) {
     return (
       <div className="min-h-screen bg-black text-white">
         <div className="container mx-auto px-4 py-8">
