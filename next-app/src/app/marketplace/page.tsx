@@ -19,6 +19,7 @@ function MarketplacePageContent() {
   const [filteredProviders, setFilteredProviders] = useState<Provider[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const [providerFilters, setProviderFilters] = useState<ProviderFilters>({
     locations: [],
     tags: [],
@@ -31,8 +32,14 @@ function MarketplacePageContent() {
   });
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
 
+  // Set client flag to prevent hydration mismatches
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   // Handle country selection and search from URL params
   useEffect(() => {
+    if (!isClient) return; // Only run on client side
     const countryFromUrl = searchParams.get('country');
     const searchFromUrl = searchParams.get('search');
     
@@ -75,7 +82,7 @@ function MarketplacePageContent() {
         }));
       }
     }
-  }, [searchParams, selectedCountry, products, providers]);
+  }, [isClient, searchParams, selectedCountry, products, providers]);
 
   // Load initial data
   useEffect(() => {
@@ -533,7 +540,8 @@ function ProvidersGrid({
     window.open(`/marketplace/provider/${providerId}`, '_blank', 'noopener,noreferrer');
   }, []);
 
-  if (loading) {
+  // Prevent hydration mismatch by not rendering until client-side
+  if (!isClient || loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[1, 2, 3, 4, 5, 6].map(i => (
