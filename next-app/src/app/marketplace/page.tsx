@@ -243,30 +243,63 @@ function MarketplacePageContent() {
 
     const searchTerm = query.toLowerCase();
     
-    // Find products that match the search term
-    const matchingProducts = products.filter(product => 
-      product.name.toLowerCase().includes(searchTerm) ||
-      product.description.toLowerCase().includes(searchTerm) ||
-      safeBiomarkersIncludes(product.biomarkers, searchTerm)
-    );
-    
-    // Find providers that match the search term or have matching products
-    const matchingProviders = providers.filter(provider => {
-      // Check if provider name or location matches
-      const providerMatches = 
-        provider['Company Name']?.toLowerCase().includes(searchTerm) ||
-        provider['Company Location']?.toLowerCase().includes(searchTerm) ||
-        provider['Company Description']?.toLowerCase().includes(searchTerm);
+    // Find products that match the search term (biomarkers, product names, descriptions)
+    const matchingProducts = products.filter(product => {
+      // Check product name
+      const nameMatch = product.name.toLowerCase().includes(searchTerm);
       
-      // Check if provider has matching products
-      const hasMatchingProducts = matchingProducts.some(product => 
-        product.provider_id === provider.id
-      );
+      // Check product description
+      const descriptionMatch = product.description.toLowerCase().includes(searchTerm);
       
-      return providerMatches || hasMatchingProducts;
+      // Check biomarkers using the safe utility
+      const biomarkerMatch = safeBiomarkersIncludes(product.biomarkers, searchTerm);
+      
+      // Also check biomarkers more thoroughly
+      let detailedBiomarkerMatch = false;
+      if (product.biomarkers) {
+        try {
+          const biomarkers = SupabaseService.extractProductBiomarkers(product.biomarkers);
+          detailedBiomarkerMatch = biomarkers.some(bio => 
+            bio.name.toLowerCase().includes(searchTerm) ||
+            bio.code.toLowerCase().includes(searchTerm)
+          );
+        } catch (error) {
+          console.log('Error extracting biomarkers for product:', product.id, error);
+        }
+      }
+      
+      return nameMatch || descriptionMatch || biomarkerMatch || detailedBiomarkerMatch;
     });
     
-    setFilteredProviders(matchingProviders);
+    console.log('🔍 Search results for "' + searchTerm + '":', {
+      totalProducts: products.length,
+      matchingProducts: matchingProducts.length,
+      matchingProductNames: matchingProducts.map(p => p.name)
+    });
+    
+    // Find providers that have matching products (prioritize product matches over provider name matches)
+    const providersWithMatchingProducts = new Set(matchingProducts.map(product => product.provider_id));
+    
+    // Find providers that match the search term directly
+    const providersMatchingName = providers.filter(provider => 
+      provider['Company Name']?.toLowerCase().includes(searchTerm) ||
+      provider['Company Location']?.toLowerCase().includes(searchTerm) ||
+      provider['Company Description']?.toLowerCase().includes(searchTerm)
+    );
+    
+    // Combine both: providers with matching products + providers matching by name
+    const allMatchingProviders = providers.filter(provider => 
+      providersWithMatchingProducts.has(provider.id) || 
+      providersMatchingName.some(p => p.id === provider.id)
+    );
+    
+    console.log('🔍 Provider results:', {
+      providersWithMatchingProducts: providersWithMatchingProducts.size,
+      providersMatchingName: providersMatchingName.length,
+      totalMatchingProviders: allMatchingProviders.length
+    });
+    
+    setFilteredProviders(allMatchingProviders);
   }, [products, providers]);
 
   if (!mounted || loading) {
@@ -479,6 +512,32 @@ function MarketplacePageContent() {
                     );
                     const providerTags = SupabaseService.extractProviderTags(provider.tags);
                     
+                    // Find matching products for this provider if there's a search query
+                    const matchingProductsForProvider = searchQuery ? 
+                      products.filter(product => {
+                        if (product.provider_id !== provider.id) return false;
+                        
+                        const searchTerm = searchQuery.toLowerCase();
+                        const nameMatch = product.name.toLowerCase().includes(searchTerm);
+                        const descriptionMatch = product.description.toLowerCase().includes(searchTerm);
+                        const biomarkerMatch = safeBiomarkersIncludes(product.biomarkers, searchTerm);
+                        
+                        let detailedBiomarkerMatch = false;
+                        if (product.biomarkers) {
+                          try {
+                            const biomarkers = SupabaseService.extractProductBiomarkers(product.biomarkers);
+                            detailedBiomarkerMatch = biomarkers.some(bio => 
+                              bio.name.toLowerCase().includes(searchTerm) ||
+                              bio.code.toLowerCase().includes(searchTerm)
+                            );
+                          } catch (error) {
+                            // Ignore errors
+                          }
+                        }
+                        
+                        return nameMatch || descriptionMatch || biomarkerMatch || detailedBiomarkerMatch;
+                      }) : [];
+                    
                     return (
                       <div 
                         key={provider.id}
@@ -504,6 +563,27 @@ function MarketplacePageContent() {
                         <p className="text-gray-300 text-sm mb-4 line-clamp-2">
                           {provider['Company Description'] || 'No description available'}
                         </p>
+
+                        {/* Show matching products if there's a search query */}
+                        {searchQuery && matchingProductsForProvider.length > 0 && (
+                          <div className="mb-3">
+                            <p className="text-xs text-purple-400 font-medium mb-1">
+                              Matching products ({matchingProductsForProvider.length}):
+                            </p>
+                            <div className="flex flex-wrap gap-1">
+                              {matchingProductsForProvider.slice(0, 3).map(product => (
+                                <span key={product.id} className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">
+                                  {product.name.length > 30 ? product.name.substring(0, 30) + '...' : product.name}
+                                </span>
+                              ))}
+                              {matchingProductsForProvider.length > 3 && (
+                                <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">
+                                  +{matchingProductsForProvider.length - 3} more
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
 
                         {providerTags.length > 0 && (
                           <div className="flex flex-wrap gap-1 mb-4">
