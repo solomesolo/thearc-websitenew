@@ -10,94 +10,86 @@ interface TestRecommendation {
   status: string;
 }
 
+// Fallback data function defined outside component to avoid reference issues
+const getFallbackData = (): TestRecommendation[] => [
+  {
+    test: "Blood Sugar Test (HbA1c)",
+    name: "Blood Sugar Test (HbA1c)",
+    explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
+    status: "urgent"
+  },
+  {
+    test: "Cholesterol & Lipids Test",
+    name: "Cholesterol & Lipids Test",
+    explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
+    status: "urgent"
+  },
+  {
+    test: "Liver Function Test",
+    name: "Liver Function Test",
+    explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
+    status: "urgent"
+  }
+];
+
 export default function ResultsPage() {
-  const [recommendations, setRecommendations] = useState<TestRecommendation[]>([
-    {
-      test: "Blood Sugar Test (HbA1c)",
-      name: "Blood Sugar Test (HbA1c)",
-      explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
-      status: "urgent"
-    },
-    {
-      test: "Cholesterol & Lipids Test",
-      name: "Cholesterol & Lipids Test",
-      explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
-      status: "urgent"
-    },
-    {
-      test: "Liver Function Test",
-      name: "Liver Function Test",
-      explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
-      status: "urgent"
-    }
-  ]);
-  const [loading, setLoading] = useState(false);
+  const [recommendations, setRecommendations] = useState<TestRecommendation[]>(getFallbackData());
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Track test completion
-    trackTestComplete('health_screening', {
-      results_source: 'results_page',
-      has_results: true
-    });
+    try {
+      // Track test completion
+      trackTestComplete('health_screening', {
+        results_source: 'results_page',
+        has_results: true
+      });
+    } catch (error) {
+      console.error('Error tracking test completion:', error);
+    }
 
-    // Get recommendations from localStorage
-    const storedData = localStorage.getItem('healthAssessmentResults');
-    console.log('Stored data:', storedData); // Debug log
-    
-    if (storedData) {
-      try {
-        const data = JSON.parse(storedData);
-        console.log('Parsed data:', data); // Debug log
-        
-        // Handle different data structures
-        let urgentTests = [];
-        if (data.urgentTests && Array.isArray(data.urgentTests)) {
-          urgentTests = data.urgentTests;
-        } else if (data.recommendations && Array.isArray(data.recommendations)) {
-          urgentTests = data.recommendations;
-        } else if (Array.isArray(data)) {
-          urgentTests = data;
-        }
-        
-        console.log('Urgent tests:', urgentTests); // Debug log
-        
-        if (urgentTests.length > 0) {
-          setRecommendations(urgentTests);
-        } else {
-          // Use fallback data if no urgent tests found
+    try {
+      // Get recommendations from localStorage
+      const storedData = localStorage.getItem('healthAssessmentResults');
+      console.log('Stored data:', storedData); // Debug log
+      
+      if (storedData) {
+        try {
+          const data = JSON.parse(storedData);
+          console.log('Parsed data:', data); // Debug log
+          
+          // Handle different data structures
+          let urgentTests: TestRecommendation[] = [];
+          if (data.urgentTests && Array.isArray(data.urgentTests)) {
+            urgentTests = data.urgentTests;
+          } else if (data.recommendations && Array.isArray(data.recommendations)) {
+            urgentTests = data.recommendations;
+          } else if (Array.isArray(data)) {
+            urgentTests = data;
+          }
+          
+          console.log('Urgent tests:', urgentTests); // Debug log
+          
+          if (urgentTests.length > 0) {
+            setRecommendations(urgentTests);
+          } else {
+            // Use fallback data if no urgent tests found
+            setRecommendations(getFallbackData());
+          }
+        } catch (error) {
+          console.error('Error parsing stored data:', error);
           setRecommendations(getFallbackData());
         }
-      } catch (error) {
-        console.error('Error parsing stored data:', error);
+      } else {
+        console.log('No stored data found, using fallback'); // Debug log
         setRecommendations(getFallbackData());
       }
-    } else {
-      console.log('No stored data found, using fallback'); // Debug log
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
       setRecommendations(getFallbackData());
     }
+    
     setLoading(false);
   }, []);
-
-  const getFallbackData = () => [
-    {
-      test: "Blood Sugar Test (HbA1c)",
-      name: "Blood Sugar Test (HbA1c)",
-      explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
-      status: "urgent"
-    },
-    {
-      test: "Cholesterol & Lipids Test",
-      name: "Cholesterol & Lipids Test",
-      explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
-      status: "urgent"
-    },
-    {
-      test: "Liver Function Test",
-      name: "Liver Function Test",
-      explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
-      status: "urgent"
-    }
-  ];
 
   const openProviderModal = (testName: string) => {
     // Open catalog with filtered results for this test
@@ -143,37 +135,43 @@ export default function ResultsPage() {
 
           {/* Tests Grid */}
           <div className="space-y-6">
-            {recommendations.map((test, index) => (
-              <div key={index} className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300">
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                  {/* Test Info */}
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-4">
-                      <h3 className="text-2xl font-bold text-white mb-2">{test.test || test.name}</h3>
-                      <span className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">
-                        URGENT
-                      </span>
+            {recommendations && recommendations.length > 0 ? (
+              recommendations.map((test, index) => (
+                <div key={index} className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300">
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                    {/* Test Info */}
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-4">
+                        <h3 className="text-2xl font-bold text-white mb-2">{test.test || test.name || 'Health Test'}</h3>
+                        <span className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">
+                          URGENT
+                        </span>
+                      </div>
+                      
+                      <div className="mb-4">
+                        <h4 className="text-lg font-semibold text-white mb-2">WHY THIS TEST MATTERS</h4>
+                        <p className="text-gray-300 leading-relaxed">{test.explanation || 'This test is important for your health monitoring.'}</p>
+                      </div>
                     </div>
-                    
-                    <div className="mb-4">
-                      <h4 className="text-lg font-semibold text-white mb-2">WHY THIS TEST MATTERS</h4>
-                      <p className="text-gray-300 leading-relaxed">{test.explanation}</p>
-                    </div>
-                  </div>
 
-                  {/* Action Button */}
-                  <div className="flex flex-col items-end gap-3">
-                    <button
-                      onClick={() => openProviderModal(test.test || test.name)}
-                      className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center gap-2 min-w-[200px] justify-center"
-                    >
-                      View in Catalog →
-                    </button>
-                    <p className="text-sm text-gray-400 italic">Click to find providers</p>
+                    {/* Action Button */}
+                    <div className="flex flex-col items-end gap-3">
+                      <button
+                        onClick={() => openProviderModal(test.test || test.name || 'Health Test')}
+                        className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center gap-2 min-w-[200px] justify-center"
+                      >
+                        View in Catalog →
+                      </button>
+                      <p className="text-sm text-gray-400 italic">Click to find providers</p>
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 text-center">
+                <p className="text-gray-300">Loading your personalized recommendations...</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
 
