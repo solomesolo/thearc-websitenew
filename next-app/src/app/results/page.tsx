@@ -14,19 +14,19 @@ const getFallbackData = (): TestRecommendation[] => [
   {
     test: "Blood Sugar Test (HbA1c)",
     name: "Blood Sugar Test (HbA1c)",
-    explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
+    explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications. Based on your age and lifestyle factors, an HbA1c test is particularly important for you. This test measures your average blood sugar levels over the past 2-3 months, providing a more comprehensive picture than a single glucose reading.",
     status: "urgent"
   },
   {
     test: "Cholesterol & Lipids Test",
     name: "Cholesterol & Lipids Test",
-    explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
+    explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health. This comprehensive lipid panel will measure your total cholesterol, LDL, HDL, and triglycerides to assess your heart disease risk and guide preventive care strategies.",
     status: "urgent"
   },
   {
     test: "Liver Function Test",
     name: "Liver Function Test",
-    explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
+    explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly by measuring key enzymes and proteins that indicate liver function and potential damage.",
     status: "urgent"
   }
 ];
@@ -60,7 +60,7 @@ export default function ResultsPage() {
 
   const openProviderModal = (testName: string) => {
     const catalogUrl = `/marketplace?search=${encodeURIComponent(testName)}`;
-    window.open(catalogUrl, '_blank');
+    window.location.href = catalogUrl;
   };
 
   return (
