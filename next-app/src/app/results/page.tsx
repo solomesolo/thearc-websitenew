@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface TestRecommendation {
   test: string;
@@ -33,6 +34,7 @@ const getFallbackData = (): TestRecommendation[] => [
 
 export default function ResultsPage() {
   const [recommendations, setRecommendations] = useState<TestRecommendation[]>(getFallbackData());
+  const router = useRouter();
 
   useEffect(() => {
     // Load test data from localStorage or use fallback
@@ -61,7 +63,7 @@ export default function ResultsPage() {
   const openProviderModal = (testName: string) => {
     const catalogUrl = `/marketplace?search=${encodeURIComponent(testName)}`;
     console.log('Navigating to:', catalogUrl);
-    window.location.href = catalogUrl;
+    router.push(catalogUrl);
   };
 
   return (
@@ -91,7 +93,7 @@ export default function ResultsPage() {
           {/* Section Header */}
           <div className="flex items-center mb-8">
             <div className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center mr-4">
-              <span className="text-2xl">🚨</span>
+              <span className="text-white font-bold text-lg">!</span>
             </div>
             <div>
               <h2 className="text-3xl font-bold text-white mb-2">URGENT TESTS (TOP PRIORITY)</h2>
@@ -150,7 +152,7 @@ export default function ResultsPage() {
           {/* Section Header */}
           <div className="flex items-center mb-8">
             <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mr-4">
-              <span className="text-2xl">📋</span>
+              <span className="text-white font-bold text-lg">+</span>
             </div>
             <div>
               <h2 className="text-3xl font-bold text-white mb-2">RECOMMENDED TESTS</h2>

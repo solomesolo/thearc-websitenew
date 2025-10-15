@@ -44,12 +44,12 @@ function MarketplacePageContent() {
       const filtered = products.filter(product => 
         product.name.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
         product.description.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
-        product.biomarkers.some(biomarker => 
+        (product.biomarkers && product.biomarkers.some(biomarker => 
           biomarker.toLowerCase().includes(searchFromUrl.toLowerCase())
-        )
+        ))
       );
       setFilteredProviders(providers.filter(provider => 
-        provider.products.some(productId => 
+        provider.products && provider.products.some(productId => 
           filtered.some(product => product.id === productId)
         )
       ));
