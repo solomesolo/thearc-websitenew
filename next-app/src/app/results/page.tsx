@@ -9,54 +9,87 @@ interface TestRecommendation {
   status: string;
 }
 
-// Simple fallback data
-const fallbackTests: TestRecommendation[] = [
-  {
-    test: "Blood Sugar Test (HbA1c)",
-    name: "Blood Sugar Test (HbA1c)",
-    explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
-    status: "urgent"
-  },
-  {
-    test: "Cholesterol & Lipids Test",
-    name: "Cholesterol & Lipids Test",
-    explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
-    status: "urgent"
-  },
-  {
-    test: "Liver Function Test",
-    name: "Liver Function Test",
-    explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
-    status: "urgent"
-  }
-];
-
 export default function ResultsPage() {
-  const [recommendations, setRecommendations] = useState<TestRecommendation[]>(fallbackTests);
-  const [loading, setLoading] = useState(false);
+  const [recommendations, setRecommendations] = useState<TestRecommendation[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simple data loading
-    try {
-      const storedData = localStorage.getItem('healthAssessmentResults');
-      if (storedData) {
-        const data = JSON.parse(storedData);
-        if (data.urgentTests && Array.isArray(data.urgentTests)) {
-          setRecommendations(data.urgentTests);
-        } else if (data.recommendations && Array.isArray(data.recommendations)) {
-          setRecommendations(data.recommendations);
+    // Simple data loading without complex logic
+    const loadData = () => {
+      try {
+        const storedData = localStorage.getItem('healthAssessmentResults');
+        
+        if (storedData) {
+          const data = JSON.parse(storedData);
+          
+          // Handle different data structures
+          let tests: TestRecommendation[] = [];
+          
+          if (data.urgentTests && Array.isArray(data.urgentTests)) {
+            tests = data.urgentTests;
+          } else if (data.recommendations && Array.isArray(data.recommendations)) {
+            tests = data.recommendations;
+          } else if (Array.isArray(data)) {
+            tests = data;
+          }
+          
+          if (tests.length > 0) {
+            setRecommendations(tests);
+          } else {
+            // Use fallback data
+            setRecommendations(getFallbackTests());
+          }
+        } else {
+          // Use fallback data
+          setRecommendations(getFallbackTests());
         }
+      } catch (error) {
+        console.error('Error loading data:', error);
+        setRecommendations(getFallbackTests());
       }
-    } catch (error) {
-      console.error('Error loading data:', error);
-    }
-    setLoading(false);
+      
+      setLoading(false);
+    };
+
+    loadData();
   }, []);
 
-  const openProviderModal = (testName: string) => {
-    const catalogUrl = `/marketplace?search=${encodeURIComponent(testName)}`;
-    window.open(catalogUrl, '_blank');
+  const getFallbackTests = (): TestRecommendation[] => [
+    {
+      test: "Blood Sugar Test (HbA1c)",
+      name: "Blood Sugar Test (HbA1c)",
+      explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
+      status: "urgent"
+    },
+    {
+      test: "Cholesterol & Lipids Test",
+      name: "Cholesterol & Lipids Test",
+      explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
+      status: "urgent"
+    },
+    {
+      test: "Liver Function Test",
+      name: "Liver Function Test",
+      explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
+      status: "urgent"
+    }
+  ];
+
+  const handleViewCatalog = (testName: string) => {
+    const searchUrl = `/marketplace?search=${encodeURIComponent(testName)}`;
+    window.open(searchUrl, '_blank');
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4">Loading your results...</h1>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -69,7 +102,7 @@ export default function ResultsPage() {
         <p className="text-sm text-gray-400">Generated on {new Date().toLocaleDateString()}</p>
       </div>
 
-      {/* Urgent Tests Section */}
+      {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 pb-12">
         <div className="bg-gradient-to-br from-gray-900/98 to-gray-800/98 border border-purple-500/20 rounded-3xl p-8 mb-8">
           {/* Section Header */}
@@ -83,43 +116,53 @@ export default function ResultsPage() {
             </div>
           </div>
 
-          {/* Tests Grid */}
+          {/* Test Cards */}
           <div className="space-y-6">
-            {recommendations.map((test, index) => (
-              <div key={index} className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300">
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                  {/* Test Info */}
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-4">
-                      <h3 className="text-2xl font-bold text-white mb-2">{test.test || test.name}</h3>
-                      <span className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">
-                        URGENT
-                      </span>
+            {recommendations.length > 0 ? (
+              recommendations.map((test, index) => (
+                <div key={index} className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300">
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                    {/* Test Info */}
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-4">
+                        <h3 className="text-2xl font-bold text-white mb-2">
+                          {test.test || test.name || 'Health Test'}
+                        </h3>
+                        <span className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">
+                          URGENT
+                        </span>
+                      </div>
+                      
+                      <div className="mb-4">
+                        <h4 className="text-lg font-semibold text-white mb-2">WHY THIS TEST MATTERS</h4>
+                        <p className="text-gray-300 leading-relaxed">
+                          {test.explanation || 'This test is important for your health monitoring.'}
+                        </p>
+                      </div>
                     </div>
-                    
-                    <div className="mb-4">
-                      <h4 className="text-lg font-semibold text-white mb-2">WHY THIS TEST MATTERS</h4>
-                      <p className="text-gray-300 leading-relaxed">{test.explanation}</p>
-                    </div>
-                  </div>
 
-                  {/* Action Button */}
-                  <div className="flex flex-col items-end gap-3">
-                    <button
-                      onClick={() => openProviderModal(test.test || test.name)}
-                      className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center gap-2 min-w-[200px] justify-center"
-                    >
-                      View in Catalog →
-                    </button>
-                    <p className="text-sm text-gray-400 italic">Click to find providers</p>
+                    {/* Action Button */}
+                    <div className="flex flex-col items-end gap-3">
+                      <button
+                        onClick={() => handleViewCatalog(test.test || test.name || 'Health Test')}
+                        className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center gap-2 min-w-[200px] justify-center"
+                      >
+                        View in Catalog →
+                      </button>
+                      <p className="text-sm text-gray-400 italic">Click to find providers</p>
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 text-center">
+                <p className="text-gray-300">No recommendations available at this time.</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
 
-        {/* Next Steps */}
+        {/* Footer */}
         <div className="text-center">
           <p className="text-gray-400 mb-4">
             Need help finding providers? Visit our{" "}
