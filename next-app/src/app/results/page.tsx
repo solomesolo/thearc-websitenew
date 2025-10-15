@@ -42,54 +42,62 @@ export default function ResultsPage() {
 
     // Get recommendations from localStorage
     const storedData = localStorage.getItem('healthAssessmentResults');
+    console.log('Stored data:', storedData); // Debug log
+    
     if (storedData) {
       try {
         const data = JSON.parse(storedData);
-        const urgentTests = data.urgentTests || [];
-        setRecommendations(urgentTests);
+        console.log('Parsed data:', data); // Debug log
+        
+        // Handle different data structures
+        let urgentTests = [];
+        if (data.urgentTests && Array.isArray(data.urgentTests)) {
+          urgentTests = data.urgentTests;
+        } else if (data.recommendations && Array.isArray(data.recommendations)) {
+          urgentTests = data.recommendations;
+        } else if (Array.isArray(data)) {
+          urgentTests = data;
+        }
+        
+        console.log('Urgent tests:', urgentTests); // Debug log
+        
+        if (urgentTests.length > 0) {
+          setRecommendations(urgentTests);
+        } else {
+          // Use fallback data if no urgent tests found
+          setRecommendations(getFallbackData());
+        }
       } catch (error) {
         console.error('Error parsing stored data:', error);
-        // Fallback to sample data if parsing fails
-        setRecommendations([
-          {
-            test: "Blood Sugar Test (HbA1c)",
-            name: "Blood Sugar Test (HbA1c)",
-            explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
-            status: "urgent"
-          },
-          {
-            test: "Cholesterol & Lipids Test",
-            name: "Cholesterol & Lipids Test", 
-            explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
-            status: "urgent"
-          }
-        ]);
+        setRecommendations(getFallbackData());
       }
     } else {
-      // Fallback to sample data if no localStorage data
-      setRecommendations([
-        {
-          test: "Blood Sugar Test (HbA1c)",
-          name: "Blood Sugar Test (HbA1c)",
-          explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
-          status: "urgent"
-        },
-        {
-          test: "Cholesterol & Lipids Test",
-          name: "Cholesterol & Lipids Test",
-          explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
-          status: "urgent"
-        },
-        {
-          test: "Liver Function Test",
-          name: "Liver Function Test",
-          explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
-          status: "urgent"
-        }
-      ]);
+      console.log('No stored data found, using fallback'); // Debug log
+      setRecommendations(getFallbackData());
     }
     setLoading(false);
   }, []);
+
+  const getFallbackData = () => [
+    {
+      test: "Blood Sugar Test (HbA1c)",
+      name: "Blood Sugar Test (HbA1c)",
+      explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
+      status: "urgent"
+    },
+    {
+      test: "Cholesterol & Lipids Test",
+      name: "Cholesterol & Lipids Test",
+      explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
+      status: "urgent"
+    },
+    {
+      test: "Liver Function Test",
+      name: "Liver Function Test",
+      explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
+      status: "urgent"
+    }
+  ];
 
   const openProviderModal = (testName: string) => {
     // Open catalog with filtered results for this test

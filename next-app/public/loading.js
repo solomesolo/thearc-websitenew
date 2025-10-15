@@ -263,7 +263,7 @@ async function submitQuestionnaire() {
                 updateProgress(100, 'Complete! Redirecting to your results...');
                 
                 setTimeout(() => {
-                    window.location.href = 'results.html';
+                    window.location.href = '/results';
                 }, 1000);
             }, 2000);
             
@@ -305,7 +305,7 @@ async function submitQuestionnaire() {
             updateProgress(100, 'Complete! Redirecting to your results...');
             
             setTimeout(() => {
-                window.location.href = 'results.html';
+                window.location.href = '/results';
             }, 1500);
         } else {
             throw new Error(result.error || 'Failed to analyze health data');
