@@ -40,7 +40,7 @@ export class SupabaseService {
 					return null;
 				}).filter(Boolean);
 				
-				return filters.tags!.some(filterTag => providerTags.includes(filterTag));
+				return (filters.tags || []).some(filterTag => providerTags.includes(filterTag));
 			});
 		}
 
@@ -115,7 +115,7 @@ export class SupabaseService {
 				if (!product.tags) return false;
 				
 				const productTags = this.extractProductTags(product.tags);
-				return filters.tags!.some(filterTag => productTags.includes(filterTag));
+				return (filters.tags || []).some(filterTag => productTags.includes(filterTag));
 			});
 		}
 
@@ -125,7 +125,7 @@ export class SupabaseService {
 				if (!product.biomarkers) return false;
 				
 				const productBiomarkers = this.extractProductBiomarkers(product.biomarkers);
-				return filters.biomarkers!.some(filterBiomarker => 
+				return (filters.biomarkers || []).some(filterBiomarker => 
 					productBiomarkers.some(bio => 
 						bio.name.toLowerCase().includes(filterBiomarker.toLowerCase()) ||
 						bio.code.toLowerCase().includes(filterBiomarker.toLowerCase())
