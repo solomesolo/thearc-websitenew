@@ -34,6 +34,7 @@ const getFallbackData = (): TestRecommendation[] => [
 
 export default function ResultsPage() {
   const [recommendations, setRecommendations] = useState<TestRecommendation[]>(getFallbackData());
+  const [assessmentSummary, setAssessmentSummary] = useState<string>("Based on your responses, we recommend a comprehensive health screening approach. Your age and lifestyle factors suggest focusing on cardiovascular health, metabolic markers, and preventive care. We've identified several key areas that would benefit from testing to optimize your health and longevity.");
   const router = useRouter();
 
   useEffect(() => {
@@ -42,19 +43,73 @@ export default function ResultsPage() {
     
     try {
       const storedData = localStorage.getItem('healthAssessmentResults');
+      console.log('🔍 Raw stored data:', storedData);
+      
       if (storedData) {
         const data = JSON.parse(storedData);
+        console.log('🔍 Parsed data:', data);
         
-        if (data.urgentTests && Array.isArray(data.urgentTests)) {
-          tests = data.urgentTests;
-        } else if (data.recommendations && Array.isArray(data.recommendations)) {
+        // Check for urgent_tests first (from API response)
+        if (data.urgent_tests && Array.isArray(data.urgent_tests)) {
+          console.log('✅ Found urgent_tests:', data.urgent_tests.length);
+          tests = data.urgent_tests.map((test: any) => ({
+            test: test.test || test.name,
+            name: test.test || test.name,
+            explanation: test.reason || test.explanation || test.description,
+            status: test.status || 'urgent'
+          }));
+        }
+        // Check for urgentTests (alternative format)
+        else if (data.urgentTests && Array.isArray(data.urgentTests)) {
+          console.log('✅ Found urgentTests:', data.urgentTests.length);
+          tests = data.urgentTests.map((test: any) => ({
+            test: test.test || test.name,
+            name: test.test || test.name,
+            explanation: test.reason || test.explanation || test.description,
+            status: test.status || 'urgent'
+          }));
+        }
+        // Check for recommendations (fallback format)
+        else if (data.recommendations && Array.isArray(data.recommendations)) {
+          console.log('✅ Found recommendations:', data.recommendations.length);
           tests = data.recommendations;
-        } else if (Array.isArray(data)) {
+        }
+        // Check if data is directly an array
+        else if (Array.isArray(data)) {
+          console.log('✅ Found direct array:', data.length);
           tests = data;
         }
+        // Check categories for urgent tests
+        else if (data.categories && Array.isArray(data.categories)) {
+          console.log('✅ Found categories, looking for urgent tests');
+          const urgentCategory = data.categories.find((cat: any) => 
+            cat.category_name && cat.category_name.toLowerCase().includes('urgent')
+          );
+          if (urgentCategory && urgentCategory.tests) {
+            tests = urgentCategory.tests.map((test: any) => ({
+              test: test.test || test.name,
+              name: test.test || test.name,
+              explanation: test.reason || test.explanation || test.description,
+              status: test.status || 'urgent'
+            }));
+          }
+        }
+        
+        console.log('🔍 Final tests to display:', tests);
+        
+        // Also load assessment summary if available
+        if (data.assessment_summary) {
+          console.log('✅ Found assessment_summary');
+          setAssessmentSummary(data.assessment_summary);
+        } else if (data.assessmentSummary) {
+          console.log('✅ Found assessmentSummary');
+          setAssessmentSummary(data.assessmentSummary);
+        }
+      } else {
+        console.log('⚠️ No stored data found, using fallback');
       }
     } catch (error) {
-      console.error('Error loading data:', error);
+      console.error('❌ Error loading data:', error);
     }
     
     setRecommendations(tests);
@@ -84,7 +139,7 @@ export default function ResultsPage() {
         <div className="bg-gradient-to-br from-gray-900/98 to-gray-800/98 border border-purple-500/20 rounded-3xl p-8 mb-8">
           <h2 className="text-3xl font-bold text-white mb-4">ASSESSMENT SUMMARY</h2>
           <p className="text-gray-300 leading-relaxed text-lg">
-            Based on your responses, we recommend a comprehensive health screening approach. Your age and lifestyle factors suggest focusing on cardiovascular health, metabolic markers, and preventive care. We've identified several key areas that would benefit from testing to optimize your health and longevity.
+            {assessmentSummary}
           </p>
         </div>
 
