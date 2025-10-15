@@ -22,8 +22,12 @@ export async function POST(request: NextRequest) {
     console.log('OPENAI_API_KEY length:', process.env.OPENAI_API_KEY?.length || 0);
     console.log('PORTKEY_API_KEY exists:', !!process.env.PORTKEY_API_KEY);
     console.log('PORTKEY_API_KEY length:', process.env.PORTKEY_API_KEY?.length || 0);
+    console.log('SUPABASE_URL exists:', !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+    console.log('SUPABASE_ANON_KEY exists:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
     
     const { responses, userEmail } = await request.json();
+    console.log('🔍 Received responses:', responses?.length || 0, 'responses');
+    console.log('🔍 User email:', userEmail);
     
     let aiResponse: string;
     let completion: any;
@@ -72,9 +76,12 @@ export async function POST(request: NextRequest) {
       });
       
       // Create comprehensive prompt for ChatGPT
+      console.log('🔍 Creating health assessment prompt...');
       const prompt = await createHealthAssessmentPrompt(responses);
+      console.log('🔍 Prompt created, length:', prompt.length);
       
       // Get AI analysis
+      console.log('🔍 Making OpenAI API call...');
       completion = await openai.chat.completions.create({
         model: "gpt-4",
         messages: [
@@ -92,10 +99,13 @@ export async function POST(request: NextRequest) {
       });
       
       aiResponse = completion.choices[0].message.content;
+      console.log('🔍 AI response received, length:', aiResponse?.length || 0);
     }
     
     // Parse AI response into structured format
+    console.log('🔍 Parsing AI response...');
     const results = parseAIResponse(aiResponse || '');
+    console.log('🔍 Parsed results:', results);
     
     // Transform API response to match frontend expectations
     const transformedResults = {
@@ -295,8 +305,11 @@ export async function POST(request: NextRequest) {
 
 async function createHealthAssessmentPrompt(responses: Array<{question: string, answer: string}>) {
   // Get available test names from catalog
+  console.log('🔍 Getting test names from catalog...');
   const testNamesByCategory = await ScreeningToCatalogMapper.getTestNamesByCategory();
   const allTestNames = await ScreeningToCatalogMapper.getAvailableTestNames();
+  console.log('🔍 Test names by category:', Object.keys(testNamesByCategory).length, 'categories');
+  console.log('🔍 Total test names:', allTestNames.length);
   
   let prompt = `You are a preventive medicine specialist who helps people understand their current health status and what screenings can keep them healthy long-term.
 Your goal is to create a personalized preventive screening summary in clear, empathetic, and patient-friendly language — like a medical professional explaining test results to a smart but non-medical person.
