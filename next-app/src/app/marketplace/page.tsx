@@ -357,9 +357,10 @@ function FiltersSidebar({
   }, [productFilters.tags, onProductFiltersChange]);
 
   const handleBiomarkerChange = useCallback((biomarker: string, checked: boolean) => {
+    const currentBiomarkers = productFilters.biomarkers || [];
     const newBiomarkers = checked
-      ? [...productFilters.biomarkers, biomarker]
-      : productFilters.biomarkers.filter(b => b !== biomarker);
+      ? [...currentBiomarkers, biomarker]
+      : currentBiomarkers.filter(b => b !== biomarker);
     onProductFiltersChange({ biomarkers: newBiomarkers });
   }, [productFilters.biomarkers, onProductFiltersChange]);
 
@@ -485,8 +486,8 @@ function FiltersSidebar({
               <CheckboxOption
                 key={biomarker}
                 label={biomarker}
-                checked={productFilters.biomarkers.includes(biomarker)}
-                onChange={() => handleBiomarkerChange(biomarker, !productFilters.biomarkers.includes(biomarker))}
+                checked={(productFilters.biomarkers || []).includes(biomarker)}
+                onChange={() => handleBiomarkerChange(biomarker, !(productFilters.biomarkers || []).includes(biomarker))}
               />
             ))}
           </div>
