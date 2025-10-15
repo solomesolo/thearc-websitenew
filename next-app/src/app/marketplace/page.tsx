@@ -52,6 +52,28 @@ function MarketplacePageContent() {
           filtered.some(product => product.id === productId)
         )
       ));
+
+      // Also update the product filters to show relevant biomarkers
+      const relevantBiomarkers = new Set<string>();
+      filtered.forEach(product => {
+        if (product.biomarkers) {
+          const biomarkers = SupabaseService.extractProductBiomarkers(product.biomarkers);
+          biomarkers.forEach(bio => {
+            if (bio.name.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
+                bio.code.toLowerCase().includes(searchFromUrl.toLowerCase())) {
+              relevantBiomarkers.add(bio.name);
+            }
+          });
+        }
+      });
+
+      // Update product filters to include relevant biomarkers
+      if (relevantBiomarkers.size > 0) {
+        setProductFilters(prev => ({
+          ...prev,
+          biomarkers: Array.from(relevantBiomarkers)
+        }));
+      }
     }
   }, [searchParams, selectedCountry, products, providers]);
 
@@ -463,7 +485,7 @@ function FiltersSidebar({
         
         <div className="mb-6">
           <h4 className="text-sm font-medium text-white/80 mb-3">Service Type</h4>
-          <div className="space-y-1 max-h-48 overflow-y-auto">
+          <div className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
             {filterData.serviceTypes.map(service => {
               const normalizedService = service.replace(/\s+/g, '_');
               return (
@@ -480,7 +502,7 @@ function FiltersSidebar({
 
         <div>
           <h4 className="text-sm font-medium text-white/80 mb-3">Biomarkers</h4>
-          <div className="space-y-1 max-h-48 overflow-y-auto">
+          <div className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
             {availableBiomarkers.slice(0, 20).map(biomarker => (
               <CheckboxOption
                 key={biomarker}
