@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Right Screening Finder - Your Health Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .purple-gradient {
+            background: linear-gradient(to right, #9333ea, #7c3aed);
+        }
+        .purple-gradient:hover {
+            background: linear-gradient(to right, #7c3aed, #6d28d9);
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen">
+    <!-- Header -->
+    <div class="text-center py-12 px-4">
+        <h1 class="text-4xl font-bold mb-4 gradient-text">
+            Right Screening Finder
+        </h1>
+        <p class="text-xl text-gray-300 mb-2">Personalized Health Screening Plan</p>
+        <p class="text-sm text-gray-400">Generated on <span id="currentDate"></span></p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto px-4 pb-12">
+        <div class="bg-gradient-to-br from-gray-900/98 to-gray-800/98 border border-purple-500/20 rounded-3xl p-8 mb-8">
+            <!-- Section Header -->
+            <div class="flex items-center mb-8">
+                <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center mr-4">
+                    <span class="text-2xl">🚨</span>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2">Urgent Tests</h2>
+                    <p class="text-gray-300">Tests that should be completed within the next month</p>
+                </div>
+            </div>
+
+            <!-- Test Cards -->
+            <div class="space-y-6" id="testCards">
+                <!-- Test cards will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center">
+            <p class="text-gray-400 mb-4">
+                Need help finding providers? Visit our
+                <a href="/marketplace" class="text-purple-400 hover:text-purple-300 underline">
+                    full marketplace
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
+
+        // Fallback test data
+        const fallbackTests = [
+            {
+                test: "Blood Sugar Test (HbA1c)",
+                name: "Blood Sugar Test (HbA1c)",
+                explanation: "Regular monitoring of blood sugar levels is crucial for managing diabetes and preventing complications.",
+                status: "urgent"
+            },
+            {
+                test: "Cholesterol & Lipids Test",
+                name: "Cholesterol & Lipids Test",
+                explanation: "Your family history of heart disease makes this crucial for assessing your cardiovascular health.",
+                status: "urgent"
+            },
+            {
+                test: "Liver Function Test",
+                name: "Liver Function Test",
+                explanation: "Regular alcohol consumption can affect liver health. This test will check if your liver is functioning properly.",
+                status: "urgent"
+            }
+        ];
+
+        // Load test data
+        function loadTestData() {
+            let tests = fallbackTests;
+            
+            try {
+                const storedData = localStorage.getItem('healthAssessmentResults');
+                if (storedData) {
+                    const data = JSON.parse(storedData);
+                    
+                    if (data.urgentTests && Array.isArray(data.urgentTests)) {
+                        tests = data.urgentTests;
+                    } else if (data.recommendations && Array.isArray(data.recommendations)) {
+                        tests = data.recommendations;
+                    } else if (Array.isArray(data)) {
+                        tests = data;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+            
+            displayTests(tests);
+        }
+
+        // Display test cards
+        function displayTests(tests) {
+            const container = document.getElementById('testCards');
+            
+            if (tests.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 text-center">
+                        <p class="text-gray-300">No recommendations available at this time.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = tests.map((test, index) => `
+                <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300">
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                        <!-- Test Info -->
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between mb-4">
+                                <h3 class="text-2xl font-bold text-white mb-2">
+                                    ${test.test || test.name || 'Health Test'}
+                                </h3>
+                                <span class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">
+                                    URGENT
+                                </span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">WHY THIS TEST MATTERS</h4>
+                                <p class="text-gray-300 leading-relaxed">
+                                    ${test.explanation || 'This test is important for your health monitoring.'}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="flex flex-col items-end gap-3">
+                            <button
+                                onclick="viewInCatalog('${(test.test || test.name || 'Health Test').replace(/'/g, "\\'")}')"
+                                class="purple-gradient text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center gap-2 min-w-[200px] justify-center"
+                            >
+                                View in Catalog →
+                            </button>
+                            <p class="text-sm text-gray-400 italic">Click to find providers</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Handle catalog view
+        function viewInCatalog(testName) {
+            const searchUrl = `/marketplace?search=${encodeURIComponent(testName)}`;
+            window.open(searchUrl, '_blank');
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadTestData);
+    </script>
+</body>
+</html>
