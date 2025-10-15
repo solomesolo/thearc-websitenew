@@ -1,5 +1,6 @@
 import { supabase, TABLES } from './supabase';
 import { Provider, Product, ProviderWithProducts, ProductFilters, ProviderFilters, Biomarker } from './types';
+import { safeBiomarkersIncludes } from './biomarkerUtils';
 
 export class SupabaseService {
 	// Provider operations
@@ -126,10 +127,7 @@ export class SupabaseService {
 				
 				const productBiomarkers = this.extractProductBiomarkers(product.biomarkers);
 				return (filters.biomarkers || []).some(filterBiomarker => 
-					productBiomarkers.some(bio => 
-						bio.name.toLowerCase().includes(filterBiomarker.toLowerCase()) ||
-						bio.code.toLowerCase().includes(filterBiomarker.toLowerCase())
-					)
+					safeBiomarkersIncludes(product.biomarkers, filterBiomarker)
 				);
 			});
 		}

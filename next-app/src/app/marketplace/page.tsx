@@ -10,6 +10,7 @@ import BurgerMenu from "../../components/BurgerMenu";
 import { trackMarketplaceView } from "../../utils/mixpanel";
 import { SupabaseService } from "../../lib/supabaseService";
 import { Provider, Product, ProviderFilters, ProductFilters } from "../../lib/types";
+import { safeBiomarkersIncludes } from "../../lib/biomarkerUtils";
 
 function MarketplacePageContent() {
   const searchParams = useSearchParams();
@@ -44,9 +45,7 @@ function MarketplacePageContent() {
       const filtered = products.filter(product => 
         product.name.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
         product.description.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
-        (product.biomarkers && product.biomarkers.some(biomarker => 
-          biomarker.toLowerCase().includes(searchFromUrl.toLowerCase())
-        ))
+        safeBiomarkersIncludes(product.biomarkers, searchFromUrl)
       );
       setFilteredProviders(providers.filter(provider => 
         provider.products && provider.products.some(productId => 
