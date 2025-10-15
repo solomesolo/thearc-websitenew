@@ -5,31 +5,5 @@
       "src": "next-app/package.json",
       "use": "@vercel/next"
     }
-  ],
-  "routes": [
-    {
-      "src": "/screening.html",
-      "dest": "/screening.html"
-    },
-    {
-      "src": "/index.html",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/questionnaire.html",
-      "dest": "/questionnaire.html"
-    },
-    {
-      "src": "/loading.html",
-      "dest": "/loading.html"
-    },
-    {
-      "src": "/results.html",
-      "dest": "/results.html"
-    },
-    {
-      "src": "/email-collection.html",
-      "dest": "/email-collection.html"
-    }
   ]
 }
