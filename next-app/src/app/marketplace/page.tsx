@@ -84,17 +84,22 @@ function MarketplacePageContent() {
     const searchFromUrl = searchParams.get('search');
     const countryFromUrl = searchParams.get('country');
     
+    console.log('🔍 Search parameter processing:', { searchFromUrl, countryFromUrl, productsCount: products.length, providersCount: providers.length });
+    
     if (countryFromUrl) {
       setSelectedCountry(countryFromUrl);
     }
     
     if (searchFromUrl) {
+      console.log('🔍 Processing search term:', searchFromUrl);
       // Find products that match the search term
       const matchingProducts = products.filter(product => 
         product.name.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
         product.description.toLowerCase().includes(searchFromUrl.toLowerCase()) ||
         safeBiomarkersIncludes(product.biomarkers, searchFromUrl)
       );
+      
+      console.log('🔍 Matching products found:', matchingProducts.length, matchingProducts.map(p => p.name));
       
       // Find providers that have these products
       const matchingProviders = providers.filter(provider => 
@@ -103,6 +108,7 @@ function MarketplacePageContent() {
         )
       );
       
+      console.log('🔍 Matching providers found:', matchingProviders.length);
       setFilteredProviders(matchingProviders);
       
       // Auto-select relevant biomarkers
@@ -119,11 +125,16 @@ function MarketplacePageContent() {
         }
       });
       
+      console.log('🔍 Relevant biomarkers found:', Array.from(relevantBiomarkers));
+      
       if (relevantBiomarkers.size > 0) {
+        console.log('🔍 Setting product filters with biomarkers:', Array.from(relevantBiomarkers));
         setProductFilters(prev => ({
           ...prev,
           biomarkers: Array.from(relevantBiomarkers)
         }));
+      } else {
+        console.log('🔍 No relevant biomarkers found for search term:', searchFromUrl);
       }
     }
   }, [mounted, searchParams, products, providers]);
