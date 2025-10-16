@@ -380,8 +380,8 @@ function MarketplacePageContent() {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col lg:flex-row gap-8">
             
-            {/* Filters Sidebar */}
-            <aside className="lg:w-80 flex-shrink-0">
+            {/* Filters Sidebar - Hidden on mobile, visible on desktop */}
+            <aside className="hidden lg:block lg:w-80 flex-shrink-0">
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-semibold text-white">Filters</h3>
