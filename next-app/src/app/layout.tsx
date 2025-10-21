@@ -47,9 +47,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        {/* Google tag (gtag.js) */}
+        {/* Google Analytics 4 (gtag.js) */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17631760134"
+          src="https://www.googletagmanager.com/gtag/js?id=G-90L63EEKYH"
           strategy="afterInteractive"
           async
         />
@@ -58,7 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'AW-17631760134');
+            gtag('config', 'G-90L63EEKYH');
           `}
         </Script>
         

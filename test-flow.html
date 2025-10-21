@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Questionnaire Flow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Questionnaire Flow</h1>
+    
+    <div class="test-section">
+        <h2>Step 1: Simulate Questionnaire Data</h2>
+        <p>This will create sample questionnaire data in localStorage</p>
+        <button onclick="simulateQuestionnaireData()">Create Sample Data</button>
+        <div id="step1-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 2: Test API Call</h2>
+        <p>This will test the health analysis API with sample data</p>
+        <button onclick="testAPI()">Test API</button>
+        <div id="step2-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 3: Test Complete Flow</h2>
+        <p>This will simulate the complete flow from questionnaire to results</p>
+        <button onclick="testCompleteFlow()">Test Complete Flow</button>
+        <div id="step3-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 4: Navigate to Results</h2>
+        <p>This will take you to the results page to see the catalog integration</p>
+        <button onclick="goToResults()">Go to Results Page</button>
+        <div id="step4-status"></div>
+    </div>
+
+    <script>
+        function showStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function simulateQuestionnaireData() {
+            try {
+                // Create sample questionnaire data
+                const sampleData = {
+                    age: '30',
+                    gender: 'male',
+                    family_history: ['diabetes', 'heart_disease'],
+                    symptoms: ['fatigue', 'weight_gain'],
+                    lifestyle: {
+                        exercise: 'moderate',
+                        sleep_hours: '7',
+                        stress_level: 'moderate',
+                        smoking: false,
+                        alcohol: 'occasionally'
+                    },
+                    previous_tests: {
+                        last_blood_test: '6_months_ago',
+                        cholesterol: 'normal',
+                        blood_sugar: 'borderline_high'
+                    }
+                };
+
+                localStorage.setItem('questionnaireData', JSON.stringify(sampleData));
+                showStatus('step1-status', '✅ Sample questionnaire data created successfully!', 'success');
+            } catch (error) {
+                showStatus('step1-status', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAPI() {
+            try {
+                showStatus('step2-status', '🔄 Testing API...', 'info');
+                
+                const sampleResponses = [
+                    { question: "What is your age?", answer: "30" },
+                    { question: "Do you have any family history of health conditions?", answer: "diabetes, heart disease" },
+                    { question: "What symptoms are you experiencing?", answer: "fatigue, weight gain" }
+                ];
+
+                const response = await fetch('/api/analyze_health', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ responses: sampleResponses })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatus('step2-status', `✅ API working! ${data.fallback ? 'Using fallback data' : 'Using AI data'}`, 'success');
+                    console.log('API Response:', data);
+                } else {
+                    showStatus('step2-status', `❌ API Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showStatus('step2-status', `❌ Network Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCompleteFlow() {
+            try {
+                showStatus('step3-status', '🔄 Testing complete flow...', 'info');
+                
+                // Step 1: Create sample data
+                simulateQuestionnaireData();
+                
+                // Step 2: Test API
+                const sampleResponses = [
+                    { question: "What is your age?", answer: "30" },
+                    { question: "Do you have any family history of health conditions?", answer: "diabetes, heart disease" },
+                    { question: "What symptoms are you experiencing?", answer: "fatigue, weight gain" }
+                ];
+
+                const response = await fetch('/api/analyze_health', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ responses: sampleResponses })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Step 3: Save results to localStorage
+                    localStorage.setItem('healthAssessmentResults', JSON.stringify(data.results));
+                    showStatus('step3-status', '✅ Complete flow successful! Results saved to localStorage', 'success');
+                } else {
+                    showStatus('step3-status', `❌ Flow failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showStatus('step3-status', `❌ Flow Error: ${error.message}`, 'error');
+            }
+        }
+
+        function goToResults() {
+            try {
+                // Check if we have results
+                const results = localStorage.getItem('healthAssessmentResults');
+                if (results) {
+                    showStatus('step4-status', '✅ Results found! Redirecting to results page...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/results.html';
+                    }, 1000);
+                } else {
+                    showStatus('step4-status', '❌ No results found. Please run Step 3 first.', 'error');
+                }
+            } catch (error) {
+                showStatus('step4-status', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Check if we already have data
+        window.onload = function() {
+            const questionnaireData = localStorage.getItem('questionnaireData');
+            const results = localStorage.getItem('healthAssessmentResults');
+            
+            if (questionnaireData) {
+                showStatus('step1-status', '✅ Questionnaire data already exists', 'success');
+            }
+            
+            if (results) {
+                showStatus('step3-status', '✅ Results already exist in localStorage', 'success');
+            }
+        };
+    </script>
+</body>
+</html>
+
