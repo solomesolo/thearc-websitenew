@@ -61,19 +61,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         
         {/* Google Analytics 4 (gtag.js) */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-90L63EEKYH"
-          strategy="afterInteractive"
-          async
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-90L63EEKYH"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-90L63EEKYH');
+            `,
+          }}
         />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-90L63EEKYH');
-          `}
-        </Script>
         
       </head>
       <body className={`${montserrat.variable} font-montserrat antialiased bg-black min-h-screen flex flex-col`}>
