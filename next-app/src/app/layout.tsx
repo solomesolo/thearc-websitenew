@@ -60,15 +60,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
         
-        {/* Google Analytics 4 (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-90L63EEKYH"></script>
+        {/* Google Ads Conversion Tracking (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17631760134"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-90L63EEKYH');
+              gtag('config', 'AW-17631760134');
             `,
           }}
         />
