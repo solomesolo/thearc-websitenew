@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Direct API Call</title>
+</head>
+<body>
+    <h1>Test Direct API Call</h1>
+    <button onclick="testDirectAPI()">Test Direct API</button>
+    <div id="result"></div>
+
+    <script>
+        function testDirectAPI() {
+            // Test with the CORRECT data structure that should produce non-zero scores
+            const testData = {
+                user: {
+                    name: "Test User",
+                    age: 35,
+                    sex: "female",
+                    email: "test@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: true,
+                        first_degree: true,
+                        onset: "<60"
+                    },
+                    diabetes: {
+                        present: true,
+                        first_degree: true,
+                        onset: "<60"
+                    },
+                    cancer: []
+                },
+                physiological_patterns: {
+                    lightheaded_standing: "sometimes",
+                    skin_color_changes: true,
+                    temperature_sensitivity: "high"
+                },
+                lifestyle_load: {
+                    overwhelmed: "often",
+                    confidence_handling: "never",
+                    in_control: "sometimes"
+                },
+                biological_signals: {
+                    age: 35,
+                    gender: "female",
+                    location: "city",
+                    education: "university",
+                    work_status: "employed"
+                },
+                cognitive_rhythm: {
+                    upset_annoyed: "never",
+                    tense_nervous: "often",
+                    too_many_demands: "sometimes"
+                },
+                symptoms: {
+                    gut: true,
+                    skin: true,
+                    fatigue: true,
+                    sleep_issues: true,
+                    digestive_issues: true
+                },
+                preferences: {
+                    budget: "moderate",
+                    equipment: "basic",
+                    diet: "flexible"
+                }
+            };
+
+            console.log("=== TESTING DIRECT API CALL ===");
+            console.log("Sending data:", testData);
+
+            fetch('http://localhost:3002/api/process-personalization-v2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(testData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("=== API RESPONSE ===");
+                console.log("Response:", data);
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                console.error("=== API ERROR ===");
+                console.error("Error:", error);
+                document.getElementById('result').innerHTML = '<pre>Error: ' + error.message + '</pre>';
+            });
+        }
+    </script>
+</body>
+</html>
+
+

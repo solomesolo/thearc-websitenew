@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Main Questionnaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .results h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Main Questionnaire Data Collection</h1>
+    
+    <form id="testForm">
+        <div class="question">
+            <h3>1. How often do you feel overwhelmed?</h3>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="overwhelmed" value="never" id="overwhelmed_never">
+                    <label for="overwhelmed_never">Never</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="overwhelmed" value="almost_never" id="overwhelmed_almost_never">
+                    <label for="overwhelmed_almost_never">Almost never</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="overwhelmed" value="sometimes" id="overwhelmed_sometimes">
+                    <label for="overwhelmed_sometimes">Sometimes</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="overwhelmed" value="fairly_often" id="overwhelmed_fairly_often">
+                    <label for="overwhelmed_fairly_often">Fairly often</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="overwhelmed" value="very_often" id="overwhelmed_very_often">
+                    <label for="overwhelmed_very_often">Very often</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>2. Do you have family history of heart disease?</h3>
+            <div class="options">
+                <div class="option">
+                    <input type="checkbox" name="family_health_patterns" value="heart_disease" id="family_heart">
+                    <label for="family_heart">Yes</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" name="family_health_patterns" value="none" id="family_none">
+                    <label for="family_none">No</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>3. Do you feel lightheaded when standing?</h3>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="lightheaded_standing" value="no" id="lightheaded_no">
+                    <label for="lightheaded_no">No</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="lightheaded_standing" value="yes" id="lightheaded_yes">
+                    <label for="lightheaded_yes">Yes</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>4. How often do you feel tense or nervous?</h3>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="tense_nervous" value="never" id="tense_never">
+                    <label for="tense_never">Never</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="tense_nervous" value="rarely" id="tense_rarely">
+                    <label for="tense_rarely">Rarely</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="tense_nervous" value="sometimes" id="tense_sometimes">
+                    <label for="tense_sometimes">Sometimes</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="tense_nervous" value="often" id="tense_often">
+                    <label for="tense_often">Often</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="tense_nervous" value="always" id="tense_always">
+                    <label for="tense_always">Always</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>5. How confident are you in handling problems?</h3>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="confidence_handling" value="never" id="confidence_never">
+                    <label for="confidence_never">Never confident</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="confidence_handling" value="rarely" id="confidence_rarely">
+                    <label for="confidence_rarely">Rarely confident</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="confidence_handling" value="sometimes" id="confidence_sometimes">
+                    <label for="confidence_sometimes">Sometimes confident</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="confidence_handling" value="often" id="confidence_often">
+                    <label for="confidence_often">Often confident</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="confidence_handling" value="always" id="confidence_always">
+                    <label for="confidence_always">Always confident</label>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <button onclick="testDataCollection()">Test Data Collection</button>
+    <button onclick="testTransformation()">Test Transformation</button>
+    <button onclick="testAPICall()">Test API Call</button>
+
+    <div class="results" id="results" style="display: none;">
+        <h3>Results</h3>
+        <div id="resultContent"></div>
+    </div>
+
+    <script>
+        let formData = {};
+
+        // Set up form event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            inputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    handleInputChange(this);
+                });
+            });
+        });
+
+        function handleInputChange(input) {
+            const name = input.name;
+            const value = input.type === "checkbox" ? 
+                (input.checked ? (formData[name] ? formData[name] + "," + input.value : input.value) : 
+                (formData[name] ? formData[name].replace(input.value + ",", "").replace("," + input.value, "").replace(input.value, "") : "")) :
+                input.value;
+            
+            if (value) {
+                formData[name] = value;
+            } else {
+                delete formData[name];
+            }
+            
+            console.log("Form data updated:", formData);
+        }
+
+        // Mapping functions to convert form values to API expected values
+        function mapOverwhelmedValue(value) {
+            if (!value) return 'never';
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'never';
+            }
+        }
+        
+        function mapConfidenceValue(value) {
+            if (!value) return 'never';
+            switch(value) {
+                case 'never': return 'never';
+                case 'rarely': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'often': return 'often';
+                case 'always': return 'always';
+                default: return 'never';
+            }
+        }
+
+        function transformQuestionnaireData(formData) {
+            console.log("=== TRANSFORMATION DEBUG ===");
+            console.log("Input formData:", formData);
+            
+            const transformedData = {
+                user: {
+                    name: "Test User",
+                    age: 35,
+                    sex: "female",
+                    email: "test@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: formData.family_health_patterns && formData.family_health_patterns.includes('heart_disease'),
+                        first_degree: formData.family_health_patterns && formData.family_health_patterns.includes('heart_disease'),
+                        onset: '<60'
+                    },
+                    diabetes: {
+                        present: false,
+                        first_degree: false,
+                        onset: 'unknown'
+                    },
+                    cancer: []
+                },
+                physiological_patterns: {
+                    lightheaded_standing: formData.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                    skin_color_changes: false,
+                    temperature_sensitivity: 'normal'
+                },
+                lifestyle_load: {
+                    overwhelmed: mapOverwhelmedValue(formData.overwhelmed),
+                    confidence_handling: mapConfidenceValue(formData.confidence_handling),
+                    in_control: 'sometimes'
+                },
+                biological_signals: {
+                    age: 35,
+                    gender: 'female',
+                    location: 'urban',
+                    education: 'university',
+                    work_status: 'employed'
+                },
+                cognitive_rhythm: {
+                    upset_annoyed: 'never',
+                    tense_nervous: formData.tense_nervous || 'never',
+                    too_many_demands: 'never'
+                },
+                symptoms: {
+                    fatigue: false,
+                    sleep_issues: false,
+                    digestive_issues: false
+                },
+                preferences: {
+                    budget: 'moderate',
+                    equipment: 'basic',
+                    diet: 'flexible'
+                }
+            };
+            
+            console.log("Transformed data:", transformedData);
+            return transformedData;
+        }
+
+        function testDataCollection() {
+            console.log("=== DATA COLLECTION TEST ===");
+            console.log("Form Data:", formData);
+            console.log("Number of fields collected:", Object.keys(formData).length);
+            console.log("Fields:", Object.keys(formData));
+            
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('resultContent').innerHTML = `
+                <h4>Data Collection Test</h4>
+                <p><strong>Form Data:</strong></p>
+                <pre>${JSON.stringify(formData, null, 2)}</pre>
+                <p><strong>Number of fields collected:</strong> ${Object.keys(formData).length}</p>
+                <p><strong>Fields:</strong> ${Object.keys(formData).join(', ')}</p>
+            `;
+        }
+
+        function testTransformation() {
+            console.log("=== TRANSFORMATION TEST ===");
+            const transformedData = transformQuestionnaireData(formData);
+            
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('resultContent').innerHTML = `
+                <h4>Data Transformation Test</h4>
+                <p><strong>Original Form Data:</strong></p>
+                <pre>${JSON.stringify(formData, null, 2)}</pre>
+                <p><strong>Transformed Data:</strong></p>
+                <pre>${JSON.stringify(transformedData, null, 2)}</pre>
+            `;
+        }
+
+        async function testAPICall() {
+            console.log("=== API CALL TEST ===");
+            const transformedData = transformQuestionnaireData(formData);
+            
+            try {
+                const response = await fetch('http://localhost:3002/api/process-personalization-v2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(transformedData)
+                });
+                
+                const result = await response.json();
+                console.log("API Response:", result);
+                
+                document.getElementById('results').style.display = 'block';
+                document.getElementById('resultContent').innerHTML = `
+                    <h4>API Test Results</h4>
+                    <p><strong>API Response:</strong></p>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                    <p><strong>Scores:</strong></p>
+                    <ul>
+                        <li>Family Risk: ${result.scores?.family_risk || 'N/A'}</li>
+                        <li>Physiological: ${result.scores?.physiological || 'N/A'}</li>
+                        <li>Lifestyle Load: ${result.scores?.lifestyle_load || 'N/A'}</li>
+                        <li>Biological: ${result.scores?.biological || 'N/A'}</li>
+                        <li>Cognitive: ${result.scores?.cognitive || 'N/A'}</li>
+                    </ul>
+                `;
+            } catch (error) {
+                console.error("API Error:", error);
+                document.getElementById('results').style.display = 'block';
+                document.getElementById('resultContent').innerHTML = `
+                    <h4>API Test Results</h4>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test LocalStorage Data</title>
+</head>
+<body>
+    <h1>Test LocalStorage Data</h1>
+    <button onclick="checkLocalStorage()">Check LocalStorage</button>
+    <div id="result"></div>
+
+    <script>
+        function checkLocalStorage() {
+            console.log("=== LOCALSTORAGE DEBUG ===");
+            
+            // Check what's actually stored in localStorage
+            const rawData = localStorage.getItem('personalizationFrameworkData');
+            const transformedData = localStorage.getItem('personalizationFrameworkTransformed');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            console.log("Raw data:", rawData);
+            console.log("Transformed data:", transformedData);
+            console.log("User email:", userEmail);
+            
+            let result = '<h2>LocalStorage Contents:</h2>';
+            
+            if (rawData) {
+                result += '<h3>Raw Data:</h3><pre>' + JSON.stringify(JSON.parse(rawData), null, 2) + '</pre>';
+            } else {
+                result += '<h3>Raw Data: NOT FOUND</h3>';
+            }
+            
+            if (transformedData) {
+                result += '<h3>Transformed Data:</h3><pre>' + JSON.stringify(JSON.parse(transformedData), null, 2) + '</pre>';
+            } else {
+                result += '<h3>Transformed Data: NOT FOUND</h3>';
+            }
+            
+            if (userEmail) {
+                result += '<h3>User Email:</h3><pre>' + userEmail + '</pre>';
+            } else {
+                result += '<h3>User Email: NOT FOUND</h3>';
+            }
+            
+            document.getElementById('result').innerHTML = result;
+        }
+    </script>
+</body>
+</html>
+
+

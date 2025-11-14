@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./mobile-responsive.css";
 import Footer from "../components/Footer";
 import HeroWithOverlay from "../components/HeroWithOverlay";
 import DNABackground from "../components/DNABackground";
@@ -74,7 +75,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         
       </head>
-      <body className={`${montserrat.variable} font-montserrat antialiased bg-black min-h-screen flex flex-col`}>
+      <body className={`${montserrat.variable} font-montserrat antialiased bg-black text-white min-h-screen flex flex-col`}>
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe 
@@ -90,7 +91,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <MainLayoutClient>
           {children}
         </MainLayoutClient>
-        <Footer />
         <CookieConsent />
         <Analytics />
       </body>

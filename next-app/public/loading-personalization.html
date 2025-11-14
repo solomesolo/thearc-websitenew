@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Generating Your Report - The Arc Personalization Framework</title>
+    
+    <style>
+        /* Reset all default styles and force dark theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            background-color: #0a0a0a !important;
+            background-image: none !important;
+            color-scheme: dark !important;
+        }
+        
+        body {
+            background-color: #0a0a0a !important;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            color: #ffffff !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo p {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .loading-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .loading-header {
+            margin-bottom: 2rem;
+        }
+        
+        .loading-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .loading-header p {
+            color: #a0aec0;
+            font-size: 1rem;
+        }
+        
+        .progress-container {
+            margin: 2rem 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 2rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .steps {
+            text-align: left;
+            margin-top: 2rem;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .step.completed {
+            background: rgba(81, 207, 102, 0.1);
+            border: 1px solid rgba(81, 207, 102, 0.3);
+        }
+        
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .step.active .step-icon {
+            background: #667eea;
+            color: #ffffff;
+        }
+        
+        .step.completed .step-icon {
+            background: #51cf66;
+            color: #ffffff;
+        }
+        
+        .step:not(.active):not(.completed) .step-icon {
+            background: rgba(255, 255, 255, 0.1);
+            color: #a0aec0;
+        }
+        
+        .step-text {
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+        
+        .step.completed .step-text {
+            color: #51cf66;
+        }
+        
+        .step:not(.active):not(.completed) .step-text {
+            color: #a0aec0;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            display: none;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .loading-container {
+                padding: 2rem;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .loading-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>The Arc</h1>
+            <p>Personalization Framework</p>
+        </div>
+        
+        <div class="loading-container">
+            <div class="loading-header">
+                <h2>Generating Your Personalized Report</h2>
+                <p>Our AI is analyzing your responses to create your comprehensive longevity blueprint</p>
+            </div>
+            
+            <div class="loading-spinner"></div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Initializing analysis...</div>
+            </div>
+            
+            <div class="steps">
+                <div class="step" id="step1">
+                    <div class="step-icon">1</div>
+                    <div class="step-text">Calculating health scores</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-icon">2</div>
+                    <div class="step-text">Generating personalized recommendations</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-icon">3</div>
+                    <div class="step-text">Creating AI-powered content</div>
+                </div>
+                <div class="step" id="step4">
+                    <div class="step-icon">4</div>
+                    <div class="step-text">Generating your PDF report</div>
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorMessage">
+                An error occurred while generating your report. Please try again.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        let progress = 0;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we have the required data
+            const questionnaireData = localStorage.getItem('personalizationFrameworkData');
+            const transformedData = localStorage.getItem('personalizationFrameworkTransformed');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (!questionnaireData || !transformedData || !userEmail) {
+                console.log('Missing required data, redirecting to questionnaire');
+                window.location.href = '/personalization-framework.html';
+                return;
+            }
+            
+            // Start the processing
+            processPersonalizationData();
+        });
+        
+        async function processPersonalizationData() {
+            try {
+                console.log('Starting personalization data processing...');
+                
+                // Simulate the processing steps
+                updateStep(1, 'Calculating health scores...');
+                await simulateDelay(2000);
+                
+                updateStep(2, 'Generating personalized recommendations...');
+                await simulateDelay(2000);
+                
+                updateStep(3, 'Creating AI-powered content...');
+                await simulateDelay(3000);
+                
+                updateStep(4, 'Generating your PDF report...');
+                await simulateDelay(3000);
+                
+                // Call the actual API to process the data
+                const transformedData = JSON.parse(localStorage.getItem('personalizationFrameworkTransformed'));
+                console.log('=== API CALL DEBUG ===');
+                console.log('Calling API with data:', transformedData);
+                console.log('Data keys:', Object.keys(transformedData));
+                console.log('User data:', transformedData.user);
+                console.log('Family history:', transformedData.family_history);
+                console.log('Physiological patterns:', transformedData.physiological_patterns);
+                console.log('Lifestyle load:', transformedData.lifestyle_load);
+                console.log('Biological signals:', transformedData.biological_signals);
+                console.log('Cognitive rhythm:', transformedData.cognitive_rhythm);
+                console.log('=== END API CALL DEBUG ===');
+                
+                const response = await fetch('http://localhost:3003/api/process-personalization-v2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(transformedData)
+                });
+                
+                console.log('API Response status:', response.status);
+                console.log('API Response ok:', response.ok);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API Error Response:', errorText);
+                    throw new Error(`API call failed: ${response.status} ${response.statusText} - ${errorText}`);
+                }
+                
+                const results = await response.json();
+                console.log('=== API RESPONSE DEBUG ===');
+                console.log('API response:', results);
+                console.log('Results ok:', results.ok);
+                console.log('Results scores:', results.scores);
+                console.log('=== END API RESPONSE DEBUG ===');
+                
+                // Store the complete results
+                localStorage.setItem('personalizationFrameworkResults', JSON.stringify(results));
+                
+                // Complete the process
+                updateStep(4, 'Report generated successfully!');
+                updateProgress(100, 'Complete! Redirecting to your report...');
+                
+                // Redirect to results page
+                setTimeout(() => {
+                    window.location.href = '/results-personalization.html';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error processing personalization data:', error);
+                showError('An error occurred while generating your report. Please try again.');
+            }
+        }
+        
+        function updateStep(stepNumber, text) {
+            // Reset all steps
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.classList.remove('active', 'completed');
+            }
+            
+            // Mark completed steps
+            for (let i = 1; i < stepNumber; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.classList.add('completed');
+            }
+            
+            // Mark current step as active
+            if (stepNumber <= 4) {
+                const currentStepElement = document.getElementById(`step${stepNumber}`);
+                currentStepElement.classList.add('active');
+            }
+            
+            // Update progress text
+            document.getElementById('progressText').textContent = text;
+            
+            // Update progress bar
+            const progressPercentage = (stepNumber / 4) * 100;
+            updateProgress(progressPercentage, text);
+        }
+        
+        function updateProgress(percentage, text) {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = text;
+        }
+        
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+        
+        function simulateDelay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+</body>
+</html>

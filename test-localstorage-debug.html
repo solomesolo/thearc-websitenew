@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test LocalStorage Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+    </style>
+</head>
+<body>
+    <h1>Test LocalStorage Debug</h1>
+    
+    <div class="test-section">
+        <h2>Step 1: Test Main Questionnaire</h2>
+        <p>Go to the main questionnaire and fill it out completely:</p>
+        <a href="http://localhost:8002/arc-personalization-framework/personalization-framework.html" target="_blank">
+            <button>Open Main Questionnaire</button>
+        </a>
+        <p><strong>Instructions:</strong></p>
+        <ul>
+            <li>Fill out ALL sections completely</li>
+            <li>Make sure to select answers for all questions</li>
+            <li>Click "Next" to proceed through all sections</li>
+            <li>Click "Submit" at the end</li>
+            <li>Check the browser console for any errors</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 2: Check LocalStorage Contents</h2>
+        <button onclick="checkLocalStorage()">Check LocalStorage</button>
+        <div id="localStorageResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 3: Test Form Data Collection</h2>
+        <button onclick="testFormDataCollection()">Test Form Data Collection</button>
+        <div id="formDataResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 4: Test API Call</h2>
+        <button onclick="testAPICall()">Test API Call</button>
+        <div id="apiResult"></div>
+    </div>
+
+    <script>
+        function checkLocalStorage() {
+            console.log("=== CHECKING LOCALSTORAGE ===");
+            
+            const rawData = localStorage.getItem('personalizationFrameworkData');
+            const transformedData = localStorage.getItem('personalizationFrameworkTransformed');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            console.log("Raw data:", rawData);
+            console.log("Transformed data:", transformedData);
+            console.log("User email:", userEmail);
+            
+            let result = '<h3>LocalStorage Contents:</h3>';
+            
+            if (rawData) {
+                const parsed = JSON.parse(rawData);
+                result += '<div class="success"><strong>✅ Raw Data Found:</strong><br>';
+                result += '<pre>' + JSON.stringify(parsed, null, 2) + '</pre></div>';
+                
+                // Check if the data has the right structure
+                const hasRequiredFields = parsed.overwhelmed && parsed.family_health_patterns && parsed.lightheaded_standing;
+                if (hasRequiredFields) {
+                    result += '<div class="success"><strong>✅ Form Data Structure: CORRECT</strong><br>';
+                    result += 'The form is collecting the right fields.</div>';
+                } else {
+                    result += '<div class="error"><strong>❌ Form Data Structure: INCORRECT</strong><br>';
+                    result += 'The form is not collecting the required fields.</div>';
+                }
+            } else {
+                result += '<div class="error"><strong>❌ Raw Data: NOT FOUND</strong><br>';
+                result += 'This means the form is not collecting data properly.</div>';
+            }
+            
+            if (transformedData) {
+                const parsed = JSON.parse(transformedData);
+                result += '<div class="success"><strong>✅ Transformed Data Found:</strong><br>';
+                result += '<pre>' + JSON.stringify(parsed, null, 2) + '</pre></div>';
+            } else {
+                result += '<div class="error"><strong>❌ Transformed Data: NOT FOUND</strong><br>';
+                result += 'This means the transformation function is not working.</div>';
+            }
+            
+            if (userEmail) {
+                result += '<div class="success"><strong>✅ User Email Found:</strong> ' + userEmail + '</div>';
+            } else {
+                result += '<div class="error"><strong>❌ User Email: NOT FOUND</strong><br>';
+                result += 'This means the email collection is not working.</div>';
+            }
+            
+            document.getElementById('localStorageResult').innerHTML = result;
+        }
+        
+        function testFormDataCollection() {
+            // Test if we can access the form data from the main questionnaire
+            let result = '<h3>Form Data Collection Test:</h3>';
+            
+            // Check if we can access the form data from localStorage
+            const rawData = localStorage.getItem('personalizationFrameworkData');
+            
+            if (rawData) {
+                const parsed = JSON.parse(rawData);
+                result += '<div class="success"><strong>✅ Raw Data Found:</strong><br>';
+                result += '<pre>' + JSON.stringify(parsed, null, 2) + '</pre></div>';
+                
+                // Check specific fields
+                const fields = [
+                    'overwhelmed', 'family_health_patterns', 'lightheaded_standing', 
+                    'skin_color_changes', 'temperature_sensitivity', 'confidence_handling',
+                    'in_control', 'upset_annoyed', 'tense_nervous', 'too_many_demands'
+                ];
+                
+                result += '<h4>Field Check:</h4>';
+                fields.forEach(field => {
+                    if (parsed[field]) {
+                        result += `<div class="success">✅ ${field}: ${parsed[field]}</div>`;
+                    } else {
+                        result += `<div class="error">❌ ${field}: NOT FOUND</div>`;
+                    }
+                });
+                
+            } else {
+                result += '<div class="error"><strong>❌ Raw Data: NOT FOUND</strong><br>';
+                result += 'This means the form is not collecting data properly.</div>';
+            }
+            
+            document.getElementById('formDataResult').innerHTML = result;
+        }
+        
+        function testAPICall() {
+            console.log("=== TESTING API CALL ===");
+            
+            const transformedData = localStorage.getItem('personalizationFrameworkTransformed');
+            
+            if (!transformedData) {
+                document.getElementById('apiResult').innerHTML = '<div class="error"><strong>❌ Error:</strong> No transformed data found in localStorage. Please complete the questionnaire first.</div>';
+                return;
+            }
+            
+            const data = JSON.parse(transformedData);
+            console.log("Calling API with data:", data);
+            
+            fetch('http://localhost:3002/api/process-personalization-v2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log("API Response:", result);
+                if (result.scores && Object.values(result.scores).some(score => score > 0)) {
+                    document.getElementById('apiResult').innerHTML = '<div class="success"><strong>✅ API Call Successful:</strong><br><pre>' + JSON.stringify(result, null, 2) + '</pre></div>';
+                } else {
+                    document.getElementById('apiResult').innerHTML = '<div class="error"><strong>❌ API Issue:</strong> All scores are zero<br><pre>' + JSON.stringify(result, null, 2) + '</pre></div>';
+                }
+            })
+            .catch(error => {
+                console.error("API Error:", error);
+                document.getElementById('apiResult').innerHTML = '<div class="error"><strong>❌ API Call Failed:</strong> ' + error.message + '</div>';
+            });
+        }
+    </script>
+</body>
+</html>
+
+

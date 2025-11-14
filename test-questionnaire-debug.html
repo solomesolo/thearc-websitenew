@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Questionnaire Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+    </style>
+</head>
+<body>
+    <h1>Test Questionnaire Debug</h1>
+    
+    <div class="test-section">
+        <h2>Step 1: Test Main Questionnaire</h2>
+        <p>Go to the main questionnaire and check the browser console for errors:</p>
+        <a href="http://localhost:8002/arc-personalization-framework/personalization-framework.html" target="_blank">
+            <button>Open Main Questionnaire</button>
+        </a>
+        <p><strong>Instructions:</strong></p>
+        <ul>
+            <li>Open the browser developer console (F12)</li>
+            <li>Look for any JavaScript errors (red text)</li>
+            <li>Try clicking the "Next" button</li>
+            <li>Check if the form data is being collected</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 2: Test Simple Questionnaire</h2>
+        <p>Test the working simple questionnaire:</p>
+        <a href="http://localhost:8003/test-main-questionnaire.html" target="_blank">
+            <button>Open Simple Questionnaire</button>
+        </a>
+        <p><strong>This should work correctly and show non-zero scores.</strong></p>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 3: Check Console Errors</h2>
+        <button onclick="checkConsoleErrors()">Check Console Errors</button>
+        <div id="consoleResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 4: Test Form Data Collection</h2>
+        <button onclick="testFormDataCollection()">Test Form Data Collection</button>
+        <div id="formDataResult"></div>
+    </div>
+
+    <script>
+        function checkConsoleErrors() {
+            // This function can't actually read the console, but we can provide guidance
+            let result = '<h3>Console Error Check:</h3>';
+            result += '<div class="result"><strong>Instructions:</strong></div>';
+            result += '<ol>';
+            result += '<li>Open the main questionnaire in a new tab</li>';
+            result += '<li>Open the browser developer console (F12)</li>';
+            result += '<li>Look for any red error messages</li>';
+            result += '<li>Common errors might be:</li>';
+            result += '<ul>';
+            result += '<li>Uncaught TypeError: Cannot read property of undefined</li>';
+            result += '<li>ReferenceError: function is not defined</li>';
+            result += '<li>SyntaxError: Unexpected token</li>';
+            result += '</ul>';
+            result += '</ol>';
+            
+            document.getElementById('consoleResult').innerHTML = result;
+        }
+        
+        function testFormDataCollection() {
+            // Test if we can access the form data from the main questionnaire
+            let result = '<h3>Form Data Collection Test:</h3>';
+            
+            // Check if we can access the form data from localStorage
+            const rawData = localStorage.getItem('personalizationFrameworkData');
+            const transformedData = localStorage.getItem('personalizationFrameworkTransformed');
+            
+            if (rawData) {
+                const parsed = JSON.parse(rawData);
+                result += '<div class="success"><strong>✅ Raw Data Found:</strong><br>';
+                result += '<pre>' + JSON.stringify(parsed, null, 2) + '</pre></div>';
+            } else {
+                result += '<div class="error"><strong>❌ Raw Data: NOT FOUND</strong><br>';
+                result += 'This means the form is not collecting data properly.</div>';
+            }
+            
+            if (transformedData) {
+                const parsed = JSON.parse(transformedData);
+                result += '<div class="success"><strong>✅ Transformed Data Found:</strong><br>';
+                result += '<pre>' + JSON.stringify(parsed, null, 2) + '</pre></div>';
+            } else {
+                result += '<div class="error"><strong>❌ Transformed Data: NOT FOUND</strong><br>';
+                result += 'This means the transformation function is not working.</div>';
+            }
+            
+            // Check if the form data has the right structure
+            if (rawData) {
+                const parsed = JSON.parse(rawData);
+                const hasRequiredFields = parsed.overwhelmed && parsed.family_health_patterns && parsed.lightheaded_standing;
+                
+                if (hasRequiredFields) {
+                    result += '<div class="success"><strong>✅ Form Data Structure: CORRECT</strong><br>';
+                    result += 'The form is collecting the right fields.</div>';
+                } else {
+                    result += '<div class="error"><strong>❌ Form Data Structure: INCORRECT</strong><br>';
+                    result += 'The form is not collecting the required fields.</div>';
+                }
+            }
+            
+            document.getElementById('formDataResult').innerHTML = result;
+        }
+    </script>
+</body>
+</html>

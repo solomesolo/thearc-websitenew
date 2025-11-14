@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Arc Personalization Framework - Health Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .question {
+            margin-bottom: 2rem;
+        }
+        
+        .question h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .question p {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #667eea;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+            accent-color: #667eea;
+        }
+        
+        .option input[type="checkbox"] {
+            margin-right: 0.75rem;
+            accent-color: #667eea;
+        }
+        
+        .option input[type="text"],
+        .option input[type="number"] {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 0.5rem;
+            color: #ffffff;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .option input[type="text"]:focus,
+        .option input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 2rem;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .debug-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #a0aec0;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>The Arc Personalization Framework</h1>
+            <p>Comprehensive Health Assessment for Personalized Longevity Blueprint</p>
+        </div>
+        
+        <form id="questionnaireForm" class="form-container">
+            <!-- Biological Signals Section -->
+            <div class="section">
+                <h2>1. Biological Signals (WHO STEPS)</h2>
+                
+                <div class="question">
+                    <h3>Age</h3>
+                    <input type="number" name="age" placeholder="Enter your age" min="18" max="120" required>
+                </div>
+                
+                <div class="question">
+                    <h3>Gender</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="gender" value="male" required>
+                            Male
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="gender" value="female" required>
+                            Female
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="gender" value="other" required>
+                            Other
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>Location</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="location" value="urban" required>
+                            Urban
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="location" value="rural" required>
+                            Rural
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Family History Section -->
+            <div class="section">
+                <h2>2. Family Risk Assessment (CDC FHHT)</h2>
+                
+                <div class="question">
+                    <h3>Family Health Patterns</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="checkbox" name="family_health_patterns" value="heart_disease">
+                            Heart Disease
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="family_health_patterns" value="diabetes">
+                            Diabetes
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="family_health_patterns" value="cancer">
+                            Cancer
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Physiological Patterns Section -->
+            <div class="section">
+                <h2>3. Physiological Patterns (COMPASS-31)</h2>
+                
+                <div class="question">
+                    <h3>Do you feel lightheaded when standing up?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="lightheaded_standing" value="never" required>
+                            Never
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="lightheaded_standing" value="sometimes" required>
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="lightheaded_standing" value="often" required>
+                            Often
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>Do you notice changes in skin color?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="skin_color_changes" value="no" required>
+                            No
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="skin_color_changes" value="yes" required>
+                            Yes
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>Temperature sensitivity</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="temperature_sensitivity" value="normal" required>
+                            Normal
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="temperature_sensitivity" value="moderate" required>
+                            Moderate
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="temperature_sensitivity" value="high" required>
+                            High
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lifestyle Load Section -->
+            <div class="section">
+                <h2>4. Lifestyle Load (PSS-10)</h2>
+                
+                <div class="question">
+                    <h3>How often do you feel overwhelmed?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="overwhelmed" value="never" required>
+                            Never
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="overwhelmed" value="rarely" required>
+                            Rarely
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="overwhelmed" value="sometimes" required>
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="overwhelmed" value="often" required>
+                            Often
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>How confident do you feel handling problems?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="confidence_handling" value="always" required>
+                            Always
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="confidence_handling" value="often" required>
+                            Often
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="confidence_handling" value="sometimes" required>
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="confidence_handling" value="rarely" required>
+                            Rarely
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="confidence_handling" value="never" required>
+                            Never
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>How often do you feel in control?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="in_control" value="always" required>
+                            Always
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="in_control" value="often" required>
+                            Often
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="in_control" value="sometimes" required>
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="in_control" value="rarely" required>
+                            Rarely
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="in_control" value="never" required>
+                            Never
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cognitive Rhythm Section -->
+            <div class="section">
+                <h2>5. Cognitive Rhythm (CFQ + WHO-5)</h2>
+                
+                <div class="question">
+                    <h3>How often do you feel upset or annoyed?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="upset_annoyed" value="never" required>
+                            Never
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="upset_annoyed" value="rarely" required>
+                            Rarely
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="upset_annoyed" value="sometimes" required>
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="upset_annoyed" value="often" required>
+                            Often
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>How often do you feel tense or nervous?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="tense_nervous" value="never" required>
+                            Never
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="tense_nervous" value="rarely" required>
+                            Rarely
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="tense_nervous" value="sometimes" required>
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="tense_nervous" value="often" required>
+                            Often
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>How often do you feel there are too many demands?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="too_many_demands" value="never" required>
+                            Never
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="too_many_demands" value="rarely" required>
+                            Rarely
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="too_many_demands" value="sometimes" required>
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="too_many_demands" value="often" required>
+                            Often
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Generate My Personalized Report</button>
+        </form>
+        
+        <div id="debugInfo" class="debug-info" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Form data collection
+        const formData = {};
+        
+        // Handle form input changes
+        function handleInputChange(input) {
+            const name = input.name;
+            const value = input.type === "checkbox" ? 
+                (input.checked ? (formData[name] ? formData[name] + "," + input.value : input.value) :
+                (formData[name] ? formData[name].replace("," + input.value, "").replace(input.value + ",", "").replace(input.value, "") : "")) :
+                input.value;
+            
+            if (value) {
+                formData[name] = value;
+            } else {
+                delete formData[name];
+            }
+            
+            console.log("Form data updated:", formData);
+        }
+        
+        // Add event listeners to all form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    handleInputChange(this);
+                });
+            });
+        });
+        
+        // Transform questionnaire data to API format
+        function transformQuestionnaireData(formData) {
+            console.log("=== TRANSFORMATION DEBUG ===");
+            console.log("Input formData:", formData);
+            
+            const transformedData = {
+                user: {
+                    name: "User",
+                    age: parseInt(formData.age) || 30,
+                    sex: formData.gender || "other",
+                    email: ""
+                },
+                family_history: {
+                    cvd: {
+                        present: formData.family_health_patterns && formData.family_health_patterns.includes('heart_disease'),
+                        first_degree: formData.family_health_patterns && formData.family_health_patterns.includes('heart_disease'),
+                        onset: '<60'
+                    },
+                    diabetes: {
+                        present: formData.family_health_patterns && formData.family_health_patterns.includes('diabetes'),
+                        first_degree: formData.family_health_patterns && formData.family_health_patterns.includes('diabetes')
+                    },
+                    cancer: formData.family_health_patterns && formData.family_health_patterns.includes('cancer') ? 
+                        [{ type: 'colorectal', relative: 'mother' }] : []
+                },
+                physiological_patterns: {
+                    lightheaded_standing: formData.lightheaded_standing || 'never',
+                    skin_color_changes: formData.skin_color_changes === 'yes',
+                    temperature_sensitivity: formData.temperature_sensitivity || 'normal'
+                },
+                lifestyle_load: {
+                    overwhelmed: formData.overwhelmed || 'never',
+                    confidence_handling: formData.confidence_handling || 'always',
+                    in_control: formData.in_control || 'always'
+                },
+                biological_signals: {
+                    age: parseInt(formData.age) || 30,
+                    gender: formData.gender || 'other',
+                    location: formData.location || 'urban',
+                    education: 'university',
+                    work_status: 'employed'
+                },
+                cognitive_rhythm: {
+                    upset_annoyed: formData.upset_annoyed || 'never',
+                    tense_nervous: formData.tense_nervous || 'never',
+                    too_many_demands: formData.too_many_demands || 'never'
+                },
+                symptoms: {
+                    fatigue: false,
+                    sleep_issues: false,
+                    digestive_issues: false
+                },
+                preferences: {
+                    budget: 'moderate',
+                    equipment: 'basic',
+                    diet: 'flexible'
+                }
+            };
+            
+            console.log("Transformed data:", transformedData);
+            console.log("=== END TRANSFORMATION DEBUG ===");
+            
+            return transformedData;
+        }
+        
+        // Handle form submission
+        document.getElementById('questionnaireForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            console.log("=== FORM SUBMISSION DEBUG ===");
+            console.log("Form data:", formData);
+            
+            // Transform the data
+            const transformedData = transformQuestionnaireData(formData);
+            
+            // Show debug info
+            const debugInfo = document.getElementById('debugInfo');
+            debugInfo.style.display = 'block';
+            debugInfo.textContent = JSON.stringify(transformedData, null, 2);
+            
+            // Call the API
+            try {
+                const response = await fetch('http://localhost:3002/api/process-personalization-v2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(transformedData)
+                });
+                
+                const results = await response.json();
+                console.log("API response:", results);
+                
+                // Show results
+                debugInfo.textContent += "\n\n=== API RESPONSE ===\n" + JSON.stringify(results, null, 2);
+                
+                if (results.ok) {
+                    alert("Success! Check the debug info below for your scores.");
+                } else {
+                    alert("Error: " + results.error);
+                }
+                
+            } catch (error) {
+                console.error("API call failed:", error);
+                alert("Error calling API: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
+
+

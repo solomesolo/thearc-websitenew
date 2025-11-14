@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Redirect</title>
+</head>
+<body>
+    <h1>Test Redirect Page</h1>
+    <p>If you can see this page, the redirect is working!</p>
+    <p>This means the personalization framework questionnaire is properly redirecting to the email collection page.</p>
+    
+    <script>
+        // Test localStorage access
+        console.log("Test page loaded");
+        console.log("localStorage data:", localStorage.getItem('personalizationFrameworkData'));
+        
+        // Show stored data if available
+        const storedData = localStorage.getItem('personalizationFrameworkData');
+        if (storedData) {
+            const data = JSON.parse(storedData);
+            console.log("Stored questionnaire data:", data);
+            document.body.innerHTML += `
+                <h2>Stored Data:</h2>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+        }
+    </script>
+</body>
+</html>

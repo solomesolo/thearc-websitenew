@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Scoring Fix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .score-display {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Score Calculation Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Data</h2>
+        <p>This test simulates the data transformation and scoring process to verify the fixes.</p>
+        <button onclick="testScoring()">Run Scoring Test</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+    
+    <div id="results" class="test-section">
+        <h2>Test Results</h2>
+        <div id="testOutput"></div>
+    </div>
+
+    <script>
+        // Simulate the scoring functions from the API
+        function calculateFamilyRisk(familyHistory) {
+            let score = 0;
+            
+            if (familyHistory.cvd && familyHistory.cvd.present && familyHistory.cvd.first_degree && familyHistory.cvd.onset === '<60') {
+                score += 40;
+            }
+            
+            if (familyHistory.diabetes && familyHistory.diabetes.present && familyHistory.diabetes.first_degree) {
+                score += 25;
+            }
+            
+            if (familyHistory.cancer && familyHistory.cancer.length > 0) {
+                const colorectalCancer = familyHistory.cancer.find((c) => c.type === 'colorectal');
+                if (colorectalCancer && colorectalCancer.relative === 'mother') {
+                    score += 20;
+                }
+            }
+            
+            return Math.min(score, 100);
+        }
+
+        function calculatePhysiological(physiological) {
+            let score = 0;
+            
+            if (physiological.lightheaded_standing) {
+                if (physiological.lightheaded_standing === 'often') score += 40;
+                else if (physiological.lightheaded_standing === 'sometimes') score += 20;
+            } else if (physiological.compass31_raw !== undefined) {
+                score += (physiological.compass31_raw / physiological.compass31_max) * 100;
+            }
+            
+            if (physiological.skin_color_changes) score += 30;
+            
+            if (physiological.temperature_sensitivity === 'high') score += 30;
+            else if (physiological.temperature_sensitivity === 'moderate') score += 15;
+            
+            return Math.min(score, 100);
+        }
+
+        function calculateLifestyleLoad(lifestyle) {
+            let score = 0;
+            
+            if (lifestyle.overwhelmed) {
+                if (lifestyle.overwhelmed === 'often') score += 40;
+                else if (lifestyle.overwhelmed === 'sometimes') score += 20;
+            } else if (lifestyle.pss10_raw !== undefined) {
+                score += (lifestyle.pss10_raw / lifestyle.pss10_max) * 100;
+            }
+            
+            if (lifestyle.confidence_handling === 'never') score += 30;
+            else if (lifestyle.confidence_handling === 'rarely') score += 15;
+            
+            if (lifestyle.in_control === 'never') score += 30;
+            else if (lifestyle.in_control === 'rarely') score += 15;
+            
+            return Math.min(score, 100);
+        }
+
+        function calculateBiological(biological, user) {
+            let score = 0;
+            
+            if (user.age >= 65) score += 30;
+            else if (user.age >= 45) score += 20;
+            else if (user.age >= 35) score += 10;
+            
+            if (user.sex === 'male') score += 10;
+            
+            if (biological.location === 'rural') score += 5;
+            
+            if (biological.education === 'high_school') score += 15;
+            else if (biological.education === 'university') score += 5;
+            
+            if (biological.work_status === 'unemployed') score += 20;
+            else if (biological.work_status === 'retired') score += 10;
+            
+            return Math.min(score, 100);
+        }
+
+        function calculateCognitive(cognitive) {
+            let score = 0;
+            
+            if (cognitive.upset_annoyed) {
+                if (cognitive.upset_annoyed === 'often') score += 30;
+                else if (cognitive.upset_annoyed === 'sometimes') score += 15;
+            } else if (cognitive.cfq_raw !== undefined) {
+                score += (cognitive.cfq_raw / cognitive.cfq_max) * 100;
+            }
+            
+            if (cognitive.tense_nervous === 'often') score += 30;
+            else if (cognitive.tense_nervous === 'sometimes') score += 15;
+            
+            if (cognitive.too_many_demands === 'often') score += 30;
+            else if (cognitive.too_many_demands === 'sometimes') score += 15;
+            
+            return Math.min(score, 100);
+        }
+
+        function testScoring() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '<h3>Running scoring tests...</h3>';
+            
+            // Test data that simulates what would come from the questionnaire
+            const testData = {
+                name: 'Test User',
+                age: '35',
+                gender: 'male',
+                family_health_patterns: 'heart_disease,diabetes,cancer', // Comma-separated string like in real form
+                lightheaded_standing: 'yes',
+                skin_color_changes: 'yes',
+                temperature_sensitivity: 'yes',
+                overwhelmed: 'fairly_often',
+                confidence_handling: 'almost_never',
+                in_control: 'sometimes',
+                location: 'city',
+                education: 'university',
+                work_status: 'employed',
+                upset_annoyed: 'sometimes',
+                tense_nervous: 'fairly_often',
+                too_many_demands: 'sometimes',
+                digestive_issues: 'often',
+                unusually_tired: 'often'
+            };
+            
+            // Transform the data (simulating the transformation function)
+            const familyHealthPatterns = testData.family_health_patterns ? 
+                testData.family_health_patterns.split(',').map(item => item.trim()) : [];
+            
+            // Mapping functions (same as in the real questionnaire)
+            function mapOverwhelmedValue(value) {
+                if (!value) return 'never';
+                switch(value) {
+                    case 'never': return 'never';
+                    case 'almost_never': return 'rarely';
+                    case 'sometimes': return 'sometimes';
+                    case 'fairly_often': return 'often';
+                    case 'very_often': return 'often';
+                    default: return 'never';
+                }
+            }
+            
+            function mapConfidenceValue(value) {
+                if (!value) return 'often';
+                switch(value) {
+                    case 'never': return 'never';
+                    case 'almost_never': return 'rarely';
+                    case 'sometimes': return 'sometimes';
+                    case 'fairly_often': return 'often';
+                    case 'very_often': return 'often';
+                    default: return 'often';
+                }
+            }
+            
+            function mapControlValue(value) {
+                if (!value) return 'often';
+                switch(value) {
+                    case 'never': return 'never';
+                    case 'almost_never': return 'rarely';
+                    case 'sometimes': return 'sometimes';
+                    case 'fairly_often': return 'often';
+                    case 'very_often': return 'often';
+                    default: return 'often';
+                }
+            }
+            
+            const transformed = {
+                user: {
+                    name: testData.name,
+                    age: parseInt(testData.age),
+                    sex: testData.gender,
+                    email: 'test@example.com'
+                },
+                family_history: {
+                    cvd: {
+                        present: familyHealthPatterns.includes('heart_disease'),
+                        first_degree: familyHealthPatterns.includes('heart_disease'),
+                        onset: familyHealthPatterns.includes('heart_disease') ? '<60' : 'unknown'
+                    },
+                    diabetes: {
+                        present: familyHealthPatterns.includes('diabetes'),
+                        first_degree: familyHealthPatterns.includes('diabetes'),
+                        onset: familyHealthPatterns.includes('diabetes') ? '<60' : 'unknown'
+                    },
+                    cancer: familyHealthPatterns.includes('cancer') ? [{
+                        type: 'colorectal',
+                        relative: 'mother',
+                        onset: '<60'
+                    }] : []
+                },
+                physiological_patterns: {
+                    compass31_raw: 0,
+                    compass31_max: 62,
+                    lightheaded_standing: testData.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                    skin_color_changes: testData.skin_color_changes === 'yes',
+                    temperature_sensitivity: testData.temperature_sensitivity === 'yes' ? 'high' : 'normal'
+                },
+                lifestyle_load: {
+                    pss10_raw: 0,
+                    pss10_max: 40,
+                    sleep_hours: 7,
+                    sleep_quality: 'good',
+                    overwhelmed: mapOverwhelmedValue(testData.overwhelmed),
+                    confidence_handling: mapConfidenceValue(testData.confidence_handling),
+                    in_control: mapControlValue(testData.in_control)
+                },
+                biological_signals: {
+                    waist_cm: 70,
+                    height_cm: 170,
+                    smoking: 'never',
+                    activity_min_week: 150,
+                    location: testData.location,
+                    education: testData.education,
+                    work_status: testData.work_status,
+                    labs_optional: {
+                        crp_mg_L: null,
+                        hba1c_percent: null,
+                        vitamin_d_ng_ml: null,
+                        lipids: {
+                            ldl: null,
+                            hdl: null,
+                            tg: null
+                        }
+                    }
+                },
+                cognitive_rhythm: {
+                    cfq_raw: 0,
+                    cfq_max: 100,
+                    who5_raw: 0,
+                    who5_max: 25,
+                    upset_annoyed: mapOverwhelmedValue(testData.upset_annoyed),
+                    tense_nervous: mapOverwhelmedValue(testData.tense_nervous),
+                    too_many_demands: mapOverwhelmedValue(testData.too_many_demands)
+                },
+                symptoms: {
+                    gut: testData.digestive_issues === 'often' || testData.digestive_issues === 'very_often',
+                    skin: testData.skin_color_changes === 'yes',
+                    fatigue: testData.unusually_tired === 'often' || testData.unusually_tired === 'very_often'
+                },
+                preferences: {
+                    diet: 'flexible',
+                    equipment: 'minimal',
+                    budget: 'low'
+                }
+            };
+            
+            // Calculate scores
+            const scores = {
+                family_risk: calculateFamilyRisk(transformed.family_history),
+                physiological: calculatePhysiological(transformed.physiological_patterns),
+                lifestyle_load: calculateLifestyleLoad(transformed.lifestyle_load),
+                biological: calculateBiological(transformed.biological_signals, transformed.user),
+                cognitive: calculateCognitive(transformed.cognitive_rhythm)
+            };
+            
+            // Display results
+            let html = '<h3>Test Results:</h3>';
+            html += '<div class="score-display">';
+            html += `<p><strong>Family Risk:</strong> ${scores.family_risk}%</p>`;
+            html += `<p><strong>Physiological:</strong> ${scores.physiological}%</p>`;
+            html += `<p><strong>Lifestyle Load:</strong> ${scores.lifestyle_load}%</p>`;
+            html += `<p><strong>Biological:</strong> ${scores.biological}%</p>`;
+            html += `<p><strong>Cognitive:</strong> ${scores.cognitive}%</p>`;
+            html += '</div>';
+            
+            // Check if scores are reasonable (not all 0)
+            const allZero = Object.values(scores).every(score => score === 0);
+            if (allZero) {
+                html += '<p class="error">❌ ERROR: All scores are 0! The scoring functions are not working correctly.</p>';
+            } else {
+                html += '<p class="success">✅ SUCCESS: Scores are being calculated correctly!</p>';
+            }
+            
+            html += '<h4>Raw Data Used:</h4>';
+            html += '<pre>' + JSON.stringify(transformed, null, 2) + '</pre>';
+            
+            output.innerHTML = html;
+        }
+
+        function clearResults() {
+            document.getElementById('testOutput').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

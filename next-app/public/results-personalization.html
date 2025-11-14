@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Your Personalized Report - The Arc Personalization Framework</title>
+    
+    <style>
+        /* Reset all default styles and force dark theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            background-color: #0a0a0a !important;
+            background-image: none !important;
+            color-scheme: dark !important;
+        }
+        
+        body {
+            background-color: #0a0a0a !important;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            color: #ffffff !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .results-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .results-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .results-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .results-header p {
+            color: #a0aec0;
+            font-size: 1rem;
+        }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .summary-card h3 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-card .score {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-card p {
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            text-align: center;
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .results-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>The Arc</h1>
+            <p>Your Personalized Longevity Blueprint</p>
+        </div>
+        
+        <div class="results-container">
+            <div class="results-header">
+                <h2>Your Personalized Report is Ready!</h2>
+                <p>Your comprehensive longevity blueprint has been generated based on your responses</p>
+            </div>
+            
+            <div id="loadingState" class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading your report...</p>
+            </div>
+            
+            <div id="resultsState" style="display: none;">
+                <div id="summary" class="summary"></div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="downloadPDF()">
+                        📥 Download PDF
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareReport()">
+                        📤 Share Report
+                    </button>
+                    <a href="/personalization-framework.html" class="btn btn-secondary">
+                        🔄 Take Assessment Again
+                    </a>
+                </div>
+            </div>
+            
+            <div id="errorState" class="error-message" style="display: none;">
+                Unable to load your report. Please try again.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let resultsData = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadResults();
+        });
+        
+        async function loadResults() {
+            try {
+                // Get results from localStorage
+                const resultsJson = localStorage.getItem('personalizationFrameworkResults');
+                console.log('=== RESULTS PAGE DEBUG ===');
+                console.log('Results JSON from localStorage:', resultsJson);
+                
+                if (!resultsJson) {
+                    console.error('No results found in localStorage');
+                    showError('No results found. Please complete the assessment again.');
+                    return;
+                }
+                
+                resultsData = JSON.parse(resultsJson);
+                console.log('Parsed results data:', resultsData);
+                console.log('Results data keys:', Object.keys(resultsData));
+                console.log('Results ok:', resultsData.ok);
+                console.log('Results scores:', resultsData.scores);
+                console.log('=== END RESULTS PAGE DEBUG ===');
+                
+                // Display summary
+                displaySummary(resultsData);
+                
+                // Hide loading, show results
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('resultsState').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error loading results:', error);
+                showError('An error occurred while loading your report. Please try again.');
+            }
+        }
+        
+        function displaySummary(data) {
+            const summaryContainer = document.getElementById('summary');
+            
+            // Find scores no matter where they were stashed
+            const rawScores =
+                data.scores ||
+                data.personalize?.scores ||
+                data.data?.scores ||
+                {};
+            
+            console.log('Raw scores:', rawScores);
+            
+            // Normalize keys & coerce to numbers
+            const scores = {
+                familyRisk: Number(
+                    rawScores.familyRisk ?? rawScores.family_risk ?? 0
+                ),
+                physiological: Number(rawScores.physiological ?? 0),
+                lifestyleLoad: Number(
+                    rawScores.lifestyleLoad ?? rawScores.lifestyle_load ?? 0
+                ),
+                biological: Number(rawScores.biological ?? 0),
+                cognitive: Number(rawScores.cognitive ?? 0),
+            };
+            
+            console.log('Raw scores from API:', rawScores);
+            console.log('Raw scores keys:', Object.keys(rawScores));
+            console.log('Raw scores values:', Object.values(rawScores));
+            console.log('Normalized scores for display:', scores);
+            
+            console.log('Displaying scores:', scores);
+            
+            console.log('Normalized scores:', scores);
+            
+            summaryContainer.innerHTML = `
+                <div class="summary-card">
+                    <h3>Family Risk</h3>
+                    <div class="score">${Math.round(scores.familyRisk)}</div>
+                    <p>Genetic predisposition score</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Physiological</h3>
+                    <div class="score">${Math.round(scores.physiological)}</div>
+                    <p>Body function assessment</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Lifestyle Load</h3>
+                    <div class="score">${Math.round(scores.lifestyleLoad)}</div>
+                    <p>Daily habits impact</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Biological</h3>
+                    <div class="score">${Math.round(scores.biological)}</div>
+                    <p>Cellular aging markers</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Cognitive</h3>
+                    <div class="score">${Math.round(scores.cognitive)}</div>
+                    <p>Mental function score</p>
+                </div>
+            `;
+        }
+        
+        function downloadPDF() {
+            // In a real implementation, this would download the actual PDF
+            alert('PDF download functionality would be implemented here. For now, this is a demonstration of the complete user journey.');
+        }
+        
+        function shareReport() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Personalized Longevity Blueprint',
+                    text: 'Check out my personalized longevity blueprint from The Arc!',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback: copy URL to clipboard
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Report URL copied to clipboard!');
+                });
+            }
+        }
+        
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('resultsState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('errorState').textContent = message;
+        }
+    </script>
+</body>
+</html>

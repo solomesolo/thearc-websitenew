@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Transformation</title>
+</head>
+<body>
+    <h1>Test Transformation Function</h1>
+    <button onclick="testTransformation()">Test Transformation</button>
+    <div id="result"></div>
+
+    <script>
+        function mapOverwhelmedValue(value) {
+            if (!value) return 'never';
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'never';
+            }
+        }
+
+        function mapConfidenceValue(value) {
+            if (!value) return 'never';
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'never';
+            }
+        }
+
+        function mapControlValue(value) {
+            if (!value) return 'never';
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'never';
+            }
+        }
+
+        function transformQuestionnaireData(formData) {
+            console.log("=== TRANSFORMATION DEBUG ===");
+            console.log("Input formData:", formData);
+            
+            const transformedData = {
+                user: {
+                    name: formData.name || "User",
+                    age: parseInt(formData.age) || 35,
+                    sex: formData.gender || "other",
+                    email: formData.email || "user@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: formData.family_health_patterns?.includes('heart_disease') || false,
+                        first_degree: formData.family_health_patterns?.includes('heart_disease') || false,
+                        onset: formData.family_health_patterns?.includes('heart_disease') ? '<60' : 'unknown'
+                    },
+                    diabetes: {
+                        present: formData.family_health_patterns?.includes('diabetes') || false,
+                        first_degree: formData.family_health_patterns?.includes('diabetes') || false,
+                        onset: formData.family_health_patterns?.includes('diabetes') ? '<60' : 'unknown'
+                    },
+                    cancer: formData.family_health_patterns?.filter(pattern => 
+                        pattern.includes('cancer') || pattern.includes('tumor')
+                    ) || []
+                },
+                physiological_patterns: {
+                    lightheaded_standing: formData.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                    skin_color_changes: formData.skin_color_changes === 'yes',
+                    temperature_sensitivity: formData.temperature_sensitivity === 'yes' ? 'high' : 'normal'
+                },
+                lifestyle_load: {
+                    overwhelmed: mapOverwhelmedValue(formData.overwhelmed),
+                    confidence_handling: mapConfidenceValue(formData.confidence_handling),
+                    in_control: mapControlValue(formData.in_control)
+                },
+                biological_signals: {
+                    age: parseInt(formData.age) || 35,
+                    gender: formData.gender || 'other',
+                    location: formData.location || 'urban',
+                    education: formData.education || 'university',
+                    work_status: formData.work_status || 'employed'
+                },
+                cognitive_rhythm: {
+                    upset_annoyed: mapOverwhelmedValue(formData.upset_annoyed),
+                    tense_nervous: mapOverwhelmedValue(formData.tense_nervous),
+                    too_many_demands: mapOverwhelmedValue(formData.too_many_demands)
+                },
+                symptoms: {
+                    gut: formData.digestive_issues === 'often' || formData.digestive_issues === 'very_often',
+                    skin: formData.skin_color_changes === 'yes',
+                    fatigue: formData.unusually_tired === 'often' || formData.unusually_tired === 'very_often',
+                    sleep_issues: formData.sleep_issues === 'often' || formData.sleep_issues === 'very_often',
+                    digestive_issues: formData.digestive_issues === 'often' || formData.digestive_issues === 'very_often'
+                },
+                preferences: {
+                    budget: formData.budget || 'moderate',
+                    equipment: formData.equipment || 'basic',
+                    diet: formData.diet || 'flexible'
+                }
+            };
+            
+            console.log("=== TRANSFORMED DATA DEBUG ===");
+            console.log("Transformed data:", transformedData);
+            console.log("=== END TRANSFORMED DATA DEBUG ===");
+            
+            return transformedData;
+        }
+
+        function testTransformation() {
+            // Test with sample data that should produce non-zero scores
+            const testData = {
+                name: "Test User",
+                age: "35",
+                gender: "female",
+                email: "test@example.com",
+                family_health_patterns: ["heart_disease", "diabetes"],
+                lightheaded_standing: "yes",
+                skin_color_changes: "yes",
+                temperature_sensitivity: "yes",
+                overwhelmed: "fairly_often",
+                confidence_handling: "rarely",
+                in_control: "sometimes",
+                upset_annoyed: "often",
+                tense_nervous: "fairly_often",
+                too_many_demands: "sometimes",
+                digestive_issues: "often",
+                unusually_tired: "fairly_often",
+                sleep_issues: "often",
+                location: "city",
+                education: "university",
+                work_status: "employed",
+                budget: "moderate",
+                equipment: "basic",
+                diet: "flexible"
+            };
+
+            console.log("=== TESTING TRANSFORMATION ===");
+            console.log("Input data:", testData);
+            
+            const result = transformQuestionnaireData(testData);
+            
+            console.log("=== TRANSFORMATION RESULT ===");
+            console.log("Result:", result);
+            
+            document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+        }
+    </script>
+</body>
+</html>
+
+

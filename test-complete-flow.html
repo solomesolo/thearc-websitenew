@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Complete Flow</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+    </style>
+</head>
+<body>
+    <h1>Test Complete Flow</h1>
+    
+    <div class="test-section">
+        <h2>Step 1: Test Main Questionnaire</h2>
+        <p>Go to the main questionnaire and fill it out completely:</p>
+        <a href="http://localhost:8002/arc-personalization-framework/personalization-framework.html" target="_blank">
+            <button>Open Main Questionnaire</button>
+        </a>
+        <p><strong>Instructions:</strong></p>
+        <ul>
+            <li>Fill out ALL sections completely</li>
+            <li>Make sure to select answers for all questions</li>
+            <li>Click "Next" to proceed through all sections</li>
+            <li>Click "Submit" at the end</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 2: Check LocalStorage</h2>
+        <button onclick="checkLocalStorage()">Check LocalStorage</button>
+        <div id="localStorageResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 3: Test API Call</h2>
+        <button onclick="testAPICall()">Test API Call</button>
+        <div id="apiResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 4: Test Complete Flow</h2>
+        <button onclick="testCompleteFlow()">Test Complete Flow</button>
+        <div id="completeFlowResult"></div>
+    </div>
+
+    <script>
+        function checkLocalStorage() {
+            console.log("=== CHECKING LOCALSTORAGE ===");
+            
+            const rawData = localStorage.getItem('personalizationFrameworkData');
+            const transformedData = localStorage.getItem('personalizationFrameworkTransformed');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            console.log("Raw data:", rawData);
+            console.log("Transformed data:", transformedData);
+            console.log("User email:", userEmail);
+            
+            let result = '<h3>LocalStorage Contents:</h3>';
+            
+            if (rawData) {
+                const parsed = JSON.parse(rawData);
+                result += '<div class="success"><strong>Raw Data Found:</strong><br>';
+                result += '<pre>' + JSON.stringify(parsed, null, 2) + '</pre></div>';
+            } else {
+                result += '<div class="error"><strong>Raw Data: NOT FOUND</strong></div>';
+            }
+            
+            if (transformedData) {
+                const parsed = JSON.parse(transformedData);
+                result += '<div class="success"><strong>Transformed Data Found:</strong><br>';
+                result += '<pre>' + JSON.stringify(parsed, null, 2) + '</pre></div>';
+            } else {
+                result += '<div class="error"><strong>Transformed Data: NOT FOUND</strong></div>';
+            }
+            
+            if (userEmail) {
+                result += '<div class="success"><strong>User Email Found:</strong> ' + userEmail + '</div>';
+            } else {
+                result += '<div class="error"><strong>User Email: NOT FOUND</strong></div>';
+            }
+            
+            document.getElementById('localStorageResult').innerHTML = result;
+        }
+        
+        function testAPICall() {
+            console.log("=== TESTING API CALL ===");
+            
+            const transformedData = localStorage.getItem('personalizationFrameworkTransformed');
+            
+            if (!transformedData) {
+                document.getElementById('apiResult').innerHTML = '<div class="error"><strong>Error:</strong> No transformed data found in localStorage. Please complete the questionnaire first.</div>';
+                return;
+            }
+            
+            const data = JSON.parse(transformedData);
+            console.log("Calling API with data:", data);
+            
+            fetch('http://localhost:3002/api/process-personalization-v2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log("API Response:", result);
+                document.getElementById('apiResult').innerHTML = '<div class="success"><strong>API Call Successful:</strong><br><pre>' + JSON.stringify(result, null, 2) + '</pre></div>';
+            })
+            .catch(error => {
+                console.error("API Error:", error);
+                document.getElementById('apiResult').innerHTML = '<div class="error"><strong>API Call Failed:</strong> ' + error.message + '</div>';
+            });
+        }
+        
+        function testCompleteFlow() {
+            console.log("=== TESTING COMPLETE FLOW ===");
+            
+            // Check if all required data is present
+            const rawData = localStorage.getItem('personalizationFrameworkData');
+            const transformedData = localStorage.getItem('personalizationFrameworkTransformed');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            let result = '<h3>Complete Flow Test:</h3>';
+            
+            if (!rawData) {
+                result += '<div class="error"><strong>❌ Raw Data Missing:</strong> Questionnaire data not stored</div>';
+            } else {
+                result += '<div class="success"><strong>✅ Raw Data Found:</strong> Questionnaire data stored</div>';
+            }
+            
+            if (!transformedData) {
+                result += '<div class="error"><strong>❌ Transformed Data Missing:</strong> Transformation not working</div>';
+            } else {
+                result += '<div class="success"><strong>✅ Transformed Data Found:</strong> Transformation working</div>';
+            }
+            
+            if (!userEmail) {
+                result += '<div class="error"><strong>❌ User Email Missing:</strong> Email not collected</div>';
+            } else {
+                result += '<div class="success"><strong>✅ User Email Found:</strong> Email collected</div>';
+            }
+            
+            // Test API call if all data is present
+            if (rawData && transformedData && userEmail) {
+                result += '<div class="success"><strong>✅ All Data Present:</strong> Ready for API call</div>';
+                
+                // Test API call
+                const data = JSON.parse(transformedData);
+                fetch('http://localhost:3002/api/process-personalization-v2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(apiResult => {
+                    console.log("API Response:", apiResult);
+                    if (apiResult.scores && Object.values(apiResult.scores).some(score => score > 0)) {
+                        result += '<div class="success"><strong>✅ API Working:</strong> Non-zero scores returned</div>';
+                    } else {
+                        result += '<div class="error"><strong>❌ API Issue:</strong> All scores are zero</div>';
+                    }
+                    document.getElementById('completeFlowResult').innerHTML = result;
+                })
+                .catch(error => {
+                    result += '<div class="error"><strong>❌ API Error:</strong> ' + error.message + '</div>';
+                    document.getElementById('completeFlowResult').innerHTML = result;
+                });
+            } else {
+                result += '<div class="error"><strong>❌ Incomplete Data:</strong> Cannot test API call</div>';
+                document.getElementById('completeFlowResult').innerHTML = result;
+            }
+        }
+    </script>
+</body>
+</html>
+
+

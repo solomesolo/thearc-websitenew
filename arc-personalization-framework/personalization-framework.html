@@ -1,0 +1,3083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Arc Personalization Framework - Health Assessment</title>
+    <meta name="version" content="2.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Fixed Mixpanel Script -->
+    <script src="/mixpanel-fixed.js"></script>
+    
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 100%);
+            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+        
+        /* Layout Structure */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-header h2 {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Section Navigation */
+        .section-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .section-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .section-link:hover::before {
+            left: 100%;
+        }
+        
+        .section-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(8px);
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
+        }
+        
+        .section-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+            transform: translateX(8px);
+        }
+        
+        .section-number {
+            color: #667eea;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .section-link.active .section-number {
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+        
+        .section-link.completed {
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+            border-color: rgba(81, 207, 102, 0.3);
+            box-shadow: 0 8px 20px rgba(81, 207, 102, 0.3);
+            position: relative;
+        }
+        
+        .section-link.completed::after {
+            content: "✓";
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+        
+        .section-link.completed .section-number {
+            color: #ffffff;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 320px;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .section {
+            display: none;
+            min-height: 100vh;
+            padding: 4rem 3rem;
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%);
+            position: relative;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section-header {
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-header h1 {
+            color: #ffffff;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        
+        .section-header p {
+            color: #cbd5e0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .questions-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .question {
+            margin-bottom: 3.5rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .question::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .question:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .question:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question h3 {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+        
+        /* Add spacing between questions within the same section */
+        .question + .question {
+            margin-top: 2rem;
+        }
+        
+        /* Add spacing between questions that are not wrapped in separate question divs */
+        .question p + .options {
+            margin-top: 1.5rem;
+        }
+        
+        /* Add spacing between consecutive questions within the same question container */
+        .question p:not(:first-child) {
+            margin-top: 2.5rem;
+        }
+        
+        .question p {
+            color: #a0aec0;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .option:hover::before {
+            left: 100%;
+        }
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .option input[type="radio"]:checked + .option-text {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .option input[type="radio"] {
+            margin: 0;
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+        }
+        
+        .option-text {
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .input-group input {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .input-group input::placeholder {
+            color: #a0aec0;
+        }
+        
+        .input-label {
+            color: #cbd5e0;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            margin: 1.5rem 0;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea::placeholder {
+            color: #a0aec0;
+        }
+        
+        .conditional-field {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Navigation Buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            bottom: 2rem;
+            background: rgba(15, 15, 35, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            z-index: 10;
+        }
+        
+        .nav-btn {
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        .nav-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .prev-btn {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        }
+        
+        .prev-btn:hover:not(:disabled) {
+            box-shadow: 0 15px 35px rgba(74, 85, 104, 0.4);
+        }
+        
+        /* Section Headers */
+        h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 3rem 0 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        h4 {
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 280px;
+            }
+            
+            .main-content {
+                margin-left: 280px;
+            }
+        }
+        
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 2rem 1.5rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .section {
+                padding: 3rem 2rem;
+            }
+            
+            .section-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                gap: 1rem;
+                padding-bottom: 1rem;
+            }
+            
+            .section-link {
+                min-width: 200px;
+                flex-shrink: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .section-header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-header p {
+                font-size: 1rem;
+            }
+            
+            .question {
+                padding: 1.5rem;
+            }
+            
+            .question h3 {
+                font-size: 1.1rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+                position: relative;
+                bottom: auto;
+                margin-top: 2rem;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .section {
+                padding: 1.5rem 1rem;
+            }
+            
+            .question {
+                padding: 1.2rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .input-group input {
+                min-width: auto;
+            }
+        }
+        
+        /* Loading Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section.active {
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        /* Focus States */
+        .option:focus-within {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+        
+        /* Custom Radio Button Styling */
+        input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="radio"]:checked {
+            border-color: #667eea;
+            background: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        input[type="radio"]:hover {
+            border-color: #667eea;
+        }
+        
+        /* Progress Indicator */
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            width: 20%;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+        }
+        
+        /* Floating Action Button for Mobile */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        @media (max-width: 968px) {
+            .fab {
+                display: flex;
+            }
+        }
+        
+        /* Enhanced Typography */
+        .question h3 {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .question h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        /* Smooth Transitions */
+        * {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Enhanced Focus States */
+        .option:focus-within,
+        .question:focus-within {
+            outline: 2px solid rgba(102, 126, 234, 0.5);
+            outline-offset: 2px;
+        }
+        
+        /* Loading States */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Success States */
+        .success {
+            border-color: #48bb78 !important;
+            background: rgba(72, 187, 120, 0.1) !important;
+        }
+        
+        /* Error States */
+        .error {
+            border-color: #f56565 !important;
+            background: rgba(245, 101, 101, 0.1) !important;
+        }
+        
+        /* Accessibility Improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            .option {
+                border: 2px solid #ffffff;
+            }
+            
+            .question {
+                border: 2px solid #ffffff;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            .sidebar,
+            .navigation-buttons,
+            .fab {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .section {
+                display: block !important;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>The Arc Personalization Framework</h2>
+            </div>
+            
+            <!-- Section Navigation -->
+            <div class="section-nav">
+                <a href="#" class="section-link active" data-section="biological">
+                    <span class="section-number">1</span>
+                    <span class="section-title">Biological Signals (WHO STEPS)</span>
+                </a>
+                <a href="#" class="section-link" data-section="family">
+                    <span class="section-number">2</span>
+                    <span class="section-title">Family Risk Assessment (CDC FHHT)</span>
+                </a>
+                <a href="#" class="section-link" data-section="physiological">
+                    <span class="section-number">3</span>
+                    <span class="section-title">Physiological Patterns (COMPASS-31)</span>
+                </a>
+                <a href="#" class="section-link" data-section="lifestyle">
+                    <span class="section-number">4</span>
+                    <span class="section-title">Lifestyle Load (PSS-10)</span>
+                </a>
+                <a href="#" class="section-link" data-section="cognitive">
+                    <span class="section-number">5</span>
+                    <span class="section-title">Cognitive Rhythm (CFQ + WHO-5)</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Section 1: Biological Signals (WHO STEPS) -->
+            <div id="biological" class="section active">
+                <div class="section-header">
+                    <h1>Biological Signals (WHO STEPS)</h1>
+                    <p>Let's start with some basic information about your health profile and lifestyle factors.</p>
+                </div>
+                
+                <div class="questions-container">
+                    <!-- About You and Your Background -->
+                    <h2 style="color: #3b82f6; margin: 2rem 0 1rem 0;">About You and Your Background</h2>
+                    
+                    <!-- Question 1: Age -->
+                    <div class="question">
+                        <h3>1. How old are you?</h3>
+                        <div class="input-group">
+                            <input type="number" name="age" placeholder="Enter your age" min="18" max="120">
+                            <span class="input-label">years old</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2: Gender -->
+                    <div class="question">
+                        <h3>2. What is your gender?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="gender" value="male">
+                                <span class="option-text">Male</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="gender" value="female">
+                                <span class="option-text">Female</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="gender" value="other">
+                                <span class="option-text">Other</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3: Location -->
+                    <div class="question">
+                        <h3>3. Where do you live currently?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="location" value="city">
+                                <span class="option-text">City</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="location" value="town">
+                                <span class="option-text">Town</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="location" value="countryside">
+                                <span class="option-text">Countryside</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4: Education -->
+                    <div class="question">
+                        <h3>4. What is your highest level of education?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="education" value="primary">
+                                <span class="option-text">Primary school</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="education" value="secondary">
+                                <span class="option-text">Secondary school</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="education" value="vocational">
+                                <span class="option-text">Vocational training</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="education" value="university">
+                                <span class="option-text">University/College</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="education" value="postgraduate">
+                                <span class="option-text">Postgraduate</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5: Work -->
+                    <div class="question">
+                        <h3>5. Are you working right now? What kind of work do you do?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="work_status" value="employed">
+                                <span class="option-text">Yes, I am employed</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="work_status" value="unemployed">
+                                <span class="option-text">No, I am unemployed</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="work_status" value="student">
+                                <span class="option-text">I am a student</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="work_status" value="retired">
+                                <span class="option-text">I am retired</span>
+                            </label>
+                        </div>
+                        <div class="conditional-field" id="work_type" style="display: none;">
+                            <textarea name="work_type_description" placeholder="Please describe what kind of work you do:"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Family Risk Assessment (CDC FHHT) -->
+            <div id="family" class="section">
+                <div class="section-header">
+                    <h1>Family Risk Assessment (CDC FHHT)</h1>
+                    <p>Help us understand your family health history to assess your risk factors.</p>
+                </div>
+                
+                <div class="questions-container">
+                    <!-- Question 1: Family Tree -->
+                    <div class="question">
+                        <h3>1. Who's in your family tree?</h3>
+                        <p>Can you list your close relatives, such as your parents, brothers and sisters, children, grandparents, aunts, and uncles?</p>
+                        <textarea name="family_tree" placeholder="Please list your close relatives (parents, siblings, children, grandparents, aunts, uncles, etc.):"></textarea>
+                    </div>
+                    
+                    <!-- Question 2: Family Origins -->
+                    <div class="question">
+                        <h3>2. Where does your family come from?</h3>
+                        <p>What countries or regions are your family roots from (for example: Italy, Turkey, Ireland, Nigeria)?</p>
+                        <textarea name="family_origins" placeholder="Please list the countries or regions your family comes from:"></textarea>
+                    </div>
+                    
+                    <!-- Question 3: Family Health Challenges -->
+                    <div class="question">
+                        <h3>3. Have any family members faced important health challenges?</h3>
+                        <p>Has anyone in your family ever had a major health condition, like heart troubles, diabetes, cancer, or feeling very sad or worried for a long time? How old were they when it started?</p>
+                        <textarea name="family_health_challenges" placeholder="Please describe any major health conditions in your family, including the age when they started:"></textarea>
+                    </div>
+                    
+                    <!-- Question 4: Family Ages -->
+                    <div class="question">
+                        <h3>4. How old is everyone now?</h3>
+                        <p>For those who have passed away, do you remember about how old they were and what happened?</p>
+                        <textarea name="family_ages" placeholder="Please list current ages of living relatives and ages at death for deceased relatives:"></textarea>
+                    </div>
+                    
+                    <!-- Question 5: Family Medications -->
+                    <div class="question">
+                        <h3>5. Does anyone in your family take daily medicines for long-term health reasons?</h3>
+                        <p>Are there any family members who have to take medicine regularly for things like blood pressure, sugar, or mood?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="family_medications" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="family_medications" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                        </div>
+                        <div class="conditional-field" id="family_medications_details" style="display: none;">
+                            <textarea name="family_medications_details" placeholder="Please describe what medications family members take and for what conditions:"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 6: Family Health Patterns -->
+                    <div class="question">
+                        <h3>6. Are there certain health conditions that show up a lot in your family?</h3>
+                        <p>Do you notice if there is a pattern with particular health concerns, such as several relatives with cancer or something that seems uncommon?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="heart_disease">
+                                <span class="option-text">Heart disease</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="diabetes">
+                                <span class="option-text">Diabetes</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="cancer">
+                                <span class="option-text">Cancer</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="mental_health">
+                                <span class="option-text">Mental health conditions</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="autoimmune">
+                                <span class="option-text">Autoimmune diseases</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="dementia">
+                                <span class="option-text">Dementia/Alzheimer's</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="stroke">
+                                <span class="option-text">Stroke</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="none">
+                                <span class="option-text">No patterns noticed</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="family_health_patterns" value="other">
+                                <span class="option-text">Other</span>
+                            </label>
+                        </div>
+                        <div class="conditional-field" id="family_health_patterns_other" style="display: none;">
+                            <textarea name="family_health_patterns_other" placeholder="Please describe other health patterns in your family:"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Physiological Patterns (COMPASS-31) -->
+            <div id="physiological" class="section">
+                <div class="section-header">
+                    <h1>Physiological Patterns (COMPASS-31)</h1>
+                    <p>Help us understand your physiological patterns and autonomic nervous system function.</p>
+                </div>
+                
+                <div class="questions-container">
+                    <!-- Question 1: Getting Up and Moving Around -->
+                    <div class="question">
+                        <h3>1. Getting Up and Moving Around</h3>
+                        <p>Over the past year, have you ever felt lightheaded, dizzy, or foggy when you stand up after sitting or lying down?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="lightheaded_standing" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="lightheaded_standing" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                        </div>
+                        
+                        <div class="conditional-field" id="lightheaded_frequency" style="display: none;">
+                            <h4>If so, how often has that happened?</h4>
+                            <div class="options">
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_frequency" value="rarely">
+                                    <span class="option-text">Rarely</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_frequency" value="sometimes">
+                                    <span class="option-text">Sometimes</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_frequency" value="often">
+                                    <span class="option-text">Often</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_frequency" value="almost_always">
+                                    <span class="option-text">Almost always</span>
+                                </label>
+                            </div>
+                            
+                            <h4>Are those spells mild, moderate, or severe when they happen?</h4>
+                            <div class="options">
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_severity" value="mild">
+                                    <span class="option-text">Mild</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_severity" value="moderate">
+                                    <span class="option-text">Moderate</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_severity" value="severe">
+                                    <span class="option-text">Severe</span>
+                                </label>
+                            </div>
+                            
+                            <h4>Are they better, worse, or the same compared to a year ago?</h4>
+                            <div class="options">
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_change" value="better">
+                                    <span class="option-text">Better</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_change" value="same">
+                                    <span class="option-text">Same</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="lightheaded_change" value="worse">
+                                    <span class="option-text">Worse</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2: Temperature and Skin Color Changes -->
+                    <div class="question">
+                        <h3>2. Changes in Temperature and Skin Color</h3>
+                        <p>Have you noticed your hands, feet, or face changing color (turning red, white, or purple) during the year?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="skin_color_changes" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="skin_color_changes" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                        </div>
+                        
+                        <p>Do you often get unusually cold or hot compared to others?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="temperature_sensitivity" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="temperature_sensitivity" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3: Moisture and Dryness -->
+                    <div class="question">
+                        <h3>3. Moisture and Dryness</h3>
+                        <p>Do you tend to have a dry mouth or dry eyes?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="dry_mouth_eyes" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="dry_mouth_eyes" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                        </div>
+                        
+                        <p>Is your sweating pattern different—like sweating less or more than people around you?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="sweating_changes" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="sweating_changes" value="less">
+                                <span class="option-text">I sweat less than others</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="sweating_changes" value="more">
+                                <span class="option-text">I sweat more than others</span>
+                            </label>
+                        </div>
+                        
+                        <p>Are these changes to your mouth, eyes, or sweatiness about the same, better, or worse than a year ago?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="moisture_changes" value="same">
+                                <span class="option-text">Same</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="moisture_changes" value="better">
+                                <span class="option-text">Better</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="moisture_changes" value="worse">
+                                <span class="option-text">Worse</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4: Eating and Digestion -->
+                    <div class="question">
+                        <h3>4. Eating and Digestion</h3>
+                        <p>Do you find yourself getting full much faster or slower while eating than you used to?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="fullness_changes" value="no">
+                                <span class="option-text">No change</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="fullness_changes" value="faster">
+                                <span class="option-text">I get full faster</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="fullness_changes" value="slower">
+                                <span class="option-text">I get full slower</span>
+                            </label>
+                        </div>
+                        
+                        <p>Do you often feel bloated or uncomfortably full after meals?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="bloating" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="bloating" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="bloating" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="bloating" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="bloating" value="always">
+                                <span class="option-text">Always</span>
+                            </label>
+                        </div>
+                        
+                        <p>Have you vomited after eating in the past year? If so, how often?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="vomiting" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="vomiting" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="vomiting" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="vomiting" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                        </div>
+                        
+                        <p>Do you have tummy cramps, diarrhea, or constipation? How often do these happen?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="digestive_issues" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="digestive_issues" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="digestive_issues" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="digestive_issues" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                        </div>
+                        
+                        <p>Are these digestion troubles mild, moderate, or severe?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="digestive_severity" value="mild">
+                                <span class="option-text">Mild</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="digestive_severity" value="moderate">
+                                <span class="option-text">Moderate</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="digestive_severity" value="severe">
+                                <span class="option-text">Severe</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5: Eyes and Bright Lights -->
+                    <div class="question">
+                        <h3>5. Eyes and Bright Lights</h3>
+                        <p>Does bright sunlight or indoor lighting without sunglasses bother your eyes?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="light_sensitivity" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="light_sensitivity" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                        </div>
+                        
+                        <p>Do you ever have trouble focusing your eyes, or do they sometimes feel "off" in bright light?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="focus_issues" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="focus_issues" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                        </div>
+                        
+                        <p>How often do you notice these feelings, and are they mild, moderate, or severe?</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="eye_issues_frequency" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="eye_issues_frequency" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="eye_issues_frequency" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                        </div>
+                        
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="eye_issues_severity" value="mild">
+                                <span class="option-text">Mild</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="eye_issues_severity" value="moderate">
+                                <span class="option-text">Moderate</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="eye_issues_severity" value="severe">
+                                <span class="option-text">Severe</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Lifestyle Load (PSS-10) -->
+            <div id="lifestyle" class="section">
+                <div class="section-header">
+                    <h1>Lifestyle Load (PSS-10)</h1>
+                    <p>Help us understand your current stress levels and lifestyle load.</p>
+                </div>
+                
+                <div class="questions-container">
+                    <!-- Question 1: Feeling Overwhelmed -->
+                    <div class="question">
+                        <h3>1. In the last few weeks, how often have you felt that things were piling up and hard to handle?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="overwhelmed" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="overwhelmed" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="overwhelmed" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="overwhelmed" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="overwhelmed" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2: Confidence in Handling Problems -->
+                    <div class="question">
+                        <h3>2. How often have you felt that you were able to handle the important things in your life?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="confidence_handling" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="confidence_handling" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="confidence_handling" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="confidence_handling" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="confidence_handling" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3: Feeling on Top of Things -->
+                    <div class="question">
+                        <h3>3. In the last month, have you felt in control or that you could manage what was going on?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="in_control" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="in_control" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="in_control" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="in_control" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="in_control" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4: Unexpected Ups and Downs -->
+                    <div class="question">
+                        <h3>4. How often have things happened that caught you off guard or made life feel unpredictable?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="unpredictable" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="unpredictable" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="unpredictable" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="unpredictable" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="unpredictable" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5: Coping with Every Day -->
+                    <div class="question">
+                        <h3>5. Have you felt you could cope well with whatever came your way?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="coping_well" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="coping_well" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="coping_well" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="coping_well" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="coping_well" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 6: Irritations and Frustrations -->
+                    <div class="question">
+                        <h3>6. How often have you felt upset or annoyed by things happening around you?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="upset_annoyed" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="upset_annoyed" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="upset_annoyed" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="upset_annoyed" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="upset_annoyed" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 7: Feeling Nervous or Stressed -->
+                    <div class="question">
+                        <h3>7. In the past month, how often have you felt tense, nervous, or stressed?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="tense_nervous" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="tense_nervous" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="tense_nervous" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="tense_nervous" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="tense_nervous" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 8: Feeling Too Many Demands -->
+                    <div class="question">
+                        <h3>8. How often have you felt that you had too many things to do at once?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="too_many_demands" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="too_many_demands" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="too_many_demands" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="too_many_demands" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="too_many_demands" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 9: Control over Irritations -->
+                    <div class="question">
+                        <h3>9. In the last few weeks, have you been able to stay calm or in control when things got on your nerves?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="stay_calm" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="stay_calm" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="stay_calm" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="stay_calm" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="stay_calm" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 10: Difficulties Seem Unbeatable -->
+                    <div class="question">
+                        <h3>10. How often have you felt like problems kept building up and there was no way out?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="problems_unbeatable" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="problems_unbeatable" value="almost_never">
+                                <span class="option-text">Almost never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="problems_unbeatable" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="problems_unbeatable" value="fairly_often">
+                                <span class="option-text">Fairly often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="problems_unbeatable" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Cognitive Rhythm (CFQ + WHO-5) -->
+            <div id="cognitive" class="section">
+                <div class="section-header">
+                    <h1>Cognitive Rhythm (CFQ + WHO-5)</h1>
+                    <p>Help us understand your cognitive function and well-being patterns.</p>
+                </div>
+                
+                <div class="questions-container">
+                    <!-- CFQ Questions -->
+                    <h2 style="color: #3b82f6; margin: 2rem 0 1rem 0;">Cognitive Function Questionnaire (CFQ)</h2>
+                    <p>Over the past few weeks, please tell us how often you have experienced the following:</p>
+                    
+                    <!-- Question 1: Unusually Tired -->
+                    <div class="question">
+                        <h3>1. Do you feel unusually tired or exhausted after doing normal day-to-day activities?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="unusually_tired" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="unusually_tired" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="unusually_tired" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="unusually_tired" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="unusually_tired" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2: Trouble Starting Things -->
+                    <div class="question">
+                        <h3>2. How often do you have trouble starting things because you feel tired?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="trouble_starting" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="trouble_starting" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="trouble_starting" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="trouble_starting" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="trouble_starting" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3: Muscle Weakness -->
+                    <div class="question">
+                        <h3>3. Have you noticed feeling weak in your muscles?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="muscle_weakness" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="muscle_weakness" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="muscle_weakness" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="muscle_weakness" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="muscle_weakness" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4: Concentration Issues -->
+                    <div class="question">
+                        <h3>4. Do you find it hard to concentrate or stay focused?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="concentration_issues" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="concentration_issues" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="concentration_issues" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="concentration_issues" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="concentration_issues" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5: Physical Slowness -->
+                    <div class="question">
+                        <h3>5. Are you physically slower or less energetic than usual?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="physical_slowness" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="physical_slowness" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="physical_slowness" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="physical_slowness" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="physical_slowness" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 6: Mental Drain -->
+                    <div class="question">
+                        <h3>6. Do you feel mentally drained or find it difficult to think clearly?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="mental_drain" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="mental_drain" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="mental_drain" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="mental_drain" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="mental_drain" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 7: Sleepiness -->
+                    <div class="question">
+                        <h3>7. How often do you feel sleepy or have trouble staying awake during the day?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="daytime_sleepiness" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="daytime_sleepiness" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="daytime_sleepiness" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="daytime_sleepiness" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="daytime_sleepiness" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 8: Sleep Issues -->
+                    <div class="question">
+                        <h3>8. Have you had trouble sleeping or do you wake up feeling tired?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="sleep_issues" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="sleep_issues" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="sleep_issues" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="sleep_issues" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="sleep_issues" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 9: Worn Out After Rest -->
+                    <div class="question">
+                        <h3>9. Do you feel worn out even after resting?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="worn_out_after_rest" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="worn_out_after_rest" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="worn_out_after_rest" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="worn_out_after_rest" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="worn_out_after_rest" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 10: Lack of Energy for Activities -->
+                    <div class="question">
+                        <h3>10. How often do you find yourself lacking the energy to enjoy activities you usually like?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="lack_energy_activities" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="lack_energy_activities" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="lack_energy_activities" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="lack_energy_activities" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="lack_energy_activities" value="very_often">
+                                <span class="option-text">Very often</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- WHO-5 Well-Being Index -->
+                    <h2 style="color: #3b82f6; margin: 2rem 0 1rem 0;">WHO-5 Well-Being Index</h2>
+                    <p>Thinking about how you have felt over the last two weeks, please say how often these statements apply to you:</p>
+                    
+                    <!-- Question 11: Cheerful and in Good Spirits -->
+                    <div class="question">
+                        <h3>11. I have felt cheerful and in good spirits.</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="cheerful_spirits" value="all_of_the_time">
+                                <span class="option-text">All of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="cheerful_spirits" value="most_of_the_time">
+                                <span class="option-text">Most of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="cheerful_spirits" value="more_than_half_of_the_time">
+                                <span class="option-text">More than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="cheerful_spirits" value="less_than_half_of_the_time">
+                                <span class="option-text">Less than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="cheerful_spirits" value="some_of_the_time">
+                                <span class="option-text">Some of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="cheerful_spirits" value="at_no_time">
+                                <span class="option-text">At no time</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 12: Calm and Relaxed -->
+                    <div class="question">
+                        <h3>12. I have felt calm and relaxed.</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="calm_relaxed" value="all_of_the_time">
+                                <span class="option-text">All of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="calm_relaxed" value="most_of_the_time">
+                                <span class="option-text">Most of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="calm_relaxed" value="more_than_half_of_the_time">
+                                <span class="option-text">More than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="calm_relaxed" value="less_than_half_of_the_time">
+                                <span class="option-text">Less than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="calm_relaxed" value="some_of_the_time">
+                                <span class="option-text">Some of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="calm_relaxed" value="at_no_time">
+                                <span class="option-text">At no time</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 13: Active and Full of Energy -->
+                    <div class="question">
+                        <h3>13. I have felt active and full of energy.</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="active_energy" value="all_of_the_time">
+                                <span class="option-text">All of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="active_energy" value="most_of_the_time">
+                                <span class="option-text">Most of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="active_energy" value="more_than_half_of_the_time">
+                                <span class="option-text">More than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="active_energy" value="less_than_half_of_the_time">
+                                <span class="option-text">Less than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="active_energy" value="some_of_the_time">
+                                <span class="option-text">Some of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="active_energy" value="at_no_time">
+                                <span class="option-text">At no time</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 14: Fresh and Rested -->
+                    <div class="question">
+                        <h3>14. I woke up feeling fresh and rested.</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="fresh_rested" value="all_of_the_time">
+                                <span class="option-text">All of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="fresh_rested" value="most_of_the_time">
+                                <span class="option-text">Most of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="fresh_rested" value="more_than_half_of_the_time">
+                                <span class="option-text">More than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="fresh_rested" value="less_than_half_of_the_time">
+                                <span class="option-text">Less than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="fresh_rested" value="some_of_the_time">
+                                <span class="option-text">Some of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="fresh_rested" value="at_no_time">
+                                <span class="option-text">At no time</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 15: Daily Life Filled with Interesting Things -->
+                    <div class="question">
+                        <h3>15. My daily life has been filled with things that interest me.</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="interesting_daily_life" value="all_of_the_time">
+                                <span class="option-text">All of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="interesting_daily_life" value="most_of_the_time">
+                                <span class="option-text">Most of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="interesting_daily_life" value="more_than_half_of_the_time">
+                                <span class="option-text">More than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="interesting_daily_life" value="less_than_half_of_the_time">
+                                <span class="option-text">Less than half of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="interesting_daily_life" value="some_of_the_time">
+                                <span class="option-text">Some of the time</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="interesting_daily_life" value="at_no_time">
+                                <span class="option-text">At no time</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <button id="prevBtn" class="nav-btn prev-btn" disabled>Previous</button>
+                <button id="nextBtn" class="nav-btn next-btn">Next</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-text">0/5 sections completed</div>
+    </div>
+    
+    <!-- DEBUG: Test form data collection -->
+    <div id="debugOverlay" style="position: fixed; top: 10px; right: 10px; z-index: 10000; background: #000; color: #fff; padding: 10px; border-radius: 5px; font-size: 12px; pointer-events: auto;">
+        <button id="testFormDataBtn" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; pointer-events: auto; z-index: 10001;">Test Form Data</button>
+        <button id="testCollectionBtn" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-left: 5px; pointer-events: auto; z-index: 10001;">Test Collection</button>
+        <button id="testEventsBtn" style="background: #ffc107; color: black; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-left: 5px; pointer-events: auto; z-index: 10001;">Test Events</button>
+        <button id="testSubmitBtn" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-left: 5px; pointer-events: auto; z-index: 10001;">Test Submit</button>
+        <div id="formDataDebug" style="margin-top: 5px; font-size: 10px;"></div>
+    </div>
+    
+    <!-- Floating Action Button for Mobile -->
+    <div class="fab" id="fab" onclick="scrollToTop()">
+        ↑
+    </div>
+
+    <script>
+        // Global variables
+        let currentSectionIndex = 0;
+        const sections = ["biological", "family", "physiological", "lifestyle", "cognitive"];
+        let formData = {};
+        
+        // DEBUG: Test form data collection
+        function testFormData() {
+            console.log("=== TESTING FORM DATA COLLECTION ===");
+            console.log("Current formData:", formData);
+            console.log("FormData keys:", Object.keys(formData));
+            console.log("FormData length:", Object.keys(formData).length);
+            
+            // Check specific fields
+            const importantFields = ['overwhelmed', 'family_health_patterns', 'lightheaded_standing', 'skin_color_changes', 'temperature_sensitivity'];
+            let debugText = "Form Data Status:<br>";
+            
+            importantFields.forEach(field => {
+                if (formData[field]) {
+                    debugText += `✅ ${field}: ${formData[field]}<br>`;
+                } else {
+                    debugText += `❌ ${field}: NOT FOUND<br>`;
+                }
+            });
+            
+            debugText += `<br>Total fields: ${Object.keys(formData).length}`;
+            
+            document.getElementById('formDataDebug').innerHTML = debugText;
+        }
+        
+        // DEBUG: Test form collection manually
+        function testFormCollection() {
+            try {
+                console.log("=== TESTING FORM COLLECTION MANUALLY ===");
+                
+                // Test specific form fields
+                const overwhelmedInputs = document.querySelectorAll('input[name="overwhelmed"]');
+                console.log("Found overwhelmed inputs:", overwhelmedInputs.length);
+                
+                overwhelmedInputs.forEach((input, index) => {
+                    console.log(`Input ${index}:`, {
+                        name: input.name,
+                        value: input.value,
+                        checked: input.checked,
+                        type: input.type
+                    });
+                });
+                
+                // Test if we can manually trigger form data collection
+                const checkedOverwhelmed = document.querySelector('input[name="overwhelmed"]:checked');
+                if (checkedOverwhelmed) {
+                    console.log("Found checked overwhelmed input:", checkedOverwhelmed.value);
+                    formData.overwhelmed = checkedOverwhelmed.value;
+                    console.log("Manually set formData.overwhelmed =", formData.overwhelmed);
+                } else {
+                    console.log("No overwhelmed input is checked");
+                }
+                
+                // Test other fields
+                const familyHealthInputs = document.querySelectorAll('input[name="family_health_patterns"]');
+                console.log("Found family_health_patterns inputs:", familyHealthInputs.length);
+                
+                const checkedFamilyHealth = document.querySelectorAll('input[name="family_health_patterns"]:checked');
+                if (checkedFamilyHealth.length > 0) {
+                    const values = Array.from(checkedFamilyHealth).map(input => input.value);
+                    formData.family_health_patterns = values.join(',');
+                    console.log("Manually set formData.family_health_patterns =", formData.family_health_patterns);
+                } else {
+                    console.log("No family_health_patterns inputs are checked");
+                }
+                
+                // Update debug display
+                testFormData();
+                
+                console.log("=== FORM COLLECTION TEST COMPLETE ===");
+            } catch (error) {
+                console.error("Error in testFormCollection:", error);
+                console.error("Error stack:", error.stack);
+            }
+        }
+        
+        // DEBUG: Test submit function
+        function testSubmit() {
+            console.log("=== TEST SUBMIT DEBUG ===");
+            console.log("Current formData:", formData);
+            console.log("FormData keys:", Object.keys(formData));
+            console.log("FormData length:", Object.keys(formData).length);
+            
+            if (Object.keys(formData).length === 0) {
+                console.error("CRITICAL ERROR: formData is empty! No form data collected!");
+                alert("Error: No form data collected. Please fill out the questionnaire.");
+                return;
+            }
+            
+            // Test the transformation
+            const transformedData = transformQuestionnaireData(formData);
+            console.log("Transformed data:", transformedData);
+            
+            // Test the API call
+            fetch('http://localhost:3003/api/process-personalization-v2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(transformedData)
+            })
+            .then(response => response.json())
+            .then(results => {
+                console.log("API Results:", results);
+                console.log("Scores:", results.scores);
+            })
+            .catch(error => {
+                console.error("API Error:", error);
+            });
+        }
+        
+        // DEBUG: Test event listeners
+        function testEventListeners() {
+            console.log("=== TESTING EVENT LISTENERS ===");
+            
+            try {
+                // Test if we can manually trigger the handleInputChange function
+                const overwhelmedInputs = document.querySelectorAll('input[name="overwhelmed"]');
+                console.log("Found overwhelmed inputs:", overwhelmedInputs.length);
+                
+                if (overwhelmedInputs.length > 0) {
+                    const firstInput = overwhelmedInputs[0];
+                    console.log("Testing with first overwhelmed input:", firstInput);
+                    
+                    // Manually trigger the change event
+                    firstInput.checked = true;
+                    firstInput.dispatchEvent(new Event('change'));
+                    
+                    console.log("Manually triggered change event on:", firstInput.name, firstInput.value);
+                    
+                    // Check if formData was updated
+                    console.log("Current formData after manual trigger:", formData);
+                } else {
+                    console.log("No overwhelmed inputs found to test");
+                }
+                
+                // Test if the handleInputChange function works
+                console.log("Testing handleInputChange function directly...");
+                if (overwhelmedInputs.length > 0) {
+                    const testInput = overwhelmedInputs[0];
+                    testInput.checked = true;
+                    console.log("Calling handleInputChange with:", testInput);
+                    handleInputChange(testInput);
+                    console.log("FormData after handleInputChange:", formData);
+                }
+                
+                // Test if formData object exists
+                console.log("FormData object exists:", typeof formData);
+                console.log("FormData keys:", Object.keys(formData));
+                
+            } catch (error) {
+                console.error("Error in testEventListeners:", error);
+                console.error("Error stack:", error.stack);
+            }
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Personalization Framework initializing...");
+            
+            // CRITICAL DEBUG: Check if formData is properly initialized
+            console.log("=== FORM DATA INITIALIZATION DEBUG ===");
+            console.log("FormData type:", typeof formData);
+            console.log("FormData value:", formData);
+            console.log("FormData keys:", Object.keys(formData));
+            console.log("=== END FORM DATA INITIALIZATION DEBUG ===");
+            
+            // Setup debug button event listeners
+            const testFormDataBtn = document.getElementById('testFormDataBtn');
+            const testCollectionBtn = document.getElementById('testCollectionBtn');
+            const testEventsBtn = document.getElementById('testEventsBtn');
+            
+            console.log("Debug button elements found:");
+            console.log("- testFormDataBtn:", testFormDataBtn);
+            console.log("- testCollectionBtn:", testCollectionBtn);
+            console.log("- testEventsBtn:", testEventsBtn);
+            
+            // Test if buttons are clickable
+            if (testFormDataBtn) {
+                console.log("Test Form Data button is clickable:", testFormDataBtn.offsetWidth > 0 && testFormDataBtn.offsetHeight > 0);
+                console.log("Test Form Data button style:", window.getComputedStyle(testFormDataBtn).pointerEvents);
+            }
+            if (testCollectionBtn) {
+                console.log("Test Collection button is clickable:", testCollectionBtn.offsetWidth > 0 && testCollectionBtn.offsetHeight > 0);
+                console.log("Test Collection button style:", window.getComputedStyle(testCollectionBtn).pointerEvents);
+            }
+            if (testEventsBtn) {
+                console.log("Test Events button is clickable:", testEventsBtn.offsetWidth > 0 && testEventsBtn.offsetHeight > 0);
+                console.log("Test Events button style:", window.getComputedStyle(testEventsBtn).pointerEvents);
+            }
+            
+            if (testFormDataBtn) {
+                // Add both onclick and addEventListener for maximum compatibility
+                testFormDataBtn.onclick = function(e) {
+                    console.log("Test Form Data button clicked via onclick!");
+                    e.preventDefault();
+                    testFormData();
+                };
+                testFormDataBtn.addEventListener('click', function(e) {
+                    console.log("Test Form Data button clicked via addEventListener!");
+                    e.preventDefault();
+                    testFormData();
+                });
+                console.log("Test Form Data button event listener attached");
+            } else {
+                console.error("Test Form Data button not found!");
+            }
+            
+            if (testCollectionBtn) {
+                // Add both onclick and addEventListener for maximum compatibility
+                testCollectionBtn.onclick = function(e) {
+                    console.log("Test Collection button clicked via onclick!");
+                    e.preventDefault();
+                    testFormCollection();
+                };
+                testCollectionBtn.addEventListener('click', function(e) {
+                    console.log("Test Collection button clicked via addEventListener!");
+                    e.preventDefault();
+                    testFormCollection();
+                });
+                console.log("Test Collection button event listener attached");
+            } else {
+                console.error("Test Collection button not found!");
+            }
+            
+            if (testEventsBtn) {
+                // Add both onclick and addEventListener for maximum compatibility
+                testEventsBtn.onclick = function(e) {
+                    console.log("Test Events button clicked via onclick!");
+                    e.preventDefault();
+                    testEventListeners();
+                };
+                testEventsBtn.addEventListener('click', function(e) {
+                    console.log("Test Events button clicked via addEventListener!");
+                    e.preventDefault();
+                    testEventListeners();
+                });
+                console.log("Test Events button event listener attached");
+            } else {
+                console.error("Test Events button not found!");
+            }
+            
+            const testSubmitBtn = document.getElementById('testSubmitBtn');
+            if (testSubmitBtn) {
+                // Add both onclick and addEventListener for maximum compatibility
+                testSubmitBtn.onclick = function(e) {
+                    console.log("Test Submit button clicked via onclick!");
+                    e.preventDefault();
+                    testSubmit();
+                };
+                testSubmitBtn.addEventListener('click', function(e) {
+                    console.log("Test Submit button clicked via addEventListener!");
+                    e.preventDefault();
+                    testSubmit();
+                });
+                console.log("Test Submit button event listener attached");
+            } else {
+                console.error("Test Submit button not found!");
+            }
+            
+            // CRITICAL DEBUG: Test if form fields exist immediately
+            setTimeout(() => {
+                console.log("=== CRITICAL DEBUG: Testing form fields after DOM load ===");
+                const overwhelmedInputs = document.querySelectorAll('input[name="overwhelmed"]');
+                const familyHealthInputs = document.querySelectorAll('input[name="family_health_patterns"]');
+                const lightheadedInputs = document.querySelectorAll('input[name="lightheaded_standing"]');
+                
+                console.log("Form field counts after DOM load:");
+                console.log("- overwhelmed inputs:", overwhelmedInputs.length);
+                console.log("- family_health_patterns inputs:", familyHealthInputs.length);
+                console.log("- lightheaded_standing inputs:", lightheadedInputs.length);
+                
+                if (overwhelmedInputs.length === 0) {
+                    console.error("CRITICAL ERROR: No overwhelmed inputs found after DOM load!");
+                }
+            }, 1000);
+            
+            initializeQuestionnaire();
+        });
+        
+        function initializeQuestionnaire() {
+            console.log("Setting up personalization framework...");
+            
+            // Set up section navigation
+            setupSectionNavigation();
+            
+            // Set up form interactions
+            setupFormInteractions();
+            
+            // Set up navigation buttons
+            setupNavigationButtons();
+            
+            // Show first section
+            showSection(0);
+            
+            console.log("Personalization framework initialized successfully");
+        }
+        
+        function setupSectionNavigation() {
+            const sectionLinks = document.querySelectorAll(".section-link");
+            sectionLinks.forEach((link, index) => {
+                link.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const sectionName = this.getAttribute("data-section");
+                    const sectionIndex = sections.indexOf(sectionName);
+                    if (sectionIndex !== -1) {
+                        showSection(sectionIndex);
+                    }
+                });
+            });
+        }
+        
+        function setupFormInteractions() {
+            console.log("=== SETTING UP FORM INTERACTIONS ===");
+            
+            // Handle radio buttons and checkboxes
+            const radioCheckboxInputs = document.querySelectorAll("input[type=\"radio\"], input[type=\"checkbox\"]");
+            console.log("Found radio/checkbox inputs:", radioCheckboxInputs.length);
+            
+            // CRITICAL DEBUG: Check if specific fields exist
+            const overwhelmedInputs = document.querySelectorAll('input[name="overwhelmed"]');
+            const familyHealthInputs = document.querySelectorAll('input[name="family_health_patterns"]');
+            const lightheadedInputs = document.querySelectorAll('input[name="lightheaded_standing"]');
+            
+            console.log("CRITICAL DEBUG - Field counts:");
+            console.log("- overwhelmed inputs:", overwhelmedInputs.length);
+            console.log("- family_health_patterns inputs:", familyHealthInputs.length);
+            console.log("- lightheaded_standing inputs:", lightheadedInputs.length);
+            
+            if (overwhelmedInputs.length === 0) {
+                console.error("CRITICAL ERROR: No overwhelmed inputs found!");
+            }
+            if (familyHealthInputs.length === 0) {
+                console.error("CRITICAL ERROR: No family_health_patterns inputs found!");
+            }
+            if (lightheadedInputs.length === 0) {
+                console.error("CRITICAL ERROR: No lightheaded_standing inputs found!");
+            }
+            
+            radioCheckboxInputs.forEach((input, index) => {
+                console.log(`Setting up radio/checkbox ${index}:`, input.name, input.value);
+                input.addEventListener("change", function() {
+                    console.log("=== RADIO/CHECKBOX CHANGE EVENT ===");
+                    console.log("Element:", this);
+                    console.log("Name:", this.name);
+                    console.log("Value:", this.value);
+                    console.log("Checked:", this.checked);
+                    console.log("Type:", this.type);
+                    handleInputChange(this);
+                    // Handle conditional fields
+                    handleConditionalFields(this);
+                });
+            });
+            
+            // Handle text inputs and textareas
+            const textInputs = document.querySelectorAll("input[type=\"text\"], input[type=\"number\"], input[type=\"email\"], textarea, select");
+            console.log("Found text inputs:", textInputs.length);
+            
+            textInputs.forEach((input, index) => {
+                console.log(`Setting up text input ${index}:`, input.name, input.type);
+                input.addEventListener("input", function() {
+                    console.log("=== TEXT INPUT CHANGE EVENT ===");
+                    console.log("Element:", this);
+                    console.log("Name:", this.name);
+                    console.log("Value:", this.value);
+                    console.log("Type:", this.type);
+                    handleInputChange(this);
+                });
+            });
+            
+            console.log("=== FORM INTERACTIONS SETUP COMPLETE ===");
+        }
+        
+        function setupNavigationButtons() {
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            
+            prevBtn.addEventListener("click", function() {
+                if (currentSectionIndex > 0) {
+                    showSection(currentSectionIndex - 1);
+                }
+            });
+            
+            nextBtn.addEventListener("click", function() {
+                if (currentSectionIndex < sections.length - 1) {
+                    showSection(currentSectionIndex + 1);
+                } else {
+                    // Submit form
+                    submitForm();
+                }
+            });
+        }
+        
+        
+        function updateSectionLinks() {
+            const completionStatus = checkAllSectionsCompleted();
+            
+            document.querySelectorAll(".section-link").forEach(link => {
+                link.classList.remove("active", "completed");
+                const sectionName = link.getAttribute("data-section");
+                
+                if (sectionName === sections[currentSectionIndex]) {
+                    link.classList.add("active");
+                } else if (completionStatus.completedSections.includes(sectionName)) {
+                    link.classList.add("completed");
+                }
+            });
+        }
+        
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            
+            prevBtn.disabled = currentSectionIndex === 0;
+            
+            if (currentSectionIndex === sections.length - 1) {
+                nextBtn.textContent = "Submit";
+            } else {
+                nextBtn.textContent = "Next";
+            }
+        }
+        
+        function handleInputChange(input) {
+            console.log("=== INPUT CHANGE DEBUG ===");
+            console.log("Input element:", input);
+            console.log("Input name:", input.name);
+            console.log("Input value:", input.value);
+            console.log("Input type:", input.type);
+            console.log("Input checked:", input.checked);
+            
+            const name = input.name;
+            let value;
+            
+            if (input.type === "checkbox") {
+                // Handle checkboxes (multiple selections)
+                value = input.checked ? 
+                    (formData[name] ? formData[name] + "," + input.value : input.value) : 
+                    (formData[name] ? formData[name].replace(input.value + ",", "").replace("," + input.value, "").replace(input.value, "") : "");
+            } else if (input.type === "radio") {
+                // Handle radio buttons (single selection)
+                if (input.checked) {
+                    value = input.value;
+                } else {
+                    // Don't update formData for unchecked radio buttons
+                    return;
+                }
+            } else {
+                // Handle text inputs, textareas, etc.
+                value = input.value;
+            }
+            
+            console.log("Calculated value:", value);
+            
+            if (value && value.trim() !== '') {
+                formData[name] = value;
+                console.log("Updated formData[" + name + "] =", value);
+            } else {
+                delete formData[name];
+                console.log("Removed formData[" + name + "]");
+            }
+            
+            console.log("Form data updated:", formData);
+            console.log("=== END INPUT CHANGE DEBUG ===");
+            
+            // Update section completion status
+            updateSectionLinks();
+        }
+        
+        function handleConditionalFields(input) {
+            const name = input.name;
+            const value = input.value;
+            
+            // Handle work type description
+            if (name === "work_status" && value === "employed") {
+                document.getElementById("work_type").style.display = "block";
+            } else if (name === "work_status") {
+                document.getElementById("work_type").style.display = "none";
+            }
+            
+            // Handle family medications details
+            if (name === "family_medications" && value === "yes") {
+                document.getElementById("family_medications_details").style.display = "block";
+            } else if (name === "family_medications") {
+                document.getElementById("family_medications_details").style.display = "none";
+            }
+            
+            // Handle family health patterns other
+            if (name === "family_health_patterns" && value === "other") {
+                document.getElementById("family_health_patterns_other").style.display = "block";
+            } else if (name === "family_health_patterns") {
+                document.getElementById("family_health_patterns_other").style.display = "none";
+            }
+            
+            // Handle lightheaded frequency
+            if (name === "lightheaded_standing" && value === "yes") {
+                document.getElementById("lightheaded_frequency").style.display = "block";
+            } else if (name === "lightheaded_standing") {
+                document.getElementById("lightheaded_frequency").style.display = "none";
+            }
+        }
+        
+        function checkAllSectionsCompleted() {
+            const requiredSections = ["biological", "family", "physiological", "lifestyle", "cognitive"];
+            const completedSections = [];
+            const missingSections = [];
+            
+            // Check each section for required fields
+            for (const section of requiredSections) {
+                let sectionCompleted = false;
+                
+                switch(section) {
+                    case "biological":
+                        // Check for basic demographic and health data
+                        sectionCompleted = formData.age && formData.gender && formData.location && 
+                                        formData.education && formData.work_status;
+                        break;
+                    case "family":
+                        // Check for family history data
+                        sectionCompleted = formData.family_tree && formData.family_origins && 
+                                        formData.family_health_patterns;
+                        break;
+                    case "physiological":
+                        // Check for physiological symptoms
+                        sectionCompleted = formData.lightheaded_standing && 
+                                        (formData.skin_color_changes !== undefined) &&
+                                        (formData.temperature_sensitivity !== undefined);
+                        break;
+                    case "lifestyle":
+                        // Check for lifestyle and stress data
+                        sectionCompleted = (formData.overwhelmed !== undefined) && 
+                                        (formData.confidence_handling !== undefined) &&
+                                        (formData.in_control !== undefined);
+                        break;
+                    case "cognitive":
+                        // Check for cognitive and mental health data
+                        sectionCompleted = (formData.upset_annoyed !== undefined) && 
+                                        (formData.tense_nervous !== undefined) &&
+                                        (formData.too_many_demands !== undefined);
+                        break;
+                }
+                
+                if (sectionCompleted) {
+                    completedSections.push(section);
+                } else {
+                    missingSections.push(section);
+                }
+            }
+            
+            return {
+                allCompleted: missingSections.length === 0,
+                completedSections,
+                missingSections
+            };
+        }
+        
+        // Mapping functions to convert form values to API expected values
+        function mapOverwhelmedValue(value) {
+            if (!value) return 'never';
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'never';
+            }
+        }
+        
+        function mapConfidenceValue(value) {
+            if (!value) return 'often'; // Default to positive response
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'often'; // Default to positive response
+            }
+        }
+        
+        function mapControlValue(value) {
+            if (!value) return 'often'; // Default to positive response
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'often'; // Default to positive response
+            }
+        }
+        
+        function transformQuestionnaireData(formData) {
+            console.log("=== TRANSFORMATION DEBUG ===");
+            console.log("Input formData:", formData);
+            console.log("Key fields check:");
+            console.log("- family_health_patterns:", formData.family_health_patterns);
+            console.log("- lightheaded_standing:", formData.lightheaded_standing);
+            console.log("- skin_color_changes:", formData.skin_color_changes);
+            console.log("- temperature_sensitivity:", formData.temperature_sensitivity);
+            console.log("- overwhelmed:", formData.overwhelmed);
+            console.log("- confidence_handling:", formData.confidence_handling);
+            console.log("- in_control:", formData.in_control);
+            console.log("- upset_annoyed:", formData.upset_annoyed);
+            console.log("- tense_nervous:", formData.tense_nervous);
+            console.log("- too_many_demands:", formData.too_many_demands);
+            console.log("=== END TRANSFORMATION DEBUG ===");
+            
+            // CRITICAL: Ensure formData is an object
+            if (!formData || typeof formData !== 'object') {
+                console.error("CRITICAL ERROR: formData is not an object:", formData);
+                return null;
+            }
+            
+        // CRITICAL FIX: Convert comma-separated string to array
+        const familyHealthPatterns = formData.family_health_patterns ? 
+            (typeof formData.family_health_patterns === 'string' ? 
+                formData.family_health_patterns.split(',').map(item => item.trim()) : 
+                Array.isArray(formData.family_health_patterns) ? formData.family_health_patterns : []) : [];
+            
+            console.log("Family health patterns array:", familyHealthPatterns);
+            
+            // CRITICAL: Use the EXACT same transformation logic as the working test questionnaire
+            const transformedData = {
+                user: {
+                    name: formData.name || "User",
+                    age: parseInt(formData.age) || 35,
+                    sex: formData.gender || "other",
+                    email: formData.email || "user@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: familyHealthPatterns.includes('heart_disease') || false,
+                        first_degree: familyHealthPatterns.includes('heart_disease') || false,
+                        onset: familyHealthPatterns.includes('heart_disease') ? '<60' : 'unknown'
+                    },
+                    diabetes: {
+                        present: familyHealthPatterns.includes('diabetes') || false,
+                        first_degree: familyHealthPatterns.includes('diabetes') || false,
+                        onset: familyHealthPatterns.includes('diabetes') ? '<60' : 'unknown'
+                    },
+                    cancer: familyHealthPatterns.includes('cancer') ? [{
+                        type: 'colorectal',
+                        relative: 'mother',
+                        onset: '<60'
+                    }] : []
+                },
+                physiological_patterns: {
+                    compass31_raw: 0,
+                    compass31_max: 62,
+                    lightheaded_standing: formData.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                    skin_color_changes: formData.skin_color_changes === 'yes',
+                    temperature_sensitivity: formData.temperature_sensitivity === 'yes' ? 'high' : 'normal'
+                },
+                lifestyle_load: {
+                    pss10_raw: 0,
+                    pss10_max: 40,
+                    sleep_hours: 7,
+                    sleep_quality: 'good',
+                    overwhelmed: mapOverwhelmedValue(formData.overwhelmed),
+                    confidence_handling: mapConfidenceValue(formData.confidence_handling),
+                    in_control: mapControlValue(formData.in_control)
+                },
+                biological_signals: {
+                    waist_cm: 70,
+                    height_cm: 170,
+                    smoking: 'never',
+                    activity_min_week: 150,
+                    location: formData.location || 'urban',
+                    education: formData.education || 'university',
+                    work_status: formData.work_status || 'employed',
+                    labs_optional: {
+                        crp_mg_L: null,
+                        hba1c_percent: null,
+                        vitamin_d_ng_ml: null,
+                        lipids: {
+                            ldl: null,
+                            hdl: null,
+                            tg: null
+                        }
+                    }
+                },
+                cognitive_rhythm: {
+                    cfq_raw: 0,
+                    cfq_max: 100,
+                    who5_raw: 0,
+                    who5_max: 25,
+                    upset_annoyed: mapOverwhelmedValue(formData.upset_annoyed),
+                    tense_nervous: mapOverwhelmedValue(formData.tense_nervous),
+                    too_many_demands: mapOverwhelmedValue(formData.too_many_demands)
+                },
+                symptoms: {
+                    gut: formData.digestive_issues === 'often' || formData.digestive_issues === 'very_often',
+                    skin: formData.skin_color_changes === 'yes',
+                    fatigue: formData.unusually_tired === 'often' || formData.unusually_tired === 'very_often',
+                    sleep_issues: formData.sleep_issues === 'often' || formData.sleep_issues === 'very_often',
+                    digestive_issues: formData.digestive_issues === 'often' || formData.digestive_issues === 'very_often'
+                },
+                preferences: {
+                    budget: formData.budget || 'moderate',
+                    equipment: formData.equipment || 'basic',
+                    diet: formData.diet || 'flexible'
+                }
+            };
+            
+            console.log("=== TRANSFORMED DATA DEBUG ===");
+            console.log("Transformed data:", transformedData);
+            console.log("Family history CVD present:", transformedData.family_history.cvd.present);
+            console.log("Family history diabetes present:", transformedData.family_history.diabetes.present);
+            console.log("Physiological lightheaded:", transformedData.physiological_patterns.lightheaded_standing);
+            console.log("Physiological temperature:", transformedData.physiological_patterns.temperature_sensitivity);
+            console.log("Lifestyle overwhelmed:", transformedData.lifestyle_load.overwhelmed);
+            console.log("Cognitive upset:", transformedData.cognitive_rhythm.upset_annoyed);
+            console.log("=== END TRANSFORMED DATA DEBUG ===");
+            
+            return transformedData;
+        }
+        
+        function submitForm() {
+            console.log("=== FORM SUBMISSION DEBUG ===");
+            console.log("Submitting personalization framework data:", formData);
+            console.log("Form data keys:", Object.keys(formData));
+            console.log("Form data length:", Object.keys(formData).length);
+            
+            // CRITICAL DEBUG: Check if formData is empty
+            if (Object.keys(formData).length === 0) {
+                console.error("CRITICAL ERROR: formData is empty! No form data collected!");
+                alert("Error: No form data collected. Please fill out the questionnaire.");
+                return;
+            }
+            
+            // Debug: Show all form data values
+            console.log("=== FORM DATA VALUES DEBUG ===");
+            console.log("FormData object:", formData);
+            console.log("FormData keys:", Object.keys(formData));
+            console.log("FormData length:", Object.keys(formData).length);
+            for (const [key, value] of Object.entries(formData)) {
+                console.log(`${key}: ${value}`);
+            }
+            console.log("=== END FORM DATA VALUES DEBUG ===");
+            
+            // Debug: Check if specific critical fields are present
+            console.log("=== CRITICAL FIELDS CHECK ===");
+            console.log("age:", formData.age);
+            console.log("gender:", formData.gender);
+            console.log("family_health_patterns:", formData.family_health_patterns);
+            console.log("lightheaded_standing:", formData.lightheaded_standing);
+            console.log("skin_color_changes:", formData.skin_color_changes);
+            console.log("temperature_sensitivity:", formData.temperature_sensitivity);
+            console.log("overwhelmed:", formData.overwhelmed);
+            console.log("confidence_handling:", formData.confidence_handling);
+            console.log("in_control:", formData.in_control);
+            console.log("upset_annoyed:", formData.upset_annoyed);
+            console.log("tense_nervous:", formData.tense_nervous);
+            console.log("too_many_demands:", formData.too_many_demands);
+            console.log("=== END CRITICAL FIELDS CHECK ===");
+            
+            // Debug: Show specific fields that should be collected
+            console.log("=== SPECIFIC FIELDS DEBUG ===");
+            console.log("overwhelmed:", formData.overwhelmed);
+            console.log("family_health_patterns:", formData.family_health_patterns);
+            console.log("lightheaded_standing:", formData.lightheaded_standing);
+            console.log("tense_nervous:", formData.tense_nervous);
+            console.log("confidence_handling:", formData.confidence_handling);
+            console.log("=== END SPECIFIC FIELDS DEBUG ===");
+            
+            // CRITICAL DEBUG: Check if formData is empty
+            if (Object.keys(formData).length === 0) {
+                console.error("CRITICAL ERROR: formData is empty! No form data collected!");
+                alert("Error: No form data collected. Please fill out the questionnaire.");
+                return;
+            }
+            
+            // Check if all sections are completed
+            const completionStatus = checkAllSectionsCompleted();
+            console.log("Completion status:", completionStatus);
+            
+            if (!completionStatus.allCompleted) {
+                const missingSectionsText = completionStatus.missingSections.map(section => {
+                    switch(section) {
+                        case "biological": return "Biological Signals (WHO STEPS)";
+                        case "family": return "Family Risk Assessment (CDC FHHT)";
+                        case "physiological": return "Physiological Patterns (COMPASS-31)";
+                        case "lifestyle": return "Lifestyle Load (PSS-10)";
+                        case "cognitive": return "Cognitive Rhythm (CFQ + WHO-5)";
+                        default: return section;
+                    }
+                }).join(", ");
+                
+                alert(`Please complete all sections before submitting. Missing sections: ${missingSectionsText}`);
+                return;
+            }
+            
+            // Store the questionnaire data in localStorage
+            localStorage.setItem('personalizationFrameworkData', JSON.stringify(formData));
+            console.log("Data stored in localStorage");
+            
+            // Transform the data for the API
+            const transformedData = transformQuestionnaireData(formData);
+            console.log("=== TRANSFORMED DATA DEBUG ===");
+            console.log("Transformed data:", transformedData);
+            console.log("=== END TRANSFORMED DATA DEBUG ===");
+            localStorage.setItem('personalizationFrameworkTransformed', JSON.stringify(transformedData));
+            console.log("Transformed data stored in localStorage");
+            
+            // Debug: Show what we're actually sending to the API
+            console.log("=== API DATA DEBUG ===");
+            console.log("Data being sent to API:", transformedData);
+            console.log("Family history CVD present:", transformedData.family_history.cvd.present);
+            console.log("Physiological lightheaded:", transformedData.physiological_patterns.lightheaded_standing);
+            console.log("Lifestyle overwhelmed:", transformedData.lifestyle_load.overwhelmed);
+            console.log("Cognitive tense:", transformedData.cognitive_rhythm.tense_nervous);
+            console.log("=== END API DATA DEBUG ===");
+            
+            // Show loading message
+            const nextBtn = document.querySelector('.next-btn') || document.getElementById('nextBtn');
+            if (nextBtn) {
+                nextBtn.textContent = 'Processing...';
+                nextBtn.disabled = true;
+                console.log("Button updated to processing state");
+            } else {
+                console.log("Next button not found, proceeding with redirect");
+            }
+            
+            // Small delay to show the processing state
+            setTimeout(() => {
+                console.log("Redirecting to email collection page...");
+                // Redirect to the email collection page on the Next.js server
+                window.location.replace('http://localhost:3002/email-collection-personalization.html');
+            }, 500);
+        }
+        
+        function updateProgress() {
+            const completionStatus = checkAllSectionsCompleted();
+            const completedCount = completionStatus.completedSections.length;
+            const totalSections = sections.length;
+            const progress = (completedCount / totalSections) * 100;
+            
+            document.getElementById("progressBar").style.width = progress + "%";
+            
+            // Update progress text if it exists
+            const progressText = document.querySelector('.progress-text');
+            if (progressText) {
+                progressText.textContent = `${completedCount}/${totalSections} sections completed`;
+            }
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Enhanced section navigation with progress
+        function showSection(index) {
+            // Hide all sections
+            document.querySelectorAll(".section").forEach(section => {
+                section.classList.remove("active");
+            });
+            
+            // Show current section
+            const currentSection = document.getElementById(sections[index]);
+            if (currentSection) {
+                currentSection.classList.add("active");
+            }
+            
+            // Update navigation
+            updateSectionLinks();
+            updateNavigationButtons();
+            updateProgress();
+            
+            currentSectionIndex = index;
+            
+            // Scroll to top of section
+            setTimeout(() => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>

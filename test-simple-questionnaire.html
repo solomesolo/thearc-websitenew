@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Questionnaire Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .question { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .options { margin: 10px 0; }
+        .options label { display: block; margin: 5px 0; cursor: pointer; }
+        .options input { margin-right: 10px; }
+        button { padding: 15px 30px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        .result { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; }
+        .debug { background: #e9ecef; padding: 10px; margin: 10px 0; border-radius: 5px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Simple Questionnaire Test</h1>
+    <p>This test will verify that the questionnaire is collecting user input properly.</p>
+    
+    <form id="testForm">
+        <div class="question">
+            <h3>1. How often do you feel overwhelmed?</h3>
+            <div class="options">
+                <label><input type="radio" name="overwhelmed" value="never"> Never</label>
+                <label><input type="radio" name="overwhelmed" value="rarely"> Rarely</label>
+                <label><input type="radio" name="overwhelmed" value="sometimes"> Sometimes</label>
+                <label><input type="radio" name="overwhelmed" value="often"> Often</label>
+                <label><input type="radio" name="overwhelmed" value="always"> Always</label>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h3>2. Do you feel lightheaded when standing up?</h3>
+            <div class="options">
+                <label><input type="radio" name="lightheaded" value="no"> No</label>
+                <label><input type="radio" name="lightheaded" value="yes"> Yes</label>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h3>3. How confident do you feel handling daily tasks?</h3>
+            <div class="options">
+                <label><input type="radio" name="confidence" value="never"> Never confident</label>
+                <label><input type="radio" name="confidence" value="rarely"> Rarely confident</label>
+                <label><input type="radio" name="confidence" value="sometimes"> Sometimes confident</label>
+                <label><input type="radio" name="confidence" value="often"> Often confident</label>
+                <label><input type="radio" name="confidence" value="always"> Always confident</label>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h3>4. Do you have family history of heart disease?</h3>
+            <div class="options">
+                <label><input type="radio" name="family_heart" value="no"> No</label>
+                <label><input type="radio" name="family_heart" value="yes"> Yes</label>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h3>5. How often do you feel tense or nervous?</h3>
+            <div class="options">
+                <label><input type="radio" name="tense" value="never"> Never</label>
+                <label><input type="radio" name="tense" value="rarely"> Rarely</label>
+                <label><input type="radio" name="tense" value="sometimes"> Sometimes</label>
+                <label><input type="radio" name="tense" value="often"> Often</label>
+                <label><input type="radio" name="tense" value="always"> Always</label>
+            </div>
+        </div>
+        
+        <button type="button" onclick="testDataCollection()">Test Data Collection</button>
+        <button type="button" onclick="testTransformation()">Test Transformation</button>
+        <button type="button" onclick="testAPI()">Test API Call</button>
+    </form>
+    
+    <div id="results" class="result" style="display: none;">
+        <h3>Results</h3>
+        <div id="resultContent"></div>
+    </div>
+
+    <script>
+        let formData = {};
+        
+        // Set up event listeners for all form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    handleInputChange(this);
+                });
+            });
+        });
+        
+        function handleInputChange(input) {
+            const name = input.name;
+            const value = input.value;
+            
+            formData[name] = value;
+            console.log('Form data updated:', formData);
+        }
+        
+        function testDataCollection() {
+            const results = document.getElementById('results');
+            const content = document.getElementById('resultContent');
+            
+            results.style.display = 'block';
+            content.innerHTML = `
+                <h4>Data Collection Test</h4>
+                <div class="debug">
+                    <strong>Form Data:</strong><br>
+                    ${JSON.stringify(formData, null, 2)}
+                </div>
+                <p><strong>Number of fields collected:</strong> ${Object.keys(formData).length}</p>
+                <p><strong>Fields:</strong> ${Object.keys(formData).join(', ')}</p>
+            `;
+        }
+        
+        function testTransformation() {
+            const transformedData = transformData(formData);
+            const results = document.getElementById('results');
+            const content = document.getElementById('resultContent');
+            
+            results.style.display = 'block';
+            content.innerHTML = `
+                <h4>Data Transformation Test</h4>
+                <div class="debug">
+                    <strong>Original Form Data:</strong><br>
+                    ${JSON.stringify(formData, null, 2)}
+                </div>
+                <div class="debug">
+                    <strong>Transformed Data:</strong><br>
+                    ${JSON.stringify(transformedData, null, 2)}
+                </div>
+            `;
+        }
+        
+        async function testAPI() {
+            const transformedData = transformData(formData);
+            const results = document.getElementById('results');
+            const content = document.getElementById('resultContent');
+            
+            results.style.display = 'block';
+            content.innerHTML = `
+                <h4>API Test</h4>
+                <div class="debug">
+                    <strong>Sending to API:</strong><br>
+                    ${JSON.stringify(transformedData, null, 2)}
+                </div>
+                <p>Calling API...</p>
+            `;
+            
+            try {
+                const response = await fetch('http://localhost:3002/api/process-personalization-v2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(transformedData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+                }
+                
+                const results_data = await response.json();
+                
+                content.innerHTML = `
+                    <h4>API Test Results</h4>
+                    <div class="debug">
+                        <strong>API Response:</strong><br>
+                        ${JSON.stringify(results_data, null, 2)}
+                    </div>
+                    <h5>Scores:</h5>
+                    <ul>
+                        <li><strong>Family Risk:</strong> ${results_data.scores.family_risk}</li>
+                        <li><strong>Physiological:</strong> ${results_data.scores.physiological}</li>
+                        <li><strong>Lifestyle Load:</strong> ${results_data.scores.lifestyle_load}</li>
+                        <li><strong>Biological:</strong> ${results_data.scores.biological}</li>
+                        <li><strong>Cognitive:</strong> ${results_data.scores.cognitive}</li>
+                    </ul>
+                `;
+            } catch (error) {
+                content.innerHTML = `
+                    <h4>API Test Error</h4>
+                    <div class="debug" style="background: #f8d7da; color: #721c24;">
+                        <strong>Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function transformData(formData) {
+            // Transform the simple form data into the API format
+            return {
+                user: {
+                    name: "Test User",
+                    age: 35,
+                    sex: "female",
+                    email: "test@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: formData.family_heart === 'yes',
+                        first_degree: formData.family_heart === 'yes',
+                        onset: '<60'
+                    },
+                    diabetes: {
+                        present: false,
+                        first_degree: false,
+                        onset: 'unknown'
+                    },
+                    cancer: []
+                },
+                physiological_patterns: {
+                    lightheaded_standing: formData.lightheaded === 'yes' ? 'sometimes' : 'never',
+                    skin_color_changes: false,
+                    temperature_sensitivity: 'normal'
+                },
+                lifestyle_load: {
+                    overwhelmed: formData.overwhelmed || 'never',
+                    confidence_handling: formData.confidence || 'never',
+                    in_control: 'sometimes'
+                },
+                biological_signals: {
+                    age: 35,
+                    gender: 'female',
+                    location: 'urban',
+                    education: 'university',
+                    work_status: 'employed'
+                },
+                cognitive_rhythm: {
+                    upset_annoyed: formData.overwhelmed || 'never',
+                    tense_nervous: formData.tense || 'never',
+                    too_many_demands: formData.overwhelmed || 'never'
+                },
+                symptoms: {
+                    fatigue: false,
+                    sleep_issues: false,
+                    digestive_issues: false
+                },
+                preferences: {
+                    budget: 'moderate',
+                    equipment: 'basic',
+                    diet: 'flexible'
+                }
+            };
+        }
+    </script>
+</body>
+</html>
+
+

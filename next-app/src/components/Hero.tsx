@@ -1,32 +1,65 @@
 "use client";
+
+import React from "react";
 import Link from "next/link";
 
-export default function Hero() {
+interface HeroProps {
+  title: string;
+  subtitle: string;
+  primaryCTA: { label: string; href: string };
+  secondaryCTA: { label: string; href: string };
+}
+
+export default function Hero({ title, subtitle, primaryCTA, secondaryCTA }: HeroProps) {
   return (
-    <div className="relative w-full min-h-screen text-white font-montserrat flex flex-col">
-      {/* Header: Logo/Menu */}
-      <div className="sticky md:fixed top-0 left-0 z-30 w-full pointer-events-none bg-black/80 md:bg-transparent" style={{WebkitBackdropFilter: 'blur(2px)'}}>
-        <div className="flex flex-row justify-between items-start w-full px-4 md:px-12 pt-[5vh] pointer-events-auto">
-          <div className="text-3xl md:text-4xl font-bold tracking-tight text-white select-none mt-0 md:mt-0">TheArc</div>
-          <nav className="flex space-x-8 text-base font-light">
-            <Link href="/contact" className="border border-fuchsia-400 text-fuchsia-200 bg-transparent hover:bg-fuchsia-900/10 hover:text-fuchsia-300 hover:ring-2 hover:ring-fuchsia-400/40 backdrop-blur-sm transition-all font-semibold text-base md:text-lg px-4 py-1.5 rounded-full tracking-wide">Apply to Join</Link>
-          </nav>
+    <section className="hero-wrapper bg-black">
+      <div className="relative w-full max-w-screen-xl mx-auto px-6 lg:px-12 pt-[160px] lg:pt-[180px] pb-20 lg:pb-32 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        {/* LEFT COLUMN */}
+        <div className="flex flex-col">
+          <h1 className="text-5xl lg:text-6xl font-semibold leading-[1.06] tracking-tight text-white max-w-[12ch]">
+            {title}
+          </h1>
+
+          <p className="mt-6 text-lg lg:text-xl leading-relaxed text-gray-300 max-w-[55ch]">
+            {subtitle}
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            {/* Primary CTA */}
+            <Link
+              href={primaryCTA.href}
+              className="inline-flex items-center justify-center rounded-full px-8 py-3.5 bg-white text-black text-base font-medium tracking-tight transition-all duration-200 hover:bg-gray-100 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+            >
+              {primaryCTA.label}
+            </Link>
+
+            {/* Secondary CTA */}
+            <Link
+              href={secondaryCTA.href}
+              className="inline-flex items-center justify-center rounded-full px-8 py-3.5 text-base font-medium tracking-tight border border-white/30 text-white bg-transparent transition-all duration-200 hover:bg-white/10 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+            >
+              {secondaryCTA.label}
+            </Link>
+          </div>
         </div>
+
+        {/* RIGHT COLUMN IMAGE */}
+        <div className="relative w-full">
+          <div className="relative w-full rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg">
+            <img
+              src="/my-hero-image.webp"
+              alt="The Arc portrait visual"
+              className="w-full h-auto object-cover object-[70%_40%]"
+              style={{
+                filter: "saturate(0.95) contrast(1.05) brightness(0.96)"
+              }}
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+          </div>
+        </div>
+
       </div>
-      {/* Hero Content */}
-      <div className="flex-1 flex flex-col items-center justify-center text-center z-10 mt-0 md:mt-0 pt-4 md:pt-32 pb-32 md:pb-20">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight max-w-2xl mx-auto" style={{textShadow: '0 2px 24px #000'}}>
-          Longevity isn’t a product.<br />
-          It’s a process.<br />
-          Most people drift.<br />
-          We create structure, clarity, and belonging.
-        </h1>
-        <p className="text-base md:text-lg font-normal mb-8 max-w-lg mx-auto text-white/90">A private longevity circle guided by science, precision, and deep personalization.<br />Built around you. Evolving with you.<br />Each cohort limited to 100 people.</p>
-        <Link href="/contact" className="inline-flex items-center px-6 py-3 rounded-full text-base font-semibold bg-gradient-to-r from-fuchsia-800 via-fuchsia-600 to-fuchsia-400 text-white shadow-lg border-2 border-fuchsia-700 hover:scale-105 transition-all">
-          Apply to Join
-          <span className="ml-3 text-xl">&rarr;</span>
-        </Link>
-      </div>
-    </div>
+    </section>
   );
-} 
+}

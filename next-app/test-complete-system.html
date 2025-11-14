@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete System Test - The Arc</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .success { border-left: 4px solid #28a745; }
+        .error { border-left: 4px solid #dc3545; }
+        .loading { border-left: 4px solid #ffc107; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Complete System Test - The Arc Personalization Framework</h1>
+    
+    <div class="test-section">
+        <h2>📋 Test Options</h2>
+        <p>Choose how you want to test the system:</p>
+        
+        <button class="btn" onclick="testAPI()">🔧 Test API Directly</button>
+        <button class="btn" onclick="openQuestionnaire()">📝 Open Full Questionnaire</button>
+        <button class="btn" onclick="testPDFGeneration()">📄 Test PDF Generation</button>
+        <button class="btn" onclick="clearResults()">🗑️ Clear Test Results</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Test Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔗 Quick Links</h2>
+        <p><strong>Questionnaire:</strong> <a href="http://localhost:3001/personalization-framework.html" target="_blank">http://localhost:3001/personalization-framework.html</a></p>
+        <p><strong>Email Collection:</strong> <a href="http://localhost:3001/email-collection-personalization.html" target="_blank">http://localhost:3001/email-collection-personalization.html</a></p>
+        <p><strong>Loading Page:</strong> <a href="http://localhost:3001/loading-personalization.html" target="_blank">http://localhost:3001/loading-personalization.html</a></p>
+        <p><strong>Results Page:</strong> <a href="http://localhost:3001/results-personalization.html" target="_blank">http://localhost:3001/results-personalization.html</a></p>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="result loading">⏳ Testing API...</div>';
+            
+            try {
+                const testData = {
+                    user: {
+                        name: "Test User",
+                        age: 35,
+                        sex: "male",
+                        email: "test@example.com"
+                    },
+                    family_history: {
+                        cvd: { present: true, first_degree: true, onset: '<60' },
+                        diabetes: { present: true, first_degree: true },
+                        cancer: []
+                    },
+                    physiological_patterns: {
+                        lightheaded_standing: 'sometimes',
+                        skin_color_changes: false,
+                        temperature_sensitivity: 'high'
+                    },
+                    lifestyle_load: {
+                        overwhelmed: 'sometimes',
+                        confidence_handling: 'fairly_often',
+                        in_control: 'sometimes'
+                    },
+                    biological_signals: {
+                        age: 35,
+                        gender: 'male',
+                        location: 'city',
+                        education: 'university',
+                        work_status: 'employed'
+                    },
+                    cognitive_rhythm: {
+                        upset_annoyed: 'sometimes',
+                        tense_nervous: 'fairly_often',
+                        too_many_demands: 'sometimes'
+                    },
+                    symptoms: {
+                        fatigue: false,
+                        sleep_issues: false,
+                        digestive_issues: false
+                    },
+                    preferences: {
+                        budget: 'moderate',
+                        equipment: 'basic',
+                        diet: 'flexible'
+                    }
+                };
+                
+                const response = await fetch('http://localhost:3001/api/process-personalization', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                resultsDiv.innerHTML = `
+                    <div class="result success">
+                        ✅ API Test Successful!
+                        
+                        📊 Scores:
+                        • Family Risk: ${result.scores.family_risk}
+                        • Physiological: ${result.scores.physiological}
+                        • Lifestyle Load: ${result.scores.lifestyle_load}
+                        • Biological: ${result.scores.biological}
+                        • Cognitive: ${result.scores.cognitive}
+                        
+                        🎯 Personalization:
+                        • Phase Order: ${result.personalize.phase_order.join(', ')}
+                        • Screenings: ${result.personalize.screenings.join(', ')}
+                        • Nutrition: ${result.personalize.nutrition_archetype}
+                        • Supplements: ${result.personalize.supplements.join(', ')}
+                        
+                        📄 PDF: ${result.pdfUrl ? 'Generated successfully' : 'Not generated'}
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        ❌ API Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function openQuestionnaire() {
+            window.open('http://localhost:3001/personalization-framework.html', '_blank');
+        }
+        
+        async function testPDFGeneration() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="result loading">⏳ Testing PDF Generation...</div>';
+            
+            try {
+                // First get the API results
+                const testData = {
+                    user: { name: "Test User", age: 35, sex: "male", email: "test@example.com" },
+                    family_history: { cvd: { present: true, first_degree: true, onset: '<60' }, diabetes: { present: true, first_degree: true }, cancer: [] },
+                    physiological_patterns: { lightheaded_standing: 'sometimes', skin_color_changes: false, temperature_sensitivity: 'high' },
+                    lifestyle_load: { overwhelmed: 'sometimes', confidence_handling: 'fairly_often', in_control: 'sometimes' },
+                    biological_signals: { age: 35, gender: 'male', location: 'city', education: 'university', work_status: 'employed' },
+                    cognitive_rhythm: { upset_annoyed: 'sometimes', tense_nervous: 'fairly_often', too_many_demands: 'sometimes' },
+                    symptoms: { fatigue: false, sleep_issues: false, digestive_issues: false },
+                    preferences: { budget: 'moderate', equipment: 'basic', diet: 'flexible' }
+                };
+                
+                const apiResponse = await fetch('http://localhost:3001/api/process-personalization', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                if (!apiResponse.ok) {
+                    throw new Error(`API call failed: ${apiResponse.status}`);
+                }
+                
+                const apiResult = await apiResponse.json();
+                
+                // Now test PDF generation
+                const pdfResponse = await fetch('http://localhost:3001/api/generate-pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(apiResult)
+                });
+                
+                if (!pdfResponse.ok) {
+                    throw new Error(`PDF generation failed: ${pdfResponse.status}`);
+                }
+                
+                const pdfBlob = await pdfResponse.blob();
+                const url = window.URL.createObjectURL(pdfBlob);
+                
+                resultsDiv.innerHTML = `
+                    <div class="result success">
+                        ✅ PDF Generation Test Successful!
+                        
+                        📄 PDF Size: ${(pdfBlob.size / 1024).toFixed(2)} KB
+                        📄 PDF Type: ${pdfBlob.type}
+                        
+                        <br><br>
+                        <a href="${url}" download="test-longevity-blueprint.pdf" class="btn">📥 Download Test PDF</a>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        ❌ PDF Generation Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
+
+

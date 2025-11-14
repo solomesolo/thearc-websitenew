@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Browser</title>
+</head>
+<body>
+    <h1>Test API Browser</h1>
+    <button onclick="testAPI()">Test API Call</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            try {
+                console.log('Testing API call...');
+                
+                const testData = {
+                    user: {
+                        name: "Test User",
+                        age: 35,
+                        sex: "male",
+                        email: "test@example.com"
+                    },
+                    family_history: {
+                        cvd: { present: true, first_degree: true, onset: '<60' },
+                        diabetes: { present: true, first_degree: true },
+                        cancer: []
+                    },
+                    physiological_patterns: {
+                        lightheaded_standing: 'sometimes',
+                        skin_color_changes: false,
+                        temperature_sensitivity: 'high'
+                    },
+                    lifestyle_load: {
+                        overwhelmed: 'sometimes',
+                        confidence_handling: 'fairly_often',
+                        in_control: 'sometimes'
+                    },
+                    biological_signals: {
+                        age: 35,
+                        gender: 'male',
+                        location: 'city',
+                        education: 'university',
+                        work_status: 'employed'
+                    },
+                    cognitive_rhythm: {
+                        upset_annoyed: 'sometimes',
+                        tense_nervous: 'fairly_often',
+                        too_many_demands: 'sometimes'
+                    },
+                    symptoms: {
+                        fatigue: false,
+                        sleep_issues: false,
+                        digestive_issues: false
+                    },
+                    preferences: {
+                        budget: 'moderate',
+                        equipment: 'basic',
+                        diet: 'flexible'
+                    }
+                };
+                
+                const response = await fetch('http://localhost:3001/api/process-personalization', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                console.log('API response:', result);
+                
+                document.getElementById('result').innerHTML = `
+                    <h2>API Test Results:</h2>
+                    <p><strong>Status:</strong> ${response.status}</p>
+                    <p><strong>Scores:</strong> ${JSON.stringify(result.scores, null, 2)}</p>
+                    <p><strong>Personalization:</strong> ${JSON.stringify(result.personalize, null, 2)}</p>
+                `;
+                
+            } catch (error) {
+                console.error('API test error:', error);
+                document.getElementById('result').innerHTML = `
+                    <h2>API Test Error:</h2>
+                    <p style="color: red;"><strong>Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
+
+

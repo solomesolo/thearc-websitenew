@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Questionnaire Form</title>
+</head>
+<body>
+    <h1>Debug Questionnaire Form</h1>
+    
+    <form id="debugForm">
+        <h2>Test Form Data Collection</h2>
+        
+        <p>Age: <input type="number" name="age" value="35"></p>
+        
+        <p>Gender: 
+            <input type="radio" name="gender" value="male" checked> Male
+            <input type="radio" name="gender" value="female"> Female
+        </p>
+        
+        <p>Overwhelmed:
+            <input type="radio" name="overwhelmed" value="never"> Never
+            <input type="radio" name="overwhelmed" value="almost_never"> Almost never
+            <input type="radio" name="overwhelmed" value="sometimes" checked> Sometimes
+            <input type="radio" name="overwhelmed" value="fairly_often"> Fairly often
+            <input type="radio" name="overwhelmed" value="very_often"> Very often
+        </p>
+        
+        <p>Family Health Patterns:
+            <input type="checkbox" name="family_health_patterns" value="heart_disease" checked> Heart Disease
+            <input type="checkbox" name="family_health_patterns" value="diabetes"> Diabetes
+        </p>
+        
+        <p>Lightheaded when standing:
+            <input type="radio" name="lightheaded_standing" value="yes" checked> Yes
+            <input type="radio" name="lightheaded_standing" value="no"> No
+        </p>
+        
+        <button type="button" onclick="testFormCollection()">Test Form Collection</button>
+    </form>
+    
+    <div id="results"></div>
+    
+    <script>
+        let formData = {};
+        
+        function handleInputChange(input) {
+            console.log("=== INPUT CHANGE DEBUG ===");
+            console.log("Input element:", input);
+            console.log("Input name:", input.name);
+            console.log("Input value:", input.value);
+            console.log("Input type:", input.type);
+            console.log("Input checked:", input.checked);
+            
+            const name = input.name;
+            const value = input.type === "checkbox" ? 
+                (input.checked ? (formData[name] ? formData[name] + "," + input.value : input.value) : 
+                (formData[name] ? formData[name].replace(input.value + ",", "").replace("," + input.value, "").replace(input.value, "") : "")) :
+                input.value;
+            
+            console.log("Calculated value:", value);
+            
+            if (value) {
+                formData[name] = value;
+            } else {
+                delete formData[name];
+            }
+            
+            console.log("Form data updated:", formData);
+            console.log("=== END INPUT CHANGE DEBUG ===");
+        }
+        
+        function testFormCollection() {
+            console.log("=== TESTING FORM COLLECTION ===");
+            
+            // Manually collect all form data
+            const form = document.getElementById('debugForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            
+            console.log("Found inputs:", inputs.length);
+            
+            inputs.forEach((input, index) => {
+                console.log(`Input ${index}:`, input.name, input.value, input.type, input.checked);
+                
+                if (input.type === 'radio' && input.checked) {
+                    formData[input.name] = input.value;
+                    console.log(`Radio selected: ${input.name} = ${input.value}`);
+                } else if (input.type === 'checkbox' && input.checked) {
+                    if (formData[input.name]) {
+                        formData[input.name] += ',' + input.value;
+                    } else {
+                        formData[input.name] = input.value;
+                    }
+                    console.log(`Checkbox selected: ${input.name} = ${formData[input.name]}`);
+                } else if (input.type !== 'radio' && input.type !== 'checkbox') {
+                    formData[input.name] = input.value;
+                    console.log(`Text input: ${input.name} = ${input.value}`);
+                }
+            });
+            
+            console.log("Final form data:", formData);
+            
+            // Test transformation
+            testTransformation(formData);
+        }
+        
+        function testTransformation(data) {
+            console.log("=== TESTING TRANSFORMATION ===");
+            
+            // Mapping functions
+            function mapOverwhelmedValue(value) {
+                if (!value) return 'never';
+                switch(value) {
+                    case 'never': return 'never';
+                    case 'almost_never': return 'rarely';
+                    case 'sometimes': return 'sometimes';
+                    case 'fairly_often': return 'often';
+                    case 'very_often': return 'often';
+                    default: return 'never';
+                }
+            }
+            
+            const transformedData = {
+                user: {
+                    name: data.name || "User",
+                    age: parseInt(data.age) || 30,
+                    sex: data.gender || "other",
+                    email: data.email || ""
+                },
+                family_history: {
+                    cvd: {
+                        present: data.family_health_patterns && data.family_health_patterns.includes('heart_disease'),
+                        first_degree: data.family_health_patterns && data.family_health_patterns.includes('heart_disease'),
+                        onset: '<60'
+                    },
+                    diabetes: {
+                        present: data.family_health_patterns && data.family_health_patterns.includes('diabetes'),
+                        first_degree: data.family_health_patterns && data.family_health_patterns.includes('diabetes')
+                    },
+                    cancer: []
+                },
+                physiological_patterns: {
+                    lightheaded_standing: data.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                    skin_color_changes: false,
+                    temperature_sensitivity: 'normal'
+                },
+                lifestyle_load: {
+                    overwhelmed: mapOverwhelmedValue(data.overwhelmed),
+                    confidence_handling: 'never',
+                    in_control: 'never'
+                },
+                biological_signals: {
+                    age: parseInt(data.age) || 30,
+                    gender: data.gender || 'other',
+                    location: 'urban',
+                    education: 'university',
+                    work_status: 'employed'
+                },
+                cognitive_rhythm: {
+                    upset_annoyed: 'never',
+                    tense_nervous: 'never',
+                    too_many_demands: 'never'
+                },
+                symptoms: {
+                    fatigue: false,
+                    sleep_issues: false,
+                    digestive_issues: false
+                },
+                preferences: {
+                    budget: 'moderate',
+                    equipment: 'basic',
+                    diet: 'flexible'
+                }
+            };
+            
+            console.log("Transformed data:", transformedData);
+            
+            // Test API call
+            testAPI(transformedData);
+        }
+        
+        async function testAPI(data) {
+            try {
+                console.log("=== TESTING API ===");
+                console.log("Sending data to API:", data);
+                
+                const response = await fetch('http://localhost:3002/api/process-personalization', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+                }
+                
+                const results = await response.json();
+                console.log("API response:", results);
+                
+                document.getElementById('results').innerHTML = `
+                    <h2>API Results:</h2>
+                    <p><strong>Scores:</strong></p>
+                    <ul>
+                        <li>Family Risk: ${results.scores.family_risk}</li>
+                        <li>Physiological: ${results.scores.physiological}</li>
+                        <li>Lifestyle Load: ${results.scores.lifestyle_load}</li>
+                        <li>Biological: ${results.scores.biological}</li>
+                        <li>Cognitive: ${results.scores.cognitive}</li>
+                    </ul>
+                `;
+                
+            } catch (error) {
+                console.error("API test failed:", error);
+                document.getElementById('results').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Set up event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    handleInputChange(this);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
