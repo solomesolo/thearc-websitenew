@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
@@ -13,11 +13,181 @@ import Card from "../components/Card";
 import TwoColumn from "../components/TwoColumn";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import PersonaCard from "../components/PersonaCard";
-import PlanCard from "../components/PlanCard";
 import CTAButton from "../components/CTAButton";
+import { PricingSection } from "../components/pricing/PricingSection";
+
+const personaCards = [
+  {
+    title: "Busy Professionals",
+    description: "For those who optimize everything except their recovery.",
+    href: "/achiever",
+  },
+  {
+    title: "Travellers & Nomads",
+    description: "Stay balanced wherever the world takes you.",
+    href: "/explorer",
+  },
+  {
+    title: "Health Rebuilders",
+    description: "Rebuild your health with precision and care.",
+    href: "/seeker",
+  },
+];
 
 export default function HomePage() {
-  return (
+  useEffect(() => {
+    const cards = Array.from(document.querySelectorAll<HTMLAnchorElement>(".path-card"));
+
+    const listeners: Array<{
+      card: HTMLAnchorElement;
+      handleMouseMove: (event: MouseEvent) => void;
+      handleMouseLeave: () => void;
+      handleResize: () => void;
+    }> = [];
+
+    cards.forEach((card) => {
+      const spotlight = card.querySelector<HTMLDivElement>(".spotlight");
+      if (!spotlight) return;
+
+      let rect = card.getBoundingClientRect();
+      const updateRect = () => {
+        rect = card.getBoundingClientRect();
+      };
+
+      const handleMouseMove = (event: MouseEvent) => {
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const midX = rect.width / 2;
+        const midY = rect.height / 2;
+
+        const rotateX = ((y - midY) / midY) * 4;
+        const rotateY = ((x - midX) / midX) * -4;
+
+        card.style.transform = `
+          perspective(900px)
+          rotateX(${rotateX}deg)
+          rotateY(${rotateY}deg)
+          translateY(-6px)
+          scale(1.02)
+        `;
+
+        spotlight.style.opacity = "1";
+        spotlight.style.background = `
+          radial-gradient(
+            350px circle at ${x}px ${y}px,
+            rgba(255,255,255,0.14),
+            rgba(255,255,255,0.06) 35%,
+            rgba(255,255,255,0) 70%
+          )
+        `;
+      };
+
+      const handleMouseLeave = () => {
+        card.style.transform =
+          "perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
+        spotlight.style.opacity = "0";
+      };
+
+      const handleResize = () => updateRect();
+
+      window.addEventListener("resize", handleResize);
+      card.addEventListener("mousemove", handleMouseMove);
+      card.addEventListener("mouseleave", handleMouseLeave);
+
+      listeners.push({ card, handleMouseLeave, handleMouseMove, handleResize });
+    });
+
+    return () => {
+      listeners.forEach(({ card, handleMouseLeave, handleMouseMove, handleResize }) => {
+        card.removeEventListener("mousemove", handleMouseMove);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+        window.removeEventListener("resize", handleResize);
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    const hwCards = Array.from(document.querySelectorAll<HTMLDivElement>(".hw-card-magnetic"));
+    if (!hwCards.length) return;
+
+    const hoverHandlers: Array<{
+      card: HTMLDivElement;
+      handleMouseMove: (event: MouseEvent) => void;
+      handleMouseLeave: () => void;
+    }> = [];
+
+    hwCards.forEach((card, index) => {
+      const spotlight = card.querySelector<HTMLDivElement>(".spotlight");
+      if (!spotlight) {
+        return;
+      }
+
+      card.style.transitionDelay = `${index * 0.08}s`;
+
+      const handleMouseMove = (event: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        spotlight.style.left = `${x}px`;
+        spotlight.style.top = `${y}px`;
+        spotlight.style.opacity = "1";
+
+        const moveX = (x - rect.width / 2) * 0.03;
+        const moveY = (y - rect.height / 2) * 0.03;
+        card.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.015)`;
+      };
+
+      const handleMouseLeave = () => {
+        card.style.transform = "";
+        if (spotlight) {
+          spotlight.style.opacity = "0";
+        }
+      };
+
+      card.addEventListener("mousemove", handleMouseMove);
+      card.addEventListener("mouseleave", handleMouseLeave);
+
+      hoverHandlers.push({ card, handleMouseLeave, handleMouseMove });
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    hwCards.forEach((card) => observer.observe(card));
+
+    return () => {
+      hoverHandlers.forEach(({ card, handleMouseLeave, handleMouseMove }) => {
+        card.removeEventListener("mousemove", handleMouseMove);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      });
+      observer.disconnect();
+    };
+  }, []);
+  const personaGridVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.18,
+      },
+    },
+  };
+
+  const personaCardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+    return (
     <div className="min-h-screen bg-black text-white">
       {/* Navigation Header */}
       <Header />
@@ -31,138 +201,196 @@ export default function HomePage() {
       />
 
       {/* 2️⃣ How It Works (4 Steps) */}
-      <Section id="how-it-works">
-        <SectionTitle className="text-center mb-16">How It Works</SectionTitle>
-        <div className="grid-four-column mb-12">
-          {[
-            {
-              step: "1",
-              title: "Free check",
-              desc: "See which blood screenings you miss."
-            },
-            {
-              step: "2",
-              title: "Full assessment",
-              desc: "Get your personal health map."
-            },
-            {
-              step: "3",
-              title: "Your plan",
-              desc: "Follow a simple 6-month plan."
-            },
-            {
-              step: "4",
-              title: "Learn what works",
-              desc: "See real results."
-            }
-          ].map((item, i) => (
-            <Card key={i} className="text-center">
-              <div className="text-4xl font-bold text-[#4DE4C1] mb-4">{item.step}</div>
-              <h3 className="text-2xl font-semibold mb-4 text-white">{item.title}</h3>
-              <Paragraph>{item.desc}</Paragraph>
-            </Card>
-          ))}
-        </div>
-        <div className="text-center">
-          <CTAButton href="/free-screening" variant="primary">
-            Start free screening
-          </CTAButton>
-        </div>
-      </Section>
+      <section className="w-full bg-black text-white py-28">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col items-center">
+          <h2 className="text-4xl md:text-5xl font-semibold text-center mb-6">
+            How It Works
+          </h2>
+          <p className="text-lg md:text-xl text-gray-300 text-center max-w-2xl mb-28">
+            A simple, science-driven process that shows you exactly what your body needs and helps you build habits that truly work.
+          </p>
 
-      {/* 3️⃣ Philosophy / The Arc Difference */}
-      <Section background="black">
-        <TwoColumn
-          left={
-            <ImagePlaceholder 
-              height="500px" 
-              label="Image: Calm human silhouette + moving circular glow"
-            />
-          }
-          right={
-            <div>
-              <SectionTitle>You discover. We guide.</SectionTitle>
-              <Paragraph className="mb-8" style={{ fontSize: '22px' }}>
-                We help you find your health formula through clinical precision, clear steps, and feedback that teaches you what really improves your wellbeing.
-              </Paragraph>
-              <CTAButton href="#how-it-works" variant="secondary">
-                How it works
-              </CTAButton>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 w-full mt-8">
+            <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
+              <div className="spotlight" aria-hidden="true" />
+              <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
+                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl font-semibold">
+                  01
+                </div>
+                <div className="w-10 h-10 opacity-80">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-10 h-10 text-white/70"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 12l2 2 4-4m4 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+        </div>
+                <h3 className="text-xl font-semibold">Free check</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Start with a quick, clinical-grade screening that shows which essential blood tests you are missing. No registration needed, no complexity, just a clear picture of what your body has not been checked for yet.
+                </p>
           </div>
-          }
-        />
-      </Section>
+          </div>
+
+            <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
+              <div className="spotlight" aria-hidden="true" />
+              <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
+                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl font-semibold">
+                  02
+        </div>
+                <div className="w-10 h-10 opacity-80">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-10 h-10 text-white/70"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5h6m-6 4h6m-6 4h6m-6 4h6M7 3v2m10-2v2m-9 4h8m-8 4h6m-7 6h10a2 2 0 002-2V7H5v10a2 2 0 002 2z"
+                    />
+                  </svg>
+        </div>
+                <h3 className="text-xl font-semibold">Full assessment</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Complete our validated questionnaire to get a personal health map. It highlights your potential risks, strengths, lifestyle gaps, and predispositions while giving you a clear snapshot of where your health stands today.
+            </p>
+        </div>
+                  </div>
+          
+            <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
+              <div className="spotlight" aria-hidden="true" />
+              <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
+                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl font-semibold">
+                  03
+                  </div>
+                <div className="w-10 h-10 opacity-80">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-10 h-10 text-white/70"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8 7V5m8 2V5m-9 4h10m-7 4l2 2 3-3m-2 7H7a2 2 0 01-2-2V9h14v10a2 2 0 01-2 2z"
+                    />
+                  </svg>
+              </div>
+                <h3 className="text-xl font-semibold">Your 6-month plan</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  We create a personalised plan built around your body’s needs. You get a month-by-month path including screenings, nutrition guidance, lifestyle routines, and practical steps that fit real life.
+                </p>
+                </div>
+              </div>
+
+            <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
+              <div className="spotlight" aria-hidden="true" />
+              <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
+                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl font-semibold">
+                  04
+                </div>
+                <div className="w-10 h-10 opacity-80">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-10 h-10 text-white/70"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 13h4v8H3zm7-6h4v14h-4zm7 8h4v6h-4z"
+                    />
+                  </svg>
+              </div>
+                <h3 className="text-xl font-semibold">Learn what works for you</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  At the end of six months, you receive renewed insights that show which habits and interventions truly improved your wellbeing — helping you build your own long-term health formula.
+                </p>
+            </div>
+                </div>
+              </div>
+
+          <div className="w-full flex justify-center mt-24">
+            <a
+              href="/free-screening"
+              className="px-10 py-4 bg-white text-black rounded-full text-lg font-semibold hover:bg-gray-200 transition"
+            >
+              Start free screening
+            </a>
+              </div>
+            </div>
+      </section>
+
+      <section className="guidance-hero">
+        <motion.div
+          className="guidance-content"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
+        >
+          <h2>You discover.<br />We guide.</h2>
+          <p>
+            We help you find your own health formula through clinical precision,
+            clear steps, and personal feedback that shows you what truly improves
+            your wellbeing.
+          </p>
+          <motion.button
+            className="cta-secondary"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+          >
+            Find your path
+          </motion.button>
+        </motion.div>
+      </section>
 
       {/* 4️⃣ Three Personas Section */}
-      <Section id="personas">
-        <SectionTitle className="text-center mb-16">Find Your Path</SectionTitle>
-        <div className="grid-three-column">
-          <PersonaCard
-            title="Busy Professionals"
-            description="For those who optimize everything except their recovery."
-            href="/achiever"
-          />
-          <PersonaCard
-            title="Travellers & Nomads"
-            description="Stay balanced wherever the world takes you."
-            href="/explorer"
-          />
-          <PersonaCard
-            title="Health Rebuilders"
-            description="Rebuild your health with precision and care."
-            href="/seeker"
-          />
-          </div>
+      <Section id="personas" className="pt-32">
+        <SectionTitle className="text-center mb-16 text-4xl font-semibold tracking-tight">
+          Find Your Path
+        </SectionTitle>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 mb-32"
+          variants={personaGridVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {personaCards.map((cardItem) => (
+            <motion.div
+              key={cardItem.href}
+              variants={personaCardVariants}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <PersonaCard {...cardItem} />
+            </motion.div>
+          ))}
+        </motion.div>
       </Section>
 
       {/* 5️⃣ Plans & Pricing */}
-      <Section id="plans" background="black">
-        <SectionTitle className="text-center mb-16">Plans & Pricing</SectionTitle>
-        <div className="grid-three-column mb-12" style={{ maxWidth: '960px', margin: '0 auto' }}>
-          <PlanCard
-            name="Starter"
-            price="99"
-            period="6 months"
-            highlights={[
-              "Free screening",
-              "Health map",
-              "6-month plan",
-              "Basic support"
-            ]}
-            ctaHref="/checkout/self"
-          />
-          <PlanCard
-            name="Education"
-            price="199"
-            period="6 months"
-            highlights={[
-              "Everything in Starter",
-              "Closed sessions",
-              "Advanced insights",
-              "Priority support"
-            ]}
-            featured={true}
-            ctaHref="/checkout/education"
-          />
-          <PlanCard
-            name="Care"
-            price="399"
-            period="6 months"
-            highlights={[
-              "Everything in Education",
-              "Medical consultations",
-              "Personalized care",
-              "Dedicated support"
-            ]}
-            waitlist={true}
-          />
-        </div>
-          <div className="text-center">
-          <CTAButton href="/free-screening" variant="secondary">
-            Start with free screening
-          </CTAButton>
-                  </div>
-      </Section>
+      <PricingSection />
 
       {/* 6️⃣ Service Catalog Highlight */}
       <Section>
@@ -201,8 +429,8 @@ export default function HomePage() {
                 style={{ animationDelay: '0.5s' }}
               />
             </svg>
-              </div>
-              </div>
+          </div>
+        </div>
 
         {/* Three bullet points as text (no icons) */}
         <div className="grid-three-column mb-12" style={{ maxWidth: '960px', margin: '0 auto' }}>
@@ -215,8 +443,8 @@ export default function HomePage() {
               <Paragraph style={{ fontSize: '18px' }}>{item}</Paragraph>
             </Card>
                 ))}
-              </div>
-        
+        </div>
+
           <div className="text-center">
           <CTAButton href="/early-access" variant="secondary">
             Join early access
@@ -239,7 +467,7 @@ export default function HomePage() {
                 See plans
               </CTAButton>
           </div>
-          </div>
+        </div>
       </Section>
 
       {/* 9️⃣ Footer */}
