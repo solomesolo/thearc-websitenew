@@ -14,98 +14,37 @@ import TwoColumn from "../components/TwoColumn";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import PersonaCard from "../components/PersonaCard";
 import CTAButton from "../components/CTAButton";
+import Link from "next/link";
 import { PricingSection } from "../components/pricing/PricingSection";
 
 const personaCards = [
   {
     title: "Busy Professionals",
-    description: "For those who optimize everything except their recovery.",
+    struggles: "Stress buildup, irregular sleep, low energy, and early signs of burnout.",
+    promise:
+      "A clear picture of what your body is missing and practical ways to restore energy without slowing down your life.",
     href: "/achiever",
+    cta: "See how this works for professionals →",
   },
   {
     title: "Travellers & Nomads",
-    description: "Stay balanced wherever the world takes you.",
+    struggles: "Disrupted sleep, weak immunity, and fatigue from constant movement.",
+    promise:
+      "Insights into how travel affects your body and personalised routines that keep you energised and balanced wherever you are.",
     href: "/explorer",
+    cta: "See how this works for travellers →",
   },
   {
     title: "Health Rebuilders",
-    description: "Rebuild your health with precision and care.",
+    struggles: "Unexplained tiredness, weight changes, chronic stress, or lingering symptoms.",
+    promise:
+      "Clinically guided clarity and a personalised plan to rebuild stability, strength, and confidence.",
     href: "/seeker",
+    cta: "See how this works for rebuilding your health →",
   },
 ];
 
 export default function HomePage() {
-  useEffect(() => {
-    const cards = Array.from(document.querySelectorAll<HTMLAnchorElement>(".path-card"));
-
-    const listeners: Array<{
-      card: HTMLAnchorElement;
-      handleMouseMove: (event: MouseEvent) => void;
-      handleMouseLeave: () => void;
-      handleResize: () => void;
-    }> = [];
-
-    cards.forEach((card) => {
-      const spotlight = card.querySelector<HTMLDivElement>(".spotlight");
-      if (!spotlight) return;
-
-      let rect = card.getBoundingClientRect();
-      const updateRect = () => {
-        rect = card.getBoundingClientRect();
-      };
-
-      const handleMouseMove = (event: MouseEvent) => {
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        const midX = rect.width / 2;
-        const midY = rect.height / 2;
-
-        const rotateX = ((y - midY) / midY) * 4;
-        const rotateY = ((x - midX) / midX) * -4;
-
-        card.style.transform = `
-          perspective(900px)
-          rotateX(${rotateX}deg)
-          rotateY(${rotateY}deg)
-          translateY(-6px)
-          scale(1.02)
-        `;
-
-        spotlight.style.opacity = "1";
-        spotlight.style.background = `
-          radial-gradient(
-            350px circle at ${x}px ${y}px,
-            rgba(255,255,255,0.14),
-            rgba(255,255,255,0.06) 35%,
-            rgba(255,255,255,0) 70%
-          )
-        `;
-      };
-
-      const handleMouseLeave = () => {
-        card.style.transform =
-          "perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
-        spotlight.style.opacity = "0";
-      };
-
-      const handleResize = () => updateRect();
-
-      window.addEventListener("resize", handleResize);
-      card.addEventListener("mousemove", handleMouseMove);
-      card.addEventListener("mouseleave", handleMouseLeave);
-
-      listeners.push({ card, handleMouseLeave, handleMouseMove, handleResize });
-    });
-
-    return () => {
-      listeners.forEach(({ card, handleMouseLeave, handleMouseMove, handleResize }) => {
-        card.removeEventListener("mousemove", handleMouseMove);
-        card.removeEventListener("mouseleave", handleMouseLeave);
-        window.removeEventListener("resize", handleResize);
-      });
-    };
-  }, []);
-
   useEffect(() => {
     const hwCards = Array.from(document.querySelectorAll<HTMLDivElement>(".hw-card-magnetic"));
     if (!hwCards.length) return;
@@ -201,16 +140,16 @@ export default function HomePage() {
       />
 
       {/* 2️⃣ How It Works (4 Steps) */}
-      <section className="w-full bg-black text-white py-28">
+      <section className="w-full bg-black text-white py-36">
         <div className="max-w-6xl mx-auto px-6 flex flex-col items-center">
-          <h2 className="text-4xl md:text-5xl font-semibold text-center mb-6">
+          <h2 className="text-4xl md:text-5xl font-semibold text-center">
             How It Works
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 text-center max-w-2xl mb-28">
+          <p className="text-lg md:text-xl text-gray-300 text-center max-w-2xl mt-10">
             A simple, science-driven process that shows you exactly what your body needs and helps you build habits that truly work.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 w-full mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 w-full mt-12">
             <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
               <div className="spotlight" aria-hidden="true" />
               <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
@@ -328,7 +267,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-          <div className="w-full flex justify-center mt-24">
+          <div className="w-full flex justify-center mt-12">
             <a
               href="/free-screening"
               className="px-10 py-4 bg-white text-black rounded-full text-lg font-semibold hover:bg-gray-200 transition"
@@ -366,12 +305,12 @@ export default function HomePage() {
       </section>
 
       {/* 4️⃣ Three Personas Section */}
-      <Section id="personas" className="pt-32">
-        <SectionTitle className="text-center mb-16 text-4xl font-semibold tracking-tight">
+      <Section id="personas">
+        <SectionTitle className="text-center text-4xl font-semibold tracking-tight">
           Find Your Path
         </SectionTitle>
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 mb-32"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12"
           variants={personaGridVariants}
           initial="hidden"
           whileInView="visible"
@@ -394,72 +333,152 @@ export default function HomePage() {
 
       {/* 6️⃣ Service Catalog Highlight */}
       <Section>
-        <SectionTitle className="text-center mb-16">Service Catalog</SectionTitle>
-        <Card className="text-center">
-          <Paragraph className="mb-8" style={{ fontSize: '20px' }}>
-            Browse our curated selection of health and wellness services from certified partners.
-          </Paragraph>
-          <CTAButton href="/catalog" variant="primary">
-            Browse catalog
-          </CTAButton>
-        </Card>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <SectionTitle className="text-left text-4xl font-bold">Service Catalog</SectionTitle>
+            <div className="space-y-4 text-gray-300 text-base leading-relaxed max-w-xl mt-10">
+              <p>Your gateway to at-home diagnostics, lab testing, expert sessions, and restorative experiences curated by clinicians.</p>
+              <p>Every service connects back to your plan so you know what matters, what’s available now, and what unlocks next.</p>
+              <p>Filter by goal, location, time, budget, or medical guidance level — and find what fits wherever you are.</p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-2 gap-y-12 gap-x-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.15 } },
+            }}
+          >
+            {[
+              {
+                value: "120+",
+                text: "Curated health and wellness services available worldwide.",
+              },
+              {
+                value: "40+",
+                text: "Global direct-to-consumer providers reviewed and verified.",
+              },
+              {
+                value: "100+",
+                text: "Specialized lab testing options covering every major biomarker category.",
+              },
+              {
+                value: "All locations",
+                text: "Find services near you with trusted reviews and transparent pricing.",
+              },
+            ].map((item) => (
+              <motion.div
+                key={item.value}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+              >
+                <div className="text-6xl font-semibold text-white">{item.value}</div>
+                <p className="text-lg text-neutral-300 mt-4 leading-snug">{item.text}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+          </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+          <Link
+            href="/catalog"
+            className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-semibold bg-teal-500 text-black hover:bg-teal-400 transition shadow-[0_15px_30px_rgba(0,255,200,0.25)]"
+          >
+            Explore the Catalog
+          </Link>
+          <Link
+            href="/contact"
+            className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-semibold border border-teal-400 text-teal-400 hover:bg-teal-400/10 transition"
+          >
+            Partner With Us
+          </Link>
+          </div>
       </Section>
 
       {/* 7️⃣ Future Vision / Roadmap */}
       <Section background="black">
-        <SectionTitle className="text-center mb-16">What's next for The Arc</SectionTitle>
-        
-        {/* Soft curved line background */}
-        <div className="relative mb-12">
-          <div className="flex items-center justify-center h-64 mb-12">
-            <svg width="300" height="300" viewBox="0 0 300 300" className="absolute opacity-30">
-              <path
-                d="M 150 50 Q 200 100 250 150 T 150 250"
-                fill="none"
-                stroke="#4DE4C1"
-                strokeWidth="2"
-                className="animate-pulse"
-              />
-              <path
-                d="M 150 50 Q 100 100 50 150 T 150 250"
-                fill="none"
-                stroke="#4DE4C1"
-                strokeWidth="2"
-                className="animate-pulse"
-                style={{ animationDelay: '0.5s' }}
-              />
-            </svg>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
+          <div>
+            <SectionTitle className="text-left text-4xl font-bold">
+              What's next for The Arc
+            </SectionTitle>
+            <p className="text-neutral-300 text-base leading-relaxed max-w-xl mt-10">
+              We’re shipping fast. The Arc is evolving from personalised insights into a complete
+              platform with learning, expert access, and connected data so you always know what to do next.
+            </p>
+        </div>
+
+          <div className="border-l border-neutral-800 ml-4 pl-8 space-y-16">
+            {[
+              {
+                label: "Now",
+                title: "Knowledge Base for Learning",
+                desc:
+                  "Personalised, clinically guided content to help you understand tests, biomarkers and lifestyle changes.",
+              },
+              {
+                label: "Next",
+                title: "Access to Certified Specialists",
+                desc:
+                  "Book consultations with vetted clinicians, practitioners and health experts from around the world.",
+              },
+              {
+                label: "Soon",
+                title: "New Health Data Integrations",
+                desc:
+                  "Connect wearables, home diagnostic devices and lab results for a complete personal dashboard.",
+              },
+              {
+                label: "Continuous",
+                title: "Expanding Global Provider Network",
+                desc:
+                  "More trusted direct-to-consumer partners, more services, more locations — always growing.",
+              },
+            ].map((item) => (
+              <div key={item.title} className="space-y-2">
+                <div className="flex items-center gap-4">
+                  <span className="w-3 h-3 rounded-full bg-emerald-400" />
+                  <span className="text-sm text-neutral-500 uppercase tracking-wide">
+                    {item.label}
+                  </span>
+                </div>
+                <h3 className="text-xl font-semibold text-white">{item.title}</h3>
+                <p className="text-neutral-300 leading-relaxed mt-1">{item.desc}</p>
+        </div>
+            ))}
+        </div>
           </div>
-        </div>
 
-        {/* Three bullet points as text (no icons) */}
-        <div className="grid-three-column mb-12" style={{ maxWidth: '960px', margin: '0 auto' }}>
-          {[
-            "Knowledge Base for learning",
-            "Access to certified specialists",
-            "New health data integrations"
-          ].map((item, i) => (
-            <Card key={i} className="text-center">
-              <Paragraph style={{ fontSize: '18px' }}>{item}</Paragraph>
-            </Card>
-                ))}
-        </div>
-
-          <div className="text-center">
-          <CTAButton href="/early-access" variant="secondary">
+        <div className="mt-12 flex justify-center">
+          <Link
+            href="/early-access"
+            className="px-8 py-4 rounded-full text-base font-semibold border border-emerald-400 text-emerald-400 hover:bg-emerald-400/10 transition"
+          >
             Join early access
-          </CTAButton>
+          </Link>
             </div>
       </Section>
 
       {/* 8️⃣ Final Call to Action */}
       <Section>
         <div className="max-w-3xl mx-auto text-center">
-            <SectionTitle className="mb-6">Begin your Arc today.</SectionTitle>
-            <Paragraph className="mb-10" style={{ fontSize: '22px' }}>
+            <SectionTitle>Begin your Arc today.</SectionTitle>
+            <Paragraph className="mt-10" style={{ fontSize: '22px' }}>
               Find your own formula. See what works for you. Keep what matters.
             </Paragraph>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
               <CTAButton href="/free-screening" variant="primary">
                 Start free screening
               </CTAButton>

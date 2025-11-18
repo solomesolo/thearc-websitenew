@@ -12,7 +12,7 @@ export default function SectionTitle({ children, subtitle, className = "" }: Sec
   return (
     <div className={className}>
       <h2 
-        className="font-bold text-white mb-4"
+        className="font-bold text-white mb-0"
         style={{
           fontSize: 'clamp(32px, 4vw, 42px)',
           lineHeight: '1.2'

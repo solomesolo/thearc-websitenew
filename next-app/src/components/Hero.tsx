@@ -13,7 +13,7 @@ interface HeroProps {
 export default function Hero({ title, subtitle, primaryCTA, secondaryCTA }: HeroProps) {
   return (
     <section className="hero-wrapper bg-black">
-      <div className="relative w-full max-w-screen-xl mx-auto px-6 lg:px-12 pt-[160px] lg:pt-[180px] pb-20 lg:pb-32 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="relative w-full max-w-screen-xl mx-auto px-6 lg:px-12 py-36 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         
         {/* LEFT COLUMN */}
         <div className="flex flex-col">

@@ -153,8 +153,8 @@ html, body {
 
 /* Global Section Spacing */
 .section-global {
-  padding-top: var(--section-padding-top);
-  padding-bottom: var(--section-padding-bottom);
+  padding-top: 9rem;
+  padding-bottom: 9rem;
 }
 
 /* Grid System Utilities */
@@ -941,35 +941,32 @@ header nav a:hover::after {
 .path-card {
   position: relative;
   overflow: hidden;
-  transform-style: preserve-3d;
-  transform: perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  will-change: transform;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .path-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
-  cursor: pointer;
+  box-shadow: 0 0 55px -5px rgba(0, 255, 200, 0.5);
 }
 
-.path-card .spotlight {
+.path-card__spotlight {
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   pointer-events: none;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(255, 255, 255, 0.05) 32%,
-    rgba(255, 255, 255, 0) 70%
-  );
   opacity: 0;
   transition: opacity 0.35s ease-out;
   mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 255, 200, 0.2),
+    rgba(0, 0, 0, 0)
+  );
 }
 
-.path-card:not(:hover) .spotlight {
-  opacity: 0;
+.path-card:hover .path-card__spotlight {
+  opacity: 1;
 }
 
 /* How It Works cards */

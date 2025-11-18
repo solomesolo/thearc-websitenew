@@ -1,30 +1,78 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useMotionTemplate } from "framer-motion";
+import { useMagnetic } from "./pricing/magnetic";
+import { useSpotlight } from "./pricing/useSpotlight";
 
 interface PersonaCardProps {
   title: string;
-  description: string;
+  struggles: string;
+  promise: string;
   href: string;
+  cta: string;
   imagePlaceholder?: React.ReactNode;
 }
 
-export default function PersonaCard({ title, description, href }: PersonaCardProps) {
+export default function PersonaCard({ title, struggles, promise, href, cta }: PersonaCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { x, y, onMove, reset } = useMagnetic(18);
+  const { spotlightX, spotlightY, updateSpotlight, resetSpotlight } = useSpotlight();
+
+  const baseGradient = "linear-gradient(to bottom, #1a1a1a, #0e0e0e)";
+  const spotlightStyle = useMotionTemplate`
+    radial-gradient(
+      400px circle at ${spotlightX}px ${spotlightY}px,
+      rgba(0, 255, 200, 0.12),
+      rgba(0, 0, 0, 0)
+    ), ${baseGradient}
+  `;
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
+    onMove(event);
+    updateSpotlight(event);
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (rect) {
+      const localX = event.clientX - rect.left;
+      const localY = event.clientY - rect.top;
+      cardRef.current?.style.setProperty("--mouse-x", `${localX}px`);
+      cardRef.current?.style.setProperty("--mouse-y", `${localY}px`);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    reset();
+    resetSpotlight();
+    cardRef.current?.style.setProperty("--mouse-x", `-9999px`);
+    cardRef.current?.style.setProperty("--mouse-y", `-9999px`);
+  };
+
   return (
-    <Link
-      href={href}
-      className="path-card group h-full flex flex-col justify-between rounded-2xl border border-white/20 bg-gradient-to-b from-[#0e1218] to-[#040609] p-6 transition-all duration-300 hover:border-teal-400/70 hover:shadow-[0_0_30px_-5px_rgba(45,255,210,0.3)]"
+    <motion.div
+      ref={cardRef}
+      style={{ x, y, backgroundImage: spotlightStyle }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="pricing-card path-card border border-neutral-800 hover:border-teal-500/40 flex flex-col justify-between h-full"
     >
-      <div className="spotlight" aria-hidden="true" />
-      <div className="space-y-4 text-left">
-        <h3 className="text-2xl font-semibold tracking-tight text-white">{title}</h3>
-        <p className="text-gray-300 text-sm leading-relaxed">{description}</p>
+      <div className="relative z-10 flex flex-col gap-6 text-left">
+        <div className="space-y-4 max-w-[42ch]">
+          <h3 className="text-2xl font-semibold tracking-tight text-white">{title}</h3>
+          <div className="space-y-3 text-gray-300 text-sm leading-relaxed">
+            <p>What you struggle with: {struggles}</p>
+            <p>What The Arc gives you: {promise}</p>
+          </div>
+        </div>
+        <Link
+          href={href}
+          className="text-[#4DE4C1] font-semibold inline-flex items-center gap-2 transition-all duration-200 hover:text-teal-300"
+        >
+          {cta}
+        </Link>
       </div>
-      <span className="text-[#4DE4C1] font-semibold inline-flex items-center gap-2 mt-6 group-hover:gap-3 transition-all">
-        Explore this path →
-      </span>
-    </Link>
+      <div className="path-card__spotlight" aria-hidden="true" />
+    </motion.div>
   );
 }
 
