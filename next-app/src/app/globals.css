@@ -1086,3 +1086,53 @@ header nav a:hover::after {
 .pricing-card .cta-container {
   margin-top: auto;
 }
+
+/* Hero animations + responsive helpers */
+[data-hero-fade] {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: heroFadeUp 0.8s ease-out forwards;
+}
+
+[data-hero-fade="label"] {
+  animation-delay: 0.05s;
+}
+
+[data-hero-fade="headline"] {
+  animation-delay: 0.15s;
+}
+
+[data-hero-fade="body"] {
+  animation-delay: 0.25s;
+}
+
+[data-hero-fade="cta"] {
+  animation-delay: 0.35s;
+}
+
+[data-hero-image] {
+  opacity: 0;
+  transform: translateX(40px);
+  animation: heroSlideIn 0.6s ease-out forwards;
+  animation-delay: 0.25s;
+}
+
+@keyframes heroFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroSlideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  [data-hero-image] {
+    order: -1;
+  }
+}

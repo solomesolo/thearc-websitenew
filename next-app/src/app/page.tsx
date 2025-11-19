@@ -16,6 +16,7 @@ import PersonaCard from "../components/PersonaCard";
 import CTAButton from "../components/CTAButton";
 import Link from "next/link";
 import { PricingSection } from "../components/pricing/PricingSection";
+import { HowItWorksSection } from "../components/HowItWorksSection";
 
 const personaCards = [
   {
@@ -23,7 +24,7 @@ const personaCards = [
     struggles: "Stress buildup, irregular sleep, low energy, and early signs of burnout.",
     promise:
       "A clear picture of what your body is missing and practical ways to restore energy without slowing down your life.",
-    href: "/achiever",
+    href: "/professional",
     cta: "See how this works for professionals →",
   },
   {
@@ -31,7 +32,7 @@ const personaCards = [
     struggles: "Disrupted sleep, weak immunity, and fatigue from constant movement.",
     promise:
       "Insights into how travel affects your body and personalised routines that keep you energised and balanced wherever you are.",
-    href: "/explorer",
+    href: "/traveler",
     cta: "See how this works for travellers →",
   },
   {
@@ -39,7 +40,7 @@ const personaCards = [
     struggles: "Unexplained tiredness, weight changes, chronic stress, or lingering symptoms.",
     promise:
       "Clinically guided clarity and a personalised plan to rebuild stability, strength, and confidence.",
-    href: "/seeker",
+    href: "/rebuilder",
     cta: "See how this works for rebuilding your health →",
   },
 ];
@@ -140,143 +141,7 @@ export default function HomePage() {
       />
 
       {/* 2️⃣ How It Works (4 Steps) */}
-      <section className="w-full bg-black text-white py-36">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col items-center">
-          <h2 className="text-4xl md:text-5xl font-semibold text-center">
-            How It Works
-          </h2>
-          <p className="text-lg md:text-xl text-gray-300 text-center max-w-2xl mt-10">
-            A simple, science-driven process that shows you exactly what your body needs and helps you build habits that truly work.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 w-full mt-12">
-            <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
-              <div className="spotlight" aria-hidden="true" />
-              <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
-                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl font-semibold">
-                  01
-                </div>
-                <div className="w-10 h-10 opacity-80">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="w-10 h-10 text-white/70"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 12l2 2 4-4m4 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-        </div>
-                <h3 className="text-xl font-semibold">Free check</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  Start with a quick, clinical-grade screening that shows which essential blood tests you are missing. No registration needed, no complexity, just a clear picture of what your body has not been checked for yet.
-                </p>
-          </div>
-          </div>
-
-            <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
-              <div className="spotlight" aria-hidden="true" />
-              <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
-                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl font-semibold">
-                  02
-        </div>
-                <div className="w-10 h-10 opacity-80">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="w-10 h-10 text-white/70"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 5h6m-6 4h6m-6 4h6m-6 4h6M7 3v2m10-2v2m-9 4h8m-8 4h6m-7 6h10a2 2 0 002-2V7H5v10a2 2 0 002 2z"
-                    />
-                  </svg>
-        </div>
-                <h3 className="text-xl font-semibold">Full assessment</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  Complete our validated questionnaire to get a personal health map. It highlights your potential risks, strengths, lifestyle gaps, and predispositions while giving you a clear snapshot of where your health stands today.
-            </p>
-        </div>
-                  </div>
-          
-            <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
-              <div className="spotlight" aria-hidden="true" />
-              <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
-                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl font-semibold">
-                  03
-                  </div>
-                <div className="w-10 h-10 opacity-80">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="w-10 h-10 text-white/70"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8 7V5m8 2V5m-9 4h10m-7 4l2 2 3-3m-2 7H7a2 2 0 01-2-2V9h14v10a2 2 0 01-2 2z"
-                    />
-                  </svg>
-              </div>
-                <h3 className="text-xl font-semibold">Your 6-month plan</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  We create a personalised plan built around your body’s needs. You get a month-by-month path including screenings, nutrition guidance, lifestyle routines, and practical steps that fit real life.
-                </p>
-                </div>
-              </div>
-
-            <div className="hw-card-magnetic bg-[#141414] p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
-              <div className="spotlight" aria-hidden="true" />
-              <div className="relative z-10 flex flex-col items-start space-y-5 text-left">
-                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl font-semibold">
-                  04
-                </div>
-                <div className="w-10 h-10 opacity-80">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="w-10 h-10 text-white/70"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 13h4v8H3zm7-6h4v14h-4zm7 8h4v6h-4z"
-                    />
-                  </svg>
-              </div>
-                <h3 className="text-xl font-semibold">Learn what works for you</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  At the end of six months, you receive renewed insights that show which habits and interventions truly improved your wellbeing — helping you build your own long-term health formula.
-                </p>
-            </div>
-                </div>
-              </div>
-
-          <div className="w-full flex justify-center mt-12">
-            <a
-              href="/free-screening"
-              className="px-10 py-4 bg-white text-black rounded-full text-lg font-semibold hover:bg-gray-200 transition"
-            >
-              Start free screening
-            </a>
-              </div>
-            </div>
-      </section>
+      <HowItWorksSection />
 
       <section className="guidance-hero">
         <motion.div
@@ -345,7 +210,7 @@ export default function HomePage() {
               <p>Your gateway to at-home diagnostics, lab testing, expert sessions, and restorative experiences curated by clinicians.</p>
               <p>Every service connects back to your plan so you know what matters, what’s available now, and what unlocks next.</p>
               <p>Filter by goal, location, time, budget, or medical guidance level — and find what fits wherever you are.</p>
-            </div>
+              </div>
           </motion.div>
 
           <motion.div
@@ -389,7 +254,7 @@ export default function HomePage() {
               </motion.div>
             ))}
           </motion.div>
-          </div>
+              </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
           <Link
@@ -404,7 +269,7 @@ export default function HomePage() {
           >
             Partner With Us
           </Link>
-          </div>
+              </div>
       </Section>
 
       {/* 7️⃣ Future Vision / Roadmap */}
@@ -418,7 +283,7 @@ export default function HomePage() {
               We’re shipping fast. The Arc is evolving from personalised insights into a complete
               platform with learning, expert access, and connected data so you always know what to do next.
             </p>
-        </div>
+                </div>
 
           <div className="border-l border-neutral-800 ml-4 pl-8 space-y-16">
             {[
@@ -453,13 +318,13 @@ export default function HomePage() {
                   <span className="text-sm text-neutral-500 uppercase tracking-wide">
                     {item.label}
                   </span>
-                </div>
+              </div>
                 <h3 className="text-xl font-semibold text-white">{item.title}</h3>
                 <p className="text-neutral-300 leading-relaxed mt-1">{item.desc}</p>
-        </div>
+            </div>
             ))}
-        </div>
-          </div>
+            </div>
+              </div>
 
         <div className="mt-12 flex justify-center">
           <Link
@@ -486,7 +351,7 @@ export default function HomePage() {
                 See plans
               </CTAButton>
           </div>
-        </div>
+          </div>
       </Section>
 
       {/* 9️⃣ Footer */}
