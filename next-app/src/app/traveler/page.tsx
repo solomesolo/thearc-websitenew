@@ -4,55 +4,77 @@ import Link from "next/link";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import { HowItWorksSection } from "../../components/HowItWorksSection";
+import TravelerPersonaSection from "../../components/TravelerPersonaSection";
 
-const travelerIssues = [
-  "Jet lag and disrupted sleep",
-  "Weakening immunity from frequent transitions",
-  "Irregular meals and digestive changes",
-  "Difficulty maintaining habits",
-  "Fatigue during travel weeks",
+const travelerChallengesDetailed = [
+  "Jet lag and sleep cycles that never fully reset",
+  "Digestion that changes with every new country",
+  "Immune dips during border crossings",
+  "No doctor who knows your long-term picture",
+  "Screenings missed for years because you never stay put",
+  "Medical files scattered across countries",
+  "Fatigue that hits mid-trip when you need clarity most",
 ];
 
-const travelerWhyList = [
-  "Circadian rhythms",
-  "Hormonal cycles",
-  "Digestion",
-  "Immune readiness",
-  "Recovery capacity",
+const travelerSystemDisruptions = [
+  "Circadian rhythms lose stability",
+  "Hormonal cycles shift with sleep disruption",
+  "Digestive rhythm resets every few weeks",
+  "Immunity drops during transitions",
+  "Recovery windows shrink as environments change",
+];
+
+const travelerContinuityBreaks = [
+  "Each country resets the rules and the paperwork",
+  "No central medical file follows you",
+  "No long-term doctor-patient relationship",
+  "Preventative schedules collapse without continuity",
+  "Systems treat symptoms, not long-term risks",
+  "Your data disappears every time you leave",
 ];
 
 const travelerSolutions = [
   {
-    title: "Reveal how travel impacts your body",
-    text: "Identify early risks and hidden stress points in immunity, sleep, digestion, and metabolism.",
+    title: "Reveal how travel impacts your biology",
+    text: "Deep screening across immunity, sleep, digestion, stress, inflammation, longevity markers, and recovery patterns.",
   },
   {
-    title: "Build your global health map",
-    text: "Understand how changing environments influence your long-term health.",
+    title: "Build your global health baseline",
+    text: "Create one medical profile that stays with you — not the country you just left.",
   },
   {
-    title: "Follow flexible, travel-proof routines",
-    text: "Your plan includes circadian resets, immune strategies, minimal nutrition protocols, and simple habits for travel days.",
+    title: "Get personalised, travel-proof routines",
+    text: "Circadian resets, immune support, digestive stability, portable nutrition, and micro-recovery habits for travel days.",
   },
   {
-    title: "Learn what keeps you balanced anywhere",
-    text: "Measure improvement over 6 months and discover the habits that keep your body stable — no matter where you go.",
+    title: "Stay guided every month",
+    text: "We track your biomarkers over time and adjust your plan as your lifestyle evolves.",
+  },
+  {
+    title: "A doctor who knows you — across borders",
+    text: "Wherever you live next month, we follow your data, your risks, and your progress.",
   },
 ];
 
 const travelerSteps = [
-  { number: "01", title: "Free check", text: "Identify missing screenings." },
-  { number: "02", title: "Full assessment", text: "Map your travel patterns." },
-  { number: "03", title: "Your 6-month plan", text: "Portable, simple, effective." },
-  { number: "04", title: "Insights update", text: "See what stabilises you." },
+  { number: "01", title: "Free check", text: "Identify missing screenings and risks." },
+  {
+    number: "02",
+    title: "Full assessment",
+    text: "Map travel patterns, stress loads, sleep profile, and biological weak points.",
+  },
+  { number: "03", title: "Your 6-month plan", text: "Portable, simple, longevity-focused guidance." },
+  { number: "04", title: "Insights update", text: "Track how your body adapts and stabilises over time." },
 ];
 
 const travelerWhyItWorks = [
-  "Portable routines",
-  "Circadian strategies that work",
-  "Stronger immunity",
-  "Consistency without rigid schedules",
-  "At-home medical services available worldwide",
+  "One medical system that follows you",
+  "Portability across countries",
+  "Routines that stabilise your biology",
+  "Stronger immunity on the move",
+  "Predictable screenings and health monitoring",
+  "At-home medical services worldwide",
+  "A lifespan strategy built for global living",
 ];
 
 export default function TravelerPage() {
@@ -82,14 +104,20 @@ export default function TravelerPage() {
             >
               Your lifestyle moves. Your health should stay steady. Anywhere.
             </h1>
-            <p
-              className="text-[13.5px] md:text-[16px] lg:text-[18px] leading-[1.45] text-white/70"
-              data-hero-fade="body"
-            >
-              Frequent travel, changing time zones, irregular routines, and unpredictable environments make it challenging to maintain consistent energy and wellbeing.
-              <br />
-              <br />
-              The Arc gives you a personalised health blueprint that travels with you. Understand how movement affects your biology and follow simple, portable routines that keep you balanced across cities, climates, and schedules.
+            <p className="text-[13.5px] md:text-[16px] lg:text-[18px] leading-[1.6] text-white/75 italic" data-hero-fade="body">
+              Do you ever feel like you live everywhere — except inside a healthcare system that truly knows you?
+            </p>
+            <p className="text-[13.5px] md:text-[16px] lg:text-[18px] leading-[1.6] text-white/75" data-hero-fade="body">
+              Your life moves across borders. New cities. New routines. New climates. But every time you land somewhere new,
+              you start from zero again: a new medical system, a doctor who doesn’t know your history, unfamiliar insurance
+              forms and waiting lists. You live globally — yet your health feels scattered.
+            </p>
+            <p className="text-[13.5px] md:text-[16px] lg:text-[18px] leading-[1.6] text-white/80" data-hero-fade="body">
+              At The Arc, we give you <strong>one consistent health blueprint</strong> that travels with you. A single medical baseline.
+              A single set of screenings. A single team that understands your biology — no matter the continent.
+            </p>
+            <p className="text-[13.5px] md:text-[16px] lg:text-[18px] leading-[1.6] text-white/75" data-hero-fade="body">
+              Because your lifespan shouldn’t shrink just because your world is big.
             </p>
             <div className="mt-5 sm:mt-6 lg:mt-8" data-hero-fade="cta">
               <Link
@@ -104,39 +132,68 @@ export default function TravelerPage() {
         </div>
       </section>
 
-      {/* Persona Snapshot */}
+      <TravelerPersonaSection />
+
       <Section>
-        <div className="space-y-12">
+        <div className="space-y-6 max-w-4xl mx-auto text-left">
           <SectionTitle className="text-left">
-            Persona Snapshot — Travellers & Nomads
+            Challenges You May Recognise
           </SectionTitle>
-          <div className="space-y-6 text-gray-300 leading-relaxed max-w-4xl">
-            <p>
-              Movement is your lifestyle — but it creates biological friction. You’re adaptable, but your biology still needs stability.
-            </p>
-            <div>
-              <p className="text-white text-base font-semibold mb-3">We commonly see:</p>
-              <ul className="space-y-2">
-                {travelerIssues.map((item) => (
-                  <li key={item}>• {item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-white text-base font-semibold mb-3">Why this happens</p>
-              <p className="text-gray-300 mb-3">
-                Travel stresses the systems responsible for consistency. It disrupts:
+          <p className="text-white/70 text-lg italic">
+            Does any of this feel uncomfortably familiar?
+          </p>
+          <div className="space-y-3 text-white/80 text-base leading-relaxed">
+            {travelerChallengesDetailed.map((item) => (
+              <p key={item} className="flex items-start gap-3">
+                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-white/40" />
+                <span>{item}</span>
               </p>
-              <ul className="space-y-2">
-                {travelerWhyList.map((item) => (
-                  <li key={item}>• {item}</li>
+            ))}
+          </div>
+          <p className="text-white/75 text-base leading-relaxed font-medium">
+            You’re not “unhealthy.” You’re <span className="text-white font-semibold">under-supported</span> for the life you live.
+          </p>
+        </div>
+      </Section>
+
+      <Section>
+        <div className="space-y-10">
+          <SectionTitle className="text-left">
+            Why This Happens
+          </SectionTitle>
+          <p className="text-white/75 text-lg italic">
+            The world changes around you faster than your biology can adapt.
+          </p>
+          <div className="grid md:grid-cols-2 gap-10">
+            <div className="space-y-4">
+              <h3 className="text-2xl font-semibold text-white">Travel disrupts core stability systems</h3>
+              <div className="space-y-3 text-white/80 text-base leading-relaxed">
+                {travelerSystemDisruptions.map((item) => (
+                  <p key={item} className="flex items-start gap-3">
+                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-white/35" />
+                    <span>{item}</span>
+                  </p>
                 ))}
-              </ul>
-              <p className="text-gray-400 mt-3">
-                Without personalised strategies, your body never fully resets.
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-2xl font-semibold text-white">A broken continuity of care</h3>
+              <div className="space-y-3 text-white/80 text-base leading-relaxed">
+                {travelerContinuityBreaks.map((item) => (
+                  <p key={item} className="flex items-start gap-3">
+                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#4DE4C1]/35" />
+                    <span>{item}</span>
+                  </p>
+                ))}
+              </div>
+              <p className="text-white/70 text-base leading-relaxed">
+                It’s not your discipline. It’s the design of global healthcare.
               </p>
             </div>
           </div>
+          <p className="text-white/70 text-base leading-relaxed">
+            You’re living a modern lifestyle with a medical system built for people who never move.
+          </p>
         </div>
       </Section>
 
@@ -146,16 +203,16 @@ export default function TravelerPage() {
           <SectionTitle className="text-left">
             How The Arc Supports You
           </SectionTitle>
-          <p className="text-gray-300 leading-relaxed max-w-3xl">
-            We help you build stability that works on the move.
+          <p className="text-white/75 leading-relaxed italic max-w-3xl text-lg">
+            We become your consistent health system — wherever you go.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {travelerSolutions.map((solution) => (
               <div key={solution.title} className="p-8 border border-white/10 rounded-2xl bg-transparent">
-                <h3 className="text-2xl font-semibold mb-4">
+                <h3 className="text-2xl font-semibold mb-3">
                   {solution.title}
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-white/75 leading-relaxed">
                   {solution.text}
                 </p>
               </div>
@@ -166,7 +223,7 @@ export default function TravelerPage() {
 
       {/* How It Works */}
       <HowItWorksSection
-        description="A structured process that shows exactly how travel influences your biology and builds routines you can take anywhere."
+        description="A structured, global-first process designed for people who live everywhere."
         steps={travelerSteps}
       />
 
@@ -176,6 +233,9 @@ export default function TravelerPage() {
           <SectionTitle className="text-left">
             Why It Works for Travellers
           </SectionTitle>
+          <p className="text-white/70 italic text-lg">
+            One medical partner. One continuity plan. Wherever you live next.
+          </p>
           <ul className="space-y-3 text-gray-300 text-lg">
             {travelerWhyItWorks.map((item) => (
               <li key={item}>• {item}</li>
@@ -190,8 +250,8 @@ export default function TravelerPage() {
           <SectionTitle>
             Start building stability
           </SectionTitle>
-          <p className="text-gray-300 leading-relaxed">
-            Start free screening
+          <p className="text-white/75 leading-relaxed">
+            Your lifestyle is global. Your health can be too.
           </p>
           <Link
             href="/free-screening"
