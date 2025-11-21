@@ -692,6 +692,7 @@ body {
 /* Legacy compatibility - keep for hero */
 .gradient-text {
   background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -1087,6 +1088,139 @@ header nav a:hover::after {
   margin-top: auto;
 }
 
+/* Traveler page — Why this happens section */
+.why-this-happens {
+  margin: 0 auto;
+  padding: 140px 24px;
+  max-width: 1200px;
+}
+
+.why-this-happens .header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.why-this-happens h2 {
+  font-size: 42px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.why-this-happens .subtitle {
+  font-size: 18px;
+  opacity: 0.55;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 48px;
+  align-items: stretch;
+}
+
+.grid-container .card {
+  position: relative;
+  padding: 52px 40px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.grid-container .number {
+  position: relative;
+  font-size: 3.8rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  background-image: linear-gradient(135deg, #0ECF7A, #66FFC2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 14px rgba(20, 241, 149, 0.12));
+  margin-bottom: 12px;
+}
+
+.grid-container .number::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(20, 241, 149, 0.12), transparent 70%);
+  z-index: -1;
+  transform: translate(-8px, -8px);
+}
+
+.grid-container .card h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.grid-container .card p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 28px;
+}
+
+.grid-container .label {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.why-this-happens .summary {
+  max-width: 70%;
+  margin: 60px auto 0 auto;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.7;
+  opacity: 0.55;
+}
+
+.arc-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(20, 241, 149, 0.25) 0%,
+    rgba(20, 241, 149, 0.1) 35%,
+    rgba(20, 241, 149, 0.03) 60%,
+    transparent 80%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .grid-container .divider {
+    display: none;
+  }
+
+  .why-this-happens {
+    margin: 100px auto;
+  }
+
+  .why-this-happens .summary {
+    max-width: 100%;
+  }
+}
+
 /* Hero animations + responsive helpers */
 [data-hero-fade] {
   opacity: 0;
@@ -1129,6 +1263,21 @@ header nav a:hover::after {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease-out both;
 }
 
 @media (max-width: 1024px) {

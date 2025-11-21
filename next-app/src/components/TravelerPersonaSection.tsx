@@ -4,34 +4,40 @@ import { motion } from "framer-motion";
 
 export default function TravelerPersonaSection() {
   return (
-    <section className="w-full bg-black py-36">
-      <div className="max-w-5xl mx-auto px-6 flex flex-col gap-14">
+    <section className="relative w-full py-32 md:py-40 bg-gradient-to-b from-transparent via-white/5 to-transparent">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.05),transparent_55%)] pointer-events-none" />
+
+      <div className="relative max-w-3xl mx-auto px-6 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 32 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="space-y-4"
+          className="space-y-6"
         >
-          <p className="text-sm uppercase tracking-[0.35em] text-white/55">
+          <p className="uppercase text-white/60 tracking-[0.25em] text-sm mb-6">
             Travellers & Nomads
           </p>
-          <h2 className="text-4xl md:text-[44px] font-semibold text-white leading-tight">
+          <h2 className="text-4xl md:text-6xl font-semibold leading-tight text-white mb-6">
             Your Biology on the Move
           </h2>
-          <p className="text-lg italic text-white/75 max-w-3xl leading-relaxed">
+          <p className="text-xl md:text-2xl text-white/80 italic leading-relaxed mb-10">
             You thrive in motion. But your biology depends on consistency.
           </p>
-          <p className="text-white/75 text-base md:text-lg max-w-3xl leading-relaxed">
-            You’re not just changing time zones. You’re changing healthcare systems, food quality, sleep environments,
-            stressors, and public-health standards. The world moves with you — yet your care remains anchored to
-            whichever country you left last. We understand that friction: <span className="font-semibold text-white">
-              you’re globally free, but medically unanchored.
-            </span>
-          </p>
+          <div className="space-y-5 text-lg text-white/70 leading-relaxed max-w-2xl mx-auto">
+            <p>
+              You’re not just changing time zones. You’re changing healthcare systems, food quality, sleep environments,
+              stressors, and public-health standards.
+            </p>
+            <p>
+              Every border crossing resets your care. Every country asks you to start from zero.
+            </p>
+            <p className="text-white font-medium">
+              You’re globally free — but medically unanchored.
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>
   );
 }
-
