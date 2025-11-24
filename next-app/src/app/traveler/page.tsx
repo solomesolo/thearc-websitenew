@@ -1,11 +1,16 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import { HowItWorksSection } from "../../components/HowItWorksSection";
 import TravelerPersonaSection from "../../components/TravelerPersonaSection";
 import TravelerHero from "../../components/TravelerHero";
 import { ArcButton } from "../../components/ui/ArcButton";
+import WhyItWorks from "../../components/sections/WhyItWorks";
+import { PersonalBlueprint } from "../../components/sections/PersonalBlueprint";
+import { TravelerFAQ } from "../../components/sections/TravelerFAQ";
+import { TravelerPricingSection } from "../../components/sections/TravelerPricingSection";
 
 const travelerChallengesDetailed = [
   "Jet lag and sleep cycles that never fully reset",
@@ -87,8 +92,6 @@ const travelerWhyItWorks = [
 ];
 
 export default function TravelerPage() {
-  const leftPillars = travelerSupportPillars.slice(0, 2);
-  const rightPillars = travelerSupportPillars.slice(2);
 
   return (
     <main className="bg-black text-white">
@@ -188,44 +191,42 @@ export default function TravelerPage() {
       </section>
 
       {/* How The Arc Supports You */}
-      <section className="w-full mt-32 mb-32 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">
-            How The Arc Supports You
-          </h2>
-          <p className="mt-4 text-lg text-white/80">
-            We become your consistent health system — wherever you go.
-          </p>
-        </div>
+      <section className="how-arc-supports">
+        <h2 className="section-title">How The Arc Supports You</h2>
+        <p className="section-subtitle">
+          We become your consistent health system — wherever you go.
+        </p>
 
-        <div className="max-w-6xl mx-auto mt-16 lg:mt-20 grid grid-cols-1 xl:grid-cols-[1fr_auto_1fr] gap-12 xl:gap-20 items-center">
-          <div className="flex flex-col gap-16 text-left items-start order-2 xl:order-1 w-full">
-            {leftPillars.map((pillar) => (
-              <div key={pillar.title} className="space-y-3 max-w-xl w-full">
-                <h3 className="text-xl font-semibold">{pillar.title}</h3>
-                <p className="text-base text-white/80 leading-relaxed">{pillar.text}</p>
-              </div>
-            ))}
-          </div>
+        <div className="supports-grid">
+          {/* LEFT SIDE */}
+          <div>
+            <div className="supports-item fade-up">
+              <h3>{travelerSupportPillars[0].title}</h3>
+              <p>{travelerSupportPillars[0].text}</p>
+            </div>
 
-          <div className="relative flex justify-center order-1 xl:order-2 mb-12 xl:mb-0">
-            <div className="relative z-10 flex items-center justify-center">
-              <div className="arc-glow absolute w-[620px] h-[620px]" />
-              <img
-                src="/circle.png"
-                alt="Arc"
-                className="relative z-20 w-[420px] h-[420px] md:w-[540px] md:h-[540px] opacity-65"
-              />
+            <div className="supports-item fade-up">
+              <h3>{travelerSupportPillars[1].title}</h3>
+              <p>{travelerSupportPillars[1].text}</p>
             </div>
           </div>
 
-          <div className="flex flex-col gap-16 text-left items-start order-3 w-full">
-            {rightPillars.map((pillar) => (
-              <div key={pillar.title} className="space-y-3 max-w-xl w-full">
-                <h3 className="text-xl font-semibold">{pillar.title}</h3>
-                <p className="text-base text-white/80 leading-relaxed">{pillar.text}</p>
-              </div>
-            ))}
+          {/* CIRCLE CENTER */}
+          <div>
+            <img src="/circle.png" alt="Arc Symbol" className="supports-circle fade-up" />
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div>
+            <div className="supports-item fade-up">
+              <h3>{travelerSupportPillars[2].title}</h3>
+              <p>{travelerSupportPillars[2].text}</p>
+            </div>
+
+            <div className="supports-item fade-up">
+              <h3>{travelerSupportPillars[3].title}</h3>
+              <p>{travelerSupportPillars[3].text}</p>
+            </div>
           </div>
         </div>
       </section>
@@ -237,43 +238,39 @@ export default function TravelerPage() {
       />
 
       {/* Why It Works */}
-      <section className="relative w-full">
-        {/* Background */}
-        <div className="absolute inset-0 bg-[url('/header-explorer.png')] bg-cover bg-center"></div>
-        <div className="absolute inset-0 bg-black/50"></div>
+      <WhyItWorks 
+        items={travelerWhyItWorks}
+        backgroundImage="/why it works for travellers.jpg"
+      />
 
-        {/* Content */}
-        <div className="relative mx-auto max-w-5xl px-6 py-40">
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
-            Why It Works for Travellers
-          </h2>
-
-          <p className="text-lg italic text-neutral-300 mt-4">
-            One medical partner. One continuity plan. Wherever you live next.
-          </p>
-
-          <div className="mt-10 space-y-3 text-neutral-200 leading-7 max-w-2xl">
-            {travelerWhyItWorks.map((item) => (
-              <p key={item}>– {item}</p>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Traveller Pricing */}
+      <TravelerPricingSection />
+      <PersonalBlueprint />
+      <TravelerFAQ />
 
       {/* Final CTA */}
-      <Section>
-        <div className="max-w-3xl mx-auto text-center space-y-6">
-          <SectionTitle>
+      <section className="relative w-full min-h-[50vh] px-6 py-40 overflow-hidden flex items-center">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(46,240,194,0.08),rgba(0,0,0,1)60%)]" />
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black via-black/60 to-transparent" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative z-10 flex flex-col items-center text-center gap-6 max-w-[620px] mx-auto"
+        >
+          <h2 className="text-[56px] font-bold tracking-wide leading-tight">
             Start building stability
-          </SectionTitle>
-          <p className="text-white/75 leading-relaxed">
+          </h2>
+          <p className="text-[22px] text-white/75 leading-relaxed">
             Your lifestyle is global. Your health can be too.
           </p>
-          <ArcButton href="/free-screening">
+          <ArcButton href="/free-screening" className="cta-button">
             Start free screening
           </ArcButton>
-        </div>
-      </Section>
+        </motion.div>
+      </section>
     </main>
   );
 }

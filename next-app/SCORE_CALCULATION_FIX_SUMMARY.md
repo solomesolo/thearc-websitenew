@@ -207,3 +207,4 @@ Cognitive: 30 (Upset + Tense + Demands)
 **All score dimensions working: Family Risk, Physiological, Lifestyle Load, Biological, and Cognitive scores now calculate correctly!** 🚀
 
 
+

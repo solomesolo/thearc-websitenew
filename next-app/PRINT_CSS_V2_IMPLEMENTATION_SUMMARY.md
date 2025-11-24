@@ -348,3 +348,4 @@ section, .card, table, .list-block { break-inside: avoid; }
 **Ready for production with professional print-CSS architecture - clean layout, functional TOC, running headers, and optimized performance!** 🚀
 
 
+
