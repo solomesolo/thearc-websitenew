@@ -4,35 +4,30 @@ import { motion } from "framer-motion";
 
 const metrics = [
   {
-    label: "Family / Cardio Risk",
-    value: 80,
+    label: "Stress Load",
+    value: 85,
     detail:
-      "Elevated predisposition for cardiovascular load. Early lifestyle optimisation recommended.",
+      "Sustained cognitive and emotional pressure elevates baseline stress physiology.",
   },
   {
-    label: "Stress & Cortisol Load",
-    value: 60,
-    detail: "Moderate dysregulation potential linked to routine disruption and cognitive overload.",
-  },
-  {
-    label: "Sleep Instability",
-    value: 45,
-    detail: "Patterns consistent with circadian inconsistency; requires stabilising interventions.",
-  },
-  {
-    label: "Digestive Variability",
+    label: "Cortisol Regulation",
     value: 70,
-    detail: "Digestive markers show frequent fluctuations, potentially related to travel rhythm.",
+    detail: "Patterns indicate reduced recovery capacity across the workweek.",
   },
   {
-    label: "Immune Resilience",
+    label: "Sleep Quality",
+    value: 55,
+    detail: "Irregular routines impact sleep depth and circadian rhythm stability.",
+  },
+  {
+    label: "Cognitive Recovery",
+    value: 60,
+    detail: "Signs of mild fatigue accumulation affecting clarity and focus.",
+  },
+  {
+    label: "Inflammation",
     value: 50,
-    detail: "Baseline immune readiness shows room for strengthening during high-stress periods.",
-  },
-  {
-    label: "Visceral / Metabolic Risk",
-    value: 30,
-    detail: "Low-to-moderate predisposition. Maintained with regular monitoring.",
+    detail: "Early markers of systemic inflammation may emerge under chronic workload.",
   },
 ];
 
@@ -43,9 +38,8 @@ export function PredispositionMap() {
         <h3 className="text-[28px] font-semibold tracking-wide text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.05)]">
           Predisposition Map
         </h3>
-        <p className="text-sm text-gray-400 max-w-2xl mx-auto leading-[1.55]">
-          A clinically informed snapshot of your biological tendencies, lifestyle patterns, and
-          long-term risk indicators — summarised for clarity.
+        <p className="text-sm text-gray-400 max-w-2xl mx-auto text-center leading-[1.55]">
+          A snapshot of your genetic, biological, and lifestyle risk areas—summarised for fast understanding.
         </p>
       </div>
 

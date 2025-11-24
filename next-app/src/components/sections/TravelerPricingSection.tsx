@@ -37,44 +37,46 @@ const CheckIcon = () => {
 
 const cards = [
   {
-    title: "Traveller Starter",
-    description: "For travellers who want clarity before crossing borders.",
+    title: "Business Starter",
+    description: "For professionals who want clarity and a performance-ready health baseline.",
     price: "119 EUR",
     period: "6 months",
     features: [
-      "Travel biology baseline",
-      "Immunity, sleep & digestion overview",
-      "Lost-medical-history reconstruction",
-      "Portable medical file you can carry anywhere",
+      "Executive health baseline & core biomarkers",
+      "Stress, sleep & metabolic stability overview",
+      "Early-risk detection & health-history reconstruction",
+      "Personal medical file you can access anywhere",
     ],
     ctaLabel: "Choose plan",
     ctaHref: "/checkout/traveller-starter",
   },
   {
-    title: "Traveller Performance",
-    description: "For nomads who want guidance and monthly stabilisation.",
+    title: "Business Performance",
+    description: "For high performers who want guidance, accountability, and measurable improvement.",
     price: "249 EUR",
     period: "6 months",
     features: [
       "Everything in Starter",
-      "1:1 travel health review session",
+      "1:1 performance-health review session",
       "Monthly biomarker-guided routine resets",
-      "Pre-travel + post-travel recovery plans",
+      "Focus, energy & recovery optimisation protocols",
+      "Workload-adaptive stress-management sequences",
     ],
     ctaLabel: "Start with free screening",
     ctaHref: "/free-screening",
     badge: "Most Popular",
   },
   {
-    title: "Traveller Care",
-    description: "For people who move globally and want medically supervised stability.",
+    title: "Business Care",
+    description: "For professionals who want medically-supervised optimisation and long-term resilience.",
     price: "499 EUR",
     period: "6 months",
     features: [
-      "Everything in Traveller Performance",
-      "Medical consultations across borders",
-      "Clinician-supervised care continuity",
-      "Cross-country risk management",
+      "Everything in Business Performance",
+      "Clinician-supervised improvement pathway",
+      "Medical consultations tailored to workload cycles",
+      "Continuous risk monitoring & early-detection alerts",
+      "Executive-level health strategy & long-term resilience planning",
     ],
     ctaLabel: "Join waitlist",
     ctaHref: "/waitlist/traveller-care",
@@ -93,9 +95,9 @@ export function TravelerPricingSection() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white">Traveller Plans</h2>
+          <h2 className="text-4xl md:text-5xl font-semibold text-white">Business Plans</h2>
           <p className="text-lg md:text-xl text-neutral-300">
-            Global-first healthcare designed for people who live everywhere.
+            Longevity-driven healthcare designed for people who perform at the highest level.
           </p>
         </div>
 

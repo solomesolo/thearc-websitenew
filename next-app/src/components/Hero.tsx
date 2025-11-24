@@ -29,7 +29,7 @@ export default function Hero({ title, subtitle, primaryCTA, secondaryCTA }: Hero
             {/* Primary CTA */}
             <Link
               href={primaryCTA.href}
-              className="inline-flex items-center justify-center rounded-full px-8 py-3.5 bg-white text-black text-base font-medium tracking-tight transition-all duration-200 hover:bg-gray-100 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center rounded-full px-8 py-3.5 bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
             >
               {primaryCTA.label}
             </Link>
@@ -37,7 +37,7 @@ export default function Hero({ title, subtitle, primaryCTA, secondaryCTA }: Hero
             {/* Secondary CTA */}
             <Link
               href={secondaryCTA.href}
-              className="inline-flex items-center justify-center rounded-full px-8 py-3.5 text-base font-medium tracking-tight border border-white/30 text-white bg-transparent transition-all duration-200 hover:bg-white/10 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center rounded-full px-8 py-3.5 text-base font-medium tracking-tight border border-white/20 bg-black text-[#4DEECD] transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
             >
               {secondaryCTA.label}
             </Link>

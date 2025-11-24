@@ -54,7 +54,7 @@ export default function PlanCard({
       ) : (
         <Link
           href={ctaHref}
-          className="block w-full px-6 py-3 bg-[#4DE4C1] text-black font-semibold rounded-lg hover:bg-[#6DF5D8] transition-colors text-center"
+          className="inline-flex items-center justify-center w-full px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
         >
           Choose plan
         </Link>

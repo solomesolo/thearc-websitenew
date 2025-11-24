@@ -5,71 +5,34 @@ import { motion } from "framer-motion";
 const phases = [
   {
     month: "Month 1",
-    title: "Reset & Re-Baseline",
+    title: "Reset & Establish Clarity",
     bullets: [
-      "Full travel-specific blood panel",
-      "Circadian + sleep reset routines",
-      "Digestive stabilisation",
-      "Emergency resilience protocol",
+      "Full executive health baseline",
+      "Stress-load and recovery pattern assessment",
+      "Metabolic and sleep architecture profiling",
+      "Immediate stabilisation routines for energy and focus",
     ],
   },
   {
     month: "Month 2",
-    title: "Strengthen Immunity",
+    title: "Strengthen Core Systems",
     bullets: [
-      "Immune-supportive micronutrients",
-      "Anti-inflammatory routines",
-      "Infection-risk filtration habits",
-    ],
-  },
-  {
-    month: "Month 3",
-    title: "Optimise Sleep & Rhythm",
-    bullets: [
-      "Consistent wake–sleep anchors",
-      "Pre-flight rhythm conditioning",
-      "Melatonin-safety micro-protocol",
-    ],
-  },
-  {
-    month: "Month 4",
-    title: "Restore Metabolic Balance",
-    bullets: [
-      "Nutrient replenishment",
-      "Meal-timing stabilisation",
-      "Travel-safe metabolic habits",
-    ],
-  },
-  {
-    month: "Month 5",
-    title: "Reduce Stress Load",
-    bullets: [
-      "Environmental stress recovery",
-      "Nervous system down-regulation techniques",
-      "Focus + energy protection practices",
-    ],
-  },
-  {
-    month: "Month 6",
-    title: "Reassess & Realign",
-    bullets: [
-      "Comprehensive biological reassessment",
-      "Adjust plan based on measurable change",
-      "Long-term travel-proof wellbeing strategy",
+      "Essential micronutrient optimisation",
+      "Anti-inflammatory lifestyle adjustments",
+      "Foundational routines to stabilise energy and cognitive output",
     ],
   },
 ];
 
 export function SixMonthTimeline() {
   return (
-    <section className="space-y-6">
-      <div className="space-y-2 text-center md:text-left">
-        <h3 className="text-[28px] font-semibold tracking-wide text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-          Your 6-Month Stabilisation Path
+    <section className="space-y-6 w-full flex flex-col items-center">
+      <div className="space-y-2 w-full flex flex-col items-center">
+        <h3 className="text-[28px] font-semibold tracking-wide text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.05)] text-center">
+          Your 6-Month Performance Path
         </h3>
-        <p className="text-sm text-gray-400 max-w-2xl leading-[1.55]">
-          A clinically guided, month-by-month sequence designed to stabilise your biology while you
-          travel.
+        <p className="text-sm text-gray-400 max-w-2xl text-center leading-[1.55]">
+          A clinically guided, month-by-month program designed to strengthen your focus, stamina, and resilience while you perform at a high level.
         </p>
       </div>
 

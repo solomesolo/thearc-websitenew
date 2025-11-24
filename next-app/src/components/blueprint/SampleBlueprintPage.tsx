@@ -65,7 +65,7 @@ export function SampleBlueprintPage() {
         <div className="flex flex-col gap-6 items-center justify-center pt-4">
           <ArcButton href="/free-screening">Start your free screening</ArcButton>
           <Link href="/traveler" className="text-sm text-gray-500 hover:text-white transition">
-            Back to Traveller Plans
+            Back to the Achiever Plans
           </Link>
         </div>
       </div>

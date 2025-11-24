@@ -23,28 +23,22 @@ export function ArcButton({
     inline-flex
     items-center
     justify-center
-    px-10 py-4
-    rounded-[3rem]
+    px-8 py-3.5
+    rounded-full
     bg-black
-    text-[#7CFFB2]
-    border-[1px]
-    border-transparent
-    text-[1.1rem]
-    font-semibold
+    text-[#4DEECD]
+    border
+    border-white/20
+    text-base
+    font-medium
+    tracking-tight
     transition-all
-    duration-[250ms]
+    duration-200
     ease-out
-    hover:text-[#14F195]
-    hover:shadow-[0_0_25px_rgba(20,241,149,0.25)]
-    hover:-translate-y-[1px]
+    hover:border-white/30
+    hover:text-[#4DEECD]
+    hover:bg-black
   `;
-
-  const gradientStyle: React.CSSProperties = {
-    backgroundImage: `linear-gradient(black, black), linear-gradient(135deg, #14F195, #7CFFB2)`,
-    backgroundOrigin: "border-box",
-    backgroundClip: "padding-box, border-box",
-    WebkitBackgroundClip: "padding-box, border-box",
-  };
 
   if (href) {
     return (
@@ -52,7 +46,6 @@ export function ArcButton({
         href={href}
         className={`${baseClasses} ${className}`}
         onClick={onClick}
-        style={gradientStyle}
       >
         {children}
       </Link>
@@ -64,7 +57,6 @@ export function ArcButton({
       type={type}
       onClick={onClick}
       className={`${baseClasses} ${className}`}
-      style={gradientStyle}
       {...props}
     >
       {children}

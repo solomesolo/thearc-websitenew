@@ -8,90 +8,49 @@ const predispositionMetrics = [
   { label: "Sleep Quality", value: 55 },
   { label: "Cognitive Recovery", value: 60 },
   { label: "Inflammation", value: 50 },
-  { label: "Metabolic Stability", value: 40 },
 ];
 
-const screeningPlan = [
+const biomarkerPanels = [
   {
-    title: "Stress and cortisol panel",
-    detail: "Assess adrenal rhythm, stress hormones, and recovery capacity.",
-    month: "Month 1",
+    title: "Full blood panel",
+    detail: "Reveals foundational metabolic, hormonal, and inflammatory markers.",
   },
   {
-    title: "Inflammatory markers",
-    detail: "Detect early systemic inflammation from chronic workload.",
-    month: "Month 2",
+    title: "Stress & cortisol markers",
+    detail: "Assesses chronic stress load, resilience capacity, and burnout risks.",
   },
   {
-    title: "Metabolic panel",
-    detail: "Evaluate glucose control, lipid balance, and energy metabolism.",
-    month: "Month 3",
+    title: "Cognitive performance markers",
+    detail: "Identifies nutrient deficits and neurological load affecting focus and mental stamina.",
   },
   {
-    title: "Cognitive function markers",
-    detail: "Identify nutrient-related drivers of cognitive fatigue.",
-    month: "Month 4",
+    title: "Sleep & circadian markers",
+    detail: "Analyses sleep efficiency, rhythm alignment, and recovery ability.",
   },
   {
-    title: "Sleep and circadian assessment",
-    detail: "Reveal timing disruptions and insufficient sleep depth.",
-    month: "Month 5",
+    title: "Inflammation panel",
+    detail: "Detects systemic inflammation influencing performance and long-term health.",
   },
 ];
 
 const sixMonthPlan = [
   {
     month: "Month 1",
-    focus: "Restore baseline",
+    focus: "Reset & Establish Clarity",
     bullets: [
-      "Metabolic reset",
-      "Stress load reduction",
-      "Foundational sleep structure",
+      "Full executive health baseline",
+      "Stress-load and recovery pattern assessment",
+      "Metabolic and sleep architecture profiling",
+      "Immediate stabilisation routines for energy and focus",
     ],
   },
   {
     month: "Month 2",
-    focus: "Strengthen recovery",
+    focus: "Strengthen Core Systems",
     bullets: [
-      "Inflammation reduction",
-      "Nervous system down-regulation",
-      "Workday micro-rest routines",
-    ],
-  },
-  {
-    month: "Month 3",
-    focus: "Improve mental clarity",
-    bullets: [
-      "Cognitive enhancement habits",
-      "Strategic nutrition timing",
-      "Deep work support protocols",
-    ],
-  },
-  {
-    month: "Month 4",
-    focus: "Sleep optimisation",
-    bullets: [
-      "Circadian anchoring",
-      "Evening recovery preparation",
-      "Blue-light and stimulant management",
-    ],
-  },
-  {
-    month: "Month 5",
-    focus: "Build stress resilience",
-    bullets: [
-      "Rapid recovery strategies",
-      "Resilience breathing sequences",
-      "Mental load unloading routines",
-    ],
-  },
-  {
-    month: "Month 6",
-    focus: "Reassess and refine",
-    bullets: [
-      "Full biological review",
-      "Identifying high-impact habits",
-      "Long-term performance roadmap",
+      "Essential micronutrient optimisation",
+      "Anti-inflammatory lifestyle adjustments",
+      "Foundational routines to stabilise energy and cognitive output",
     ],
   },
 ];
@@ -122,7 +81,7 @@ export function ProfessionalBlueprint() {
 
       <div className="relative z-10 max-w-6xl mx-auto mt-12 grid gap-8 lg:grid-cols-3">
         <CardWrapper>
-          <div className="space-y-2">
+          <div className="space-y-2 text-center">
             <h3 className="text-2xl font-semibold text-white">Predisposition Map</h3>
             <p className="text-sm text-gray-400">
               A snapshot of your genetic, biological, and lifestyle risk areas—summarised for fast
@@ -157,43 +116,35 @@ export function ProfessionalBlueprint() {
                 {metric.label === "Inflammation" && (
                   <p className="text-xs text-gray-500">Early markers of systemic inflammation may emerge under chronic workload.</p>
                 )}
-                {metric.label === "Metabolic Stability" && (
-                  <p className="text-xs text-gray-500">Mild risk of dysregulation linked to inconsistent meal timing and stress.</p>
-                )}
               </div>
             ))}
           </div>
         </CardWrapper>
 
         <CardWrapper>
-          <div className="space-y-2">
+          <div className="space-y-2 text-center">
             <h3 className="text-2xl font-semibold text-white">Precision Screening Plan</h3>
             <p className="text-sm text-gray-400">
-              Your essential screenings, mapped to why they matter and when you should take them.
+              Your recommended screenings mapped to workload-driven biological demands — with clear rationale and sequencing.
             </p>
           </div>
 
-          <div className="space-y-5">
-            {screeningPlan.map((row) => (
-              <div key={row.title} className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-base font-semibold text-white">{row.title}</p>
-                  <p className="text-sm text-gray-400">{row.detail}</p>
-                </div>
-                <span className="text-sm text-gray-400">{row.month}</span>
+          <div className="space-y-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Biomarker Panels</p>
+            {biomarkerPanels.map((panel) => (
+              <div key={panel.title} className="space-y-1">
+                <p className="text-base font-semibold text-white">{panel.title}</p>
+                <p className="text-sm text-gray-400 leading-[1.55]">{panel.detail}</p>
               </div>
             ))}
-            <div className="pt-2">
-              <p className="text-sm text-gray-400">Month 6: Reassessment and trends</p>
-            </div>
           </div>
         </CardWrapper>
 
         <CardWrapper>
-          <div className="space-y-2">
-            <h3 className="text-2xl font-semibold text-white">Your First 6 Months</h3>
+          <div className="space-y-2 text-center">
+            <h3 className="text-2xl font-semibold text-white">Your 6-Month Performance Path</h3>
             <p className="text-sm text-gray-400">
-              A structured, clinician-informed program designed to strengthen foundational systems of health.
+              A clinically guided, month-by-month program designed to strengthen your focus, stamina, and resilience while you perform at a high level.
             </p>
           </div>
 

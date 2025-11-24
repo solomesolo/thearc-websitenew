@@ -26,10 +26,10 @@ const insights = [
 
 export function KeyInsights() {
   return (
-    <section className="space-y-4">
-      <div className="space-y-2 text-center md:text-left">
-        <h3 className="text-2xl font-semibold text-white">Key Insights Summary</h3>
-        <p className="text-sm text-gray-400 max-w-2xl">
+    <section className="space-y-4 w-full flex flex-col items-center">
+      <div className="space-y-2 w-full flex flex-col items-center">
+        <h3 className="text-2xl font-semibold text-white text-center">Key Insights Summary</h3>
+        <p className="text-sm text-gray-400 max-w-2xl text-center">
           Snapshot of how we interpret your current strengths and the systems we monitor continuously.
         </p>
       </div>

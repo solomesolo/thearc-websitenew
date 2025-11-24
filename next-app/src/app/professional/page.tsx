@@ -81,13 +81,14 @@ const professionalSteps = [
 ];
 
 const professionalWhyItWorks = [
-  "Data replaces guesswork",
-  "Habits fit into a busy schedule",
-  "Stress and focus become manageable",
-  "Prevention becomes achievable",
-  "Access to trusted at-home medical services",
-  "Performance health optimization",
-  "Long-term resilience building",
+  "Stay sharp. Stay balanced. Stay in control of your performance.",
+  "You stop guessing and start leading with clarity powered by real data.",
+  "Your habits finally match your ambition, fitting seamlessly into packed schedules.",
+  "Stress becomes manageable, and your ability to recover improves week by week.",
+  "You stay ahead of problems, catching early warning signs before they slow you down.",
+  "You get frictionless access to trusted medical support, right when you need it.",
+  "Your focus, stamina, and daily output rise, supported by small, strategic changes.",
+  "You build long-term resilience, so your career grows without sacrificing your health.",
 ];
 
 export default function ProfessionalPage() {
@@ -185,47 +186,6 @@ export default function ProfessionalPage() {
         </p>
       </section>
 
-      {/* How The Arc Supports You */}
-      <section className="how-arc-supports">
-        <h2 className="section-title">How The Arc Supports You</h2>
-        <p className="section-subtitle">
-          We become your consistent health system — designed for your pace.
-        </p>
-
-        <div className="supports-grid">
-          {/* LEFT SIDE */}
-          <div>
-            <div className="supports-item fade-up">
-              <h3>{professionalSupportPillars[0].title}</h3>
-              <p>{professionalSupportPillars[0].text}</p>
-            </div>
-
-            <div className="supports-item fade-up">
-              <h3>{professionalSupportPillars[1].title}</h3>
-              <p>{professionalSupportPillars[1].text}</p>
-            </div>
-          </div>
-
-          {/* CIRCLE CENTER */}
-          <div>
-            <img src="/circle.png" alt="Arc Symbol" className="supports-circle fade-up" />
-          </div>
-
-          {/* RIGHT SIDE */}
-          <div>
-            <div className="supports-item fade-up">
-              <h3>{professionalSupportPillars[2].title}</h3>
-              <p>{professionalSupportPillars[2].text}</p>
-            </div>
-
-            <div className="supports-item fade-up">
-              <h3>{professionalSupportPillars[3].title}</h3>
-              <p>{professionalSupportPillars[3].text}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* How It Works */}
       <HowItWorksSection
         description="A data-led process that translates complex health signals into simple routines built for demanding careers."
@@ -234,6 +194,7 @@ export default function ProfessionalPage() {
 
       {/* Why It Works */}
       <WhyItWorks 
+        title="Why It Works for Busy Professionals like You"
         items={professionalWhyItWorks}
         backgroundImage="/why it works for travellers.jpg"
       />
