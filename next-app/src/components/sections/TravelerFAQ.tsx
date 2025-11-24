@@ -1,86 +1,52 @@
 "use client";
 
+import { FAQSection } from "./FAQSection";
+
 const faqs = [
   {
-    q: "What makes The Arc different from regular health apps?",
-    a: "Most health apps rely on generic advice. The Arc uses clinical-grade analysis to reveal your personal predispositions, overlooked biological shifts, and the exact screenings that matter for you.",
+    q: "How does travel actually affect my biology?",
+    a: "Frequent movement disrupts your circadian rhythm, immune readiness, digestive stability, hydration balance, and stress recovery. The Arc detects these early shifts and gives you targeted routines to stabilise them, even when your schedule changes every week.",
   },
   {
-    q: "Is this based on real medical science?",
-    a: "Yes. Your roadmap is informed by biomarkers, clinician-reviewed patterns, and evidence-based lifestyle protocols.",
+    q: "Will my plan work across different time zones?",
+    a: "Yes. Your recommendations adapt to timezone changes, flight patterns, and irregular sleep. You'll receive circadian anchors, pre-flight conditioning, and arrival reset protocols that make your rhythm more resilient.",
   },
   {
-    q: "Do I need to already be healthy or active?",
-    a: "Not at all. The Arc adapts to your starting point — rebuilding or optimising.",
+    q: "Do I need lab access in every country I visit?",
+    a: "No. The Arc provides a global marketplace of verified at-home services. You can order tests almost anywhere, and your plan explains exactly why each test matters for someone with a mobile lifestyle.",
   },
   {
-    q: "What screenings do you recommend?",
-    a: "Screenings vary by predisposition, but most include blood markers, inflammation, digestion, immune resilience, and circadian rhythm indicators.",
+    q: "What if I can't follow a strict routine while travelling?",
+    a: "You don't need strict routines. Your plan uses minimal, portable micro-habits designed specifically for unpredictable environments. Even 5-minute interventions can stabilise your energy and sleep while traveling.",
   },
   {
-    q: "How long until I see changes?",
-    a: "Most people notice improvements within 3–6 weeks. Full measurable progress appears at 6 months.",
+    q: "Can The Arc help with jet lag?",
+    a: "Yes. Your plan includes personalised circadian reset strategies based on your predispositions, sleep tendencies, and travel patterns. These protocols help you adjust faster and reduce fatigue after long flights.",
+  },
+  {
+    q: "What if my destinations change often?",
+    a: "Your plan is dynamic. It focuses on biological signals — not location-specific routines — so it remains effective whether you're in Asia this week and Europe next week.",
+  },
+  {
+    q: "Do I need to be perfectly consistent to see progress?",
+    a: "No. The system is designed for inconsistency. You'll receive stability anchors (sleep, nutrition timing, immune-load buffers) that hold your body steady even on chaotic weeks.",
+  },
+  {
+    q: "How long until I notice improvements?",
+    a: "Most travellers feel improvements in sleep quality, mental clarity, digestive stability, and energy within 2–4 weeks. More resilient circadian patterns typically emerge by months 2–3.",
   },
   {
     q: "Is this a medical service?",
-    a: "The Arc provides clinically informed guidance. The Care tier includes supervision from licensed practitioners.",
+    a: "Your baseline plan is clinically informed. If you choose the Care tier, licensed professionals will oversee your screenings and help interpret changes in your biomarkers.",
   },
   {
-    q: "Is this suitable for travellers?",
-    a: "Yes. The Arc stabilises sleep, immunity, and recovery across time zones.",
-  },
-  {
-    q: "What if I’m not sure where to start?",
-    a: "Begin with the free screening — it reveals where your blind spots are.",
+    q: "What if I don't have a stable schedule or routine?",
+    a: "That's exactly who this plan is built for. The Arc identifies the smallest, most impactful habits that remain achievable during movement — helping stabilise your biology even when nothing else is stable.",
   },
 ];
 
 export function TravelerFAQ() {
-  return (
-    <section className="relative w-full px-6 pt-36 pb-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center space-y-3 mb-12 animate-fade-up">
-          <h2 className="text-[30px] font-semibold text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-            Frequently Asked Questions
-          </h2>
-        </div>
-
-        {/* Desktop layout */}
-        <div className="faq-grid">
-          {faqs.map((faq, idx) => (
-            <div
-              key={faq.q}
-              className="border-t border-white/10 pt-6 space-y-3 animate-fade-up"
-              style={{ animationDelay: `${idx * 60}ms` }}
-            >
-              <p className="text-base font-semibold text-white">{faq.q}</p>
-              <p className="text-sm text-gray-300 leading-[1.55]">{faq.a}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Mobile accordions */}
-        <div className="faq-accordion rounded-2xl border border-white/10 bg-white/5 overflow-hidden divide-y divide-white/10">
-          {faqs.map((faq, idx) => (
-            <details
-              key={faq.q}
-              className="group animate-fade-up"
-              style={{ animationDelay: `${idx * 60}ms` }}
-            >
-              <summary className="flex items-center justify-between px-5 py-4 text-left text-white text-base font-medium cursor-pointer">
-                {faq.q}
-                <span className="text-emerald-300 transition group-open:hidden">+</span>
-                <span className="text-emerald-300 transition hidden group-open:inline">–</span>
-              </summary>
-              <div className="faq-answer px-5 pb-4 text-sm text-gray-300 leading-[1.55]">
-                {faq.a}
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  return <FAQSection title="Frequently Asked Questions" faqs={faqs} />;
 }
 
 

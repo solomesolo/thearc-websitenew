@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,131 +19,220 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
+  const personaLinks = [
+    { label: "Busy Professionals", href: "/professional" },
+    { label: "Travellers & Nomads", href: "/traveler" },
+    { label: "Health Rebuilders", href: "/rebuilder" },
+  ];
+
   return (
-    <header className="w-full fixed top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-white/10 transition-all duration-300">
-      <div className="mx-auto max-w-screen-xl flex justify-between items-center px-6 lg:px-12 py-6 lg:py-8">
+    <header
+      className={`premium-nav-header ${isScrolled ? "premium-nav-scrolled" : ""}`}
+    >
+      <div className="premium-nav-container">
         {/* Logo */}
-        <Link
-          href="/"
-          className="h-10 lg:h-12 flex items-center text-2xl lg:text-3xl font-semibold tracking-tight text-white hover:text-gray-200 transition-colors"
-        >
-          <span className="object-contain">TheArc</span>
+        <Link href="/" className="premium-nav-logo">
+          <span>TheArc</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8 flex-shrink-0">
-          <a
-            href="#how-it-works"
-            className="text-[15px] font-medium tracking-tight text-gray-300 hover:text-white transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10 hover:-translate-y-0.5"
-          >
-            How It Works
-          </a>
-          <a
-            href="#plans"
-            className="text-[15px] font-medium tracking-tight text-gray-300 hover:text-white transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10 hover:-translate-y-0.5"
-          >
-            Plans
-          </a>
-          <a
-            href="#personas"
-            className="text-[15px] font-medium tracking-tight text-gray-300 hover:text-white transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10 hover:-translate-y-0.5"
-          >
-            Personas
-          </a>
-          <a
-            href="/catalog"
-            className="text-[15px] font-medium tracking-tight text-gray-300 hover:text-white transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10 hover:-translate-y-0.5"
-          >
-            Catalog
-          </a>
-          <Link
-            href="/about"
-            className="text-[15px] font-medium tracking-tight text-gray-300 hover:text-white transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10 hover:-translate-y-0.5"
-          >
-            About
+        <nav className="premium-nav-desktop">
+          <div className="premium-nav-dropdown-wrapper" ref={dropdownRef}>
+            <button
+              className="premium-nav-item premium-nav-dropdown-trigger"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              aria-expanded={isDropdownOpen}
+            >
+              Find Your Path
+              <svg
+                className={`premium-nav-chevron ${isDropdownOpen ? "premium-nav-chevron-open" : ""}`}
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3 4.5L6 7.5L9 4.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  className="premium-nav-dropdown"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.18, ease: "easeOut" }}
+                >
+                  {personaLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="premium-nav-dropdown-item"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <Link href="/marketplace" className="premium-nav-item">
+            Marketplace
           </Link>
-          <Link
-            href="/contact"
-            className="text-[15px] font-medium tracking-tight text-gray-300 hover:text-white transition-all duration-200 px-3 py-2 rounded-md hover:bg-white/10 hover:-translate-y-0.5"
-          >
-            Contact
+          <Link href="/about" className="premium-nav-item">
+            About The Arc
+          </Link>
+          <Link href="/events" className="premium-nav-item">
+            Events
           </Link>
         </nav>
 
+        {/* Login Button */}
+        <Link href="/login" className="premium-nav-login">
+          Login / Sign Up
+        </Link>
+
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-white focus:outline-none p-2"
+          className="premium-nav-mobile-toggle"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            {isMobileMenuOpen ? (
-              <path d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+          <span className={`premium-nav-hamburger ${isMobileMenuOpen ? "premium-nav-hamburger-open" : ""}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
         </button>
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-black/95 shadow-lg py-6 transition-all duration-300 ease-out">
-          <div className="mx-auto max-w-screen-xl px-6 space-y-4">
-            <a
-              href="#how-it-works"
-              className="block text-lg px-4 py-3 text-white font-medium tracking-tight hover:bg-white/10 rounded-md transition-all"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              How It Works
-            </a>
-            <a
-              href="#plans"
-              className="block text-lg px-4 py-3 text-white font-medium tracking-tight hover:bg-white/10 rounded-md transition-all"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Plans
-            </a>
-            <a
-              href="#personas"
-              className="block text-lg px-4 py-3 text-white font-medium tracking-tight hover:bg-white/10 rounded-md transition-all"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Personas
-            </a>
-            <a
-              href="/catalog"
-              className="block text-lg px-4 py-3 text-white font-medium tracking-tight hover:bg-white/10 rounded-md transition-all"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Catalog
-            </a>
-            <Link
-              href="/about"
-              className="block text-lg px-4 py-3 text-white font-medium tracking-tight hover:bg-white/10 rounded-md transition-all"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              href="/contact"
-              className="block text-lg px-4 py-3 text-white font-medium tracking-tight hover:bg-white/10 rounded-md transition-all"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="premium-nav-mobile"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="premium-nav-mobile-content">
+              <MobileDropdown
+                title="Find Your Path"
+                items={personaLinks}
+                onClose={() => setIsMobileMenuOpen(false)}
+              />
+              <Link
+                href="/marketplace"
+                className="premium-nav-mobile-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Marketplace
+              </Link>
+              <Link
+                href="/about"
+                className="premium-nav-mobile-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                About The Arc
+              </Link>
+              <Link
+                href="/events"
+                className="premium-nav-mobile-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Events
+              </Link>
+              <Link
+                href="/login"
+                className="premium-nav-mobile-login"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Login / Sign Up
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
 
+// Mobile Dropdown Component
+function MobileDropdown({
+  title,
+  items,
+  onClose,
+}: {
+  title: string;
+  items: Array<{ label: string; href: string }>;
+  onClose: () => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="premium-nav-mobile-dropdown">
+      <button
+        className="premium-nav-mobile-dropdown-trigger"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {title}
+        <svg
+          className={`premium-nav-mobile-chevron ${isOpen ? "premium-nav-mobile-chevron-open" : ""}`}
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+        >
+          <path
+            d="M3 4.5L6 7.5L9 4.5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="premium-nav-mobile-dropdown-content">
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="premium-nav-mobile-dropdown-item"
+              onClick={onClose}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

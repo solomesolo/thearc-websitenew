@@ -1,60 +1,158 @@
+"use client";
+
 import Link from "next/link";
-import { PricingCard } from "./PricingCard";
+import React, { useId } from "react";
+import { motion } from "framer-motion";
+
+const CheckIcon = () => {
+  const gradientId = useId();
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="flex-shrink-0"
+      style={{
+        filter: "drop-shadow(0 0 6px rgba(20,241,149,0.3))",
+      }}
+    >
+      <defs>
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#14F195" />
+          <stop offset="100%" stopColor="#7CFFB2" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M20 6L9 17L4 12"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        stroke={`url(#${gradientId})`}
+      />
+    </svg>
+  );
+};
+
+const cards = [
+  {
+    title: "Starter",
+    description: "For people who want clarity. Get a complete understanding of what your body needs right now and the essential steps to start improving today.",
+    price: "99 EUR",
+    period: "6 months",
+    features: [
+      "Essential blood screening overview",
+      "Personal health map",
+      "6-month roadmap",
+      "Basic support",
+    ],
+    ctaLabel: "Choose plan",
+    ctaHref: "/checkout/self",
+  },
+  {
+    title: "Education",
+    description: "For people who want guidance. Includes expert sessions, personalised insights, and coaching so you always know what to do next — and why it matters.",
+    price: "199 EUR",
+    period: "6 months",
+    features: [
+      "Everything in Starter",
+      "1:1 expert sessions",
+      "Deeper, personalised insights",
+      "Priority support",
+    ],
+    ctaLabel: "Start with free screening",
+    ctaHref: "/free-screening",
+    badge: "Most Popular",
+  },
+  {
+    title: "Care",
+    description: "For people who want medically guided improvement. Your plan is created and supervised by medical professionals for deeper, clinically informed progress.",
+    price: "399 EUR",
+    period: "6 months",
+    features: [
+      "Everything in Education",
+      "Medical consultations",
+      "Clinician-supervised care",
+      "Dedicated support",
+    ],
+    ctaLabel: "Join waitlist",
+    ctaHref: "/waitlist/care",
+  },
+];
 
 export function PricingSection() {
   return (
-    <section id="plans" className="pricing-section py-36 bg-black">
-      <h2 className="text-center text-4xl font-bold text-white">
-        Plans & Pricing
-      </h2>
+    <section id="plans" className="relative w-full bg-black py-36 overflow-hidden">
+      <div
+        className="absolute inset-0 pointer-events-none opacity-30"
+        style={{
+          background: "radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%)",
+        }}
+      />
 
-      <div className="container mx-auto grid md:grid-cols-3 gap-12 max-w-5xl mt-12">
-        <PricingCard
-          title="Starter"
-          price="99 EUR"
-          period="6 months"
-          description="For people who want clarity. Get a complete understanding of what your body needs right now and the essential steps to start improving today."
-          features={["Essential blood screening overview", "Personal health map", "6-month roadmap", "Basic support"]}
-          cta={
-            <Link
-              href="/checkout/self"
-              className="block w-full text-center py-4 rounded-xl text-lg font-medium bg-teal-500 text-black hover:bg-teal-400 transition"
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white">Plans & Pricing</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+          {cards.map((card, index) => (
+            <motion.div
+              key={card.title}
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className={`relative rounded-[32px] p-8 flex flex-col justify-between gap-8 text-left bg-[#060606]/90
+                border border-white/5 text-white md:min-h-[560px]
+                shadow-[inset_0_0_22px_rgba(0,255,180,0.015),0_6px_16px_rgba(0,0,0,0.45)]
+                ${card.badge ? "lg:shadow-[inset_0_0_28px_rgba(0,255,180,0.03),0_16px_34px_rgba(0,0,0,0.5)]" : ""}`}
+              style={{
+                backdropFilter: "blur(10px)",
+              }}
             >
-              Choose plan
-            </Link>
-          }
-        />
+              {card.badge && (
+                <span className="self-center px-3 py-1 text-xs font-semibold tracking-wide text-black bg-emerald-200/80 rounded-full shadow-md shadow-emerald-200/20">
+                  {card.badge}
+                </span>
+              )}
 
-        <PricingCard
-          highlight
-          title="Education"
-          price="199 EUR"
-          period="6 months"
-          description="For people who want guidance. Includes expert sessions, personalised insights, and coaching so you always know what to do next — and why it matters."
-          features={["Everything in Starter", "1:1 expert sessions", "Deeper, personalised insights", "Priority support"]}
-          badge="Most Popular"
-          cta={
-            <Link
-              href="/free-screening"
-              className="block w-full text-center py-4 rounded-xl text-lg font-medium bg-teal-400 text-black hover:bg-teal-300 transition shadow-lg shadow-teal-400/40"
-            >
-              Start with free screening
-            </Link>
-          }
-        />
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-semibold tracking-tight">{card.title}</h3>
+                  <p className="text-sm text-neutral-300 leading-relaxed font-light">{card.description}</p>
+                </div>
 
-        <PricingCard
-          title="Care"
-          price="399 EUR"
-          period="6 months"
-          description="For people who want medically guided improvement. Your plan is created and supervised by medical professionals for deeper, clinically informed progress."
-          features={["Everything in Education", "Medical consultations", "Clinician-supervised care", "Dedicated support"]}
-          cta={
-            <button className="w-full py-4 rounded-xl text-lg font-medium border border-teal-400 text-teal-400 hover:bg-teal-400/10 transition">
-              Join waitlist
-            </button>
-          }
-        />
+                <div className="space-y-4">
+                  <div className="flex flex-wrap items-baseline gap-2">
+                    <span className="text-4xl font-bold text-white">{card.price}</span>
+                    <span className="text-base text-neutral-400 font-light">/ {card.period}</span>
+                  </div>
+                  <div className="h-px w-full bg-white/10" />
+                </div>
+              </div>
+
+              <div className="space-y-4 text-neutral-300">
+                {card.features.map((feature) => (
+                  <div
+                    key={feature}
+                    className="flex items-start gap-3 text-sm leading-relaxed"
+                  >
+                    <CheckIcon />
+                    <p>{feature}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-2 flex justify-center">
+                <Link href={card.ctaHref} className="premium-button w-full md:w-auto text-center">
+                  {card.ctaLabel}
+                </Link>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

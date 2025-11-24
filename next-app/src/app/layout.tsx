@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import HeroWithOverlay from "../components/HeroWithOverlay";
 import DNABackground from "../components/DNABackground";
 import MainLayoutClient from "../components/MainLayoutClient";
+import Header from "../components/Header";
 import { Analytics } from "@vercel/analytics/next";
 import { Montserrat } from "next/font/google";
 import Script from "next/script";
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* End Google Tag Manager (noscript) */}
         
         <MixPanelProvider />
+        <Header />
         <MainLayoutClient>
           {children}
         </MainLayoutClient>

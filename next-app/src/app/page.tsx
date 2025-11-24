@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Section from "../components/Section";
 import Container from "../components/Container";
@@ -17,6 +16,7 @@ import CTAButton from "../components/CTAButton";
 import Link from "next/link";
 import { PricingSection } from "../components/pricing/PricingSection";
 import { HowItWorksSection } from "../components/HowItWorksSection";
+import { FAQSection } from "../components/sections/FAQSection";
 
 const personaCards = [
   {
@@ -129,9 +129,6 @@ export default function HomePage() {
 
     return (
     <div className="min-h-screen bg-black text-white">
-      {/* Navigation Header */}
-      <Header />
-
       {/* 1️⃣ Hero Section */}
       <Hero
         title="Find your own health formula."
@@ -336,6 +333,44 @@ export default function HomePage() {
             </div>
       </Section>
 
+      {/* FAQ Section */}
+      <FAQSection
+        faqs={[
+          {
+            q: "What makes The Arc different from regular health apps?",
+            a: "Most health apps rely on generic advice. The Arc uses clinical-grade analysis to reveal your personal predispositions, overlooked biological shifts, and the exact screenings that matter for you. It's the closest alternative to a longevity clinic — but accessible to everyone.",
+          },
+          {
+            q: "Is this based on real medical science?",
+            a: "Yes. Your roadmap is informed by validated biomarkers, clinician-informed guidelines, and evidence-based lifestyle protocols. Every recommendation is built to support metabolic health, inflammation control, circadian stability, and long-term risk reduction.",
+          },
+          {
+            q: "Do I need to already be healthy or active?",
+            a: "Not at all. The Arc works whether you're rebuilding your health or optimising an already healthy lifestyle. The system adapts to your age, symptoms, stress load, and personal goals.",
+          },
+          {
+            q: "What screenings do you recommend?",
+            a: "Screenings vary by persona and predisposition, but most plans include blood panels, inflammation markers, digestive markers, immune markers, and circadian assessments. You'll always see why each test is recommended — in simple, clinical language.",
+          },
+          {
+            q: "How long until I see changes?",
+            a: "Most users report noticeable changes in clarity, energy, digestion, or sleep within the first 3–6 weeks. The full system is built around measurable progress at the 6-month mark.",
+          },
+          {
+            q: "Is this a medical service?",
+            a: "The Arc provides clinically informed guidance. Our Care tier includes access to licensed professionals who review your plan, explain biomarkers, and supervise your progress.",
+          },
+          {
+            q: "Is this suitable for travellers or people with irregular schedules?",
+            a: "Yes. Many of our users move between cities or time zones. Your plan adjusts to your lifestyle and helps stabilise sleep, recovery, immunity, and stress.",
+          },
+          {
+            q: "What if I'm not sure where to start?",
+            a: "Start with the free screening. It reveals what you may be missing and shows the first steps toward clarity — with zero commitment.",
+          },
+        ]}
+      />
+
       {/* 8️⃣ Final Call to Action */}
       <Section>
         <div className="max-w-3xl mx-auto text-center">
@@ -351,11 +386,11 @@ export default function HomePage() {
                 See plans
               </CTAButton>
           </div>
-          </div>
+        </div>
       </Section>
 
       {/* 9️⃣ Footer */}
       <Footer />
-          </div>
+        </div>
   );
 }
