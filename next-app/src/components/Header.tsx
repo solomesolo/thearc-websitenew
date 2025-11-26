@@ -42,9 +42,7 @@ export default function Header() {
   ];
 
   return (
-    <header
-      className={`premium-nav-header ${isScrolled ? "premium-nav-scrolled" : ""}`}
-    >
+    <header className={`premium-nav-header ${isScrolled ? "premium-nav-scrolled" : ""}`}>
       <div className="premium-nav-container">
         {/* Logo */}
         <Link href="/" className="premium-nav-logo">

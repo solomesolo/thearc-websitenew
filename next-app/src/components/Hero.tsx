@@ -13,15 +13,15 @@ interface HeroProps {
 export default function Hero({ title, subtitle, primaryCTA, secondaryCTA }: HeroProps) {
   return (
     <section className="hero-wrapper bg-black">
-      <div className="relative w-full max-w-screen-xl mx-auto px-6 lg:px-12 py-36 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="relative w-full max-w-screen-xl mx-auto px-6 lg:px-12 py-36 grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-6 items-center">
         
         {/* LEFT COLUMN */}
-        <div className="flex flex-col">
-          <h1 className="text-5xl lg:text-6xl font-semibold leading-[1.06] tracking-tight text-white max-w-[12ch]">
+        <div className="flex flex-col lg:-ml-10">
+          <h1 className="text-4xl lg:text-5xl font-semibold leading-[1.06] tracking-tight text-white w-full max-w-none">
             {title}
           </h1>
 
-          <p className="mt-6 text-lg lg:text-xl leading-relaxed text-gray-300 max-w-[55ch]">
+          <p className="mt-6 text-lg lg:text-xl leading-relaxed text-gray-300 max-w-[55ch] whitespace-pre-line">
             {subtitle}
           </p>
 
@@ -45,7 +45,7 @@ export default function Hero({ title, subtitle, primaryCTA, secondaryCTA }: Hero
         </div>
 
         {/* RIGHT COLUMN IMAGE */}
-        <div className="relative w-full">
+        <div className="relative w-full lg:w-[150%] lg:justify-self-end lg:pr-0 lg:pl-4">
           <div className="relative w-full rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg">
             <img
               src="/my-hero-image.webp"

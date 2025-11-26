@@ -1,0 +1,186 @@
+.section {
+  position: relative;
+  width: 100%;
+  padding: 140px 0;
+  background: radial-gradient(circle at top, rgba(6, 26, 22, 0.8), #010101 70%);
+  overflow: hidden;
+}
+
+.wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.heading {
+  text-align: center;
+  color: #f7fdf9;
+}
+
+.heading .tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.9rem;
+}
+
+.heading h2 {
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 0.85rem;
+}
+
+.heading p {
+  font-size: 1rem;
+  color: rgba(227, 240, 235, 0.78);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.45fr) minmax(0, 0.55fr);
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: center;
+}
+
+.stackColumn {
+  display: flex;
+  justify-content: center;
+}
+
+.stackFrame {
+  position: relative;
+  width: min(320px, 70vw);
+  height: min(320px, 70vw);
+  margin: 0 auto;
+  transform-style: preserve-3d;
+  perspective: 1200px;
+}
+
+.layerShell {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, #18f5c7 0%, #0a6152 100%);
+  box-shadow: 0 24px 60px rgba(38, 226, 189, 0.25);
+  filter: drop-shadow(0 0 30px rgba(95, 255, 208, 0.35));
+  transform-style: preserve-3d;
+}
+
+.layerActive {
+  box-shadow: 0 35px 100px rgba(34, 246, 196, 0.35), 0 0 50px rgba(98, 255, 210, 0.45);
+}
+
+.textColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  text-align: left;
+}
+
+.textBlock {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0 0 0 1.75rem;
+  border-left: 1px solid transparent;
+  color: rgba(230, 238, 235, 0.7);
+  transition: color 0.35s ease, border-color 0.35s ease, opacity 0.35s ease;
+  opacity: 0.45;
+  cursor: pointer;
+}
+
+.textBlock:hover,
+.textBlock:focus-visible {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.textBlockActive {
+  color: #f6fdf9;
+  border-left: 1px solid rgba(110, 240, 193, 0.7);
+  opacity: 1;
+}
+
+.textOverline {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  color: currentColor;
+}
+
+.textBlock h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.textBlock ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.35rem;
+  color: rgba(217, 232, 226, 0.85);
+  font-size: 0.97rem;
+}
+
+.textBlock li {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.textBlock li::before {
+  content: "•";
+  color: #6ef0c1;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stackFrame {
+    width: min(280px, 80vw);
+    height: min(280px, 80vw);
+  }
+}
+
+@media (max-width: 768px) {
+  .textColumn {
+    gap: 2rem;
+  }
+
+  .textBlock {
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .stackFrame {
+    width: 220px;
+    height: 220px;
+  }
+
+  .textBlock h3 {
+    font-size: 1.2rem;
+  }
+}
