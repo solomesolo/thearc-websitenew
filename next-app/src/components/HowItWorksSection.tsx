@@ -302,7 +302,9 @@ export function HowItWorksSection({
       {steps.map((step, index) => {
         const isActive = activeStep === index;
         // Show 3 steps: current (fully visible), previous (blurred), next (blurred)
-        const isVisible = Math.abs(index - activeStep) <= 1;
+        // Always show 3 steps: active step + 1 before + 1 after (if they exist)
+        const distance = Math.abs(index - activeStep);
+        const isVisible = distance <= 1;
         const isBlurred = isVisible && !isActive;
 
         return (

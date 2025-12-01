@@ -2271,12 +2271,12 @@ header nav a:hover::after {
 /* Step Container - Adjusted to show 3 steps at once */
 .step {
   position: relative;
-  min-height: 50vh;
-  height: 50vh;
+  min-height: 30vh;
+  height: 30vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4rem 1.5rem;
+  padding: 2rem 1.5rem;
   z-index: 2;
   opacity: 0;
   transform: translateY(30px);
@@ -2346,7 +2346,7 @@ header nav a:hover::after {
   font-size: 1.5rem; /* 24px - matches text-2xl from PersonaCard */
   font-weight: 600;
   color: #ffffff;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
@@ -2360,7 +2360,7 @@ header nav a:hover::after {
     rgba(0, 255, 200, 0.3),
     transparent
   );
-  margin: 0 auto 2rem;
+  margin: 0 auto 1.25rem;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
