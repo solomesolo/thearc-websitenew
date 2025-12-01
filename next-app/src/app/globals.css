@@ -2216,3 +2216,240 @@ header nav a:hover::after {
     padding: 0 16px;
   }
 }
+
+/* Premium Scroll OS Timeline */
+.scroll-steps {
+  position: relative;
+  width: 100%;
+  background: #000;
+  min-height: 100vh;
+}
+
+/* Particles Canvas */
+.particles-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Vertical Timeline Spine - Scoped to section only */
+.scroll-steps .timeline {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 255, 200, 0.15) 10%,
+    rgba(0, 255, 200, 0.25) 50%,
+    rgba(0, 255, 200, 0.15) 90%,
+    transparent 100%
+  );
+  filter: blur(1px);
+  z-index: 1;
+  opacity: 0.8;
+  animation: timeline-pulse 4s ease-in-out infinite;
+}
+
+@keyframes timeline-pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Step Container - Adjusted to show 3 steps at once */
+.step {
+  position: relative;
+  min-height: 50vh;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.step.step-visible {
+  pointer-events: auto;
+  opacity: 1 !important;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.step.step-blurred {
+  pointer-events: none;
+  opacity: 0.4 !important;
+  transform: translateY(0);
+  filter: blur(8px);
+}
+
+.step.step-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  filter: blur(12px);
+}
+
+/* Background Step Number */
+.step-number {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 220px;
+  font-weight: 700;
+  color: rgba(0, 255, 200, 0.05);
+  letter-spacing: -0.05em;
+  z-index: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.step-number-active {
+  opacity: 0.06;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.step-number-inactive {
+  opacity: 0.02;
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Step Content */
+.step-content {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+  max-width: 900px;
+  width: 100%;
+  color: #ffffff;
+}
+
+.step-title {
+  font-size: 1.5rem; /* 24px - matches text-2xl from PersonaCard */
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.step-separator {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 255, 200, 0.3),
+    transparent
+  );
+  margin: 0 auto 2rem;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step.step-visible .step-separator {
+  width: 140px;
+}
+
+.step.step-blurred .step-separator {
+  width: 0;
+}
+
+.step-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.01em;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Desktop Typography */
+@media (min-width: 768px) {
+  .step-title {
+    font-size: 1.5rem; /* 24px - matches text-2xl from PersonaCard */
+  }
+}
+
+@media (min-width: 1024px) {
+  .step-title {
+    font-size: 1.5rem; /* 24px - matches text-2xl from PersonaCard */
+    margin-bottom: 2rem;
+  }
+
+  .step-text {
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
+
+  .step-number {
+    font-size: 280px;
+  }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .scroll-steps .timeline {
+    left: 2rem;
+    width: 1px;
+  }
+
+  .step {
+    padding: 0 1rem;
+  }
+
+  .step-number {
+    font-size: 100px;
+  }
+
+  .step-title {
+    font-size: 1.5rem; /* 24px - matches text-2xl from PersonaCard */
+    margin-bottom: 1.25rem;
+  }
+
+  .step-text {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .step-separator {
+    margin-bottom: 1.5rem;
+  }
+
+  .step.step-visible .step-separator {
+    width: 100px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .step,
+  .step-number,
+  .step-separator,
+  .scroll-steps .timeline {
+    transition: none;
+    animation: none;
+  }
+
+  .step {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export default function RebuilderPersonaSection() {
+export default function WomenPersonaSection() {
   return (
     <section className="relative w-full py-32 md:py-40 bg-gradient-to-b from-transparent via-white/5 to-transparent">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.05),transparent_55%)] pointer-events-none" />
@@ -16,21 +16,22 @@ export default function RebuilderPersonaSection() {
           className="space-y-6"
         >
           <p className="uppercase text-white/60 tracking-[0.25em] text-sm mb-6">
-            Health Rebuilders
+            Women in Menopause
           </p>
           <h2 className="text-4xl md:text-6xl font-semibold leading-tight text-white mb-6">
-            Your Biology Needs Direction
+            Your Biology in Transition
           </h2>
           <p className="text-xl md:text-2xl text-white/80 italic leading-relaxed mb-10">
-            Your symptoms are real. But they're rarely explained.
+            Your life experience grows. Your energy shouldn't fade with it.
           </p>
           <div className="space-y-5 text-lg text-white/70 leading-relaxed max-w-2xl mx-auto">
             <p>
-              Most people spend years navigating scattered advice, inconsistent lab results, and lifestyle changes that don't work because the underlying patterns were never found.
+              Menopause affects hormones, sleep, cognition, inflammation, metabolism, cardiovascular risk, and emotional stability.
+              Most women navigate it alone — without personalised data or clinical continuity.
             </p>
             <p className="text-white font-medium">
-              You're not "lazy" or "overreacting."
-              You're trying to heal with incomplete information.
+              You're not aging.
+              You're undergoing the most significant hormonal recalibration since puberty.
             </p>
           </div>
         </motion.div>
@@ -38,3 +39,4 @@ export default function RebuilderPersonaSection() {
     </section>
   );
 }
+

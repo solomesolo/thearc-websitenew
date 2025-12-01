@@ -12,7 +12,7 @@ const textVariants = {
   }),
 };
 
-export default function RebuilderHero() {
+export default function WomenHero() {
   return (
     <section className="relative w-full overflow-hidden bg-black">
       <div
@@ -44,7 +44,7 @@ export default function RebuilderHero() {
             custom={0}
             variants={textVariants}
           >
-            Health Rebuilders
+            Women in Menopause
           </motion.p>
 
           <motion.h1
@@ -55,7 +55,7 @@ export default function RebuilderHero() {
             custom={0.05}
             variants={textVariants}
           >
-            Something feels off. You deserve clarity, not guesswork.
+            Your body is changing. Your guidance shouldn't disappear.
           </motion.h1>
 
           <motion.p
@@ -66,8 +66,8 @@ export default function RebuilderHero() {
             custom={0.15}
             variants={textVariants}
           >
-            Lingering symptoms, low energy, weight changes, stress cycles, or brain fog aren't random — they're biological signals.
-            But most people are told their labs are "normal," their symptoms are "stress," and their concerns will "resolve on their own."
+            Perimenopause and menopause shift every system in your body — hormones, sleep, weight, mood, metabolism.
+            Yet most women are told to "wait it out," "manage symptoms," or "come back when it gets worse."
           </motion.p>
 
           <motion.div
@@ -79,13 +79,13 @@ export default function RebuilderHero() {
             variants={textVariants}
           >
             <p className="text-white font-medium">
-              You're not imagining it. Your body is trying to tell you something.
+              Your biology deserves clarity, not dismissal.
             </p>
             <p>
-              We help you understand what's happening inside your biology — and give you a clear, structured path to rebuild stability, energy, and confidence.
+              We give you a personalised health blueprint that adapts as your hormones evolve — a system that explains what's changing, why it's changing, and what you can do about it.
             </p>
             <p>
-              Because feeling like yourself again shouldn't be a mystery.
+              Because menopause shouldn't shrink your quality of life — it should start a stronger chapter.
             </p>
           </motion.div>
 
@@ -105,3 +105,4 @@ export default function RebuilderHero() {
     </section>
   );
 }
+

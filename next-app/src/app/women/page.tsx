@@ -4,85 +4,94 @@ import { motion } from "framer-motion";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import { HowItWorksSection } from "../../components/HowItWorksSection";
-import RebuilderPersonaSection from "../../components/RebuilderPersonaSection";
-import RebuilderHero from "../../components/RebuilderHero";
+import WomenPersonaSection from "../../components/WomenPersonaSection";
+import WomenHero from "../../components/WomenHero";
 import { ArcButton } from "../../components/ui/ArcButton";
 import WhyItWorks from "../../components/sections/WhyItWorks";
-import { RebuilderBlueprint } from "../../components/sections/RebuilderBlueprint";
-import { RebuilderFAQ } from "../../components/sections/RebuilderFAQ";
-import { RebuilderPricingSection } from "../../components/sections/RebuilderPricingSection";
+import { WomenBlueprint } from "../../components/sections/WomenBlueprint";
+import { WomenFAQ } from "../../components/sections/WomenFAQ";
+import { WomenPricingSection } from "../../components/sections/WomenPricingSection";
 
-const rebuilderChallengesDetailed = [
-  "Persistent fatigue even after rest",
-  "Brain fog or reduced concentration",
-  "Mood instability or chronic stress",
-  "Weight shifts despite no major lifestyle changes",
-  "Irregular digestion or gut sensitivity",
-  "Sleep that doesn't restore you",
-  "Being told \"everything looks normal\"",
-  "Doing everything right but feeling no improvement",
-  "Frustration with conflicting advice or random supplements",
+const womenChallengesDetailed = [
+  "Broken or unpredictable sleep",
+  "Weight shifts despite no lifestyle change",
+  "Hot flashes / temperature swings",
+  "Mood or anxiety fluctuations",
+  "Cognitive dips or fog",
+  "Energy highs and lows",
+  "Doctors offering generic or contradictory advice",
+  "Hormonal tests without proper interpretation",
+  "No long-term plan — only symptom management",
 ];
 
-const rebuilderSupportPillars = [
+const womenSystemDisruptions = [
+  "Estrogen, progesterone, stress hormones, and metabolic signals fluctuate unpredictably.",
+];
+
+const womenContinuityBreaks = [
+  "Metabolism, cardiovascular risk, inflammation, and bone density begin shifting faster than before.",
+];
+
+const womenSupportPillars = [
   {
-    title: "Reveal the hidden drivers behind your symptoms",
-    text: "Deep screening across hormones, nutrients, inflammation, metabolic rhythm, sleep, stress patterns, and longevity markers.",
+    title: "Reveal how menopause affects your biology",
+    text: "Hormones, cardiovascular markers, inflammation, metabolism, sleep, cognition.",
   },
   {
-    title: "Build your personal stability baseline",
-    text: "A map showing what's strong, what's drifting, and what needs immediate focus.",
+    title: "Build your hormonal health baseline",
+    text: "A personalised map of what's changing and what matters.",
   },
   {
-    title: "Get targeted routines that repair core systems",
-    text: "Energy restoration, metabolic support, sleep rebuilding, inflammation control, digestive stability, cognitive balance.",
+    title: "Get targeted routines",
+    text: "Sleep, inflammation control, metabolic support, temperature regulation, stress modulation, nutrition.",
   },
   {
-    title: "Stay guided with monthly recalibration",
-    text: "Your plan evolves as your biomarkers improve and symptoms shift.",
+    title: "Stay guided as your biology evolves",
+    text: "Monthly recalibration as hormones shift.",
   },
 ];
 
-const rebuilderSteps = [
+const womenSteps = [
   {
     number: "01",
     title: "Free check",
-    text: "A quick scan revealing missing tests and potential blind spots.",
+    text: "Missing hormone, cardiovascular, inflammation, metabolic tests identified.",
   },
   {
     number: "02",
     title: "Full assessment",
-    text: "Reviews symptoms, stress patterns, sleep, digestion, hormones, metabolism, and long-term risks.",
+    text: "Sleep, stress, metabolic shifts, cognition, hormones, long-term risks.",
   },
   {
     number: "03",
     title: "Your 6-month plan",
-    text: "A structured rebuild roadmap focused on stability, energy, and resilience.",
+    text: "Stabilisation plan for hormones, energy, sleep, weight, longevity markers.",
   },
   {
     number: "04",
     title: "Insights update",
-    text: "Monthly adjustments based on biomarkers — not guesswork.",
+    text: "Monthly adjustments based on biomarkers.",
   },
 ];
 
-const rebuilderWhyItWorks = [
-  "Identifies the root causes, not just symptoms",
-  "Early detection of hormonal, metabolic, inflammatory imbalance",
-  "Clear routines that rebuild energy & cognitive clarity",
-  "Monitoring that adapts to your progress",
-  "Science-based screening sequence",
-  "At-home testing and clinical integrations",
-  "A long-term stability path — not a temporary fix",
+const womenWhyItWorks = [
+  "Personalised menopause plan grounded in biomarkers",
+  "Early detection of cardiovascular, metabolic, hormonal shifts",
+  "Routines to stabilise energy, sleep, mood, cognition",
+  "Hormone-aware nutrition & recovery",
+  "Predictable screenings",
+  "Specialists and testing anywhere",
+  "Longevity strategy designed for women",
+  "Care that adapts with you, not against you",
 ];
 
-export default function RebuilderPage() {
+export default function WomenPage() {
 
   return (
     <main className="bg-black text-white">
-      <RebuilderHero />
+      <WomenHero />
 
-      <RebuilderPersonaSection />
+      <WomenPersonaSection />
 
       <section className="relative w-full py-32 md:py-40 overflow-hidden">
         <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-white/5 to-transparent pointer-events-none" />
@@ -95,7 +104,7 @@ export default function RebuilderPage() {
             <div className="relative w-full h-[400px] md:h-[520px] lg:h-[600px] order-1 md:order-1">
               <img
                 src="/header-explorer.png"
-                alt="Health rebuilders"
+                alt="Women in menopause"
                 className="w-full h-full object-cover rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.45)]"
               />
             </div>
@@ -103,7 +112,7 @@ export default function RebuilderPage() {
             <div className="flex flex-col items-start space-y-8 max-w-xl order-2 md:order-2">
               <div className="space-y-3">
                 <p className="uppercase tracking-[0.25em] text-white/60 text-xs md:text-sm">
-                  Health Rebuilders
+                  Women in Menopause
                 </p>
                 <h2 className="text-4xl md:text-5xl font-semibold leading-[1.1]">
                   Challenges You May Recognise
@@ -111,7 +120,7 @@ export default function RebuilderPage() {
               </div>
 
               <ul className="space-y-4 text-white/75 leading-relaxed">
-                {rebuilderChallengesDetailed.map((item) => (
+                {womenChallengesDetailed.map((item) => (
                   <li key={item} className="flex gap-3">
                     <span className="mt-2 block w-1.5 h-1.5 rounded-full bg-white/40" />
                     <span>{item}</span>
@@ -120,7 +129,8 @@ export default function RebuilderPage() {
               </ul>
 
               <p className="text-white font-medium text-lg md:text-xl">
-                You're not broken — you're missing a clear map of what your biology needs.
+                You're not imagining it.
+                Your biology is shifting — and it's measurable and manageable.
               </p>
             </div>
           </div>
@@ -131,41 +141,41 @@ export default function RebuilderPage() {
         <div className="header">
           <h2>Why This Happens</h2>
           <p className="subtitle">
-            You're working hard — but without the data or plan that explains what your body is actually trying to correct.
+            You're navigating a biological transition with outdated care designed for a younger version of you.
           </p>
         </div>
 
         <div className="grid-container">
           <div className="col card">
             <div className="number">1</div>
-            <h3>Hidden imbalances compound over time</h3>
+            <h3>Hormonal axis recalibrates</h3>
             <p>
-              Nutrients, hormones, inflammation, sleep cycles, and metabolic signals drift subtly — creating symptoms long before they show up as disease.
+              Estrogen, progesterone, stress hormones, and metabolic signals fluctuate unpredictably.
             </p>
-            <div className="label">Biological Drift</div>
+            <div className="label">Hormonal Transition</div>
           </div>
 
           <div className="col card">
             <div className="number">2</div>
-            <h3>Standard checkups miss early-stage dysfunction</h3>
+            <h3>Your long-term risk profile evolves</h3>
             <p>
-              Biological instability often hides underneath "normal range" lab results.
+              Metabolism, cardiovascular risk, inflammation, and bone density begin shifting faster than before.
             </p>
-            <div className="label">Detection Gap</div>
+            <div className="label">Risk Evolution</div>
           </div>
 
           <div className="col card">
             <div className="number">3</div>
-            <h3>Care is reactive, not preventive</h3>
+            <h3>Support systems aren't built for menopause</h3>
             <p>
-              Most systems wait for problems to escalate before taking action.
+              Care is fragmented, reactive, and rarely personalised.
             </p>
             <div className="label">Systemic Limitations</div>
           </div>
         </div>
 
         <p className="summary">
-          You're working hard — but without the data or plan that explains what your body is actually trying to correct.
+          You're navigating a biological transition with outdated care designed for a younger version of you.
         </p>
       </section>
 
@@ -173,20 +183,20 @@ export default function RebuilderPage() {
       <section className="how-arc-supports">
         <h2 className="section-title">How The Arc Supports You</h2>
         <p className="section-subtitle">
-          ARC becomes your clarity system and your long-term rebuilding plan.
+          ARC becomes your long-term hormonal navigation system.
         </p>
 
         <div className="supports-grid">
           {/* LEFT SIDE */}
           <div>
             <div className="supports-item fade-up">
-              <h3>{rebuilderSupportPillars[0].title}</h3>
-              <p>{rebuilderSupportPillars[0].text}</p>
+              <h3>{womenSupportPillars[0].title}</h3>
+              <p>{womenSupportPillars[0].text}</p>
             </div>
 
             <div className="supports-item fade-up">
-              <h3>{rebuilderSupportPillars[1].title}</h3>
-              <p>{rebuilderSupportPillars[1].text}</p>
+              <h3>{womenSupportPillars[1].title}</h3>
+              <p>{womenSupportPillars[1].text}</p>
             </div>
           </div>
 
@@ -198,13 +208,13 @@ export default function RebuilderPage() {
           {/* RIGHT SIDE */}
           <div>
             <div className="supports-item fade-up">
-              <h3>{rebuilderSupportPillars[2].title}</h3>
-              <p>{rebuilderSupportPillars[2].text}</p>
+              <h3>{womenSupportPillars[2].title}</h3>
+              <p>{womenSupportPillars[2].text}</p>
             </div>
 
             <div className="supports-item fade-up">
-              <h3>{rebuilderSupportPillars[3].title}</h3>
-              <p>{rebuilderSupportPillars[3].text}</p>
+              <h3>{womenSupportPillars[3].title}</h3>
+              <p>{womenSupportPillars[3].text}</p>
             </div>
           </div>
         </div>
@@ -212,22 +222,22 @@ export default function RebuilderPage() {
 
       {/* How It Works */}
       <HowItWorksSection
-        description="A structured process designed to rebuild stability, energy, and confidence."
-        steps={rebuilderSteps}
+        description="A structured process designed for women navigating hormonal transitions."
+        steps={womenSteps}
       />
 
       {/* Why It Works */}
       <WhyItWorks 
-        title="Why It Works for Health Rebuilders"
-        subtitle="A clear, structured path to rebuild stability, energy, and confidence."
-        items={rebuilderWhyItWorks}
+        title="Why It Works for Women in Menopause"
+        subtitle="Personalised menopause support grounded in biomarkers and clinical evidence."
+        items={womenWhyItWorks}
         backgroundImage="/why it works for travellers.jpg"
       />
 
-      {/* Rebuilder Pricing */}
-      <RebuilderPricingSection />
-      <RebuilderBlueprint />
-      <RebuilderFAQ />
+      {/* Women Pricing */}
+      <WomenPricingSection />
+      <WomenBlueprint />
+      <WomenFAQ />
 
       {/* Final CTA */}
       <section className="relative w-full min-h-[50vh] px-6 py-40 overflow-hidden flex items-center">
@@ -245,7 +255,7 @@ export default function RebuilderPage() {
             Start building stability
           </h2>
           <p className="text-[22px] text-white/75 leading-relaxed">
-            Your symptoms are real. Your path to clarity shouldn't be.
+            Your biology is changing. Your support shouldn't disappear.
           </p>
           <ArcButton href="/free-screening" className="cta-button">
             Start free screening
@@ -255,3 +265,4 @@ export default function RebuilderPage() {
     </main>
   );
 }
+

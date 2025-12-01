@@ -23,26 +23,26 @@ import { FAQSection } from "../components/sections/FAQSection";
 
 const personaCards = [
   {
-    title: "Busy Professionals",
-    struggles: "Stress buildup, irregular sleep, low energy, and early signs of burnout.",
+    title: "Women in Menopause",
+    struggles: "Hormone shifts, energy crashes, sleep disruption, mood variability, weight changes, brain fog.",
     promise:
-      "A clear picture of what your body is missing and practical ways to restore energy without slowing down your life.",
-    href: "/professional",
-    cta: "See how this works for professionals →",
+      "A clinically guided view of what your body is signalling, plus personalised routines and screenings designed specifically for women in midlife transition.",
+    href: "/women",
+    cta: "See how this works for women →",
   },
   {
-    title: "Travellers & Nomads",
-    struggles: "Disrupted sleep, weak immunity, and fatigue from constant movement.",
+    title: "Global Movers",
+    struggles: "Health fragmentation, missing medical records, new healthcare systems, unpredictable stress, and loss of continuity.",
     promise:
-      "Insights into how travel affects your body and personalised routines that keep you energised and balanced wherever you are.",
+      "A unified health identity, clear risk picture, and a portable roadmap that keeps your biology stable during major life transitions.",
     href: "/traveler",
-    cta: "See how this works for travellers →",
+    cta: "See how this works for global movers →",
   },
   {
     title: "Health Rebuilders",
-    struggles: "Unexplained tiredness, weight changes, chronic stress, or lingering symptoms.",
+    struggles: "Unstable energy, unexplained symptoms, chronic stress, weight changes, or feeling \"not quite right.\"",
     promise:
-      "Clinically guided clarity and a personalised plan to rebuild stability, strength, and confidence.",
+      "Clinically informed clarity and a personalised path to restore stability, strength, and resilience.",
     href: "/rebuilder",
     cta: "See how this works for rebuilding your health →",
   },

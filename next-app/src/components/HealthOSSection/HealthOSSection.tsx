@@ -1,34 +1,98 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
-import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import React, { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import "./styles.css";
 import Core from "./Core";
-import Node from "./Node";
 
-const nodeDefinitions = [
-  { number: "01", title: "Unified health identity", description: "Your data normalized across borders." },
-  { number: "02", title: "Personal risk radar", description: "The 3 areas your body is quietly struggling with." },
-  { number: "03", title: "Predisposition map", description: "Where your long-term risks live before symptoms." },
-  { number: "04", title: "Precision screening plan", description: "Stop guessing. Know exactly which tests matter." },
-  { number: "05", title: "Adaptive strategy", description: "Your plan updates as your life changes." },
-  { number: "06", title: "Global health marketplace", description: "At-home tests, diagnostics, labs, and services." },
-  { number: "07", title: "Community & medical knowledge", description: "Live sessions, offline events, applied science." },
-  { number: "08", title: "Largest preventive dataset", description: "Powering ARC’s intelligence." },
+const pointDefinitions = [
+  {
+    number: "01",
+    title: "Unified Health Identity",
+    description: "All your data, finally in one place.",
+    details: [
+      "72% faster detection of risk patterns.",
+      "No missing labs. No lost reports. No app chaos.",
+    ],
+  },
+  {
+    number: "02",
+    title: "Personal Risk Radar",
+    description: "Your top 2–3 biological risks, revealed instantly.",
+    details: [
+      "Early insights cut long-term complications by up to 40%.",
+      "Detects stress, inflammation, metabolic drift before symptoms.",
+    ],
+  },
+  {
+    number: "03",
+    title: "Predisposition Map",
+    description: "See your long-term risks years before they activate.",
+    details: [
+      "Predictive modelling identifies elevation 5–10 years earlier.",
+      "Prevents the silent drift most people miss until too late.",
+    ],
+  },
+  {
+    number: "04",
+    title: "Precision Screening Plan",
+    description: "Only the tests that matter for your biology.",
+    details: [
+      "Removes 60–70% of unnecessary testing.",
+      "Up to 3× higher diagnostic accuracy vs standard checkups.",
+    ],
+  },
+  {
+    number: "05",
+    title: "Adaptive Strategy",
+    description: "Your plan updates every month automatically.",
+    details: [
+      "Users see gains in energy, sleep & biomarkers within 6–12 weeks.",
+      "Adjusts instantly to stress, hormones, travel, and life changes.",
+    ],
+  },
+  {
+    number: "06",
+    title: "Global Health Marketplace",
+    description: "Vetted diagnostics and specialists in one place.",
+    details: [
+      "Over 300 validated labs, tests, and clinicians.",
+      "Results return 2–4× faster than traditional clinics.",
+    ],
+  },
+  {
+    number: "07",
+    title: "Medical Knowledge Engine",
+    description: "Clear, evidence-based guidance without noise.",
+    details: [
+      "Cuts misinformation exposure by 90%.",
+      "Understand your biomarkers in minutes.",
+    ],
+  },
+  {
+    number: "08",
+    title: "Largest Preventive Dataset",
+    description: "ARC learns from millions of real-world patterns.",
+    details: [
+      "Becomes more accurate every month.",
+      "Models trained on preventive outcomes, not trends.",
+    ],
+  },
 ];
 
-const polarPositions = [
-  { x: 20, y: 15 },
-  { x: 50, y: 5 },
-  { x: 80, y: 18 },
-  { x: 15, y: 48 },
-  { x: 85, y: 48 },
-  { x: 25, y: 82 },
-  { x: 50, y: 95 },
-  { x: 78, y: 80 },
+// Positioning for points around silhouette
+// Symmetric distances: left/right and top/bottom are equal
+// Silhouette is centered at ~50% horizontally and vertically
+const pointPositions = [
+  { x: 12, y: 10 },   // 01 - top-left (symmetric with right side)
+  { x: 88, y: 10 },   // 02 - top-right (symmetric with left side)
+  { x: 88, y: 38 },   // 03 - mid-right (symmetric with left side)
+  { x: 12, y: 38 },   // 04 - mid-left (symmetric with right side)
+  { x: 88, y: 66 },   // 05 - bottom-right (symmetric with left side)
+  { x: 12, y: 66 },   // 06 - bottom-left (symmetric with right side)
+  { x: 50, y: 85 },   // 07 - bottom-center (higher, but below silhouette)
+  { x: 50, y: 8 },    // 08 - top-center (symmetric with bottom)
 ];
-
-const thresholds = [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75];
 
 export const HealthOSSection: React.FC = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -36,84 +100,98 @@ export const HealthOSSection: React.FC = () => {
     target: ref,
     offset: ["start end", "end start"],
   });
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [isInView, setIsInView] = useState(false);
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const idx = thresholds.reduce((acc, threshold, index) => (latest >= threshold ? index : acc), 0);
-    setActiveIndex(idx);
-  });
+  const sectionOpacity = useTransform(scrollYProgress, [0.0, 0.15], [0, 1]);
 
-  const connectorPaths = useMemo(() => {
-    const center = { x: 300, y: 300 };
-    return polarPositions.map((pos) => {
-      const x = (pos.x / 100) * 600;
-      const y = (pos.y / 100) * 600;
-      const controlX = (center.x + x) / 2;
-      const controlY = (center.y + y) / 2;
-      return `M ${center.x} ${center.y} Q ${controlX} ${controlY} ${x} ${y}`;
-    });
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
   }, []);
 
-  const coreOpacity = useTransform(scrollYProgress, [0.0, 0.1], [0, 1]);
-
   return (
-    <section ref={ref} className="healthint-section">
+    <motion.section
+      ref={ref}
+      className="healthint-section"
+      style={{ opacity: sectionOpacity }}
+    >
       <div className="healthint-inner">
         <div className="healthint-label">INTELLIGENCE</div>
-        <h2 className="healthint-title">Other products give data. ARC gives you a health intelligence system.</h2>
-        <p className="healthint-subtitle">Apps track steps. Wearables show numbers. Clinics give one-time results.</p>
+        <h2 className="healthint-title">
+          Other products give data. ARC gives you a health intelligence system.
+        </h2>
+        <p className="healthint-subtitle">
+          Apps track steps. Wearables show numbers. Clinics give one-time results.
+        </p>
 
         <div className="healthint-layout">
           <div className="healthint-radial">
-            <svg className="connector-svg" viewBox="0 0 600 600" preserveAspectRatio="none">
-              {connectorPaths.map((path, idx) => (
-                <motion.path
-                  key={path}
-                  d={path}
-                  stroke="rgba(110,242,193,0.45)"
-                  strokeWidth={1.5}
-                  strokeLinecap="round"
-                  fill="none"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: activeIndex === idx ? 1 : 0, opacity: activeIndex === idx ? 1 : 0 }}
-                  transition={{ duration: 0.45, ease: "easeInOut" }}
-                />
-              ))}
-            </svg>
-
-            <motion.div style={{ opacity: coreOpacity }}>
+            <motion.div
+              className="silhouette-motion-wrapper"
+              style={{ opacity: sectionOpacity }}
+            >
               <Core />
             </motion.div>
 
-            {nodeDefinitions.map((node, idx) => (
-              <Node
-                key={node.number}
-                index={idx}
-                numberLabel={node.number}
-                label={node.title}
-                position={polarPositions[idx]}
-                active={activeIndex === idx}
-                onSelect={setActiveIndex}
-              />
-            ))}
-          </div>
+            {pointDefinitions.map((point, idx) => {
+              const position = pointPositions[idx];
+              const delay = idx * 0.1;
 
-          <motion.div
-            className="description-panel"
-            key={activeIndex}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            <h5>{nodeDefinitions[activeIndex].number}</h5>
-            <h3>{nodeDefinitions[activeIndex].title}</h3>
-            <p>{nodeDefinitions[activeIndex].description}</p>
-          </motion.div>
+              return (
+                <motion.div
+                  key={point.number}
+                  className={`intelligence-point point-${point.number}`}
+                  style={{
+                    // Only set top via inline style, left is controlled by CSS for symmetry
+                    top: `${position.y}%`,
+                  }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{
+                    opacity: isInView ? 1 : 0,
+                    y: isInView ? 0 : 20,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    delay: delay,
+                    ease: "easeOut",
+                  }}
+                >
+                  {/* Text content */}
+                  <div className="point-content">
+                    <h4 className="point-title">{point.title}</h4>
+                    <p className="point-description">{point.description}</p>
+                    <ul className="point-details">
+                      {point.details.map((detail, detailIdx) => (
+                        <li key={detailIdx}>{detail}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
 export default HealthOSSection;
-

@@ -2,91 +2,43 @@
 
 import { ArcButton } from "../ui/ArcButton";
 
+// Column 1 - Predisposition Map (KEEP EXACTLY AS IS)
 const predispositionMetrics = [
-  { label: "Fatigue Tendency", value: 75 },
-  { label: "Inflammation Load", value: 65 },
-  { label: "Hormonal Balance", value: 55 },
-  { label: "Digestive Function", value: 50 },
-  { label: "Stress Recovery", value: 60 },
-  { label: "Metabolic Efficiency", value: 40 },
+  { label: "Family/Cardio Risk", value: 80 },
+  { label: "Lifestyle Load", value: 65 },
+  { label: "Biological Instability", value: 20 },
+  { label: "Cognitive Rhythm", value: 40 },
 ];
 
+// Column 2 - Precision Screening Plan (simple structure like image)
 const screeningPlan = [
   {
-    title: "Full metabolic panel",
-    detail: "Detect underlying issues in energy regulation.",
+    title: "Full blood panel",
+    detail: "Detect early biological shifts",
     month: "Month 1",
   },
   {
-    title: "Hormonal markers",
-    detail: "Assess thyroid, adrenal, and sex hormone balance.",
-    month: "Month 1",
-  },
-  {
-    title: "Inflammation markers",
-    detail: "Identify chronic or low-grade inflammatory load.",
+    title: "Sleep & recovery markers",
+    detail: "Stabilise circadian rhythm",
     month: "Month 2",
   },
   {
-    title: "Digestive function panel",
-    detail: "Reveal digestive irregularities and microbiome shifts.",
+    title: "GI + immune markers",
+    detail: "Strengthen travel resilience",
     month: "Month 3",
-  },
-  {
-    title: "Recovery and stress response markers",
-    detail: "Assess the resilience of your nervous system.",
-    month: "Month 5",
   },
 ];
 
+// Column 3 - Your First 6 Months (simple structure like image - only Month 1)
 const sixMonthPlan = [
   {
     month: "Month 1",
-    focus: "Establish stability",
+    focus: "Reset & Re-baseline",
     bullets: [
-      "Metabolic support",
-      "Foundational routines",
-      "Early symptom tracking",
-    ],
-  },
-  {
-    month: "Month 2",
-    focus: "Reduce inflammation",
-    bullets: [
-      "Anti inflammatory nutrition",
-      "Stress load reduction",
-    ],
-  },
-  {
-    month: "Month 3",
-    focus: "Improve digestion",
-    bullets: [
-      "Microbiome support",
-      "Digestive repair sequences",
-    ],
-  },
-  {
-    month: "Month 4",
-    focus: "Balance hormones",
-    bullets: [
-      "Thyroid and adrenal support",
-      "Sleep and recovery restoration",
-    ],
-  },
-  {
-    month: "Month 5",
-    focus: "Strengthen resilience",
-    bullets: [
-      "Nervous system training",
-      "Emotionally supportive practices",
-    ],
-  },
-  {
-    month: "Month 6",
-    focus: "Clarity and direction",
-    bullets: [
-      "Full reassessment",
-      "Personal long term health strategy",
+      "Full travel-specific blood panel",
+      "Circadian + sleep pattern reset",
+      "Digestive stabilisation plan for mixed environments",
+      "Rebuild core biological baseline after recent travel",
     ],
   },
 ];
@@ -116,6 +68,7 @@ export function RebuilderBlueprint() {
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto mt-12 grid gap-8 lg:grid-cols-3">
+        {/* Column 1 — Predisposition Map (KEEP EXACTLY AS IS) */}
         <CardWrapper>
           <div className="space-y-2">
             <h3 className="text-2xl font-semibold text-white">Predisposition Map</h3>
@@ -142,6 +95,7 @@ export function RebuilderBlueprint() {
           </div>
         </CardWrapper>
 
+        {/* Column 2 — Precision Screening Plan (simple structure like image) */}
         <CardWrapper>
           <div className="space-y-2">
             <h3 className="text-2xl font-semibold text-white">Precision Screening Plan</h3>
@@ -149,28 +103,49 @@ export function RebuilderBlueprint() {
               Your essential screenings, mapped to why they matter and when you should take them.
             </p>
           </div>
+          <div className="space-y-2">
+            <h4 className="text-xl font-semibold text-white">Your First 6 Months</h4>
+            <p className="text-sm text-gray-400 leading-relaxed">
+              A clinically guided path that rebuilds your biological stability and restores consistent energy.
+            </p>
+          </div>
 
           <div className="space-y-5">
-            {screeningPlan.map((row) => (
-              <div key={row.title} className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-base font-semibold text-white">{row.title}</p>
-                  <p className="text-sm text-gray-400">{row.detail}</p>
-                </div>
-                <span className="text-sm text-gray-400">{row.month}</span>
+            <div className="space-y-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Month 1</p>
+                <p className="text-lg font-semibold text-white">Reset & Re-baseline</p>
               </div>
-            ))}
-            <div className="pt-2">
-              <p className="text-sm text-gray-400">Month 6: Reassessment</p>
+
+              <div className="space-y-2.5">
+                <div className="flex items-start gap-3 text-sm text-gray-300 leading-relaxed">
+                  <div className="h-2 w-2 rounded-full bg-emerald-400 mt-1" />
+                  <p>Full inflammation–hormone–metabolic baseline</p>
+                </div>
+                <div className="flex items-start gap-3 text-sm text-gray-300 leading-relaxed">
+                  <div className="h-2 w-2 rounded-full bg-emerald-400 mt-1" />
+                  <p>Stress-load + recovery pattern assessment</p>
+                </div>
+                <div className="flex items-start gap-3 text-sm text-gray-300 leading-relaxed">
+                  <div className="h-2 w-2 rounded-full bg-emerald-400 mt-1" />
+                  <p>Sleep & circadian dysregulation mapping</p>
+                </div>
+                <div className="flex items-start gap-3 text-sm text-gray-300 leading-relaxed">
+                  <div className="h-2 w-2 rounded-full bg-emerald-400 mt-1" />
+                  <p>Immediate stabilisation routines for reducing fatigue and calming the nervous system</p>
+                </div>
+              </div>
             </div>
           </div>
         </CardWrapper>
 
+        {/* Column 3 — Your First 6 Months (simple structure like image - only Month 1) */}
         <CardWrapper>
           <div className="space-y-2">
             <h3 className="text-2xl font-semibold text-white">Your First 6 Months</h3>
             <p className="text-sm text-gray-400">
-              A structured, clinician-informed program designed to rebuild foundational systems of health.
+              A structured, global-first stabilisation path that rebuilds your biological
+              consistency while you live across borders.
             </p>
           </div>
 
@@ -199,9 +174,8 @@ export function RebuilderBlueprint() {
       </div>
 
       <div className="relative z-10 mt-12 flex justify-center">
-        <ArcButton href="/blueprint/sample">View a sample Blueprint</ArcButton>
+        <ArcButton href="/rebuilder/blueprint/sample">View a sample Blueprint</ArcButton>
       </div>
     </section>
   );
 }
-

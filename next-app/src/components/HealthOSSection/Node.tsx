@@ -12,6 +12,18 @@ interface NodeProps {
   isMobile?: boolean;
 }
 
+// Position mapping for radial labels
+const positionClasses = [
+  "intel-label-top-left",      // 01
+  "intel-label-top-right",     // 02
+  "intel-label-mid-right",     // 03
+  "intel-label-mid-left",      // 04
+  "intel-label-bottom-right",  // 05
+  "intel-label-bottom-left",   // 06
+  "intel-label-bottom-center", // 07
+  "intel-label-top-center",    // 08
+];
+
 export const Node: React.FC<NodeProps> = ({
   index,
   numberLabel,
@@ -21,26 +33,17 @@ export const Node: React.FC<NodeProps> = ({
   onSelect,
   isMobile,
 }) => {
-  const style = isMobile
-    ? undefined
-    : {
-        left: `${position.x}%`,
-        top: `${position.y}%`,
-        transform: "translate(-50%, -50%)",
-      };
+  const positionClass = positionClasses[index] || "";
 
   return (
-    <button
-      type="button"
-      className={`node ${active ? "active" : ""}`}
-      style={style}
+    <div
+      className={`intel-label ${positionClass} ${active ? "active" : ""}`}
+      data-step={numberLabel}
       onClick={() => onSelect(index)}
     >
-      <span className="node-circle">
-        <span className="node-number-text">{numberLabel}</span>
-      </span>
-      <span className="node-label">{label}</span>
-    </button>
+      <span className="intel-badge">{numberLabel}</span>
+      <span className="intel-text">{label}</span>
+    </div>
   );
 };
 
