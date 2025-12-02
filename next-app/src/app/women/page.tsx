@@ -202,7 +202,7 @@ export default function WomenPage() {
 
           {/* CIRCLE CENTER */}
           <div>
-            <img src="/circle.png" alt="Arc Symbol" className="supports-circle fade-up" />
+            <div className="supports-circle fade-up" />
           </div>
 
           {/* RIGHT SIDE */}

@@ -1674,6 +1674,14 @@ header nav a:hover::after {
   position: relative;
 }
 
+.supports-grid > div:first-child,
+.supports-grid > div:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Subtle vertical gradient lines */
 .supports-grid::before {
   content: "";
@@ -1700,15 +1708,19 @@ header nav a:hover::after {
 .supports-circle {
   width: 450px !important;
   height: 450px !important;
-  opacity: 0.65;
-  filter: brightness(0.65) contrast(0.9) saturate(0.85);
   margin: 0 auto;
   display: block;
   border-radius: 50%;
+  background: transparent;
+  position: relative;
+  /* Enhanced green halo/glow effect */
   box-shadow: 
-    0 0 60px rgba(20, 241, 149, 0.08),
-    0 0 120px rgba(20, 241, 149, 0.05);
-  object-fit: contain;
+    0 0 80px rgba(20, 241, 149, 0.25),
+    0 0 150px rgba(20, 241, 149, 0.15),
+    0 0 220px rgba(20, 241, 149, 0.08),
+    inset 0 0 100px rgba(20, 241, 149, 0.05);
+  /* Add a subtle border for definition */
+  border: 2px solid rgba(20, 241, 149, 0.2);
   max-width: 100%;
 }
 
@@ -1716,6 +1728,9 @@ header nav a:hover::after {
   max-width: 360px;
   width: 100%;
   margin-bottom: 80px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .supports-item:last-child {
@@ -1729,6 +1744,7 @@ header nav a:hover::after {
   margin-bottom: 10px;
   color: #fff;
   line-height: 1.3;
+  text-align: center;
 }
 
 .supports-item p {
@@ -1736,6 +1752,7 @@ header nav a:hover::after {
   opacity: 0.75;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.85);
+  text-align: center;
 }
 
 .fade-up {
@@ -1794,8 +1811,8 @@ header nav a:hover::after {
   }
 
   .supports-circle {
-    width: 400px !important;
-    height: 400px !important;
+    width: 350px !important;
+    height: 350px !important;
     margin: 40px auto;
   }
 
