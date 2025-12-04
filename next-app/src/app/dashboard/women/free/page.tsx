@@ -377,30 +377,74 @@ export default function WomenFreeDashboardPage() {
         </motion.div>
 
         {/* Upgrade CTA */}
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="flex justify-center"
+          aria-labelledby="cta-blueprint-heading"
+          className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 sm:mt-14 mb-12"
         >
-          <div className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-6 sm:px-8 py-8 sm:py-10 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-center w-full max-w-3xl">
-            <h2 className="dashboard-h2 mb-3 text-center">
+          <div
+            className="
+              rounded-3xl
+              border border-emerald-500/10
+              bg-slate-950/70
+              shadow-[0_0_45px_rgba(16,185,129,0.3)]
+              backdrop-blur-xl
+              px-6 sm:px-10
+              py-8 sm:py-10
+              text-center
+              relative
+              overflow-hidden
+            "
+          >
+            {/* Subtle gradient glow at top */}
+            <div className="pointer-events-none absolute inset-x-0 -top-16 h-32 bg-gradient-to-b from-emerald-500/25 to-transparent blur-3xl opacity-70" />
+            
+            {/* Upgrade label */}
+            <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-300/80 mb-2 relative z-10">
+              Premium Blueprint Access
+            </p>
+            
+            {/* Headline */}
+            <h2
+              id="cta-blueprint-heading"
+              className="text-2xl sm:text-3xl font-semibold tracking-tight text-white relative z-10"
+            >
               Unlock Your Full ARC Blueprint
             </h2>
-            <p className="text-sm text-slate-300/90 mb-6 mx-auto leading-relaxed text-center">
-              Get access to your complete personalized longevity plan with detailed protocols,
-              advanced metrics, and ongoing support.
+            
+            {/* Subheading */}
+            <p className="mt-3 max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed relative z-10">
+              Get access to your complete personalised longevity plan with detailed protocols,
+              deeper metrics, and guided support.
             </p>
-            <div className="flex justify-center">
+            
+            {/* Button */}
+            <div className="mt-7 flex justify-center relative z-10">
               <Link
                 href="/dashboard/full"
-                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-emerald-500 text-white text-sm sm:text-base font-semibold hover:bg-emerald-600 transition-colors"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-full
+                  bg-gradient-to-r from-emerald-400 to-teal-500
+                  px-8 sm:px-10
+                  py-3
+                  text-sm sm:text-base font-semibold text-slate-950
+                  shadow-[0_20px_40px_rgba(16,185,129,0.4)]
+                  hover:shadow-[0_24px_48px_rgba(16,185,129,0.55)]
+                  hover:from-emerald-300 hover:to-teal-400
+                  transition-all duration-200
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
+                  w-full sm:w-auto
+                "
               >
-                Upgrade to Full Blueprint →
+                Upgrade to Full Blueprint
+                <span className="ml-2 text-lg">↗</span>
               </Link>
             </div>
           </div>
-        </motion.div>
+        </motion.section>
         </div>
       </main>
     </div>
