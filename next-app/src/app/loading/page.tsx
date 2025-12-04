@@ -37,16 +37,28 @@ export default function LoadingPage() {
 
           if (response.ok) {
             const data = await response.json();
-            // Store results for dashboard
-            localStorage.setItem("questionnaireResults", JSON.stringify(data.results));
-            console.log("Questionnaire processed successfully", data.results);
+            console.log("Questionnaire processed successfully", data);
+            console.log("Results data:", data.results);
+            
+            // Store results for dashboard - ensure it's saved before redirect
+            const resultsString = JSON.stringify(data.results);
+            localStorage.setItem("questionnaireResults", resultsString);
+            
+            // Verify it was saved
+            const verify = localStorage.getItem("questionnaireResults");
+            console.log("Results saved to localStorage:", !!verify);
+            console.log("Results key exists:", verify ? "YES" : "NO");
             
             // Update status and progress
             setStatus("Preparing your dashboard...");
             setProgress(100);
             
+            // Wait a bit longer to ensure localStorage is persisted
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
             // Redirect after a short delay to show completion
             setTimeout(() => {
+              console.log("Redirecting to dashboard...");
               router.push(`${config.dashboardRoute}/free`);
             }, 1000);
             
