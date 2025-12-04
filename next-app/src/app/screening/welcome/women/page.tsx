@@ -6,7 +6,6 @@ import Link from "next/link";
 import { setPersona } from "@/lib/persona";
 import { motion } from "framer-motion";
 import { GlowCard } from "@/components/ui/GlowCard";
-import { MetricBar } from "@/components/ui/MetricBar";
 
 export default function WomenScreeningWelcomePage() {
   const router = useRouter();
