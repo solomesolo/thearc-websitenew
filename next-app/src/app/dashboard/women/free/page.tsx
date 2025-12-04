@@ -306,13 +306,23 @@ export default function WomenFreeDashboardPage() {
                 </p>
 
                 {/* Triggered By Footer */}
-                <div className="mt-4 pt-3 border-t border-slate-800/60">
+                <div className="mt-4 pt-3 border-t border-slate-800/60 mb-4">
                   <div className="text-xs text-slate-500 mb-1">
                     Triggered by
                   </div>
                   <div className="text-xs text-slate-400">
                     {screening.trigger_findings.join(", ")}
                   </div>
+                </div>
+
+                {/* Find on Catalog Button */}
+                <div className="mt-auto pt-3 border-t border-slate-800/60">
+                  <Link
+                    href="/catalog"
+                    className="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-emerald-500/10 text-emerald-300 text-sm font-semibold border border-emerald-500/20 hover:bg-emerald-500/20 hover:border-emerald-500/30 transition-colors"
+                  >
+                    Find on TheArc Catalog
+                  </Link>
                 </div>
               </motion.div>
             ))}
