@@ -390,7 +390,8 @@ export default function WomenQuestionnairePage() {
       localStorage.setItem("questionnaireAnswers", JSON.stringify(answers));
       localStorage.setItem("questionnairePersona", "women");
       
-      // Try to save to backend if user is logged in
+      // Check if user is logged in by trying to save to backend
+      let isLoggedIn = false;
       try {
         const response = await fetch("/api/questionnaire/save", {
           method: "POST",
@@ -404,6 +405,10 @@ export default function WomenQuestionnairePage() {
         if (response.ok) {
           const data = await response.json();
           console.log("Questionnaire saved to backend:", data.responseId);
+          isLoggedIn = true;
+        } else if (response.status === 401) {
+          // User not logged in
+          isLoggedIn = false;
         } else {
           console.warn("Failed to save to backend, using localStorage only");
         }
@@ -412,8 +417,14 @@ export default function WomenQuestionnairePage() {
         // Continue with localStorage fallback
       }
       
-      // Redirect to registration/results page
-      router.push("/signup?redirect=/dashboard/women/free");
+      // Redirect based on login status
+      if (isLoggedIn) {
+        // User is logged in, go directly to loading page
+        router.push("/loading?persona=women");
+      } else {
+        // User not logged in, redirect to signup with persona info
+        router.push("/signup?persona=women&redirect=/loading");
+      }
     } catch (error) {
       console.error("Error submitting questionnaire:", error);
       setError("Failed to submit questionnaire. Please try again.");

@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function SignupPage() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -24,6 +27,18 @@ export default function SignupPage() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [passwordStrength, setPasswordStrength] = useState(0);
+
+    // Get persona and redirect from URL params
+    useEffect(() => {
+        const persona = searchParams.get("persona");
+        const redirect = searchParams.get("redirect");
+        if (persona) {
+            // Store persona for later use
+            if (typeof window !== "undefined") {
+                localStorage.setItem("selectedPersona", persona);
+            }
+        }
+    }, [searchParams]);
 
     // Password strength checker
     const checkPasswordStrength = (password: string) => {
@@ -107,7 +122,17 @@ export default function SignupPage() {
 
             if (res.ok) {
                 setSuccess(true);
-                // Don't redirect immediately - show success message
+                
+                // Get redirect and persona from URL params
+                const redirect = searchParams.get("redirect");
+                const persona = searchParams.get("persona");
+                
+                // If there's a redirect and persona, go to loading page after a short delay
+                if (redirect && persona) {
+                    setTimeout(() => {
+                        router.push(`/loading?persona=${persona}`);
+                    }, 2000); // 2 second delay to show success message
+                }
             } else {
                 setError(data.error || data.details || "Registration failed. Please try again.");
                 setLoading(false);
@@ -119,13 +144,44 @@ export default function SignupPage() {
     };
 
     if (success) {
+        const redirect = searchParams.get("redirect");
+        const persona = searchParams.get("persona");
+        const hasRedirect = redirect && persona;
+        
         return (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] px-6">
                 <div className="bg-gradient-to-br from-[#0f0f0f] to-[#1a1a1a] border border-teal-500/20 rounded-2xl shadow-[0_0_30px_rgba(20,184,166,0.15)] p-10 w-full max-w-md text-center">
-                    <h2 className="text-3xl font-bold text-white mb-4">Check Your Email</h2>
+                    <h2 className="text-3xl font-bold text-white mb-4">
+                        {hasRedirect ? "Account Created!" : "Check Your Email"}
+                    </h2>
                     <p className="text-gray-400 mb-6">
-                        We've sent a verification link to <strong className="text-white">{formData.email}</strong>
+                        {hasRedirect ? (
+                            <>
+                                Your account has been created. We're now processing your questionnaire results...
+                                <br />
+                                <span className="text-sm text-gray-500 mt-2 block">
+                                    Redirecting to your results...
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                We've sent a verification link to <strong className="text-white">{formData.email}</strong>
+                            </>
+                        )}
                     </p>
+                    {!hasRedirect && (
+                        <>
+                            <p className="text-sm text-gray-500 mb-8">
+                                Please click the link in the email to verify your account. You won't be able to log in until your email is verified.
+                            </p>
+                            <Link
+                                href="/login"
+                                className="inline-block px-6 py-3 bg-teal-500 text-white font-semibold rounded-lg hover:bg-teal-600 transition-colors"
+                            >
+                                Go to Login
+                            </Link>
+                        </>
+                    )}
                     <p className="text-sm text-gray-500 mb-8">
                         Please click the link in the email to verify your account. You won't be able to log in until your email is verified.
                     </p>
