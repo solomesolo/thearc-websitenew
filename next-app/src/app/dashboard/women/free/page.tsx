@@ -59,13 +59,21 @@ export default function WomenFreeDashboardPage() {
   useEffect(() => {
     // Get results from localStorage
     const storedResults = localStorage.getItem("questionnaireResults");
+    console.log("Dashboard: Checking for results in localStorage");
+    console.log("Dashboard: Stored results exists?", !!storedResults);
+    
     if (storedResults) {
       try {
         const parsed = JSON.parse(storedResults);
+        console.log("Dashboard: Parsed results:", parsed);
         setResults(parsed);
       } catch (error) {
-        console.error("Failed to parse results:", error);
+        console.error("Dashboard: Failed to parse results:", error);
+        console.error("Dashboard: Raw stored results:", storedResults);
       }
+    } else {
+      console.warn("Dashboard: No results found in localStorage");
+      console.log("Dashboard: Available localStorage keys:", Object.keys(localStorage));
     }
     setLoading(false);
   }, []);
