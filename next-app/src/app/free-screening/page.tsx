@@ -10,22 +10,36 @@ export default function FreeScreeningPage() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Get persona from URL param, stored value, or route
+    // PRIORITY: URL param is most reliable, check it first
     const personaParam = searchParams.get('persona');
-    const storedPersona = getStoredPersona();
     
-    // Try to get route persona if available
+    console.log('FreeScreening: URL searchParams persona:', personaParam);
+    console.log('FreeScreening: Full URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
+    
+    // If persona is explicitly in URL, use it (highest priority)
+    if (personaParam) {
+      console.log('FreeScreening: Using persona from URL param:', personaParam);
+      if (personaParam === 'women') {
+        router.replace('/screening/welcome/women');
+        return;
+      } else {
+        router.replace(`/screening/welcome?persona=${personaParam}`);
+        return;
+      }
+    }
+    
+    // Fallback: check stored persona and route
+    const storedPersona = getStoredPersona();
     let routePersona = null;
     if (typeof window !== 'undefined') {
       routePersona = getPersonaFromRoute(window.location.pathname);
     }
 
-    const persona = personaParam || storedPersona || routePersona || 'rebuilder';
+    const persona = storedPersona || routePersona || 'rebuilder';
     
-    console.log('FreeScreening: Detected persona:', { personaParam, storedPersona, routePersona, final: persona });
+    console.log('FreeScreening: Fallback persona detection:', { storedPersona, routePersona, final: persona });
 
     // For women, go directly to their specific welcome page
-    // Use replace to avoid showing intermediate page
     if (persona === 'women') {
       console.log('FreeScreening: Redirecting to /screening/welcome/women');
       router.replace('/screening/welcome/women');
