@@ -6,34 +6,186 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id            String   @id @default(cuid())
-  firstName     String
-  lastName      String
-  emailEncrypted String   // encrypted email, stored as ciphertext
-  passwordHash  String
-  country       String?
-  timezone      String?
-  emailVerified Boolean   @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
 
-  consents       Consent[]
-  verificationTokens VerificationToken[]
-  resetTokens       PasswordResetToken[]
+model User {
+  id             String    @id @default(cuid())
+  firstName      String
+  lastName       String
+  emailEncrypted String // encrypted email, stored as ciphertext
+  passwordHash   String
+  country        String?
+  timezone       String?
+  emailVerified  Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime? // Soft delete for GDPR compliance
+
+  // Relations
+  consents               Consent[]
+  verificationTokens     VerificationToken[]
+  resetTokens            PasswordResetToken[]
+  questionnaireResponses QuestionnaireResponse[]
+  dataAccessLogs         DataAccessLog[]
+  dataDeletionRequests   DataDeletionRequest[]
+  dataExportRequests     DataExportRequest[]
 }
+
+// ============================================
+// CONSENT MANAGEMENT (GDPR/HIPAA)
+// ============================================
 
 model Consent {
-  id          String   @id @default(cuid())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
-  type        String   // e.g., health_data, marketing
-  mandatory   Boolean
-  accepted    Boolean
-  timestamp   DateTime @default(now())
-  ipAddress   String?
-  legalVersion String
+  id           String    @id @default(cuid())
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  type         String // e.g., health_data, marketing, research, third_party
+  mandatory    Boolean
+  accepted     Boolean
+  timestamp    DateTime  @default(now())
+  ipAddress    String?
+  legalVersion String // Version of privacy policy/terms at time of consent
+  purpose      String? // Specific purpose for data use
+  expiresAt    DateTime? // Optional expiration date
+  withdrawnAt  DateTime? // When consent was withdrawn (GDPR)
+
+  @@index([userId, type])
+  @@index([userId, accepted])
 }
+
+// ============================================
+// QUESTIONNAIRE RESPONSES (ENCRYPTED)
+// ============================================
+
+model QuestionnaireResponse {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  // Metadata
+  persona     String // women, traveler, rebuilder
+  version     String   @default("1.0") // Questionnaire version
+  completedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Encrypted response data (JSON encrypted)
+  // Structure: { section0: {...}, section1: {...}, ... }
+  responseDataEncrypted String // Encrypted JSON string
+
+  // Optional: Encrypted scores/results
+  scoresEncrypted String? // Encrypted JSON with calculated scores
+
+  // Data retention
+  retentionUntil DateTime? // When this data should be deleted
+  anonymizedAt   DateTime? // When data was anonymized
+
+  // Relations
+  accessLogs DataAccessLog[]
+
+  @@index([userId])
+  @@index([persona])
+  @@index([completedAt])
+  @@index([retentionUntil])
+}
+
+// ============================================
+// AUDIT LOGS (HIPAA/GDPR REQUIREMENT)
+// ============================================
+
+model DataAccessLog {
+  id String @id @default(cuid())
+
+  // What was accessed
+  user                  User?                  @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId                String?
+  questionnaireResponse QuestionnaireResponse? @relation(fields: [responseId], references: [id], onDelete: SetNull)
+  responseId            String?
+
+  // Who accessed it
+  accessedBy String // User ID or system identifier
+  accessType String // read, update, delete, export
+  ipAddress  String?
+  userAgent  String?
+
+  // When
+  timestamp DateTime @default(now())
+
+  // What data
+  dataType       String // questionnaire, profile, consent, etc.
+  fieldsAccessed String? // JSON array of field names accessed
+
+  // Purpose
+  purpose String? // Why data was accessed
+
+  @@index([userId])
+  @@index([responseId])
+  @@index([accessedBy])
+  @@index([timestamp])
+  @@index([accessType])
+}
+
+// ============================================
+// DATA DELETION REQUESTS (GDPR Right to be Forgotten)
+// ============================================
+
+model DataDeletionRequest {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  requestedAt DateTime  @default(now())
+  completedAt DateTime?
+  status      String    @default("pending") // pending, processing, completed, failed
+
+  reason            String? // Optional reason for deletion
+  verificationToken String? // Token to verify deletion request
+
+  // What to delete
+  deleteProfile   Boolean @default(true)
+  deleteResponses Boolean @default(true)
+  deleteConsents  Boolean @default(false) // Keep for legal compliance
+  anonymizeData   Boolean @default(false) // Anonymize instead of delete
+
+  @@index([userId])
+  @@index([status])
+  @@index([requestedAt])
+}
+
+// ============================================
+// DATA EXPORT REQUESTS (GDPR Right to Data Portability)
+// ============================================
+
+model DataExportRequest {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  requestedAt DateTime  @default(now())
+  completedAt DateTime?
+  expiresAt   DateTime // Export link expiration (typically 7 days)
+  status      String    @default("pending") // pending, processing, completed, expired, failed
+
+  // Export details
+  format       String @default("json") // json, csv, pdf
+  includeTypes String // JSON array: ["profile", "questionnaire", "consents"]
+
+  // Secure download
+  downloadToken String  @unique // Token for secure download
+  downloadUrl   String? // Temporary secure URL
+  downloadCount Int     @default(0)
+
+  @@index([userId])
+  @@index([status])
+  @@index([downloadToken])
+  @@index([expiresAt])
+}
+
+// ============================================
+// AUTHENTICATION TOKENS
+// ============================================
 
 model VerificationToken {
   id        String   @id @default(cuid())
@@ -42,6 +194,9 @@ model VerificationToken {
   userId    String
   expiresAt DateTime
   used      Boolean  @default(false)
+
+  @@index([userId])
+  @@index([token])
 }
 
 model PasswordResetToken {
@@ -51,4 +206,34 @@ model PasswordResetToken {
   userId    String
   expiresAt DateTime
   used      Boolean  @default(false)
+
+  @@index([userId])
+  @@index([token])
+}
+
+// ============================================
+// DATA BREACH LOG (HIPAA Requirement)
+// ============================================
+
+model DataBreachLog {
+  id String @id @default(cuid())
+
+  detectedAt DateTime  @default(now())
+  reportedAt DateTime? // When reported to authorities/users
+  resolvedAt DateTime?
+
+  severity      String // low, medium, high, critical
+  description   String
+  affectedUsers Int // Number of users affected
+
+  // What was breached
+  dataTypes String // JSON array of data types
+
+  // Actions taken
+  actionsTaken String? // JSON array of actions
+
+  status String @default("detected") // detected, investigating, reported, resolved
+
+  @@index([status])
+  @@index([detectedAt])
 }

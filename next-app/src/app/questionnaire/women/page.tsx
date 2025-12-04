@@ -384,12 +384,41 @@ export default function WomenQuestionnairePage() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    // Save answers to localStorage for now
-    localStorage.setItem("questionnaireAnswers", JSON.stringify(answers));
-    localStorage.setItem("questionnairePersona", "women");
     
-    // Redirect to registration/results page
-    router.push("/signup?redirect=/dashboard/women/free");
+    try {
+      // Save answers to localStorage as backup
+      localStorage.setItem("questionnaireAnswers", JSON.stringify(answers));
+      localStorage.setItem("questionnairePersona", "women");
+      
+      // Try to save to backend if user is logged in
+      try {
+        const response = await fetch("/api/questionnaire/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            persona: "women",
+            responseData: answers,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Questionnaire saved to backend:", data.responseId);
+        } else {
+          console.warn("Failed to save to backend, using localStorage only");
+        }
+      } catch (error) {
+        console.warn("Backend save failed, using localStorage:", error);
+        // Continue with localStorage fallback
+      }
+      
+      // Redirect to registration/results page
+      router.push("/signup?redirect=/dashboard/women/free");
+    } catch (error) {
+      console.error("Error submitting questionnaire:", error);
+      setError("Failed to submit questionnaire. Please try again.");
+      setIsSubmitting(false);
+    }
   };
 
   const renderQuestion = (question: Question) => {
