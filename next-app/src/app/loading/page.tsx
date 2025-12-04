@@ -15,6 +15,44 @@ export default function LoadingPage() {
     const persona = getStoredPersona() || (searchParams.get("persona") as any) || "rebuilder";
     const config = PERSONAS[persona] || PERSONAS.rebuilder;
 
+    // Get questionnaire answers from localStorage
+    const questionnaireAnswers = localStorage.getItem("questionnaireAnswers");
+    const answers = questionnaireAnswers ? JSON.parse(questionnaireAnswers) : null;
+
+    // Process questionnaire if we have answers and it's women persona
+    const processQuestionnaire = async () => {
+      if (persona === "women" && answers) {
+        try {
+          setStatus("Processing your responses...");
+          
+          // Call the processing API
+          const response = await fetch("/api/questionnaire/process-women", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              persona: "women",
+              responseData: answers,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            // Store results for dashboard
+            localStorage.setItem("questionnaireResults", JSON.stringify(data.results));
+            console.log("Questionnaire processed successfully");
+          } else {
+            console.warn("Failed to process questionnaire, using fallback");
+          }
+        } catch (error) {
+          console.error("Error processing questionnaire:", error);
+          // Continue with fallback flow
+        }
+      }
+    };
+
+    // Start processing
+    processQuestionnaire();
+
     // Simulate processing with progress updates
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
@@ -43,14 +81,14 @@ export default function LoadingPage() {
       }
     }, 2000);
 
-    // Redirect after processing (3-5 seconds)
+    // Redirect after processing (5-6 seconds to allow API call)
     const redirectTimer = setTimeout(() => {
       clearInterval(progressInterval);
       clearInterval(statusInterval);
       
       // Redirect to persona-specific free dashboard
       router.push(`${config.dashboardRoute}/free`);
-    }, 5000);
+    }, 6000);
 
     return () => {
       clearInterval(progressInterval);
