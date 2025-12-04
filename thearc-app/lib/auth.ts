@@ -2,7 +2,7 @@ import { NextApiRequest } from "next";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
+const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-key-change-in-production";
 
 export async function hashPassword(password: string): Promise<string> {
   return argon2.hash(password);
