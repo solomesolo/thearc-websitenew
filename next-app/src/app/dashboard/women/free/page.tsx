@@ -393,7 +393,6 @@ export default function WomenFreeDashboardPage() {
               backdrop-blur-xl
               px-6 sm:px-10
               py-8 sm:py-10
-              text-center
               relative
               overflow-hidden
             "
@@ -401,27 +400,28 @@ export default function WomenFreeDashboardPage() {
             {/* Subtle gradient glow at top */}
             <div className="pointer-events-none absolute inset-x-0 -top-16 h-32 bg-gradient-to-b from-emerald-500/25 to-transparent blur-3xl opacity-70" />
             
-            {/* Upgrade label */}
-            <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-300/80 mb-2 relative z-10 text-center">
-              Premium Blueprint Access
-            </p>
-            
-            {/* Headline */}
-            <h2
-              id="cta-blueprint-heading"
-              className="text-2xl sm:text-3xl font-semibold tracking-tight text-white relative z-10 text-center"
-            >
-              Unlock Your Full ARC Blueprint
-            </h2>
-            
-            {/* Subheading */}
-            <p className="mt-3 max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed relative z-10 text-center">
-              Get access to your complete personalised longevity plan with detailed protocols,
-              deeper metrics, and guided support.
-            </p>
-            
-            {/* Button */}
-            <div className="mt-7 flex justify-center relative z-10">
+            <div className="flex flex-col items-center text-center relative z-10">
+              {/* Upgrade label */}
+              <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-300/80 mb-2">
+                Premium Blueprint Access
+              </p>
+              
+              {/* Headline */}
+              <h2
+                id="cta-blueprint-heading"
+                className="text-2xl sm:text-3xl font-semibold tracking-tight text-white"
+              >
+                Unlock Your Full ARC Blueprint
+              </h2>
+              
+              {/* Subheading */}
+              <p className="mt-3 max-w-2xl text-sm sm:text-base text-slate-300 leading-relaxed">
+                Get access to your complete personalised longevity plan with detailed protocols,
+                deeper metrics, and guided support.
+              </p>
+              
+              {/* Button */}
+              <div className="mt-7 flex justify-center">
               <Link
                 href="/dashboard/full"
                 className="
