@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getStoredPersona, getPersonaFromRoute } from "@/lib/persona";
+import { setPersona } from "@/lib/persona";
 
 // Redirect to welcome page with persona
 export default function FreeScreeningPage() {
@@ -10,42 +10,29 @@ export default function FreeScreeningPage() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // PRIORITY: URL param is most reliable, check it first
+    // Get persona from URL param - this is the ONLY source of truth for this page
     const personaParam = searchParams.get('persona');
     
-    console.log('FreeScreening: URL searchParams persona:', personaParam);
-    console.log('FreeScreening: Full URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
+    console.log('🔍 FreeScreening: URL searchParams persona:', personaParam);
+    console.log('🔍 FreeScreening: Full URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
     
-    // If persona is explicitly in URL, use it (highest priority)
-    if (personaParam) {
-      console.log('FreeScreening: Using persona from URL param:', personaParam);
-      if (personaParam === 'women') {
-        router.replace('/screening/welcome/women');
-        return;
-      } else {
-        router.replace(`/screening/welcome?persona=${personaParam}`);
-        return;
-      }
+    // If no persona in URL, default to rebuilder
+    const persona = personaParam || 'rebuilder';
+    
+    // Store the persona for future use
+    if (persona) {
+      setPersona(persona as 'women' | 'traveler' | 'rebuilder');
     }
     
-    // Fallback: check stored persona and route
-    const storedPersona = getStoredPersona();
-    let routePersona = null;
-    if (typeof window !== 'undefined') {
-      routePersona = getPersonaFromRoute(window.location.pathname);
-    }
-
-    const persona = storedPersona || routePersona || 'rebuilder';
+    console.log('✅ FreeScreening: Final persona decision:', persona);
     
-    console.log('FreeScreening: Fallback persona detection:', { storedPersona, routePersona, final: persona });
-
     // For women, go directly to their specific welcome page
     if (persona === 'women') {
-      console.log('FreeScreening: Redirecting to /screening/welcome/women');
+      console.log('🚀 FreeScreening: Redirecting to /screening/welcome/women');
       router.replace('/screening/welcome/women');
     } else {
       // For other personas, go to general welcome page
-      console.log('FreeScreening: Redirecting to general welcome page');
+      console.log('🚀 FreeScreening: Redirecting to general welcome page with persona:', persona);
       router.replace(`/screening/welcome?persona=${persona}`);
     }
   }, [router, searchParams]);

@@ -12,8 +12,20 @@ export default function ScreeningWelcomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get persona from URL param, stored value, or route
+    // PRIORITY 1: Check URL param first (most reliable)
     const personaParam = searchParams.get('persona') as PersonaType | null;
+    
+    console.log('🔍 ScreeningWelcomePage: URL param persona:', personaParam);
+    console.log('🔍 ScreeningWelcomePage: Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
+    
+    // If persona is 'women' in URL, IMMEDIATELY redirect to the women-specific welcome page
+    if (personaParam === 'women') {
+      console.log('🚀 ScreeningWelcomePage: URL has women, redirecting to /screening/welcome/women');
+      router.replace('/screening/welcome/women');
+      return;
+    }
+    
+    // PRIORITY 2: Check stored persona (fallback)
     const storedPersona = getStoredPersona();
     let routePersona = null;
     if (typeof window !== 'undefined') {
@@ -22,12 +34,11 @@ export default function ScreeningWelcomePage() {
 
     const selectedPersona = personaParam || storedPersona || routePersona || 'rebuilder'; // Default to rebuilder
 
-    console.log('ScreeningWelcomePage: Persona detection', { personaParam, storedPersona, routePersona, selectedPersona });
+    console.log('🔍 ScreeningWelcomePage: Persona detection', { personaParam, storedPersona, routePersona, selectedPersona });
 
-    // If persona is 'women', IMMEDIATELY redirect to the women-specific welcome page
-    // Use replace instead of push to avoid showing this page
-    if (selectedPersona === 'women') {
-      console.log('ScreeningWelcomePage: IMMEDIATELY redirecting to /screening/welcome/women');
+    // If stored persona is 'women', redirect to women page
+    if (selectedPersona === 'women' && personaParam !== 'women') {
+      console.log('🚀 ScreeningWelcomePage: Stored persona is women, redirecting to /screening/welcome/women');
       router.replace('/screening/welcome/women');
       return;
     }
