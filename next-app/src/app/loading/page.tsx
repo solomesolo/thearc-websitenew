@@ -39,30 +39,56 @@ export default function LoadingPage() {
             const data = await response.json();
             // Store results for dashboard
             localStorage.setItem("questionnaireResults", JSON.stringify(data.results));
-            console.log("Questionnaire processed successfully");
+            console.log("Questionnaire processed successfully", data.results);
+            
+            // Update status and progress
+            setStatus("Preparing your dashboard...");
+            setProgress(100);
+            
+            // Redirect after a short delay to show completion
+            setTimeout(() => {
+              router.push(`${config.dashboardRoute}/free`);
+            }, 1000);
+            
+            return true; // Success
           } else {
-            console.warn("Failed to process questionnaire, using fallback");
+            const errorData = await response.json().catch(() => ({}));
+            console.warn("Failed to process questionnaire:", errorData);
+            setStatus("Processing complete. Redirecting...");
+            // Still redirect even if processing failed
+            setTimeout(() => {
+              router.push(`${config.dashboardRoute}/free`);
+            }, 2000);
+            return false;
           }
         } catch (error) {
           console.error("Error processing questionnaire:", error);
-          // Continue with fallback flow
+          setStatus("Processing complete. Redirecting...");
+          // Still redirect on error
+          setTimeout(() => {
+            router.push(`${config.dashboardRoute}/free`);
+          }, 2000);
+          return false;
         }
+      } else {
+        // Not women persona or no answers, just redirect after delay
+        setTimeout(() => {
+          router.push(`${config.dashboardRoute}/free`);
+        }, 3000);
+        return false;
       }
     };
-
-    // Start processing
-    processQuestionnaire();
 
     // Simulate processing with progress updates
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
+        if (prev >= 95) {
+          // Don't go to 100% until API completes
+          return 95;
         }
-        return prev + 2;
+        return prev + 1;
       });
-    }, 100);
+    }, 150);
 
     // Update status messages
     const statusMessages = [
@@ -79,21 +105,27 @@ export default function LoadingPage() {
         statusIndex++;
         setStatus(statusMessages[statusIndex]);
       }
-    }, 2000);
+    }, 3000);
 
-    // Redirect after processing (5-6 seconds to allow API call)
-    const redirectTimer = setTimeout(() => {
+    // Start processing (this will handle redirect when done)
+    processQuestionnaire().then((success) => {
+      // Clean up intervals when processing completes
       clearInterval(progressInterval);
       clearInterval(statusInterval);
-      
-      // Redirect to persona-specific free dashboard
+    });
+
+    // Fallback: redirect after 30 seconds max (in case API hangs)
+    const fallbackTimer = setTimeout(() => {
+      clearInterval(progressInterval);
+      clearInterval(statusInterval);
+      console.warn("Processing timeout, redirecting anyway");
       router.push(`${config.dashboardRoute}/free`);
-    }, 6000);
+    }, 30000);
 
     return () => {
       clearInterval(progressInterval);
       clearInterval(statusInterval);
-      clearTimeout(redirectTimer);
+      clearTimeout(fallbackTimer);
     };
   }, [router, searchParams]);
 
