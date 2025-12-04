@@ -422,33 +422,34 @@ export default function WomenFreeDashboardPage() {
               
               {/* Button */}
               <div className="mt-7 flex justify-center">
-              <Link
-                href="/dashboard/full"
-                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  px-8 py-3.5
-                  rounded-full
-                  bg-black
-                  text-[#4DEECD]
-                  border
-                  border-white/20
-                  text-base
-                  font-medium
-                  tracking-tight
-                  transition-all
-                  duration-200
-                  ease-out
-                  hover:border-white/30
-                  hover:text-[#4DEECD]
-                  hover:bg-black
-                  w-full sm:w-auto
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
-                "
-              >
-                Upgrade to Full Blueprint →
-              </Link>
+                <Link
+                  href="/dashboard/full"
+                  className="
+                    inline-flex
+                    items-center
+                    justify-center
+                    px-8 py-3.5
+                    rounded-full
+                    bg-black
+                    text-[#4DEECD]
+                    border
+                    border-white/20
+                    text-base
+                    font-medium
+                    tracking-tight
+                    transition-all
+                    duration-200
+                    ease-out
+                    hover:border-white/30
+                    hover:text-[#4DEECD]
+                    hover:bg-black
+                    w-full sm:w-auto
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
+                  "
+                >
+                  Upgrade to Full Blueprint →
+                </Link>
+              </div>
             </div>
           </div>
         </motion.section>
