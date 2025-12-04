@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Sidebar from "@/components/Sidebar";
 
 interface QuestionnaireResults {
   scores: {
@@ -149,14 +150,16 @@ export default function WomenFreeDashboardPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] text-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+    <div className="dashboard-container relative z-10 flex min-h-screen">
+      <Sidebar />
+      <main className="flex-1 min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-10 sm:mb-14"
+          className="mb-10 sm:mb-14 text-center"
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white mb-3">
             Your Free ARC Screening Results
@@ -173,11 +176,11 @@ export default function WomenFreeDashboardPage() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mb-10 sm:mb-14 space-y-6"
         >
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+          <div className="text-center">
+            <h2 className="dashboard-h2 mb-2">
               Key Metrics
             </h2>
-            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6" />
+            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -233,11 +236,11 @@ export default function WomenFreeDashboardPage() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mb-10 sm:mb-14 space-y-6"
         >
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+          <div className="text-center">
+            <h2 className="dashboard-h2 mb-2">
               This Week's Actions
             </h2>
-            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6" />
+            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -271,11 +274,11 @@ export default function WomenFreeDashboardPage() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mb-10 sm:mb-14 space-y-6"
         >
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+          <div className="text-center">
+            <h2 className="dashboard-h2 mb-2">
               Recommended Screenings
             </h2>
-            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6" />
+            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
@@ -337,8 +340,8 @@ export default function WomenFreeDashboardPage() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="text-center"
         >
-          <div className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-6 sm:px-8 py-8 sm:py-10 shadow-[0_0_40px_rgba(16,185,129,0.15)]">
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-3">
+          <div className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-6 sm:px-8 py-8 sm:py-10 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-center">
+            <h2 className="dashboard-h2 mb-3">
               Unlock Your Full ARC Blueprint
             </h2>
             <p className="text-sm sm:text-base text-slate-300/90 mb-6 max-w-2xl mx-auto leading-relaxed">
@@ -353,7 +356,8 @@ export default function WomenFreeDashboardPage() {
             </Link>
           </div>
         </motion.div>
-      </div>
-    </main>
+        </div>
+      </main>
+    </div>
   );
 }
