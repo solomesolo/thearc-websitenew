@@ -362,20 +362,6 @@ export default function WomenFreeDashboardPage() {
           </div>
         </motion.section>
 
-        {/* Disclaimer */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="mb-10 sm:mb-14"
-        >
-          <div className="rounded-3xl border border-yellow-500/20 bg-yellow-500/10 backdrop-blur-xl px-5 sm:px-6 py-5 sm:py-6">
-            <p className="text-xs sm:text-sm text-yellow-200/90 leading-relaxed">
-              This assessment is informational and does not replace care from a licensed clinician. Please review these results with your healthcare provider before making medical decisions.
-            </p>
-          </div>
-        </motion.div>
-
         {/* Upgrade CTA */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -453,6 +439,20 @@ export default function WomenFreeDashboardPage() {
             </div>
           </div>
         </motion.section>
+
+        {/* Disclaimer */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.9 }}
+          className="mb-10 sm:mb-14"
+        >
+          <div className="rounded-3xl border border-yellow-500/20 bg-yellow-500/10 backdrop-blur-xl px-5 sm:px-6 py-5 sm:py-6">
+            <p className="text-xs sm:text-sm text-yellow-200/90 leading-relaxed">
+              This assessment is informational and does not replace care from a licensed clinician. Please review these results with your healthcare provider before making medical decisions.
+            </p>
+          </div>
+        </motion.div>
         </div>
       </main>
     </div>
