@@ -257,7 +257,7 @@ export default function WomenPage() {
           <p className="text-[22px] text-white/75 leading-relaxed">
             Your biology is changing. Your support shouldn't disappear.
           </p>
-          <ArcButton href="/free-screening" className="cta-button">
+          <ArcButton href="/free-screening?persona=women" className="cta-button">
             Start free screening
           </ArcButton>
         </motion.div>

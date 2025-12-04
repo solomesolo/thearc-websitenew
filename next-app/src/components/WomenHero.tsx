@@ -96,7 +96,7 @@ export default function WomenHero() {
             custom={0.35}
             variants={textVariants}
           >
-            <ArcButton href="/free-screening">
+            <ArcButton href="/free-screening?persona=women">
               Start free screening
             </ArcButton>
           </motion.div>

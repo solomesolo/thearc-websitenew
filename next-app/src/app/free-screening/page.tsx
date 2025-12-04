@@ -13,15 +13,24 @@ export default function FreeScreeningPage() {
     // Get persona from URL param, stored value, or route
     const personaParam = searchParams.get('persona');
     const storedPersona = getStoredPersona();
-    const routePersona = getPersonaFromRoute(window.location.pathname);
+    
+    // Try to get route persona if available
+    let routePersona = null;
+    if (typeof window !== 'undefined') {
+      routePersona = getPersonaFromRoute(window.location.pathname);
+    }
 
     const persona = personaParam || storedPersona || routePersona || 'rebuilder';
+    
+    console.log('FreeScreening: Detected persona:', { personaParam, storedPersona, routePersona, final: persona });
 
     // For women, go directly to their specific welcome page
     if (persona === 'women') {
+      console.log('FreeScreening: Redirecting to /screening/welcome/women');
       router.push('/screening/welcome/women');
     } else {
       // For other personas, go to general welcome page
+      console.log('FreeScreening: Redirecting to general welcome page');
       router.push(`/screening/welcome?persona=${persona}`);
     }
   }, [router, searchParams]);
