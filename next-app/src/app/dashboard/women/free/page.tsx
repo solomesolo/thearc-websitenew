@@ -57,25 +57,60 @@ export default function WomenFreeDashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get results from localStorage
-    const storedResults = localStorage.getItem("questionnaireResults");
-    console.log("Dashboard: Checking for results in localStorage");
-    console.log("Dashboard: Stored results exists?", !!storedResults);
-    
-    if (storedResults) {
-      try {
-        const parsed = JSON.parse(storedResults);
-        console.log("Dashboard: Parsed results:", parsed);
-        setResults(parsed);
-      } catch (error) {
-        console.error("Dashboard: Failed to parse results:", error);
-        console.error("Dashboard: Raw stored results:", storedResults);
+    // Function to load results
+    const loadResults = () => {
+      const storedResults = localStorage.getItem("questionnaireResults");
+      console.log("Dashboard: Checking for results in localStorage");
+      console.log("Dashboard: Stored results exists?", !!storedResults);
+      
+      if (storedResults) {
+        try {
+          const parsed = JSON.parse(storedResults);
+          console.log("Dashboard: Parsed results:", parsed);
+          console.log("Dashboard: Results structure:", {
+            hasScores: !!parsed.scores,
+            hasFlags: !!parsed.flags,
+            hasAiAnalysis: !!parsed.ai_analysis,
+            hasDemographics: !!parsed.demographics,
+          });
+          setResults(parsed);
+          setLoading(false);
+          return true; // Success
+        } catch (error) {
+          console.error("Dashboard: Failed to parse results:", error);
+          console.error("Dashboard: Raw stored results:", storedResults);
+          setLoading(false);
+          return false;
+        }
+      } else {
+        console.warn("Dashboard: No results found in localStorage");
+        console.log("Dashboard: Available localStorage keys:", Object.keys(localStorage));
+        return false;
       }
-    } else {
-      console.warn("Dashboard: No results found in localStorage");
-      console.log("Dashboard: Available localStorage keys:", Object.keys(localStorage));
+    };
+
+    // Try loading immediately
+    if (loadResults()) {
+      return; // Success, no need to retry
     }
-    setLoading(false);
+
+    // If not found, retry a few times (in case loading page is still saving)
+    let retryCount = 0;
+    const maxRetries = 5;
+    const retryInterval = setInterval(() => {
+      retryCount++;
+      console.log(`Dashboard: Retry ${retryCount}/${maxRetries} - checking for results...`);
+      
+      if (loadResults()) {
+        clearInterval(retryInterval);
+      } else if (retryCount >= maxRetries) {
+        console.warn("Dashboard: Max retries reached, giving up");
+        clearInterval(retryInterval);
+        setLoading(false);
+      }
+    }, 500); // Check every 500ms
+
+    return () => clearInterval(retryInterval);
   }, []);
 
   if (loading) {
