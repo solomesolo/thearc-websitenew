@@ -106,8 +106,12 @@ export function calculateWomenQuestionnaireScores(
   
   // Section 0 - Basic Info
   const age = parseAge(demographics.age || answers['0.1'] || '');
-  const height = demographics.height || answers['0.2'] || '';
-  const weight = demographics.weight || answers['0.2'] || '';
+  
+  // Parse height and weight from answer 0.2 (format: "height, weight" or "height weight")
+  const heightWeightStr = answers['0.2'] || '';
+  const heightWeightParts = heightWeightStr.split(/[,\s]+/).filter(p => p.trim());
+  const height = demographics.height || heightWeightParts[0] || '';
+  const weight = demographics.weight || heightWeightParts[1] || '';
   const menstrual_status = demographics.menstrual_status || answers['0.3'] || '';
   const hrt_use = demographics.hrt_use || answers['0.4'] || '';
   const diagnoses = demographics.diagnoses || (Array.isArray(answers['0.5']) ? answers['0.5'] : []);

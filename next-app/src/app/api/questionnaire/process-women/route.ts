@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     // Call OpenAI with the exact prompt
     console.log("Calling OpenAI...");
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4o", // Use gpt-4o for JSON response format support
       messages: [
         {
           role: "system",

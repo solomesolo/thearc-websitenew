@@ -23,7 +23,7 @@ export default function ResultsLoading({
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] flex items-center justify-center px-4 sm:px-6 py-12">
       {/* Visually hidden text for screen readers */}
-      <div className="absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0">
+      <div className="sr-only">
         Calculating your personalised health assessment. {progress}% complete.
       </div>
 
