@@ -402,20 +402,20 @@ export default function WomenFreeDashboardPage() {
             <div className="pointer-events-none absolute inset-x-0 -top-16 h-32 bg-gradient-to-b from-emerald-500/25 to-transparent blur-3xl opacity-70" />
             
             {/* Upgrade label */}
-            <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-300/80 mb-2 relative z-10">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-300/80 mb-2 relative z-10 text-center">
               Premium Blueprint Access
             </p>
             
             {/* Headline */}
             <h2
               id="cta-blueprint-heading"
-              className="text-2xl sm:text-3xl font-semibold tracking-tight text-white relative z-10"
+              className="text-2xl sm:text-3xl font-semibold tracking-tight text-white relative z-10 text-center"
             >
               Unlock Your Full ARC Blueprint
             </h2>
             
             {/* Subheading */}
-            <p className="mt-3 max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed relative z-10">
+            <p className="mt-3 max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed relative z-10 text-center">
               Get access to your complete personalised longevity plan with detailed protocols,
               deeper metrics, and guided support.
             </p>
