@@ -177,7 +177,7 @@ export default function WomenFreeDashboardPage() {
           className="mb-10 sm:mb-14 space-y-6"
         >
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+            <h2 className="dashboard-h2 mb-2">
               Key Metrics
             </h2>
             <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
@@ -237,7 +237,7 @@ export default function WomenFreeDashboardPage() {
           className="mb-10 sm:mb-14 space-y-6"
         >
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+            <h2 className="dashboard-h2 mb-2">
               This Week's Actions
             </h2>
             <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
@@ -252,7 +252,7 @@ export default function WomenFreeDashboardPage() {
                 transition={{ duration: 0.4, delay: 0.35 + index * 0.05 }}
                 className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 px-4 sm:px-5 py-4 sm:py-5 shadow-[0_0_30px_rgba(15,118,110,0.15)]"
               >
-                <h3 className="text-base font-semibold text-white mb-3">
+                <h3 className="text-base font-semibold text-white mb-3 capitalize">
                   {formatCategoryName(category)}
                 </h3>
                 <ul className="space-y-1.5 text-sm text-slate-300 list-disc list-outside ml-4">
@@ -275,7 +275,7 @@ export default function WomenFreeDashboardPage() {
           className="mb-10 sm:mb-14 space-y-6"
         >
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+            <h2 className="dashboard-h2 mb-2">
               Recommended Screenings
             </h2>
             <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
@@ -341,7 +341,7 @@ export default function WomenFreeDashboardPage() {
           className="flex justify-center"
         >
           <div className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-6 sm:px-8 py-8 sm:py-10 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-center w-full max-w-3xl">
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-3 text-center">
+            <h2 className="dashboard-h2 mb-3 text-center">
               Unlock Your Full ARC Blueprint
             </h2>
             <p className="text-sm text-slate-300/90 mb-6 mx-auto leading-relaxed text-center">
