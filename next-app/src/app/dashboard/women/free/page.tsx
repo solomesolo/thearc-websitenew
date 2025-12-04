@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { GlowCard } from "@/components/ui/GlowCard";
 import Link from "next/link";
 
 interface QuestionnaireResults {
@@ -144,33 +143,44 @@ export default function WomenFreeDashboardPage() {
 
   const { scores, ai_analysis, demographics } = results;
 
+  // Helper to format category names
+  const formatCategoryName = (category: string): string => {
+    return category.replace(/_/g, " ").toLowerCase();
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] text-white py-16 px-6">
-      <div className="max-w-7xl mx-auto">
+    <main className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] text-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="mb-10 sm:mb-14"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white mb-3">
             Your Free ARC Screening Results
           </h1>
-          <p className="text-xl text-gray-400">
+          <p className="text-base sm:text-lg text-slate-300/90">
             Personalized health assessment for Women in Menopause
           </p>
         </motion.div>
 
-        {/* Key Metrics */}
+        {/* Key Metrics Section */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-12"
+          className="mb-10 sm:mb-14 space-y-6"
         >
-          <h2 className="text-2xl font-bold mb-6 text-teal-400">Key Metrics</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+              Key Metrics
+            </h2>
+            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
                 title: "Stress Load",
@@ -193,75 +203,115 @@ export default function WomenFreeDashboardPage() {
                 summary: ai_analysis.key_metrics.cognitive_recovery.summary,
               },
             ].map((metric, index) => (
-              <GlowCard key={index} delay={0.15 + index * 0.05}>
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-white">{metric.title}</h3>
-                    <span className="text-2xl font-bold text-teal-400">{metric.score}</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2 mb-3">
-                    <div
-                      className="bg-gradient-to-r from-teal-400 to-teal-600 h-2 rounded-full"
-                      style={{ width: `${metric.score}%` }}
-                    />
-                  </div>
+              <motion.div
+                key={metric.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.15 + index * 0.05 }}
+                className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-4 sm:px-5 py-5 sm:py-6 flex flex-col justify-between shadow-[0_0_40px_rgba(16,185,129,0.12)] hover:border-emerald-400/30 transition-colors min-h-[180px]"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-sm font-semibold text-white uppercase tracking-wide">
+                    {metric.title}
+                  </h3>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/10 text-emerald-300 text-xs font-semibold px-2.5 py-0.5 ml-2 flex-shrink-0">
+                    {metric.score}
+                  </span>
                 </div>
-                <p className="text-sm text-gray-300">{metric.summary}</p>
-              </GlowCard>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mt-auto" style={{ maxWidth: "65ch" }}>
+                  {metric.summary}
+                </p>
+              </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* This Week's Actions */}
+        {/* This Week's Actions Section */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mb-12"
+          className="mb-10 sm:mb-14 space-y-6"
         >
-          <h2 className="text-2xl font-bold mb-6 text-teal-400">This Week's Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+              This Week's Actions
+            </h2>
+            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {Object.entries(ai_analysis.weekly_actions).map(([category, actions], index) => (
-              <GlowCard key={category} delay={0.35 + index * 0.05}>
-                <h3 className="text-lg font-semibold mb-4 text-white capitalize">
-                  {category.replace(/_/g, " ")}
+              <motion.div
+                key={category}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.35 + index * 0.05 }}
+                className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 px-4 sm:px-5 py-4 sm:py-5 shadow-[0_0_30px_rgba(15,118,110,0.15)]"
+              >
+                <h3 className="text-sm font-semibold tracking-wide text-white mb-3 lowercase">
+                  {formatCategoryName(category)}
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-outside ml-4">
                   {actions.map((action, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-300">
-                      <span className="text-teal-500 mt-1">•</span>
-                      <span>{action}</span>
+                    <li key={idx} className="leading-relaxed">
+                      {action}
                     </li>
                   ))}
                 </ul>
-              </GlowCard>
+              </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* Recommended Screenings */}
+        {/* Recommended Screenings Section */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mb-12"
+          className="mb-10 sm:mb-14 space-y-6"
         >
-          <h2 className="text-2xl font-bold mb-6 text-teal-400">Recommended Screenings</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+              Recommended Screenings
+            </h2>
+            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
             {ai_analysis.recommended_screenings.map((screening, index) => (
-              <GlowCard key={index} delay={0.55 + index * 0.05}>
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-semibold text-white">{screening.screening}</h3>
-                  <span className="px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-medium rounded-full">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.55 + index * 0.05 }}
+                className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 px-4 sm:px-5 py-5 sm:py-6 flex flex-col justify-between shadow-[0_0_40px_rgba(16,185,129,0.15)] min-h-[180px]"
+              >
+                {/* Top Row */}
+                <div className="flex items-start justify-between mb-3 gap-3">
+                  <h3 className="text-base sm:text-lg font-semibold text-white flex-1">
+                    {screening.screening}
+                  </h3>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/15 text-emerald-300 text-xs font-semibold px-3 py-0.5 flex-shrink-0">
                     {screening.timing}
                   </span>
                 </div>
-                <p className="text-sm text-gray-300 mb-3">{screening.reason}</p>
-                <div className="text-xs text-gray-500">
-                  <span className="font-medium">Triggered by:</span>{" "}
-                  {screening.trigger_findings.join(", ")}
+
+                {/* Purpose Text */}
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4" style={{ maxWidth: "65ch" }}>
+                  {screening.reason}
+                </p>
+
+                {/* Triggered By Footer */}
+                <div className="mt-4 pt-3 border-t border-slate-800/60">
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-slate-500 mb-1">
+                    Triggered by
+                  </div>
+                  <div className="text-xs text-slate-400">
+                    {screening.trigger_findings.join(", ")}
+                  </div>
                 </div>
-              </GlowCard>
+              </motion.div>
             ))}
           </div>
         </motion.section>
@@ -271,10 +321,12 @@ export default function WomenFreeDashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="mb-12"
+          className="mb-10 sm:mb-14"
         >
-          <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-lg p-6">
-            <p className="text-sm text-yellow-200">{ai_analysis.global_disclaimer}</p>
+          <div className="rounded-3xl border border-yellow-500/20 bg-yellow-500/10 backdrop-blur-xl px-5 sm:px-6 py-5 sm:py-6">
+            <p className="text-xs sm:text-sm text-yellow-200/90 leading-relaxed">
+              {ai_analysis.global_disclaimer}
+            </p>
           </div>
         </motion.div>
 
@@ -285,24 +337,23 @@ export default function WomenFreeDashboardPage() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="text-center"
         >
-          <div className="bg-gradient-to-br from-[#0f0f0f] to-[#1a1a1a] border border-teal-500/20 rounded-2xl shadow-[0_0_30px_rgba(20,184,166,0.15)] p-8">
-            <h2 className="text-2xl font-bold mb-4 text-teal-400">
+          <div className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-6 sm:px-8 py-8 sm:py-10 shadow-[0_0_40px_rgba(16,185,129,0.15)]">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-3">
               Unlock Your Full ARC Blueprint
             </h2>
-            <p className="text-gray-400 mb-6">
+            <p className="text-sm sm:text-base text-slate-300/90 mb-6 max-w-2xl mx-auto leading-relaxed">
               Get access to your complete personalized longevity plan with detailed protocols,
               advanced metrics, and ongoing support.
             </p>
             <Link
               href="/dashboard/full"
-              className="inline-block bg-teal-500 text-white font-semibold py-3 px-8 rounded-lg hover:bg-teal-600 transition-colors"
+              className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-emerald-500 text-white text-sm sm:text-base font-semibold hover:bg-emerald-600 transition-colors"
             >
               Upgrade to Full Blueprint →
             </Link>
           </div>
         </motion.div>
       </div>
-    </div>
+    </main>
   );
 }
-
