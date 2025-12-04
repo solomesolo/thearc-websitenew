@@ -56,6 +56,25 @@ export default function ScreeningWelcomePage() {
     }
   };
 
+  // If persona is women, show loading while redirect happens
+  const personaParam = searchParams.get('persona') as PersonaType | null;
+  const storedPersona = getStoredPersona();
+  let routePersona = null;
+  if (typeof window !== 'undefined') {
+    routePersona = getPersonaFromRoute(window.location.pathname);
+  }
+  const detectedPersona = personaParam || storedPersona || routePersona;
+  
+  if (detectedPersona === 'women') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] flex items-center justify-center">
+        <div className="text-white text-center">
+          <p>Redirecting...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (loading || !persona) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] flex items-center justify-center">

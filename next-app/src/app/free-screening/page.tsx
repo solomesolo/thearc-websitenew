@@ -25,13 +25,14 @@ export default function FreeScreeningPage() {
     console.log('FreeScreening: Detected persona:', { personaParam, storedPersona, routePersona, final: persona });
 
     // For women, go directly to their specific welcome page
+    // Use replace to avoid showing intermediate page
     if (persona === 'women') {
       console.log('FreeScreening: Redirecting to /screening/welcome/women');
-      router.push('/screening/welcome/women');
+      router.replace('/screening/welcome/women');
     } else {
       // For other personas, go to general welcome page
       console.log('FreeScreening: Redirecting to general welcome page');
-      router.push(`/screening/welcome?persona=${persona}`);
+      router.replace(`/screening/welcome?persona=${persona}`);
     }
   }, [router, searchParams]);
 
