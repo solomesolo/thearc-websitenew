@@ -371,7 +371,7 @@ export default function WomenFreeDashboardPage() {
         >
           <div className="rounded-3xl border border-yellow-500/20 bg-yellow-500/10 backdrop-blur-xl px-5 sm:px-6 py-5 sm:py-6">
             <p className="text-xs sm:text-sm text-yellow-200/90 leading-relaxed">
-              {ai_analysis.global_disclaimer}
+              This assessment is informational and does not replace care from a licensed clinician. Please review these results with your healthcare provider before making medical decisions.
             </p>
           </div>
         </motion.div>
