@@ -177,7 +177,7 @@ export default function WomenFreeDashboardPage() {
           className="mb-10 sm:mb-14 space-y-6"
         >
           <div className="text-center">
-            <h2 className="dashboard-h2 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
               Key Metrics
             </h2>
             <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
@@ -214,14 +214,14 @@ export default function WomenFreeDashboardPage() {
                 className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-4 sm:px-5 py-5 sm:py-6 flex flex-col justify-between shadow-[0_0_40px_rgba(16,185,129,0.12)] hover:border-emerald-400/30 transition-colors min-h-[180px]"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-sm font-semibold text-white uppercase tracking-wide">
+                  <h3 className="text-base font-semibold text-white">
                     {metric.title}
                   </h3>
                   <span className="inline-flex items-center rounded-full bg-emerald-500/10 text-emerald-300 text-xs font-semibold px-2.5 py-0.5 ml-2 flex-shrink-0">
                     {metric.score}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mt-auto" style={{ maxWidth: "65ch" }}>
+                <p className="text-sm text-slate-300 leading-relaxed mt-auto" style={{ maxWidth: "65ch" }}>
                   {metric.summary}
                 </p>
               </motion.div>
@@ -237,7 +237,7 @@ export default function WomenFreeDashboardPage() {
           className="mb-10 sm:mb-14 space-y-6"
         >
           <div className="text-center">
-            <h2 className="dashboard-h2 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
               This Week's Actions
             </h2>
             <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
@@ -252,10 +252,10 @@ export default function WomenFreeDashboardPage() {
                 transition={{ duration: 0.4, delay: 0.35 + index * 0.05 }}
                 className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 px-4 sm:px-5 py-4 sm:py-5 shadow-[0_0_30px_rgba(15,118,110,0.15)]"
               >
-                <h3 className="text-sm font-semibold tracking-wide text-white mb-3 lowercase">
+                <h3 className="text-base font-semibold text-white mb-3">
                   {formatCategoryName(category)}
                 </h3>
-                <ul className="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-outside ml-4">
+                <ul className="space-y-1.5 text-sm text-slate-300 list-disc list-outside ml-4">
                   {actions.map((action, idx) => (
                     <li key={idx} className="leading-relaxed">
                       {action}
@@ -275,7 +275,7 @@ export default function WomenFreeDashboardPage() {
           className="mb-10 sm:mb-14 space-y-6"
         >
           <div className="text-center">
-            <h2 className="dashboard-h2 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
               Recommended Screenings
             </h2>
             <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
@@ -292,7 +292,7 @@ export default function WomenFreeDashboardPage() {
               >
                 {/* Top Row */}
                 <div className="flex items-start justify-between mb-3 gap-3">
-                  <h3 className="text-base sm:text-lg font-semibold text-white flex-1">
+                  <h3 className="text-base font-semibold text-white flex-1">
                     {screening.screening}
                   </h3>
                   <span className="inline-flex items-center rounded-full bg-emerald-500/15 text-emerald-300 text-xs font-semibold px-3 py-0.5 flex-shrink-0">
@@ -301,13 +301,13 @@ export default function WomenFreeDashboardPage() {
                 </div>
 
                 {/* Purpose Text */}
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4" style={{ maxWidth: "65ch" }}>
+                <p className="text-sm text-slate-300 leading-relaxed mb-4" style={{ maxWidth: "65ch" }}>
                   {screening.reason}
                 </p>
 
                 {/* Triggered By Footer */}
                 <div className="mt-4 pt-3 border-t border-slate-800/60">
-                  <div className="text-[11px] uppercase tracking-[0.2em] text-slate-500 mb-1">
+                  <div className="text-xs text-slate-500 mb-1">
                     Triggered by
                   </div>
                   <div className="text-xs text-slate-400">
@@ -341,10 +341,10 @@ export default function WomenFreeDashboardPage() {
           className="flex justify-center"
         >
           <div className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-6 sm:px-8 py-8 sm:py-10 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-center w-full max-w-3xl">
-            <h2 className="dashboard-h2 mb-3 text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-3 text-center">
               Unlock Your Full ARC Blueprint
             </h2>
-            <p className="text-sm sm:text-base text-slate-300/90 mb-6 mx-auto leading-relaxed text-center">
+            <p className="text-sm text-slate-300/90 mb-6 mx-auto leading-relaxed text-center">
               Get access to your complete personalized longevity plan with detailed protocols,
               advanced metrics, and ongoing support.
             </p>
