@@ -15,9 +15,21 @@ export default function ScreeningWelcomePage() {
     // Get persona from URL param, stored value, or route
     const personaParam = searchParams.get('persona') as PersonaType | null;
     const storedPersona = getStoredPersona();
-    const routePersona = getPersonaFromRoute(window.location.pathname);
+    let routePersona = null;
+    if (typeof window !== 'undefined') {
+      routePersona = getPersonaFromRoute(window.location.pathname);
+    }
 
     const selectedPersona = personaParam || storedPersona || routePersona || 'rebuilder'; // Default to rebuilder
+
+    console.log('ScreeningWelcomePage: Persona detection', { personaParam, storedPersona, routePersona, selectedPersona });
+
+    // If persona is 'women', redirect to the women-specific welcome page
+    if (selectedPersona === 'women') {
+      console.log('ScreeningWelcomePage: Redirecting to /screening/welcome/women');
+      router.push('/screening/welcome/women');
+      return;
+    }
 
     if (selectedPersona && Object.keys(PERSONAS).includes(selectedPersona)) {
       setPersona(selectedPersona as PersonaType);
