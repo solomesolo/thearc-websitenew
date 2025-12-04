@@ -425,22 +425,29 @@ export default function WomenFreeDashboardPage() {
               <Link
                 href="/dashboard/full"
                 className="
-                  inline-flex items-center justify-center
+                  inline-flex
+                  items-center
+                  justify-center
+                  px-8 py-3.5
                   rounded-full
-                  bg-gradient-to-r from-emerald-400 to-teal-500
-                  px-8 sm:px-10
-                  py-3
-                  text-sm sm:text-base font-semibold text-slate-950
-                  shadow-[0_20px_40px_rgba(16,185,129,0.4)]
-                  hover:shadow-[0_24px_48px_rgba(16,185,129,0.55)]
-                  hover:from-emerald-300 hover:to-teal-400
-                  transition-all duration-200
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
+                  bg-black
+                  text-[#4DEECD]
+                  border
+                  border-white/20
+                  text-base
+                  font-medium
+                  tracking-tight
+                  transition-all
+                  duration-200
+                  ease-out
+                  hover:border-white/30
+                  hover:text-[#4DEECD]
+                  hover:bg-black
                   w-full sm:w-auto
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
                 "
               >
-                Upgrade to Full Blueprint
-                <span className="ml-2 text-lg">↗</span>
+                Upgrade to Full Blueprint →
               </Link>
             </div>
           </div>
