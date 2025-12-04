@@ -338,22 +338,24 @@ export default function WomenFreeDashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center"
+          className="flex justify-center"
         >
-          <div className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-6 sm:px-8 py-8 sm:py-10 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-center">
-            <h2 className="dashboard-h2 mb-3">
+          <div className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl px-6 sm:px-8 py-8 sm:py-10 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-center w-full max-w-3xl">
+            <h2 className="dashboard-h2 mb-3 text-center">
               Unlock Your Full ARC Blueprint
             </h2>
-            <p className="text-sm sm:text-base text-slate-300/90 mb-6 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-300/90 mb-6 mx-auto leading-relaxed text-center">
               Get access to your complete personalized longevity plan with detailed protocols,
               advanced metrics, and ongoing support.
             </p>
-            <Link
-              href="/dashboard/full"
-              className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-emerald-500 text-white text-sm sm:text-base font-semibold hover:bg-emerald-600 transition-colors"
-            >
-              Upgrade to Full Blueprint →
-            </Link>
+            <div className="flex justify-center">
+              <Link
+                href="/dashboard/full"
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-emerald-500 text-white text-sm sm:text-base font-semibold hover:bg-emerald-600 transition-colors"
+              >
+                Upgrade to Full Blueprint →
+              </Link>
+            </div>
           </div>
         </motion.div>
         </div>
