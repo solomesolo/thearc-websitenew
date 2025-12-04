@@ -24,10 +24,11 @@ export default function ScreeningWelcomePage() {
 
     console.log('ScreeningWelcomePage: Persona detection', { personaParam, storedPersona, routePersona, selectedPersona });
 
-    // If persona is 'women', redirect to the women-specific welcome page
+    // If persona is 'women', IMMEDIATELY redirect to the women-specific welcome page
+    // Use replace instead of push to avoid showing this page
     if (selectedPersona === 'women') {
-      console.log('ScreeningWelcomePage: Redirecting to /screening/welcome/women');
-      router.push('/screening/welcome/women');
+      console.log('ScreeningWelcomePage: IMMEDIATELY redirecting to /screening/welcome/women');
+      router.replace('/screening/welcome/women');
       return;
     }
 
@@ -37,7 +38,7 @@ export default function ScreeningWelcomePage() {
       setLoading(false);
     } else {
       // If no persona detected, redirect to homepage to select one
-      router.push('/');
+      router.replace('/');
     }
   }, [searchParams, router]);
 
