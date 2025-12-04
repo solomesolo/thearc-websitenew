@@ -149,6 +149,19 @@ export default function WomenFreeDashboardPage() {
     return category.replace(/_/g, " ").toLowerCase();
   };
 
+  // Helper to get category display name
+  const getCategoryDisplayName = (category: string): string => {
+    const names: { [key: string]: string } = {
+      nutrition: "Nutrition",
+      supplements: "Supplements",
+      movement_recovery: "Movement & Recovery",
+      screenings_checks: "Screenings & Checks",
+      environment: "Environment",
+      red_flags: "Red Flags",
+    };
+    return names[category] || formatCategoryName(category);
+  };
+
   return (
     <div className="dashboard-container relative z-10 flex min-h-screen">
       <Sidebar />
@@ -243,25 +256,45 @@ export default function WomenFreeDashboardPage() {
             <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
             {Object.entries(ai_analysis.weekly_actions).map(([category, actions], index) => (
               <motion.div
                 key={category}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.35 + index * 0.05 }}
-                className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 px-4 sm:px-5 py-4 sm:py-5 shadow-[0_0_30px_rgba(15,118,110,0.15)]"
+                className="
+                  h-full flex flex-col
+                  rounded-3xl
+                  border border-emerald-500/10
+                  bg-slate-950/60
+                  shadow-[0_0_35px_rgba(16,185,129,0.18)]
+                  backdrop-blur-xl
+                  px-5 py-5 sm:px-6 sm:py-6
+                  transition-all duration-200
+                  hover:border-emerald-400/40
+                  hover:shadow-[0_0_40px_rgba(16,185,129,0.32)]
+                  hover:-translate-y-0.5
+                "
               >
-                <h3 className="text-base font-semibold text-white mb-3 capitalize">
-                  {formatCategoryName(category)}
-                </h3>
-                <ul className="space-y-1.5 text-sm text-slate-300 list-disc list-outside ml-4">
-                  {actions.map((action, idx) => (
-                    <li key={idx} className="leading-relaxed">
-                      {action}
-                    </li>
-                  ))}
-                </ul>
+                <div className="flex flex-col flex-1">
+                  <h3 className="text-sm sm:text-base font-semibold tracking-tight text-white mb-1">
+                    {getCategoryDisplayName(category)}
+                  </h3>
+                  <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-emerald-300/80 mb-3">
+                    This week's focus
+                  </p>
+                  
+                  <div className="mt-3 space-y-1.5 text-xs sm:text-sm text-slate-300 leading-relaxed flex-1">
+                    <ul className="list-disc list-outside ml-4 space-y-1.5">
+                      {actions.map((action, idx) => (
+                        <li key={idx} className="leading-relaxed">
+                          {action}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
