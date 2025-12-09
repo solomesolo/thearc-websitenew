@@ -9,8 +9,8 @@
  */
 
 import { prisma } from "./prisma";
-import { encrypt, decrypt } from "./encryption";
-import { logDataAccess } from "./audit-log";
+import { encryptJson, decryptJson } from "./encryption";
+import { hasHealthDataConsent } from "./consent-management";
 
 export interface QuestionnaireData {
   [sectionId: string]: {
@@ -39,59 +39,27 @@ export async function saveQuestionnaireResponse({
   userAgent,
 }: SaveResponseParams) {
   // 1. Verify user has consent for health data collection
-  const consent = await prisma.consent.findFirst({
-    where: {
-      userId,
-      type: "health_data",
-      accepted: true,
-      OR: [
-        { expiresAt: null },
-        { expiresAt: { gt: new Date() } },
-      ],
-      withdrawnAt: null,
-    },
-    orderBy: { timestamp: "desc" },
-  });
-
-  if (!consent) {
+  const hasConsent = await hasHealthDataConsent(userId);
+  if (!hasConsent) {
     throw new Error("User consent required for health data collection");
   }
 
-  // 2. Encrypt response data
-  const responseDataJson = JSON.stringify(responseData);
-  const responseDataEncrypted = await encrypt(responseDataJson);
+  // 2. Encrypt response data using AES-256-GCM
+  const responseDataEncrypted = encryptJson(responseData);
 
   let scoresEncrypted: string | null = null;
   if (scores) {
-    const scoresJson = JSON.stringify(scores);
-    scoresEncrypted = await encrypt(scoresJson);
+    scoresEncrypted = encryptJson(scores);
   }
 
-  // 3. Calculate retention period (default: 7 years for medical records per HIPAA)
-  const retentionUntil = new Date();
-  retentionUntil.setFullYear(retentionUntil.getFullYear() + 7);
-
-  // 4. Save encrypted response
+  // 3. Save encrypted response
   const response = await prisma.questionnaireResponse.create({
     data: {
       userId,
       persona,
       responseDataEncrypted,
       scoresEncrypted,
-      retentionUntil,
     },
-  });
-
-  // 5. Log data access (creation)
-  await logDataAccess({
-    userId,
-    responseId: response.id,
-    accessedBy: userId,
-    accessType: "create",
-    dataType: "questionnaire",
-    ipAddress,
-    userAgent,
-    purpose: "Questionnaire response submission",
   });
 
   return response;
@@ -120,22 +88,11 @@ export async function getQuestionnaireResponse(
     throw new Error("Unauthorized access to questionnaire response");
   }
 
-  // Log access
-  await logDataAccess({
-    userId: response.userId,
-    responseId: response.id,
-    accessedBy: requestedBy,
-    accessType: "read",
-    dataType: "questionnaire",
-    ipAddress,
-    userAgent,
-    purpose: "Retrieve questionnaire response",
-  });
 
   // Decrypt and return
-  const responseData = JSON.parse(await decrypt(response.responseDataEncrypted));
+  const responseData = decryptJson<QuestionnaireData>(response.responseDataEncrypted);
   const scores = response.scoresEncrypted
-    ? JSON.parse(await decrypt(response.scoresEncrypted))
+    ? decryptJson<Record<string, number>>(response.scoresEncrypted)
     : null;
 
   return {
@@ -175,7 +132,6 @@ export async function getUserQuestionnaireResponses(
       select: {
         id: true,
         persona: true,
-        version: true,
         completedAt: true,
         createdAt: true,
         // Don't include encrypted data in list
@@ -184,16 +140,6 @@ export async function getUserQuestionnaireResponses(
     prisma.questionnaireResponse.count({ where: { userId } }),
   ]);
 
-  // Log access
-  await logDataAccess({
-    userId,
-    accessedBy: requestedBy,
-    accessType: "read",
-    dataType: "questionnaire_list",
-    ipAddress,
-    userAgent,
-    purpose: "List questionnaire responses",
-  });
 
   return {
     responses,

@@ -18,13 +18,6 @@ export default function ScreeningWelcomePage() {
     console.log('🔍 ScreeningWelcomePage: URL param persona:', personaParam);
     console.log('🔍 ScreeningWelcomePage: Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
     
-    // If persona is 'women' in URL, IMMEDIATELY redirect to the women-specific welcome page
-    if (personaParam === 'women') {
-      console.log('🚀 ScreeningWelcomePage: URL has women, redirecting to /screening/welcome/women');
-      router.replace('/screening/welcome/women');
-      return;
-    }
-    
     // PRIORITY 2: Check stored persona (fallback)
     const storedPersona = getStoredPersona();
     let routePersona = null;
@@ -36,10 +29,11 @@ export default function ScreeningWelcomePage() {
 
     console.log('🔍 ScreeningWelcomePage: Persona detection', { personaParam, storedPersona, routePersona, selectedPersona });
 
-    // If stored persona is 'women', redirect to women page
-    if (selectedPersona === 'women' && personaParam !== 'women') {
-      console.log('🚀 ScreeningWelcomePage: Stored persona is women, redirecting to /screening/welcome/women');
-      router.replace('/screening/welcome/women');
+    // Redirect to persona-specific welcome page if we have one
+    if (selectedPersona && ['women', 'traveler', 'rebuilder'].includes(selectedPersona)) {
+      const welcomeRoute = `/screening/welcome/${selectedPersona}`;
+      console.log(`🚀 ScreeningWelcomePage: Redirecting to ${welcomeRoute}`);
+      router.replace(welcomeRoute);
       return;
     }
 
@@ -68,7 +62,7 @@ export default function ScreeningWelcomePage() {
     }
   };
 
-  // If persona is women, show loading while redirect happens
+  // Show loading while redirect happens
   const personaParam = searchParams.get('persona') as PersonaType | null;
   const storedPersona = getStoredPersona();
   let routePersona = null;
@@ -77,7 +71,7 @@ export default function ScreeningWelcomePage() {
   }
   const detectedPersona = personaParam || storedPersona || routePersona;
   
-  if (detectedPersona === 'women') {
+  if (detectedPersona && ['women', 'traveler', 'rebuilder'].includes(detectedPersona)) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] flex items-center justify-center">
         <div className="text-white text-center">

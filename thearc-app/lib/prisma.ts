@@ -25,25 +25,15 @@ if (isAccelerate) {
   // Parse connection string to avoid encoding issues
   const url = new URL(databaseUrl.replace(/^postgresql:/, 'postgres:'));
   
-  // Try IAM authentication if password is empty or if IAM_USER is set
-  const useIAM = !url.password || process.env.USE_IAM_AUTH === 'true';
-  
   const poolConfig: any = {
     host: url.hostname,
     port: parseInt(url.port) || 5432,
     database: url.pathname.slice(1), // Remove leading /
-    ssl: false, // Cloud SQL Proxy doesn't need SSL
+    user: url.username,
+    password: decodeURIComponent(url.password),
+    // Use SSL for remote connections (like Supabase), disable for localhost
+    ssl: url.hostname !== 'localhost' && url.hostname !== '127.0.0.1' ? { rejectUnauthorized: false } : false,
   };
-  
-  if (useIAM && process.env.GCP_SERVICE_ACCOUNT_EMAIL) {
-    // Use IAM authentication with service account
-    poolConfig.user = process.env.GCP_SERVICE_ACCOUNT_EMAIL;
-    // No password needed for IAM auth
-  } else {
-    // Use password authentication
-    poolConfig.user = url.username;
-    poolConfig.password = decodeURIComponent(url.password);
-  }
   
   const pool = new Pool(poolConfig);
   const adapter = new PrismaPg(pool);

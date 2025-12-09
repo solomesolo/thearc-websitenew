@@ -362,6 +362,141 @@ export default function WomenFreeDashboardPage() {
           </div>
         </motion.section>
 
+        {/* Full Blueprint Preview Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.65 }}
+          className="mb-10 sm:mb-14 space-y-6"
+        >
+          <div className="text-center">
+            <h2 className="dashboard-h2 mb-2">
+              Your Full ARC Blueprint Preview
+            </h2>
+            <div className="h-[1.5px] w-24 bg-gradient-to-r from-emerald-400 to-transparent mb-6 mx-auto" />
+            <p className="text-sm text-slate-400 mb-8">
+              Preview of advanced modules available in your full blueprint
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {/* Predisposition Map Preview */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.7 }}
+              className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl shadow-[0_0_40px_rgba(16,185,129,0.12)] relative overflow-hidden"
+            >
+              <div className="px-5 py-6">
+                <div className="space-y-2 mb-4">
+                  <h3 className="dashboard-h2 text-lg">Predisposition Map</h3>
+                  <p className="dashboard-description text-sm">
+                    A snapshot of your genetic, biological, and lifestyle risk areas
+                  </p>
+                </div>
+                <div className="space-y-4 blur-sm pointer-events-none">
+                  <div className="h-4 bg-slate-800/50 rounded-full" />
+                  <div className="h-4 bg-slate-800/50 rounded-full w-3/4" />
+                  <div className="h-4 bg-slate-800/50 rounded-full w-1/2" />
+                  <div className="h-4 bg-slate-800/50 rounded-full w-4/5" />
+                </div>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-950/40 backdrop-blur-sm">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">🔒</div>
+                  <p className="text-xs text-emerald-300/80 font-medium">Premium Feature</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Metrics Dashboard Preview */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.75 }}
+              className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl shadow-[0_0_40px_rgba(16,185,129,0.12)] relative overflow-hidden"
+            >
+              <div className="px-5 py-6">
+                <div className="space-y-2 mb-4">
+                  <h3 className="dashboard-h2 text-lg">Metrics Dashboard</h3>
+                  <p className="dashboard-description text-sm">
+                    Real-time tracking of key biological markers and performance indicators
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-3 blur-sm pointer-events-none">
+                  <div className="h-20 bg-slate-800/50 rounded-xl" />
+                  <div className="h-20 bg-slate-800/50 rounded-xl" />
+                  <div className="h-20 bg-slate-800/50 rounded-xl" />
+                  <div className="h-20 bg-slate-800/50 rounded-xl" />
+                </div>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-950/40 backdrop-blur-sm">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">🔒</div>
+                  <p className="text-xs text-emerald-300/80 font-medium">Premium Feature</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Red Flags & Action Thresholds Preview */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.8 }}
+              className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl shadow-[0_0_40px_rgba(16,185,129,0.12)] relative overflow-hidden"
+            >
+              <div className="px-5 py-6">
+                <div className="space-y-2 mb-4">
+                  <h3 className="dashboard-h2 text-lg">Red Flags & Action Thresholds</h3>
+                  <p className="dashboard-description text-sm">
+                    Critical indicators that require immediate attention and clinical review
+                  </p>
+                </div>
+                <div className="space-y-3 blur-sm pointer-events-none">
+                  <div className="h-12 bg-slate-800/50 rounded-lg" />
+                  <div className="h-12 bg-slate-800/50 rounded-lg" />
+                  <div className="h-12 bg-slate-800/50 rounded-lg" />
+                </div>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-950/40 backdrop-blur-sm">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">🔒</div>
+                  <p className="text-xs text-emerald-300/80 font-medium">Premium Feature</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* This Week's Actions Preview */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.85 }}
+              className="rounded-3xl border border-emerald-500/10 bg-slate-950/60 backdrop-blur-xl shadow-[0_0_40px_rgba(16,185,129,0.12)] relative overflow-hidden"
+            >
+              <div className="px-5 py-6">
+                <div className="space-y-2 mb-4">
+                  <h3 className="dashboard-h2 text-lg">This Week's Actions</h3>
+                  <p className="dashboard-description text-sm">
+                    Prioritized action items across nutrition, movement, recovery, and screenings
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-3 blur-sm pointer-events-none">
+                  <div className="h-20 bg-slate-800/50 rounded-xl" />
+                  <div className="h-20 bg-slate-800/50 rounded-xl" />
+                  <div className="h-20 bg-slate-800/50 rounded-xl" />
+                  <div className="h-20 bg-slate-800/50 rounded-xl" />
+                </div>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-950/40 backdrop-blur-sm">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">🔒</div>
+                  <p className="text-xs text-emerald-300/80 font-medium">Premium Feature</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.section>
+
         {/* Upgrade CTA */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -409,7 +544,7 @@ export default function WomenFreeDashboardPage() {
               {/* Button */}
               <div className="mt-7 flex justify-center">
                 <Link
-                  href="/dashboard/full"
+                  href="/payment?persona=women"
                   className="
                     inline-flex
                     items-center

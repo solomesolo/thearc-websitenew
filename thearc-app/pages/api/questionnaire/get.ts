@@ -1,12 +1,17 @@
 /**
  * API Endpoint: Get Questionnaire Response
  * 
- * Retrieves a questionnaire response with proper access control and audit logging
+ * Simplified MVP endpoint for retrieving questionnaire responses
+ * - Verifies user session
+ * - Ensures user owns the response
+ * - Decrypts data using AES-256-GCM
+ * - Returns decrypted response
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getQuestionnaireResponse } from "../../../lib/data-collection";
-import { getSession } from "../../../lib/session";
+import { prisma } from "../../../lib/prisma";
+import { decryptJson } from "../../../lib/encryption";
+import { getSessionFromRequest } from "../../../lib/session";
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,33 +22,55 @@ export default async function handler(
   }
 
   try {
-    const session = await getSession(req);
+    // 1. Verify user session
+    const session = getSessionFromRequest(req);
     if (!session || !session.userId) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
+    const userId = session.userId;
+
+    // 2. Get responseId from query parameters
     const { responseId } = req.query;
 
     if (!responseId || typeof responseId !== "string") {
-      return res.status(400).json({ error: "Missing responseId" });
+      return res.status(400).json({ error: "Missing or invalid responseId" });
     }
 
-    const ipAddress =
-      req.headers["x-forwarded-for"]?.toString().split(",")[0] ||
-      req.socket.remoteAddress ||
-      "unknown";
-    const userAgent = req.headers["user-agent"] || "unknown";
+    // 3. Fetch questionnaire response
+    const response = await prisma.questionnaireResponse.findUnique({
+      where: { id: responseId },
+    });
 
-    const response = await getQuestionnaireResponse(
-      responseId,
-      session.userId,
-      ipAddress,
-      userAgent
-    );
+    if (!response) {
+      return res.status(404).json({ error: "Questionnaire response not found" });
+    }
 
+    // 4. Verify user owns this response
+    if (response.userId !== userId) {
+      return res.status(403).json({ error: "Unauthorized access to questionnaire response" });
+    }
+
+    // 5. Decrypt response data
+    const responseData = decryptJson(response.responseDataEncrypted);
+
+    // 6. Decrypt scores if present
+    let scores: Record<string, number> | null = null;
+    if (response.scoresEncrypted) {
+      scores = decryptJson<Record<string, number>>(response.scoresEncrypted);
+    }
+
+    // 7. Return decrypted response
     return res.status(200).json({
       success: true,
-      response,
+      response: {
+        id: response.id,
+        persona: response.persona,
+        responseData,
+        scores,
+        createdAt: response.createdAt,
+        completedAt: response.completedAt,
+      },
     });
   } catch (error) {
     console.error("Error retrieving questionnaire response:", error);
@@ -56,4 +83,3 @@ export default async function handler(
     });
   }
 }
-

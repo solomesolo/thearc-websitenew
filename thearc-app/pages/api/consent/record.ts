@@ -1,11 +1,11 @@
 /**
- * API Endpoint: Record User Consent
+ * API Endpoint: Record Health Data Consent
  * 
- * GDPR/HIPAA compliant consent recording
+ * Simplified MVP: Only supports "health_data" consent type
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { recordConsent } from "../../../lib/consent-management";
+import { recordHealthDataConsent } from "../../../lib/consent-management";
 import { getSession } from "../../../lib/session";
 
 export default async function handler(
@@ -22,33 +22,17 @@ export default async function handler(
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const { type, mandatory, accepted, legalVersion, purpose, expiresAt } =
-      req.body;
-
-    if (!type || mandatory === undefined || accepted === undefined || !legalVersion) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
     const ipAddress =
       req.headers["x-forwarded-for"]?.toString().split(",")[0] ||
       req.socket.remoteAddress ||
       "unknown";
 
-    const consent = await recordConsent({
-      userId: session.userId,
-      type,
-      mandatory,
-      accepted,
-      legalVersion,
-      ipAddress,
-      purpose,
-      expiresAt: expiresAt ? new Date(expiresAt) : undefined,
-    });
+    const consent = await recordHealthDataConsent(session.userId, ipAddress);
 
     return res.status(201).json({
       success: true,
       consent,
-      message: "Consent recorded successfully",
+      message: "Health data consent recorded successfully",
     });
   } catch (error) {
     console.error("Error recording consent:", error);

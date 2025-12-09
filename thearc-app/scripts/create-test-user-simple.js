@@ -4,30 +4,29 @@
  * 
  * This script requires:
  * - DATABASE_URL environment variable
- * - CLOUD_KMS_KEY_ID environment variable (for encryption)
+ * - ENCRYPTION_KEY environment variable (for encryption, optional - will use fallback if not set)
  */
 
 require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
 const argon2 = require('argon2');
 
-// Simple encryption fallback for testing (NOT for production!)
-// If KMS is not configured, we'll use a simple base64 encoding as a fallback
+// Encryption wrapper - uses ENCRYPTION_KEY if available, otherwise falls back to base64
 async function simpleEncrypt(value) {
-  if (process.env.CLOUD_KMS_KEY_ID) {
-    // Use real encryption if KMS is configured
+  if (process.env.ENCRYPTION_KEY) {
+    // Use real encryption if ENCRYPTION_KEY is configured
     const { encrypt } = require('../lib/encryption');
     return await encrypt(value);
   } else {
     // Fallback: simple base64 (NOT SECURE - for testing only!)
     console.warn('⚠️  WARNING: Using simple base64 encoding. This is NOT secure!');
-    console.warn('⚠️  Set up CLOUD_KMS_KEY_ID for production use.');
+    console.warn('⚠️  Set up ENCRYPTION_KEY for production use. Generate with: openssl rand -hex 32');
     return Buffer.from(value).toString('base64');
   }
 }
 
 async function simpleDecrypt(value) {
-  if (process.env.CLOUD_KMS_KEY_ID) {
+  if (process.env.ENCRYPTION_KEY) {
     const { decrypt } = require('../lib/encryption');
     return await decrypt(value);
   } else {
@@ -168,8 +167,9 @@ async function createTestUser() {
     if (error.message.includes('DATABASE_URL')) {
       console.error('\n💡 Make sure DATABASE_URL is set in your .env file');
     }
-    if (error.message.includes('CLOUD_KMS_KEY_ID')) {
+    if (error.message.includes('ENCRYPTION_KEY')) {
       console.error('\n💡 Note: Using simple encryption fallback (not secure for production)');
+      console.error('💡 Generate ENCRYPTION_KEY with: openssl rand -hex 32');
     }
     throw error;
   } finally {

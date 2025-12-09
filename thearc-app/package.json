@@ -10,7 +10,6 @@
     "create-test-user": "node scripts/create-test-user-simple.js"
   },
   "dependencies": {
-    "@google-cloud/kms": "^5.2.1",
     "@prisma/adapter-pg": "^7.0.1",
     "@prisma/client": "^7.0.1",
     "@sendgrid/mail": "^8.1.6",

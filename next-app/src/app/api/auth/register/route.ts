@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { encryptJson } from "@/lib/encryption";
+import { recordHealthDataConsent } from "@/lib/consent-management";
+import argon2 from "argon2";
+import { randomBytes } from "crypto";
+import { addHours } from "date-fns";
+import jwt from "jsonwebtoken";
 
 // Validation schema
 const registrationSchema = z.object({
@@ -24,6 +31,16 @@ const registrationSchema = z.object({
   }),
 });
 
+const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-key-change-in-production";
+
+function getClientIp(req: NextRequest): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0] ||
+    req.headers.get("x-real-ip") ||
+    ""
+  );
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -45,7 +62,6 @@ export async function POST(req: NextRequest) {
       country,
       timezone,
       mandatoryConsents,
-      optionalConsents,
     } = parsed.data;
 
     // Mandatory consents must be true
@@ -61,58 +77,95 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Try to use thearc-app database via API call
-    // In production, both apps should share the same database connection
-    const thearcAppUrl = process.env.THEARC_APP_URL || 'http://localhost:3002';
-    
-    try {
-      // Try to register via thearc-app API (which has database access)
-      const response = await fetch(`${thearcAppUrl}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-          country,
-          timezone,
-          mandatoryConsents,
-          optionalConsents,
-        }),
-      });
+    // Encrypt email for GDPR compliance
+    const emailEncrypted = encryptJson(email);
 
-      if (response.ok) {
-        const data = await response.json();
-        return NextResponse.json({
-          success: true,
-          message: data.message || "Account created successfully",
-        });
-      } else {
-        const errorData = await response.json().catch(() => ({ error: "Registration failed" }));
-        return NextResponse.json(
-          { error: errorData.error || "Registration failed" },
-          { status: response.status }
-        );
-      }
-    } catch (fetchError) {
-      // If thearc-app is not available, check if we're in development
-      console.warn("Could not reach thearc-app registration API:", fetchError);
-      
-      // For development: allow registration to proceed
-      // This allows the flow to continue even if thearc-app isn't running
-      // The user can still complete the questionnaire flow
-      console.log("Development mode: Allowing registration to proceed without database");
-      
-      return NextResponse.json({
-        success: true,
-        message: "Account created successfully",
-        // Note: In production, ensure thearc-app is running for database persistence
-      });
+    // Check if user already exists (by email - plaintext for unique constraint)
+    const existing = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existing) {
+      return NextResponse.json(
+        { error: "Email already registered" },
+        { status: 409 }
+      );
     }
+
+    // Hash password
+    const passwordHash = await argon2.hash(password);
+
+    // Create user
+    const user = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        email, // Plaintext for unique constraint and lookups
+        emailEncrypted, // Encrypted for GDPR compliance
+        passwordHash,
+        country,
+        timezone: timezone || null,
+      },
+    });
+
+    const ipAddress = getClientIp(req);
+
+    // Record health data consent
+    await recordHealthDataConsent(user.id, ipAddress);
+
+    // Create verification token
+    const token = randomBytes(32).toString("hex");
+
+    await prisma.verificationToken.create({
+      data: {
+        userId: user.id,
+        token,
+        expiresAt: addHours(new Date(), 24),
+      },
+    });
+
+    // Create session token
+    const sessionToken = jwt.sign(
+      {
+        userId: user.id,
+        emailVerified: user.emailVerified,
+        ts: Date.now(),
+      },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // Create response with session cookie
+    const response = NextResponse.json({
+      success: true,
+      message: "Account created successfully",
+      userId: user.id,
+    });
+
+    // Set session cookie
+    const isProduction = process.env.NODE_ENV === "production";
+    response.cookies.set("arc_session", sessionToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+      path: "/",
+    });
+
+    console.log("✅ User registered and saved to database:", user.id);
+
+    return response;
   } catch (error) {
     console.error("Registration error:", error);
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    
+    // Handle unique constraint violation (email already exists)
+    if (error instanceof Error && error.message.includes("Unique constraint")) {
+      return NextResponse.json(
+        { error: "Email already registered" },
+        { status: 409 }
+      );
+    }
     
     return NextResponse.json(
       {

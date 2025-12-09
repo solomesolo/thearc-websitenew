@@ -13,24 +13,31 @@ export default function LoadingPage() {
 
   useEffect(() => {
     const persona = getStoredPersona() || (searchParams.get("persona") as any) || "rebuilder";
+    const questionnaireType = searchParams.get("type") || "free"; // "free" or "full"
     const config = PERSONAS[persona] || PERSONAS.rebuilder;
 
     // Get questionnaire answers from localStorage
-    const questionnaireAnswers = localStorage.getItem("questionnaireAnswers");
+    const answerKey = questionnaireType === "full" ? "fullQuestionnaireAnswers" : "questionnaireAnswers";
+    const questionnaireAnswers = localStorage.getItem(answerKey);
     const answers = questionnaireAnswers ? JSON.parse(questionnaireAnswers) : null;
 
-    // Process questionnaire if we have answers and it's women persona
+    // Process questionnaire if we have answers for any supported persona
     const processQuestionnaire = async () => {
-      if (persona === "women" && answers) {
+      const supportedPersonas = ["women", "traveler", "rebuilder"];
+      if (supportedPersonas.includes(persona) && answers) {
         try {
           setStatus("Processing your responses...");
           
-          // Call the processing API
-          const response = await fetch("/api/questionnaire/process-women", {
+          // Call the appropriate processing API based on persona and questionnaire type
+          const apiEndpoint = questionnaireType === "full" 
+            ? `/api/questionnaire/process-${persona}-full`
+            : `/api/questionnaire/process-${persona}`;
+          
+          const response = await fetch(apiEndpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              persona: "women",
+              persona: persona,
               responseData: answers,
             }),
           });
@@ -59,7 +66,10 @@ export default function LoadingPage() {
             // Redirect after a short delay to show completion
             setTimeout(() => {
               console.log("Redirecting to dashboard...");
-              router.push(`${config.dashboardRoute}/free`);
+              const dashboardRoute = questionnaireType === "full" 
+                ? config.dashboardRoute // e.g., "/dashboard/women"
+                : `${config.dashboardRoute}/free`; // e.g., "/dashboard/women/free"
+              router.push(dashboardRoute);
             }, 1000);
             
             return true; // Success
@@ -69,7 +79,10 @@ export default function LoadingPage() {
             setStatus("Processing complete. Redirecting...");
             // Still redirect even if processing failed
             setTimeout(() => {
-              router.push(`${config.dashboardRoute}/free`);
+              const dashboardRoute = questionnaireType === "full" 
+                ? config.dashboardRoute
+                : `${config.dashboardRoute}/free`;
+              router.push(dashboardRoute);
             }, 2000);
             return false;
           }
@@ -78,14 +91,20 @@ export default function LoadingPage() {
           setStatus("Processing complete. Redirecting...");
           // Still redirect on error
           setTimeout(() => {
-            router.push(`${config.dashboardRoute}/free`);
+            const dashboardRoute = questionnaireType === "full" 
+              ? config.dashboardRoute
+              : `${config.dashboardRoute}/free`;
+            router.push(dashboardRoute);
           }, 2000);
           return false;
         }
       } else {
-        // Not women persona or no answers, just redirect after delay
+        // Not a supported persona or no answers, just redirect after delay
         setTimeout(() => {
-          router.push(`${config.dashboardRoute}/free`);
+          const dashboardRoute = questionnaireType === "full" 
+            ? config.dashboardRoute
+            : `${config.dashboardRoute}/free`;
+          router.push(dashboardRoute);
         }, 3000);
         return false;
       }
@@ -131,7 +150,10 @@ export default function LoadingPage() {
       clearInterval(progressInterval);
       clearInterval(statusInterval);
       console.warn("Processing timeout, redirecting anyway");
-      router.push(`${config.dashboardRoute}/free`);
+      const dashboardRoute = questionnaireType === "full" 
+        ? config.dashboardRoute
+        : `${config.dashboardRoute}/free`;
+      router.push(dashboardRoute);
     }, 30000);
 
     return () => {

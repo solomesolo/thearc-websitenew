@@ -1,15 +1,26 @@
 /**
  * API Endpoint: Save Questionnaire Response
  * 
- * GDPR/HIPAA Compliant endpoint for saving questionnaire responses
- * - Verifies consent
- * - Encrypts data at rest
- * - Logs all access
+ * Simplified MVP endpoint for saving questionnaire responses
+ * - Verifies user session
+ * - Checks health data consent
+ * - Encrypts data using AES-256-GCM
+ * - Saves to database
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { saveQuestionnaireResponse } from "../../../lib/data-collection";
-import { getSession } from "../../../lib/session";
+import { prisma } from "../../../lib/prisma";
+import { encryptJson } from "../../../lib/encryption";
+import { hasHealthDataConsent } from "../../../lib/consent-management";
+import { getSessionFromRequest } from "../../../lib/session";
+import { z } from "zod";
+
+// Validation schema
+const saveQuestionnaireSchema = z.object({
+  persona: z.string().min(1, "Persona is required"),
+  responseData: z.record(z.any()), // Flexible object structure
+  scores: z.record(z.number()).optional(),
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,50 +31,66 @@ export default async function handler(
   }
 
   try {
-    // Verify user session
-    const session = await getSession(req);
+    // 1. Verify user session
+    const session = getSessionFromRequest(req);
     if (!session || !session.userId) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const { persona, responseData, scores } = req.body;
+    const userId = session.userId;
 
-    if (!persona || !responseData) {
-      return res.status(400).json({ error: "Missing required fields" });
+    // 2. Check health data consent
+    const hasConsent = await hasHealthDataConsent(userId);
+    if (!hasConsent) {
+      return res.status(403).json({
+        error: "Health data consent required",
+        message: "You must provide consent for health data collection before submitting a questionnaire.",
+      });
     }
 
-    // Get IP address and user agent for audit logging
-    const ipAddress =
-      req.headers["x-forwarded-for"]?.toString().split(",")[0] ||
-      req.socket.remoteAddress ||
-      "unknown";
-    const userAgent = req.headers["user-agent"] || "unknown";
+    // 3. Validate request body
+    const parsed = saveQuestionnaireSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({
+        error: "Invalid request body",
+        details: parsed.error.flatten(),
+      });
+    }
 
-    // Save response with encryption and audit logging
-    const response = await saveQuestionnaireResponse({
-      userId: session.userId,
-      persona,
-      responseData,
-      scores,
-      ipAddress,
-      userAgent,
+    const { persona, responseData, scores } = parsed.data;
+
+    // 4. Encrypt response data using AES-256-GCM
+    const responseDataEncrypted = encryptJson(responseData);
+
+    // 5. Encrypt scores if provided
+    let scoresEncrypted: string | null = null;
+    if (scores && Object.keys(scores).length > 0) {
+      scoresEncrypted = encryptJson(scores);
+    }
+
+    // 6. Save encrypted response to database
+    const response = await prisma.questionnaireResponse.create({
+      data: {
+        userId,
+        persona,
+        responseDataEncrypted,
+        scoresEncrypted,
+      },
     });
 
+    // 7. Return success response
     return res.status(201).json({
       success: true,
       responseId: response.id,
-      message: "Questionnaire response saved successfully",
     });
   } catch (error) {
     console.error("Error saving questionnaire response:", error);
     const errorMessage =
       error instanceof Error ? error.message : "Internal server error";
-    
-    // Don't expose internal errors to client
+
     return res.status(500).json({
       error: "Failed to save questionnaire response",
       details: process.env.NODE_ENV === "development" ? errorMessage : undefined,
     });
   }
 }
-

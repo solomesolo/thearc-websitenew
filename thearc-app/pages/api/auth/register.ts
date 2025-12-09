@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/lib/prisma";
 import { encrypt } from "@/lib/encryption";
+import { recordHealthDataConsent } from "@/lib/consent-management";
 import argon2 from "argon2";
 import { z } from "zod";
 import { randomBytes } from "crypto";
@@ -19,18 +20,7 @@ const registrationSchema = z.object({
   country: z.string().min(1, "Country is required"),
   timezone: z.string().optional(),
 
-  mandatoryConsents: z.object({
-    healthData: z.boolean(),
-    dataTransfer: z.boolean(),
-    terms: z.boolean(),
-    ageConfirmed: z.boolean(),
-  }),
-
-  optionalConsents: z.object({
-    marketing: z.boolean().optional(),
-    productUpdates: z.boolean().optional(),
-    dataResearch: z.boolean().optional(),
-  }),
+  healthDataConsent: z.boolean(),
 });
 
 // ---------------------
@@ -77,30 +67,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       password,
       country,
       timezone,
-      mandatoryConsents,
-      optionalConsents,
+      healthDataConsent,
     } = parsed.data;
 
-    // Mandatory consents must be true
-    if (
-      !mandatoryConsents.healthData ||
-      !mandatoryConsents.dataTransfer ||
-      !mandatoryConsents.terms ||
-      !mandatoryConsents.ageConfirmed
-    ) {
+    // Health data consent is required
+    if (!healthDataConsent) {
       return res.status(400).json({
-        error: "All mandatory consents must be accepted.",
+        error: "Health data consent is required.",
       });
     }
-
-    // EU/UK users: optional consents must default OFF
-    const isEU = isEUOrUKCountry(country);
-
-    const finalOptionalConsents = {
-      marketing: isEU ? false : optionalConsents.marketing ?? true,
-      productUpdates: isEU ? false : optionalConsents.productUpdates ?? true,
-      dataResearch: isEU ? false : optionalConsents.dataResearch ?? true,
-    };
 
     // Encrypt email
     const encryptedEmail = await encrypt(email);
@@ -136,70 +111,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     const ipAddress = getClientIp(req);
-    const legalVersion = "2025-01";
 
-    // Save consents
-    const consentData = [
-      {
-        userId: user.id,
-        type: "health_data_processing",
-        mandatory: true,
-        accepted: true,
-        legalVersion,
-        ipAddress,
-      },
-      {
-        userId: user.id,
-        type: "international_data_transfer",
-        mandatory: true,
-        accepted: true,
-        legalVersion,
-        ipAddress,
-      },
-      {
-        userId: user.id,
-        type: "terms_privacy",
-        mandatory: true,
-        accepted: true,
-        legalVersion,
-        ipAddress,
-      },
-      {
-        userId: user.id,
-        type: "age_confirmed_18",
-        mandatory: true,
-        accepted: true,
-        legalVersion,
-        ipAddress,
-      },
-      // Optional consents:
-      {
-        userId: user.id,
-        type: "marketing_emails",
-        mandatory: false,
-        accepted: finalOptionalConsents.marketing,
-        legalVersion,
-        ipAddress,
-      },
-      {
-        userId: user.id,
-        type: "product_updates",
-        mandatory: false,
-        accepted: finalOptionalConsents.productUpdates,
-        legalVersion,
-        ipAddress,
-      },
-      {
-        userId: user.id,
-        type: "data_research",
-        mandatory: false,
-        accepted: finalOptionalConsents.dataResearch,
-        legalVersion,
-        ipAddress,
-      },
-    ];
-
-    await prisma.consent.createMany({ data: consentData });
+    // Record health data consent
+    await recordHealthDataConsent(user.id, ipAddress);
 
     // Create verification token
     const token = randomBytes(32).toString("hex");

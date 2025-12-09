@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// USER MODEL
+// ============================================
+
+model User {
+  id                    String                 @id @default(cuid())
+  firstName             String
+  lastName              String
+  email                 String                  @unique
+  emailEncrypted        String                 // Encrypted email for GDPR compliance
+  passwordHash          String
+  emailVerified         Boolean                @default(false)
+  country               String
+  timezone              String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  deletedAt             DateTime?              // Soft delete
+
+  // Relations
+  questionnaireResponses QuestionnaireResponse[]
+  consents               Consent[]
+  verificationTokens     VerificationToken[]
+  passwordResetTokens    PasswordResetToken[]
+
+  @@index([email])
+  @@index([emailEncrypted])
+}
+
+// ============================================
+// CONSENT MODEL
+// ============================================
+
+model Consent {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  type       String   // "health_data", "terms_privacy", "marketing_emails", etc.
+  accepted   Boolean  @default(true)
+  acceptedAt DateTime @default(now())
+  withdrawnAt DateTime?
+
+  @@index([userId])
+  @@index([type])
+}
+
+// ============================================
+// QUESTIONNAIRE RESPONSE MODEL
+// ============================================
+
+model QuestionnaireResponse {
+  id                    String   @id @default(cuid())
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                String
+  persona               String   // "women", "traveler", "rebuilder", etc.
+  responseDataEncrypted String   // Base64 AES-256-GCM encrypted JSON
+  scoresEncrypted       String?  // Optional: Base64 AES-256-GCM encrypted scores JSON
+  createdAt             DateTime @default(now())
+  completedAt           DateTime @default(now())
+
+  @@index([userId])
+  @@index([persona])
+  @@index([createdAt])
+}
+
+// ============================================
+// VERIFICATION TOKEN MODEL
+// ============================================
+
+model VerificationToken {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+// ============================================
+// PASSWORD RESET TOKEN MODEL
+// ============================================
+
+model PasswordResetToken {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  usedAt     DateTime?
+
+  @@index([userId])
+  @@index([token])
+}
+
