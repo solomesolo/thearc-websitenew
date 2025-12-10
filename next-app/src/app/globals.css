@@ -94,6 +94,236 @@
   --accentTo: #FF6B6B;
 }
 
+/* Persona-Specific Backgrounds & Accent Colors */
+/* Base site stays black. Persona classes only TINT sections on persona pages. */
+
+.persona-layout {
+  background-color: #02040a;
+  color: #f9fafb;
+}
+
+/* WOMEN IN MENOPAUSE - Plum / Orchid */
+.persona-menopause {
+  --persona-accent: #F472B6;
+  --persona-accent-soft: rgba(244, 114, 182, 0.18);
+  --persona-bg-tint: #3B1434;
+  /* Single page-level background gradient */
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.03) 0, transparent 55%),
+    radial-gradient(circle at bottom, rgba(255, 120, 230, 0.22) 0, transparent 60%),
+    linear-gradient(#0d050f, #0a050e 50%, #050307 100%);
+  color: #f9fafb;
+}
+
+/* TRAVELLER / DIGITAL NOMAD - Cyan / Midnight Blue */
+.persona-traveler {
+  --persona-accent: #40e0c2;
+  --persona-accent-soft: rgba(64, 224, 194, 0.18);
+  --persona-bg-tint: #0B1F33;
+  /* Deep midnight teal with soft global glow */
+  background:
+    radial-gradient(circle at top, rgba(90, 255, 220, 0.15) 0, transparent 55%),
+    radial-gradient(circle at bottom, rgba(0, 180, 160, 0.24) 0, transparent 60%),
+    linear-gradient(#020612, #020b16 50%, #01060b 100%);
+  color: #f9fafb;
+}
+
+/* HEALTH REBUILDER - Emerald / Forest */
+.persona-rebuilder {
+  --persona-accent: #4ade80;
+  --persona-accent-soft: rgba(74, 222, 128, 0.18);
+  --persona-bg-tint: #022C22;
+  /* Deep forest / recovery gradient */
+  background:
+    radial-gradient(circle at top, rgba(120, 255, 180, 0.18) 0, transparent 58%),
+    radial-gradient(circle at bottom, rgba(18, 100, 60, 0.5) 0, transparent 60%),
+    linear-gradient(#020806, #020d08 50%, #010604 100%);
+  color: #f9fafb;
+}
+
+/* Shared gradient treatment for persona pages (fallback) */
+.persona-layout {
+  background:
+    radial-gradient(circle at top, var(--persona-bg-tint) 0%, #02040a 55%, #02040a 100%);
+}
+
+/* Generic fade for persona sections */
+.persona-section-fade {
+  position: relative;
+}
+
+.persona-section-fade::before,
+.persona-section-fade::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Menopause-specific fades */
+.persona-menopause .persona-section-fade::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(13, 5, 15, 0.9), rgba(13, 5, 15, 0));
+}
+
+.persona-menopause .persona-section-fade::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(5, 3, 7, 0.9), rgba(5, 3, 7, 0));
+}
+
+/* Traveler-specific fades */
+.persona-traveler .persona-section-fade::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(2, 6, 18, 0.9), rgba(2, 6, 18, 0));
+}
+
+.persona-traveler .persona-section-fade::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(1, 6, 11, 0.9), rgba(1, 6, 11, 0));
+}
+
+/* Rebuilder-specific fades */
+.persona-rebuilder .persona-section-fade::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(2, 8, 6, 0.9), rgba(2, 8, 6, 0));
+}
+
+.persona-rebuilder .persona-section-fade::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(1, 6, 4, 0.9), rgba(1, 6, 4, 0));
+}
+
+/* Generic translucent card */
+.persona-card {
+  border-radius: 1.75rem;
+  background: rgba(10, 10, 10, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.8);
+}
+
+/* Ensure all child sections inside persona-section-fade are transparent */
+.persona-section-fade section,
+.persona-section-fade .scroll-steps,
+.persona-section-fade .why-works-section {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Accent halo utility for portraits / hero visuals */
+.persona-portrait-halo {
+  background:
+    radial-gradient(circle at center, var(--persona-accent-soft) 0%, transparent 65%);
+  filter: blur(12px);
+}
+
+/* Accent for small UI elements (pills, underlines, icons) */
+.persona-accent,
+.persona-accent-text {
+  color: var(--persona-accent);
+}
+
+.persona-accent-bg {
+  background-color: var(--persona-accent);
+}
+
+.persona-accent-border {
+  border-color: var(--persona-accent);
+}
+
+.persona-accent-shadow {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--persona-accent) 60%, transparent);
+}
+
+/* Persona-specific shadows and glows */
+.persona-shadow {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), 0 0 60px var(--persona-accent-soft);
+}
+
+.persona-shadow-sm {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px var(--persona-accent-soft);
+}
+
+.persona-shadow-lg {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 80px var(--persona-accent-soft);
+}
+
+.persona-glow {
+  box-shadow: 0 0 40px var(--persona-accent-soft), 0 0 80px var(--persona-accent-soft);
+}
+
+.persona-glow-sm {
+  box-shadow: 0 0 20px var(--persona-accent-soft);
+}
+
+/* Persona-specific radial gradients for backgrounds */
+.persona-radial-glow {
+  background: radial-gradient(circle at center, var(--persona-accent-soft) 0%, rgba(0, 0, 0, 1) 60%);
+}
+
+.persona-radial-glow-top {
+  background: radial-gradient(circle at top, var(--persona-accent-soft) 0%, rgba(0, 0, 0, 1) 60%);
+}
+
+.persona-radial-glow-bottom {
+  background: radial-gradient(circle at bottom, var(--persona-accent-soft) 0%, rgba(0, 0, 0, 1) 60%);
+}
+
+/* Buttons inheriting persona accent (if you want a variant) */
+.persona-layout .btn-persona-primary {
+  background: linear-gradient(135deg, var(--persona-accent) 0%, var(--persona-bg-tint) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 0 30px var(--persona-accent-soft);
+}
+
+/* Section backgrounds - apply persona background directly */
+.persona-menopause section,
+.persona-menopause .scroll-steps,
+.persona-menopause #arc-how-it-works {
+  background: radial-gradient(circle at top, var(--persona-bg-tint) 0%, #02040a 55%, #02040a 100%) !important;
+  background-color: transparent !important;
+}
+
+.persona-traveler section,
+.persona-traveler .scroll-steps,
+.persona-traveler #arc-how-it-works {
+  background: radial-gradient(circle at top, var(--persona-bg-tint) 0%, #02040a 55%, #02040a 100%) !important;
+  background-color: transparent !important;
+}
+
+.persona-rebuilder section,
+.persona-rebuilder .scroll-steps,
+.persona-rebuilder #arc-how-it-works {
+  background: radial-gradient(circle at top, var(--persona-bg-tint) 0%, #02040a 55%, #02040a 100%) !important;
+  background-color: transparent !important;
+}
+
+/* Pricing Section Background Overlay */
+.persona-menopause .pricing-section-bg,
+.persona-traveler .pricing-section-bg,
+.persona-rebuilder .pricing-section-bg {
+  background: radial-gradient(circle at center, var(--persona-accent-soft) 0%, transparent 70%) !important;
+  opacity: 0.3;
+}
+
+/* Blueprint Section Background Overlay */
+.persona-menopause .blueprint-section-bg,
+.persona-traveler .blueprint-section-bg,
+.persona-rebuilder .blueprint-section-bg {
+  background: radial-gradient(circle at center, var(--persona-accent-soft) 0%, rgba(2, 4, 10, 0.95) 70%) !important;
+}
+
+/* FAQ Section */
+.persona-menopause .faq-section-wrapper,
+.persona-traveler .faq-section-wrapper,
+.persona-rebuilder .faq-section-wrapper {
+  background: radial-gradient(circle at top, var(--persona-bg-tint) 0%, #02040a 55%, #02040a 100%) !important;
+  background-color: transparent !important;
+}
+
 /* Mobile Typography */
 @media (max-width: 767px) {
   :root {
@@ -126,6 +356,12 @@ html, body {
   color: var(--text-primary);
   font-size: var(--font-body-m-size);
   line-height: var(--font-body-m-line);
+}
+
+/* Prevent scrolling past footer */
+body {
+  overflow-y: auto;
+  position: relative;
 }
 
 /* Global Container Class */
@@ -263,6 +499,7 @@ details[open] .faq-answer {
   position: relative;
   width: 100%;
   padding: 120px 0;
+  background-color: transparent;
 }
 
 .faq-section-container {
@@ -2242,6 +2479,20 @@ header nav a:hover::after {
   min-height: 100vh;
 }
 
+/* Override scroll-steps black background in persona layouts - MUST come after .scroll-steps */
+.persona-menopause .scroll-steps,
+.persona-traveler .scroll-steps,
+.persona-rebuilder .scroll-steps {
+  background: radial-gradient(circle at top, var(--persona-bg-tint) 0%, #02040a 55%, #02040a 100%) !important;
+  background-color: transparent !important;
+}
+
+/* Override scroll-steps black background in persona layouts */
+.persona-layout .scroll-steps {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 /* Particles Canvas */
 .particles-canvas {
   position: absolute;
@@ -2701,4 +2952,20 @@ select:focus option:checked {
 
 .dashboard-container a.no-underline * {
   text-decoration: none !important;
+}
+
+/* Arc Orbit Animation */
+@keyframes arc-orbit {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.arc-orbit {
+  transform: translate(-50%, -50%) !important;
+  animation: arc-orbit 20s linear infinite !important;
+  will-change: transform;
 }
