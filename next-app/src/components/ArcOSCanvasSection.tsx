@@ -96,14 +96,15 @@ export function ArcOSCanvasSection() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 space-y-20">
         <motion.div
           className="text-center space-y-4"
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="text-sm uppercase tracking-[0.35em] text-white/60">ARC HealthOS Layers</p>
-          <h2 className="text-4xl md:text-5xl font-semibold leading-tight max-w-4xl mx-auto">
-            ARC doesn’t give you another dashboard. It gives you a four-tier biological intelligence system.
+          <p className="text-sm uppercase tracking-[0.35em] text-white/60" style={{ textAlign: 'center', width: '100%' }}>ARC HealthOS Layers</p>
+          <h2 className="text-4xl md:text-5xl font-semibold leading-tight max-w-4xl mx-auto" style={{ textAlign: 'center' }}>
+            ARC doesn't give you another dashboard. It gives you a four-tier biological intelligence system.
           </h2>
         </motion.div>
 

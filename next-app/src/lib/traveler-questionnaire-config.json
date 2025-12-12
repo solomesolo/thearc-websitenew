@@ -1,0 +1,1402 @@
+{
+  "scales": {
+    "frequency_5": [
+      "Never",
+      "Rarely",
+      "Sometimes",
+      "Often",
+      "Almost always"
+    ],
+    "impact_5": [
+      "Not at all",
+      "Slightly",
+      "Moderately",
+      "Very",
+      "Extremely"
+    ],
+    "consistency_5": [
+      "Very consistent",
+      "Somewhat consistent",
+      "Neutral",
+      "Somewhat inconsistent",
+      "Very inconsistent"
+    ],
+    "difficulty_5": [
+      "Not difficult",
+      "Slightly difficult",
+      "Moderately difficult",
+      "Very difficult",
+      "Extremely difficult"
+    ],
+    "yes_no": [
+      "No",
+      "Yes"
+    ],
+    "sedentary_hours_5": [
+      "<2 hours",
+      "2–4 hours",
+      "4–6 hours",
+      "6–8 hours",
+      "8+ hours"
+    ],
+    "freq_0_4": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "satisfaction_0_4": [
+      "Very satisfied",
+      "Mostly satisfied",
+      "Neutral",
+      "Mostly dissatisfied",
+      "Very dissatisfied"
+    ],
+    "travel_intensity": [
+      "0",
+      "1–2",
+      "3–5",
+      "6–10",
+      ">10"
+    ],
+    "trip_length": [
+      "<4 days",
+      "4–7 days",
+      "8–14 days",
+      ">14 days"
+    ],
+    "tz_crossing": [
+      "Never",
+      "Rarely (once a year)",
+      "Sometimes (2–3x/year)",
+      "Often (4–6x/year)",
+      "Very often (>6x/year)"
+    ],
+    "sleep_hours": [
+      "<5",
+      "5–6",
+      "6–7",
+      "7–8",
+      ">8"
+    ],
+    "bp_check": [
+      "Never / don't know",
+      ">3 years ago",
+      "1–3 years ago",
+      "6–12 months ago",
+      "<6 months ago"
+    ],
+    "lab_status_0_3": [
+      "Not tested / don't know",
+      ">1 year ago",
+      "Within 1 year – abnormal/unsure",
+      "Within 1 year – normal"
+    ],
+    "thyroid_status_0_3": [
+      "Not tested / don't know",
+      ">2 years ago",
+      "Within 2 years – abnormal/unsure",
+      "Within 2 years – normal"
+    ],
+    "gut_tests_0_2": [
+      "No / don't know",
+      "Yes, >2 years ago",
+      "Yes, within 2 years"
+    ],
+    "followup_status": [
+      "No",
+      "Yes, planned",
+      "Yes, delayed or postponed"
+    ],
+    "binary_yes_no": [
+      "No",
+      "Yes"
+    ],
+    "priority_6m": [
+      "Sleep & recovery",
+      "Energy and fatigue",
+      "Metabolic health (weight, blood sugar, cholesterol)",
+      "Cognitive performance & focus",
+      "Mood & stress resilience",
+      "Gut health",
+      "Physical performance / strength"
+    ],
+    "capacity_days": [
+      "0–1 days",
+      "2 days",
+      "3 days",
+      "4–5 days",
+      "6–7 days"
+    ],
+    "plan_style": [
+      "Very structured plan (daily tasks)",
+      "Weekly themes with flexibility",
+      "Minimal non-negotiables only"
+    ],
+    "adherence_0_4": [
+      "Almost never",
+      "Rarely",
+      "Sometimes",
+      "Often",
+      "Almost always"
+    ],
+    "travel_zone_type": [
+      "Mostly within Europe / ±1–2 hours",
+      "Europe ↔ North America",
+      "Europe ↔ Asia / Pacific",
+      "Africa / Middle East routes",
+      "Other"
+    ],
+    "lab_yes_0_2": [
+      "No / don't know",
+      "Yes, >2 years ago",
+      "Yes, within 2 years"
+    ]
+  },
+  "questions": [
+    {
+      "id": "BG1",
+      "section": "Background",
+      "text": "What is your age?",
+      "type": "number",
+      "composites": []
+    },
+    {
+      "id": "BG2",
+      "section": "Background",
+      "text": "What is your gender?",
+      "type": "single_choice",
+      "options": [
+        "Woman",
+        "Man",
+        "Non-binary",
+        "Prefer not to say"
+      ],
+      "composites": []
+    },
+    {
+      "id": "BG3",
+      "section": "Background",
+      "text": "What is your height?",
+      "type": "number",
+      "composites": []
+    },
+    {
+      "id": "BG4",
+      "section": "Background",
+      "text": "What is your weight?",
+      "type": "number",
+      "composites": []
+    },
+    {
+      "id": "BG7",
+      "section": "Background",
+      "text": "Have you ever been told by a healthcare professional that you have any of the following?",
+      "type": "multi_select",
+      "options": [
+        {
+          "label": "High blood pressure",
+          "composites": [
+            {
+              "name": "MET",
+              "weight": 3
+            },
+            {
+              "name": "RFB",
+              "weight": 2
+            },
+            {
+              "name": "LIF",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "label": "High cholesterol",
+          "composites": [
+            {
+              "name": "MET",
+              "weight": 3
+            },
+            {
+              "name": "RFB",
+              "weight": 2
+            }
+          ]
+        },
+        {
+          "label": "Prediabetes or diabetes",
+          "composites": [
+            {
+              "name": "MET",
+              "weight": 4
+            },
+            {
+              "name": "RFB",
+              "weight": 3
+            },
+            {
+              "name": "LIF",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "label": "Thyroid condition",
+          "composites": [
+            {
+              "name": "RFB",
+              "weight": 2
+            },
+            {
+              "name": "LIF",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "label": "Anxiety or depression",
+          "composites": [
+            {
+              "name": "SLD",
+              "weight": 3
+            },
+            {
+              "name": "CRV",
+              "weight": 2
+            },
+            {
+              "name": "LIF",
+              "weight": 2
+            }
+          ]
+        },
+        {
+          "label": "Autoimmune condition",
+          "composites": [
+            {
+              "name": "RFB",
+              "weight": 2
+            },
+            {
+              "name": "LIF",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "label": "None of the above",
+          "composites": []
+        }
+      ]
+    },
+    {
+      "id": "BG8",
+      "section": "Background",
+      "text": "Did any close family member develop the following before age 60?",
+      "type": "multi_select",
+      "options": [
+        {
+          "label": "Heart disease or stroke",
+          "composites": [
+            {
+              "name": "MET",
+              "weight": 3
+            },
+            {
+              "name": "RFB",
+              "weight": 2
+            }
+          ]
+        },
+        {
+          "label": "Diabetes",
+          "composites": [
+            {
+              "name": "MET",
+              "weight": 3
+            }
+          ]
+        },
+        {
+          "label": "Dementia or significant memory decline",
+          "composites": [
+            {
+              "name": "CRY",
+              "weight": 2
+            },
+            {
+              "name": "RFB",
+              "weight": 2
+            }
+          ]
+        },
+        {
+          "label": "None of the above",
+          "composites": []
+        }
+      ]
+    },
+    {
+      "id": "BG9",
+      "section": "Background",
+      "text": "Do you have upcoming travel in the next 6 weeks?",
+      "type": "single_choice",
+      "scaleId": "yes_no",
+      "composites": [],
+      "setsFlag": "upcoming_travel_within_6w"
+    },
+    {
+      "id": "BG10",
+      "section": "Background",
+      "text": "On typical travel days, how long are you seated (car, train, flights)?",
+      "type": "single_choice",
+      "scaleId": "sedentary_hours_5",
+      "composites": [
+        {
+          "name": "MOB",
+          "weight": 2
+        },
+        {
+          "name": "TRV",
+          "weight": 3
+        },
+        {
+          "name": "MET",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "F1",
+      "section": "Energy",
+      "text": "How often do you feel physically worn out by early afternoon?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLP",
+          "weight": 2
+        },
+        {
+          "name": "CRV",
+          "weight": 2
+        },
+        {
+          "name": "LIF",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "section": "Energy",
+      "text": "How often does low energy limit what you can do during the day?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "CRV",
+          "weight": 3
+        },
+        {
+          "name": "LIF",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "section": "Energy",
+      "text": "How refreshed do you feel when waking up?",
+      "type": "single_choice",
+      "scaleId": "impact_5",
+      "reverse": true,
+      "composites": [
+        {
+          "name": "SLP",
+          "weight": -2
+        },
+        {
+          "name": "CRV",
+          "weight": -2
+        },
+        {
+          "name": "LIF",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "S1",
+      "section": "Sleep",
+      "text": "How often do you struggle to fall asleep within a reasonable time?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLP",
+          "weight": 3
+        },
+        {
+          "name": "CRT",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "S2",
+      "section": "Sleep",
+      "text": "How often do you wake during the night and stay awake longer than you want?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLP",
+          "weight": 3
+        }
+      ]
+    },
+    {
+      "id": "S3",
+      "section": "Sleep",
+      "text": "How consistent is your bedtime from day to day?",
+      "type": "single_choice",
+      "scaleId": "consistency_5",
+      "composites": [
+        {
+          "name": "SLP",
+          "weight": 2
+        },
+        {
+          "name": "CRY",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "S4",
+      "section": "Sleep",
+      "text": "How often does travel, work, or schedule changes disrupt your sleep?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLP",
+          "weight": 2
+        },
+        {
+          "name": "TRV",
+          "weight": 3
+        }
+      ]
+    },
+    {
+      "id": "S5",
+      "section": "Sleep",
+      "text": "How often does poor sleep affect your mood or thinking the next day?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLP",
+          "weight": 2
+        },
+        {
+          "name": "CRV",
+          "weight": 2
+        },
+        {
+          "name": "LIF",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "ST1",
+      "section": "Stress",
+      "text": "How often do you feel mentally overwhelmed by daily responsibilities?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLD",
+          "weight": 3
+        },
+        {
+          "name": "CRT",
+          "weight": 2
+        },
+        {
+          "name": "LIF",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "ST2",
+      "section": "Stress",
+      "text": "How often do you feel unable to relax, even when you have downtime?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLD",
+          "weight": 3
+        },
+        {
+          "name": "CRT",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "section": "Stress",
+      "text": "How often do you feel down, discouraged, or low in mood?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLD",
+          "weight": 2
+        },
+        {
+          "name": "CRV",
+          "weight": 2
+        },
+        {
+          "name": "LIF",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "section": "Stress",
+      "text": "How often do worry or stress make it hard to focus?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "SLD",
+          "weight": 2
+        },
+        {
+          "name": "CRV",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "P1",
+      "section": "Physical",
+      "text": "How often do aches or pains limit your daily activities?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "MOB",
+          "weight": 3
+        },
+        {
+          "name": "LIF",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "section": "Physical",
+      "text": "How often do you avoid movement or exercise because of discomfort?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "MOB",
+          "weight": 3
+        },
+        {
+          "name": "LIF",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "PF1",
+      "section": "Physical",
+      "text": "How difficult is it to stay active (walking, stairs, lifting) during travel days?",
+      "type": "single_choice",
+      "scaleId": "difficulty_5",
+      "composites": [
+        {
+          "name": "MOB",
+          "weight": 3
+        },
+        {
+          "name": "TRV",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "PF2",
+      "section": "Physical",
+      "text": "How often do long periods of sitting (flights or trains) cause stiffness or soreness?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "MOB",
+          "weight": 2
+        },
+        {
+          "name": "TRV",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "C1",
+      "section": "Cognition",
+      "text": "How often do you lose track of tasks or conversations?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "CRY",
+          "weight": 3
+        },
+        {
+          "name": "CRV",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "section": "Cognition",
+      "text": "How often do you struggle to stay mentally sharp when tired or stressed?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "CRY",
+          "weight": 3
+        },
+        {
+          "name": "CRV",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "id": "G1",
+      "section": "Digestive",
+      "text": "How often do you experience bloating, digestive discomfort, or irregularity?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "NUT",
+          "weight": 2
+        },
+        {
+          "name": "RFB",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "IMM1",
+      "section": "Immune",
+      "text": "How often do you feel run-down or more prone to getting sick during travel?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "TRV",
+          "weight": 2
+        },
+        {
+          "name": "RFB",
+          "weight": 1
+        },
+        {
+          "name": "LIF",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "L1",
+      "section": "Lifestyle",
+      "text": "How often do you consume highly processed or sugary foods on busy or travel days?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "composites": [
+        {
+          "name": "NUT",
+          "weight": 3
+        },
+        {
+          "name": "MET",
+          "weight": 2
+        },
+        {
+          "name": "LIF",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "section": "Lifestyle",
+      "text": "How often do you reach at least 20 minutes of moderate movement (walking, stairs, mobility drills)?",
+      "type": "single_choice",
+      "scaleId": "frequency_5",
+      "reverse": true,
+      "composites": [
+        {
+          "name": "MOB",
+          "weight": -3
+        },
+        {
+          "name": "MET",
+          "weight": -2
+        },
+        {
+          "name": "LIF",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "section": "RedFlags",
+      "text": "Have you recently experienced chest discomfort, unexplained breathlessness, or sudden dizziness?",
+      "type": "single_choice",
+      "scaleId": "yes_no",
+      "composites": [
+        {
+          "name": "RFB",
+          "weight": 5
+        }
+      ],
+      "isImmediateConcern": true
+    },
+    {
+      "id": "R2",
+      "section": "RedFlags",
+      "text": "In the past month, has stress or mood significantly affected your ability to function?",
+      "type": "single_choice",
+      "scaleId": "yes_no",
+      "composites": [
+        {
+          "name": "RFB",
+          "weight": 4
+        },
+        {
+          "name": "SLD",
+          "weight": 3
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "section": "RedFlags",
+      "text": "Are you experiencing any symptoms you feel may need prompt medical evaluation?",
+      "type": "single_choice",
+      "scaleId": "yes_no",
+      "composites": [
+        {
+          "name": "RFB",
+          "weight": 6
+        }
+      ],
+      "isImmediateConcern": true
+    },
+    {
+      "id": "T1",
+      "section": "Travel profile",
+      "text": "Number of international trips in the last 12 months",
+      "type": "single_choice",
+      "scaleId": "travel_intensity",
+      "composites": []
+    },
+    {
+      "id": "T2",
+      "section": "Travel profile",
+      "text": "Typical length of trips",
+      "type": "single_choice",
+      "scaleId": "trip_length",
+      "composites": []
+    },
+    {
+      "id": "T3",
+      "section": "Travel profile",
+      "text": "How often do you cross three or more time zones in a single trip?",
+      "type": "single_choice",
+      "scaleId": "tz_crossing",
+      "composites": []
+    },
+    {
+      "id": "T4",
+      "section": "Travel profile",
+      "text": "Usual time zones you move between",
+      "type": "single_choice",
+      "scaleId": "travel_zone_type",
+      "composites": []
+    },
+    {
+      "id": "E1",
+      "section": "Emotional health",
+      "text": "In the past 7 days, how often did you feel unable to relax because of worry?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "E2",
+      "section": "Emotional health",
+      "text": "How often did you feel low in mood or 'flat'?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "E3",
+      "section": "Emotional health",
+      "text": "How often did you feel little interest or pleasure in things you usually enjoy?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "E4",
+      "section": "Emotional health",
+      "text": "How often did you feel easily overwhelmed by small problems?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "E5",
+      "section": "Emotional health",
+      "text": "How often did emotional stress spill over into your sleep or appetite?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "E6",
+      "section": "Emotional health",
+      "text": "Overall, how satisfied have you felt with your mental wellbeing?",
+      "type": "single_choice",
+      "scaleId": "satisfaction_0_4",
+      "reverse": true,
+      "composites": []
+    },
+    {
+      "id": "S6",
+      "section": "Sleep & circadian",
+      "text": "In the past 7 days, how often did you wake during the night and struggle to get back to sleep?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "S7",
+      "section": "Sleep & circadian",
+      "text": "How often did you wake earlier than planned and feel unable to fall back asleep?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "S8",
+      "section": "Sleep & circadian",
+      "text": "On average, how many hours of sleep did you get per night (including naps)?",
+      "type": "single_choice",
+      "scaleId": "sleep_hours",
+      "composites": []
+    },
+    {
+      "id": "S9",
+      "section": "Sleep & circadian",
+      "text": "How often did changing time zones disrupt your sleep?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "S10",
+      "section": "Sleep & circadian",
+      "text": "How regular have your bedtimes and wake times been in the last 2 weeks?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "S11",
+      "section": "Sleep & circadian",
+      "text": "When travelling across time zones, how often do you plan your sleep and light exposure in advance?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "C3",
+      "section": "Cognitive function",
+      "text": "In the past 7 days, how often did you feel mentally 'foggy' or slowed down?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "C4",
+      "section": "Cognitive function",
+      "text": "How often did you struggle to concentrate on work or complex tasks?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "C5",
+      "section": "Cognitive function",
+      "text": "How often did you make small mistakes that you would not normally make?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "C6",
+      "section": "Cognitive function",
+      "text": "By the end of the day, how often did your brain feel 'used up'?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "C7",
+      "section": "Cognitive function",
+      "text": "How often did you feel that you could recover your mental focus after a short break?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "reverse": true,
+      "composites": []
+    },
+    {
+      "id": "C8",
+      "section": "Cognitive function",
+      "text": "How often did frequent travel or schedule changes leave you mentally drained?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "C9",
+      "section": "Cognitive function",
+      "text": "How satisfied are you with your ability to think clearly and stay focused across different places and time zones?",
+      "type": "single_choice",
+      "scaleId": "satisfaction_0_4",
+      "reverse": true,
+      "composites": []
+    },
+    {
+      "id": "P3",
+      "section": "Physical health",
+      "text": "In the past 7 days, how often did physical health limit your everyday activities (walking, shopping, light housework)?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "P4",
+      "section": "Physical health",
+      "text": "How often did you feel physically exhausted by the end of the day?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "P5",
+      "section": "Physical health",
+      "text": "How often did pain interfere with your ability to work, travel, or exercise?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "P6",
+      "section": "Physical health",
+      "text": "How often did you avoid activities because of joint or muscle pain?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "P7",
+      "section": "Physical health",
+      "text": "How often did you feel short of breath or unusually winded with normal daily activity?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "P8",
+      "section": "Physical health",
+      "text": "Over the past 7 days, how often did you feel that you were recovering poorly after busy or travel-heavy days?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "SR1",
+      "section": "Social roles",
+      "text": "How much has your health limited your ability to keep up with work demands?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "SR2",
+      "section": "Social roles",
+      "text": "How much has your health limited your ability to participate in family or social activities (online or in person)?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "SR3",
+      "section": "Social roles",
+      "text": "How much has frequent travel made it harder to maintain supportive relationships?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "SR4",
+      "section": "Social roles",
+      "text": "How much do you feel your health affects your ability to manage everyday tasks (finances, planning, organising travel)?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "SR5",
+      "section": "Social roles",
+      "text": "How often did you feel you could rely on your usual routines when moving between places?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "reverse": true,
+      "composites": []
+    },
+    {
+      "id": "SR6",
+      "section": "Social roles",
+      "text": "How satisfied are you with your overall role balance (work, family, travel, self-care)?",
+      "type": "single_choice",
+      "scaleId": "satisfaction_0_4",
+      "reverse": true,
+      "composites": []
+    },
+    {
+      "id": "N1",
+      "section": "Nutrition",
+      "text": "How often do you drink sugary drinks (soft drinks, energy drinks, sweetened juices)?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "N2",
+      "section": "Nutrition",
+      "text": "On travel days, how often do you feel your food choices are worse than on home days?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "GI1",
+      "section": "Gut health",
+      "text": "How often do you experience heartburn or acid reflux?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "GI2",
+      "section": "Gut health",
+      "text": "How often do you notice an urgent need to find a toilet when travelling?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "GI3",
+      "section": "Gut health",
+      "text": "How often do you feel your bowel habits (constipation or looseness) limit your comfort when travelling?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "MV1",
+      "section": "Movement & recovery",
+      "text": "On travel days, how often do you walk around during long flights, train or car journeys?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "MV2",
+      "section": "Movement & recovery",
+      "text": "After a long travel day, how often do you take time to stretch or move before sleep?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "MV3",
+      "section": "Movement & recovery",
+      "text": "How often do you wake with stiffness or body aches after travel days?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "MV4",
+      "section": "Movement & recovery",
+      "text": "How often do you use simple recovery practices (for example breathing, relaxation, or a short nap) when you feel drained from travel?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "ENV1",
+      "section": "Environment",
+      "text": "How often do you sleep with earplugs, an eye mask or other sleep aids when needed in noisy or bright environments?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "ENV2",
+      "section": "Environment",
+      "text": "How often do you feel your bedroom or accommodation is too hot, too cold, or uncomfortable for sleep?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "ENV3",
+      "section": "Environment",
+      "text": "How often are you exposed to second-hand smoke, heavy traffic pollution, or industrial fumes?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "SUP1",
+      "section": "Supplements",
+      "text": "Which of the following supplements do you take at least 3 days per week?",
+      "type": "multi_select",
+      "options": [
+        {
+          "label": "Multivitamin",
+          "composites": []
+        },
+        {
+          "label": "Vitamin D",
+          "composites": []
+        },
+        {
+          "label": "Magnesium",
+          "composites": []
+        },
+        {
+          "label": "Omega-3 / fish oil",
+          "composites": []
+        },
+        {
+          "label": "Fiber supplement",
+          "composites": []
+        },
+        {
+          "label": "Probiotic/prebiotic",
+          "composites": []
+        },
+        {
+          "label": "Iron",
+          "composites": []
+        },
+        {
+          "label": "B vitamins / B complex",
+          "composites": []
+        },
+        {
+          "label": "Herbal stress support (e.g. ashwagandha, rhodiola)",
+          "composites": []
+        },
+        {
+          "label": "Sleep support (e.g. melatonin, valerian)",
+          "composites": []
+        },
+        {
+          "label": "Other",
+          "composites": []
+        },
+        {
+          "label": "None of the above",
+          "composites": []
+        }
+      ],
+      "composites": []
+    },
+    {
+      "id": "SUP2",
+      "section": "Supplements",
+      "text": "How confident do you feel that your supplements match your current needs and medical conditions?",
+      "type": "single_choice",
+      "scaleId": "satisfaction_0_4",
+      "reverse": true,
+      "composites": []
+    },
+    {
+      "id": "LAB1",
+      "section": "Screenings",
+      "text": "When were your blood pressure and pulse last checked by a professional?",
+      "type": "single_choice",
+      "scaleId": "bp_check",
+      "composites": []
+    },
+    {
+      "id": "LAB2",
+      "section": "Screenings",
+      "text": "Thyroid blood test status",
+      "type": "single_choice",
+      "scaleId": "thyroid_status_0_3",
+      "composites": []
+    },
+    {
+      "id": "LAB3",
+      "section": "Screenings",
+      "text": "Have you ever had specific gut or stool tests (for example for inflammation or microbiome)?",
+      "type": "single_choice",
+      "scaleId": "gut_tests_0_2",
+      "composites": []
+    },
+    {
+      "id": "LAB4",
+      "section": "Screenings",
+      "text": "Do you currently have any specialist follow-up recommended but not yet completed (for example cardiology, endocrinology, rheumatology, gastroenterology)?",
+      "type": "single_choice",
+      "scaleId": "followup_status",
+      "composites": []
+    },
+    {
+      "id": "RF1",
+      "section": "Red flags",
+      "text": "In the last 3 months, how often have you had chest discomfort, pressure, or pain with exertion that worries you?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "RF2",
+      "section": "Red flags",
+      "text": "How often have you had sudden breathlessness that was not clearly linked to exertion?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "RF3",
+      "section": "Red flags",
+      "text": "How often have you had severe, unexplained dizziness or near-fainting?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "RF4",
+      "section": "Red flags",
+      "text": "How often have you felt your heart racing or beating irregularly in a way that concerns you?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "RF5",
+      "section": "Red flags",
+      "text": "How often have you had thoughts that you would be better off not being here, or of self-harm?",
+      "type": "single_choice",
+      "scaleId": "freq_0_4",
+      "composites": []
+    },
+    {
+      "id": "G2",
+      "section": "Goals",
+      "text": "In the next 6 months, which is your top priority?",
+      "type": "single_choice",
+      "scaleId": "priority_6m",
+      "composites": []
+    },
+    {
+      "id": "G3",
+      "section": "Goals",
+      "text": "How many days per week can you realistically commit to focused health actions (sleep, movement, nutrition, etc.)?",
+      "type": "single_choice",
+      "scaleId": "capacity_days",
+      "composites": []
+    },
+    {
+      "id": "G4",
+      "section": "Goals",
+      "text": "Which style suits you best for your plan?",
+      "type": "single_choice",
+      "scaleId": "plan_style",
+      "composites": []
+    },
+    {
+      "id": "G5",
+      "section": "Goals",
+      "text": "In the past 4 weeks, how often did you follow through on actions you set for yourself around health or routine?",
+      "type": "single_choice",
+      "scaleId": "adherence_0_4",
+      "composites": []
+    },
+    {
+      "id": "G6",
+      "section": "Goals",
+      "text": "Any specific constraints we should respect?",
+      "type": "multi_select",
+      "options": [
+        {
+          "label": "Frequent last-minute travel",
+          "composites": []
+        },
+        {
+          "label": "Caring responsibilities",
+          "composites": []
+        },
+        {
+          "label": "Financial limits for tests/supplements",
+          "composites": []
+        },
+        {
+          "label": "Limited access to gyms/equipment",
+          "composites": []
+        },
+        {
+          "label": "None of the above",
+          "composites": []
+        }
+      ],
+      "composites": []
+    }
+  ]
+}
+

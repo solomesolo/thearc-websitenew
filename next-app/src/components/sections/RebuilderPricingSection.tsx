@@ -85,15 +85,8 @@ const cards = [
 
 export function RebuilderPricingSection() {
   return (
-    <section className="relative w-full bg-black py-36 overflow-hidden">
-      <div
-        className="absolute inset-0 pointer-events-none opacity-30"
-        style={{
-          background: "radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%)",
-        }}
-      />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
+    <section className="relative w-full py-20 md:py-24">
+      <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-semibold text-white">Health Plans (Rebuilder Persona)</h2>
           <p className="text-lg md:text-xl text-neutral-300">

@@ -33,11 +33,15 @@ export default function TravelerHero() {
             "radial-gradient(circle at 20% 30%, rgba(0,0,0,0.35), transparent 60%), radial-gradient(circle at 85% 20%, rgba(0,0,0,0.25), transparent 55%)",
         }}
       />
+      {/* Persona accent halo with consistent glow */}
+      <div className="absolute inset-0 persona-portrait-halo -z-10" style={{ background: "radial-gradient(circle at 20% 30%, var(--persona-accent-soft) 0%, transparent 65%)" }} />
+      {/* Additional persona glow layers for consistency */}
+      <div className="absolute inset-0 pointer-events-none opacity-40" style={{ background: "radial-gradient(circle at 50% 50%, var(--persona-accent-soft) 0%, transparent 70%)" }} />
 
       <div className="relative max-w-[1320px] mx-auto px-6 lg:px-10 pt-32 md:pt-40 pb-28 min-h-[90vh] flex items-center">
         <div className="max-w-[650px] space-y-8">
           <motion.p
-            className="text-[12px] tracking-[0.35em] uppercase text-white/55"
+            className="text-[12px] tracking-[0.35em] uppercase persona-accent-text"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.6 }}
@@ -94,7 +98,7 @@ export default function TravelerHero() {
             custom={0.35}
             variants={textVariants}
           >
-            <ArcButton href="/free-screening">
+            <ArcButton href="/screening/welcome/traveler">
               Start free screening
             </ArcButton>
           </motion.div>

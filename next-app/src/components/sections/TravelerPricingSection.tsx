@@ -37,46 +37,47 @@ const CheckIcon = () => {
 
 const cards = [
   {
-    title: "Business Starter",
-    description: "For professionals who want clarity and a performance-ready health baseline.",
+    title: "Global Baseline",
+    description: "For people who move often and want a clear, travel-ready health foundation.",
     price: "119 EUR",
     period: "6 months",
     features: [
-      "Executive health baseline & core biomarkers",
-      "Stress, sleep & metabolic stability overview",
-      "Early-risk detection & health-history reconstruction",
-      "Personal medical file you can access anywhere",
+      "Global biology baseline & core biomarkers",
+      "Sleep, circadian & recovery impact from travel",
+      "Immunity, digestion & stress stability overview",
+      "Reconstruction of scattered medical history from different countries",
+      "Portable medical file you can share with any doctor, anywhere",
     ],
     ctaLabel: "Choose plan",
     ctaHref: "/checkout/traveller-starter",
   },
   {
-    title: "Business Performance",
-    description: "For high performers who want guidance, accountability, and measurable improvement.",
+    title: "Global Stability",
+    description: "For frequent travellers and nomads who want ongoing guidance and stability.",
     price: "249 EUR",
     period: "6 months",
     features: [
-      "Everything in Starter",
-      "1:1 performance-health review session",
-      "Monthly biomarker-guided routine resets",
-      "Focus, energy & recovery optimisation protocols",
-      "Workload-adaptive stress-management sequences",
+      "Everything in Global Baseline",
+      "1:1 travel-health strategy session",
+      "Monthly biomarker-guided reset blocks around major trips",
+      "Jet lag, energy & digestion optimisation protocols",
+      "Risk monitoring for frequent flying, time-zone shifts and workload",
     ],
     ctaLabel: "Start with free screening",
     ctaHref: "/free-screening",
     badge: "Most Popular",
   },
   {
-    title: "Business Care",
-    description: "For professionals who want medically-supervised optimisation and long-term resilience.",
+    title: "Global Care",
+    description: "For global movers who want medically supervised continuity and long-term protection.",
     price: "499 EUR",
     period: "6 months",
     features: [
-      "Everything in Business Performance",
-      "Clinician-supervised improvement pathway",
-      "Medical consultations tailored to workload cycles",
-      "Continuous risk monitoring & early-detection alerts",
-      "Executive-level health strategy & long-term resilience planning",
+      "Everything in Global Stability",
+      "Clinician-supervised improvement pathway tailored to your travel pattern",
+      "Medical consultations focused on mobility-related risks and symptoms",
+      "Ongoing interpretation of international lab results & reports",
+      "Cross-border risk management, referrals and long-term longevity planning",
     ],
     ctaLabel: "Join waitlist",
     ctaHref: "/waitlist/traveller-care",
@@ -85,19 +86,12 @@ const cards = [
 
 export function TravelerPricingSection() {
   return (
-    <section className="relative w-full bg-black py-36 overflow-hidden">
-      <div
-        className="absolute inset-0 pointer-events-none opacity-30"
-        style={{
-          background: "radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%)",
-        }}
-      />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
+    <section className="relative w-full py-20 md:py-24">
+      <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white">Business Plans</h2>
+          <h2 className="text-4xl md:text-5xl font-semibold text-white">Global Mover Plans</h2>
           <p className="text-lg md:text-xl text-neutral-300">
-            Longevity-driven healthcare designed for people who perform at the highest level.
+            Longevity-driven healthcare designed for people who live and work across borders.
           </p>
         </div>
 
@@ -117,15 +111,14 @@ export function TravelerPricingSection() {
                 backdropFilter: "blur(10px)",
               }}
             >
-              {card.badge && (
-                <span className="self-center px-3 py-1 text-xs font-semibold tracking-wide text-black bg-emerald-200/80 rounded-full shadow-md shadow-emerald-200/20">
-                  {card.badge}
-                </span>
-              )}
-
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-semibold tracking-tight">{card.title}</h3>
+                  <h3 className="text-2xl font-semibold tracking-tight">
+                    {card.title}
+                    {card.badge && (
+                      <small className="text-sm font-normal text-neutral-400 ml-2">(Most Popular)</small>
+                    )}
+                  </h3>
                   <p className="text-sm text-neutral-300 leading-relaxed font-light">{card.description}</p>
                 </div>
 

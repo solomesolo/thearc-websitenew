@@ -17,23 +17,16 @@ const CardWrapper = ({ children }: { children: React.ReactNode }) => (
 
 export function WomenBlueprint() {
   return (
-    <section className="relative w-full py-24 md:py-32 overflow-hidden">
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle at center, rgba(20,60,40,0.25) 0%, rgba(0,0,0,0.95) 70%)",
-        }}
-      />
+    <section className="relative w-full py-20 md:py-24">
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-0 text-center space-y-4">
+      <div className="max-w-5xl mx-auto px-6 text-center space-y-4">
         <h2 className="text-4xl md:text-5xl font-semibold text-white">Your Personal Arc Blueprint</h2>
         <p className="text-lg text-gray-300">
           A preview of the clarity and structure you receive after your first assessment.
         </p>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto mt-12 grid gap-8 lg:grid-cols-3">
+      <div className="max-w-5xl mx-auto mt-12 grid gap-8 lg:grid-cols-3">
         {/* CARD 1 — Predisposition Map (UNCHANGED) */}
         <CardWrapper>
           <div className="space-y-2">

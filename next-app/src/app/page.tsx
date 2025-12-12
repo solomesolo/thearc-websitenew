@@ -148,18 +148,18 @@ export default function HomePage() {
       {/* You discover. We guide. Section */}
       <section className="guidance-hero">
         <motion.div
-          className="guidance-content"
+          className="guidance-content text-center"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
         >
-          <h2>
+          <h2 className="text-center">
             You discover.
             <br />
             We guide.
           </h2>
-          <p>
+          <p className="text-center">
             We help you find your own health formula through clinical precision, clear steps, and personal feedback that shows you what truly improves your wellbeing.
           </p>
           <motion.div
@@ -184,9 +184,13 @@ export default function HomePage() {
 
       {/* 3️⃣ Three Personas Section */}
       <Section id="personas">
-        <SectionTitle className="text-center text-4xl font-semibold tracking-tight">
-          Find Your Path
-        </SectionTitle>
+        <div className="mb-12" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <div style={{ textAlign: 'center', width: '100%' }}>
+            <SectionTitle className="text-center text-4xl font-semibold tracking-tight">
+              Find Your Path
+            </SectionTitle>
+          </div>
+        </div>
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12"
           variants={personaGridVariants}
@@ -208,19 +212,24 @@ export default function HomePage() {
 
       {/* 6️⃣ Service Catalog Highlight */}
       <Section>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+            <div style={{ textAlign: 'center', width: '100%' }}>
+              <SectionTitle className="text-center text-4xl font-bold">Service Catalog</SectionTitle>
+            </div>
+          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <SectionTitle className="text-left text-4xl font-bold">Service Catalog</SectionTitle>
-            <div className="space-y-4 text-gray-300 text-base leading-relaxed max-w-xl mt-10">
+            <div className="space-y-4 text-gray-300 text-base leading-relaxed">
               <p>Your gateway to at-home diagnostics, lab testing, expert sessions, and restorative experiences curated by clinicians.</p>
-              <p>Every service connects back to your plan so you know what matters, what’s available now, and what unlocks next.</p>
+              <p>Every service connects back to your plan so you know what matters, what's available now, and what unlocks next.</p>
               <p>Filter by goal, location, time, budget, or medical guidance level — and find what fits wherever you are.</p>
-                  </div>
+            </div>
           </motion.div>
 
           <motion.div
@@ -264,7 +273,7 @@ export default function HomePage() {
               </motion.div>
             ))}
           </motion.div>
-              </div>
+        </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
           <Link
@@ -279,21 +288,28 @@ export default function HomePage() {
           >
             Partner With Us
           </Link>
-              </div>
+        </div>
+        </div>
       </Section>
 
       {/* 7️⃣ Future Vision / Roadmap */}
       <Section background="black">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
-          <div>
-            <SectionTitle className="text-left text-4xl font-bold">
-              What's next for The Arc
-            </SectionTitle>
-            <p className="text-neutral-300 text-base leading-relaxed max-w-xl mt-10">
-              We’re shipping fast. The Arc is evolving from personalised insights into a complete
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+            <div style={{ textAlign: 'center', width: '100%' }}>
+              <SectionTitle className="text-center text-4xl font-bold">
+                What's next for The Arc
+              </SectionTitle>
+            </div>
+            <p className="text-neutral-300 text-base leading-relaxed max-w-3xl mx-auto mt-10" style={{ textAlign: 'center' }}>
+              We're shipping fast. The Arc is evolving from personalised insights into a complete
               platform with learning, expert access, and connected data so you always know what to do next.
             </p>
-                </div>
+          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+          <div>
+            {/* Left side can be used for additional content if needed */}
+          </div>
 
           <div className="border-l border-neutral-800 ml-4 pl-8 space-y-16">
             {[
@@ -333,8 +349,8 @@ export default function HomePage() {
                 <p className="text-neutral-300 leading-relaxed mt-1">{item.desc}</p>
             </div>
             ))}
-            </div>
-              </div>
+          </div>
+        </div>
 
         <div className="mt-12 flex justify-center">
           <Link
@@ -343,7 +359,8 @@ export default function HomePage() {
           >
             Join early access
           </Link>
-            </div>
+        </div>
+        </div>
       </Section>
 
       {/* FAQ Section */}
@@ -386,9 +403,11 @@ export default function HomePage() {
 
       {/* 8️⃣ Final Call to Action */}
       <Section>
-        <div className="max-w-3xl mx-auto text-center">
-            <SectionTitle>Begin your Arc today.</SectionTitle>
-            <Paragraph className="mt-10" style={{ fontSize: '22px' }}>
+        <div className="max-w-3xl mx-auto" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+            <div style={{ textAlign: 'center', width: '100%' }}>
+              <SectionTitle className="text-center">Begin your Arc today.</SectionTitle>
+            </div>
+            <Paragraph className="mt-10" style={{ fontSize: '22px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
               Find your own formula. See what works for you. Keep what matters.
             </Paragraph>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">

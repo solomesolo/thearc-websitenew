@@ -19,6 +19,9 @@ export default function SignupPage() {
 
     const [consents, setConsents] = useState({
         healthData: false,
+        dataTransfer: false,
+        terms: false,
+        ageConfirmed: false,
         productUpdates: false,
         marketing: false,
     });
@@ -86,8 +89,8 @@ export default function SignupPage() {
             return;
         }
 
-        if (!consents.healthData) {
-            setError("You must agree to health data processing to continue");
+        if (!consents.healthData || !consents.dataTransfer || !consents.terms || !consents.ageConfirmed) {
+            setError("You must accept all mandatory consents to continue");
             setLoading(false);
             return;
         }
@@ -106,9 +109,9 @@ export default function SignupPage() {
                     timezone: formData.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
                     mandatoryConsents: {
                         healthData: consents.healthData,
-                        dataTransfer: consents.healthData,
-                        terms: consents.healthData,
-                        ageConfirmed: true,
+                        dataTransfer: consents.dataTransfer,
+                        terms: consents.terms,
+                        ageConfirmed: consents.ageConfirmed,
                     },
                     optionalConsents: {
                         marketing: consents.marketing || false,
@@ -134,8 +137,14 @@ export default function SignupPage() {
                     }, 2000); // 2 second delay to show success message
                 }
             } else {
-                setError(data.error || data.details || "Registration failed. Please try again.");
+                // Show more detailed error message
+                let errorMsg = data.error || "Registration failed. Please try again.";
+                if (data.details && process.env.NODE_ENV === "development") {
+                    errorMsg += ` (${data.details})`;
+                }
+                setError(errorMsg);
                 setLoading(false);
+                console.error("Registration failed:", data);
             }
         } catch (err) {
             setError("Failed to connect to server. Please check your connection.");
@@ -318,6 +327,8 @@ export default function SignupPage() {
                     </div>
 
                     <div className="space-y-4 border-t border-gray-700 pt-6">
+                        <p className="text-sm text-gray-400 mb-2">Mandatory Consents <span className="text-red-500">*</span></p>
+                        
                         <div>
                             <label className="flex items-start gap-3 cursor-pointer">
                                 <input
@@ -333,6 +344,56 @@ export default function SignupPage() {
                                 </span>
                             </label>
                         </div>
+
+                        <div>
+                            <label className="flex items-start gap-3 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="mt-1 w-5 h-5 rounded border-gray-600 bg-[#0a0a0a] text-teal-500 focus:ring-teal-500 focus:ring-offset-0"
+                                    checked={consents.dataTransfer}
+                                    onChange={(e) => setConsents({ ...consents, dataTransfer: e.target.checked })}
+                                    required
+                                />
+                                <span className="text-sm text-gray-300">
+                                    I agree to the transfer of my data as necessary for service provision{" "}
+                                    <span className="text-red-500">*</span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label className="flex items-start gap-3 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="mt-1 w-5 h-5 rounded border-gray-600 bg-[#0a0a0a] text-teal-500 focus:ring-teal-500 focus:ring-offset-0"
+                                    checked={consents.terms}
+                                    onChange={(e) => setConsents({ ...consents, terms: e.target.checked })}
+                                    required
+                                />
+                                <span className="text-sm text-gray-300">
+                                    I agree to the Terms of Service and Privacy Policy{" "}
+                                    <span className="text-red-500">*</span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label className="flex items-start gap-3 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="mt-1 w-5 h-5 rounded border-gray-600 bg-[#0a0a0a] text-teal-500 focus:ring-teal-500 focus:ring-offset-0"
+                                    checked={consents.ageConfirmed}
+                                    onChange={(e) => setConsents({ ...consents, ageConfirmed: e.target.checked })}
+                                    required
+                                />
+                                <span className="text-sm text-gray-300">
+                                    I confirm that I am 18 years of age or older{" "}
+                                    <span className="text-red-500">*</span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <p className="text-sm text-gray-400 mt-4 mb-2">Optional Consents</p>
 
                         <div>
                             <label className="flex items-start gap-3 cursor-pointer">

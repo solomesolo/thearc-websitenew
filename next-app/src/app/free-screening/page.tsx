@@ -1,41 +1,48 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { setPersona } from "@/lib/persona";
 
-// Redirect to welcome page with persona
+// Read URL params directly from window.location - no useSearchParams needed
 export default function FreeScreeningPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Get persona from URL param - this is the ONLY source of truth for this page
-    const personaParam = searchParams.get('persona');
+    // Read persona directly from window.location.search (most reliable)
+    if (typeof window === 'undefined') return;
     
-    console.log('🔍 FreeScreening: URL searchParams persona:', personaParam);
-    console.log('🔍 FreeScreening: Full URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
+    const urlParams = new URLSearchParams(window.location.search);
+    const personaParam = urlParams.get('persona');
+    
+    console.log('🔍 FreeScreening: window.location.search:', window.location.search);
+    console.log('🔍 FreeScreening: personaParam from URL:', personaParam);
     
     // If no persona in URL, default to rebuilder
     const persona = personaParam || 'rebuilder';
+    
+    console.log('✅ FreeScreening: Final persona decision:', persona);
     
     // Store the persona for future use
     if (persona) {
       setPersona(persona as 'women' | 'traveler' | 'rebuilder');
     }
     
-    console.log('✅ FreeScreening: Final persona decision:', persona);
-    
-    // For women, go directly to their specific welcome page
+    // Route to persona-specific welcome pages
     if (persona === 'women') {
       console.log('🚀 FreeScreening: Redirecting to /screening/welcome/women');
       router.replace('/screening/welcome/women');
+    } else if (persona === 'traveler') {
+      console.log('🚀 FreeScreening: Redirecting to /screening/welcome/traveler');
+      router.replace('/screening/welcome/traveler');
+    } else if (persona === 'rebuilder') {
+      console.log('🚀 FreeScreening: Redirecting to /screening/welcome/rebuilder');
+      router.replace('/screening/welcome/rebuilder');
     } else {
-      // For other personas, go to general welcome page
       console.log('🚀 FreeScreening: Redirecting to general welcome page with persona:', persona);
       router.replace(`/screening/welcome?persona=${persona}`);
     }
-  }, [router, searchParams]);
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] flex items-center justify-center">

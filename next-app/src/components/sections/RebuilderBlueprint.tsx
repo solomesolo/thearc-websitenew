@@ -51,23 +51,16 @@ const CardWrapper = ({ children }: { children: React.ReactNode }) => (
 
 export function RebuilderBlueprint() {
   return (
-    <section className="relative w-full py-24 md:py-32 overflow-hidden">
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle at center, rgba(20,60,40,0.25) 0%, rgba(0,0,0,0.95) 70%)",
-        }}
-      />
+    <section className="relative w-full py-20 md:py-24">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="text-center space-y-4 mb-12">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white">Your Personal Arc Blueprint</h2>
+          <p className="text-lg text-gray-300">
+            A preview of the clarity and structure you receive after your first assessment.
+          </p>
+        </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-0 text-center space-y-4">
-        <h2 className="text-4xl md:text-5xl font-semibold text-white">Your Personal Arc Blueprint</h2>
-        <p className="text-lg text-gray-300">
-          A preview of the clarity and structure you receive after your first assessment.
-        </p>
-      </div>
-
-      <div className="relative z-10 max-w-6xl mx-auto mt-12 grid gap-8 lg:grid-cols-3">
+      <div className="grid gap-8 lg:grid-cols-3">
         {/* Column 1 — Predisposition Map (KEEP EXACTLY AS IS) */}
         <CardWrapper>
           <div className="space-y-2">
@@ -172,9 +165,6 @@ export function RebuilderBlueprint() {
           </div>
         </CardWrapper>
       </div>
-
-      <div className="relative z-10 mt-12 flex justify-center">
-        <ArcButton href="/rebuilder/blueprint/sample">View a sample Blueprint</ArcButton>
       </div>
     </section>
   );

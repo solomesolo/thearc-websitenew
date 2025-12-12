@@ -87,14 +87,14 @@ export default function RebuilderPage() {
 
       <section className="persona-section-fade py-20 md:py-24">
         <div className="max-w-5xl mx-auto px-6">
-          <p className="text-white/40 tracking-[0.3em] uppercase text-xs md:text-sm mb-12">
+          <p className="text-white/40 tracking-[0.3em] uppercase text-xs md:text-sm mb-12 text-center">
             Challenges We Commonly See
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="relative w-full h-[400px] md:h-[520px] lg:h-[600px]">
               <img
-                src="/header-explorer.png"
+                src="/challenges_rebuilders.jpg"
                 alt="Health rebuilders"
                 className="w-full h-full object-cover rounded-2xl persona-shadow"
               />
@@ -131,9 +131,11 @@ export default function RebuilderPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-semibold mb-4">Why This Happens</h2>
-            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto text-center">
-              You're working hard — but without the data or plan that explains what your body is actually trying to correct.
-            </p>
+            <div className="flex justify-center">
+              <p className="text-lg md:text-xl text-white/70 max-w-3xl text-center">
+                You're working hard — but without the data or plan that explains what your body is actually trying to correct.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -290,7 +292,7 @@ export default function RebuilderPage() {
           title="Why It Works for Health Rebuilders"
           subtitle="A clear, structured path to rebuild stability, energy, and confidence."
           items={rebuilderWhyItWorks}
-          backgroundImage="/why it works for travellers.jpg"
+          backgroundImage="/why it works for health rebuilders.jpg"
         />
       </div>
 
@@ -318,7 +320,7 @@ export default function RebuilderPage() {
             <h2 className="text-4xl md:text-5xl font-bold tracking-wide leading-tight">
               Start building stability
             </h2>
-            <p className="text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl mx-auto text-center">
               Your symptoms are real. Your path to clarity shouldn't be.
             </p>
             <button 

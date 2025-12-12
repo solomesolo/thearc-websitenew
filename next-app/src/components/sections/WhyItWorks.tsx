@@ -32,18 +32,18 @@ export default function WhyItWorks({
   // Two-column layout with portrait for all personas
   if (isMenopause || isTraveler || isRebuilder) {
     // Determine persona-specific content
-    let portraitImage = "/images/menopause-portrait.jpg";
+    let portraitImage = backgroundImage || "/images/menopause-portrait.jpg";
     let portraitLabel = "Women in Menopause";
     let portraitText = "One continuous health system for the most important transition since puberty.";
     let sectionId = "why-it-works-menopause";
 
     if (isTraveler) {
-      portraitImage = "/images/traveler-portrait.jpg";
+      portraitImage = backgroundImage || "/images/traveler-portrait.jpg";
       portraitLabel = "Digital Nomads & Travelers";
       portraitText = "One medical partner. One continuity plan. Wherever you live next.";
       sectionId = "why-it-works-traveler";
     } else if (isRebuilder) {
-      portraitImage = "/images/rebuilder-portrait.jpg";
+      portraitImage = backgroundImage || "/images/rebuilder-portrait.jpg";
       portraitLabel = "Health Rebuilders";
       portraitText = "A clear, structured path to rebuild stability, energy, and confidence.";
       sectionId = "why-it-works-rebuilder";

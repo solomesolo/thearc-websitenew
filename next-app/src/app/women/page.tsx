@@ -96,14 +96,14 @@ export default function WomenPage() {
 
       <section className="persona-section-fade py-20 md:py-24">
         <div className="max-w-5xl mx-auto px-6">
-          <p className="text-white/40 tracking-[0.3em] uppercase text-xs md:text-sm mb-12">
+          <p className="text-white/40 tracking-[0.3em] uppercase text-xs md:text-sm mb-12 text-center">
             Challenges We Commonly See
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center relative z-10">
             <div className="relative w-full h-[400px] md:h-[520px] lg:h-[600px] order-1 md:order-1">
               <img
-                src="/header-explorer.png"
+                src="/Challenges.jpg"
                 alt="Women in menopause"
                 className="w-full h-full object-cover rounded-2xl persona-shadow"
               />
@@ -141,9 +141,11 @@ export default function WomenPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-semibold mb-4">Why This Happens</h2>
-            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto text-center">
-              You're navigating a biological transition with outdated care designed for a younger version of you.
-            </p>
+            <div className="flex justify-center">
+              <p className="text-lg md:text-xl text-white/70 max-w-3xl text-center">
+                You're navigating a biological transition with outdated care designed for a younger version of you.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -303,7 +305,7 @@ export default function WomenPage() {
           title="Why It Works for Women in Menopause"
           subtitle="Personalised menopause support grounded in biomarkers and clinical evidence."
           items={womenWhyItWorks}
-          backgroundImage="/why it works for travellers.jpg"
+          backgroundImage="/why it works.jpg"
         />
       </div>
 
@@ -331,7 +333,7 @@ export default function WomenPage() {
             <h2 className="text-4xl md:text-5xl font-bold tracking-wide leading-tight">
               Start building stability
             </h2>
-            <p className="text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl mx-auto text-center">
               Your biology is changing. Your support shouldn't disappear.
             </p>
             <ArcButton href="/free-screening?persona=women" className="cta-button">

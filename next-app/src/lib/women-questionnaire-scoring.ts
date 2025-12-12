@@ -107,11 +107,17 @@ export function calculateWomenQuestionnaireScores(
   // Section 0 - Basic Info
   const age = parseAge(demographics.age || answers['0.1'] || '');
   
-  // Parse height and weight from answer 0.2 (format: "height, weight" or "height weight")
-  const heightWeightStr = answers['0.2'] || '';
-  const heightWeightParts = heightWeightStr.split(/[,\s]+/).filter(p => p.trim());
-  const height = demographics.height || heightWeightParts[0] || '';
-  const weight = demographics.weight || heightWeightParts[1] || '';
+  // Parse height and weight - handle both old format (0.2 combined) and new format (0.2_h, 0.2_w separate)
+  let height = demographics.height || answers['0.2_h'] || answers['0.2_height'] || '';
+  let weight = demographics.weight || answers['0.2_w'] || answers['0.2_weight'] || '';
+  
+  // Fallback to old combined format if new format not present
+  if (!height || !weight) {
+    const heightWeightStr = answers['0.2'] || '';
+    const heightWeightParts = heightWeightStr.split(/[,\s]+/).filter(p => p.trim());
+    height = height || heightWeightParts[0] || '';
+    weight = weight || heightWeightParts[1] || '';
+  }
   const menstrual_status = demographics.menstrual_status || answers['0.3'] || '';
   const hrt_use = demographics.hrt_use || answers['0.4'] || '';
   const diagnoses = demographics.diagnoses || (Array.isArray(answers['0.5']) ? answers['0.5'] : []);

@@ -38,8 +38,12 @@ const sections: Section[] = [
         type: "text",
       },
       {
-        id: "0.2",
-        text: "Height & Weight",
+        id: "0.2_h",
+        text: "Height",
+      },
+      {
+        id: "0.2_w",
+        text: "Weight",
         whyMatters: "Used to understand metabolism, energy needs, and recovery patterns.",
         type: "text",
       },

@@ -1309,6 +1309,13 @@ body {
   max-width: 700px;
   backdrop-filter: blur(2px);
   margin-top: clamp(60px, 10vw, 140px);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .guidance-content h2 {
@@ -1319,6 +1326,8 @@ body {
   line-height: 1.15;
   letter-spacing: -0.025em;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+  text-align: center !important;
+  width: 100%;
 }
 
 .guidance-content p {
@@ -1327,6 +1336,8 @@ body {
   line-height: 1.6;
   margin: 0 auto 40px auto;
   max-width: 620px;
+  text-align: center !important;
+  width: 100%;
 }
 
 .cta-secondary {
@@ -2616,6 +2627,7 @@ header nav a:hover::after {
   color: #ffffff;
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
+  text-align: center;
   line-height: 1.1;
 }
 
@@ -2646,6 +2658,9 @@ header nav a:hover::after {
   color: rgba(255, 255, 255, 0.75);
   letter-spacing: 0.01em;
   max-width: 700px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
   margin: 0 auto;
 }
 

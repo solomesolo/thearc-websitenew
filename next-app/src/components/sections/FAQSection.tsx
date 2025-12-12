@@ -14,13 +14,13 @@ interface FAQSectionProps {
 
 export function FAQSection({ title = "Frequently Asked Questions", faqs }: FAQSectionProps) {
   return (
-    <section className="faq-section-wrapper">
-      <div className="faq-section-container">
-        <h2 className="faq-section-title animate-fade-up">
+    <section className="py-20 md:py-24">
+      <div className="max-w-5xl mx-auto px-6">
+        <h2 className="text-4xl md:text-5xl font-semibold text-center" style={{ marginBottom: '5rem' }}>
           {title}
         </h2>
 
-        <div className="faq-accordion-list">
+        <div className="space-y-4" style={{ marginTop: '1rem' }}>
           {faqs.map((faq, idx) => (
             <FAQAccordion
               key={faq.q}

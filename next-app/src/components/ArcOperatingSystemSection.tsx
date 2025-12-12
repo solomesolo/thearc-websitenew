@@ -105,11 +105,11 @@ export function ArcOperatingSystemSection() {
     <section className="relative bg-black text-white overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(24,120,90,0.25),rgba(0,0,0,0.95))]" />
       <div className="relative z-10 max-w-[1100px] mx-auto px-6 md:px-8 lg:px-10 py-24 md:py-32 lg:py-40 space-y-12">
-        <div className="space-y-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">
+        <div className="space-y-4 text-center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight" style={{ textAlign: 'center', width: '100%' }}>
             ARC is the operating system for your biology.
           </h2>
-          <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto" style={{ textAlign: 'center' }}>
             ARC gives you one intelligent layer that finally brings order, clarity, and continuity to your health.
           </p>
         </div>

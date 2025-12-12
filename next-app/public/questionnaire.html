@@ -384,27 +384,69 @@
             
             
             <!-- Section Navigation -->
-            <div class="section-nav">
-                <a href="#" class="section-link active" data-section="demographics">
-                    <span class="section-number">1</span>
-                    <span class="section-title">General Health & Demographics</span>
-                </a>
-                <a href="#" class="section-link" data-section="lifestyle">
-                    <span class="section-number">2</span>
-                    <span class="section-title">Lifestyle & Risk Factors</span>
-                </a>
-                <a href="#" class="section-link" data-section="symptoms">
-                    <span class="section-number">3</span>
-                    <span class="section-title">Current Symptoms & Clinical Clues</span>
-                </a>
-                <a href="#" class="section-link" data-section="screenings">
-                    <span class="section-number">4</span>
-                    <span class="section-title">History of Health Screenings</span>
-                </a>
-                <a href="#" class="section-link" data-section="additional">
-                    <span class="section-number">5</span>
-                    <span class="section-title">Additional Information</span>
-                </a>
+            <div class="section-nav" id="sectionNav">
+                <!-- Default sections (shown for non-traveler personas) -->
+                <div id="defaultSections">
+                    <a href="#" class="section-link active" data-section="demographics">
+                        <span class="section-number">1</span>
+                        <span class="section-title">General Health & Demographics</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="lifestyle">
+                        <span class="section-number">2</span>
+                        <span class="section-title">Lifestyle & Risk Factors</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="symptoms">
+                        <span class="section-number">3</span>
+                        <span class="section-title">Current Symptoms & Clinical Clues</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="screenings">
+                        <span class="section-number">4</span>
+                        <span class="section-title">History of Health Screenings</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="additional">
+                        <span class="section-number">5</span>
+                        <span class="section-title">Additional Information</span>
+                    </a>
+                </div>
+                <!-- Global Mover sections (shown for traveler persona) -->
+                <div id="travelerSections" style="display: none;">
+                    <a href="#" class="section-link active" data-section="section0">
+                        <span class="section-number">0</span>
+                        <span class="section-title">Personal Background & Health Context</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="section1">
+                        <span class="section-number">1</span>
+                        <span class="section-title">Energy, Fatigue & Vitality</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="section2">
+                        <span class="section-number">2</span>
+                        <span class="section-title">Sleep & Circadian Rhythm</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="section3">
+                        <span class="section-number">3</span>
+                        <span class="section-title">Stress & Emotional Wellbeing</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="section4">
+                        <span class="section-number">4</span>
+                        <span class="section-title">Pain, Physical Function & Mobility</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="section5">
+                        <span class="section-number">5</span>
+                        <span class="section-title">Cognition & Focus</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="section6">
+                        <span class="section-number">6</span>
+                        <span class="section-title">Digestive & Immune Wellness</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="section7">
+                        <span class="section-number">7</span>
+                        <span class="section-title">Lifestyle, Nutrition & Movement</span>
+                    </a>
+                    <a href="#" class="section-link" data-section="section8">
+                        <span class="section-number">8</span>
+                        <span class="section-title">Safety / Medical Red Flags</span>
+                    </a>
+                </div>
             </div>
         </div>
         
@@ -1460,6 +1502,930 @@
                 </div>
             </div>
             
+            <!-- ============================================ -->
+            <!-- GLOBAL MOVER (TRAVELER) QUESTIONNAIRE SECTIONS -->
+            <!-- ============================================ -->
+            
+            <!-- Section 0: Personal Background & Health Context -->
+            <div id="section0" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>SECTION 0 — Personal Background & Health Context</h1>
+                    <p>Essential for risk scoring, menopause profile, travel patterns</p>
+                </div>
+                <div class="questions-container">
+                    <!-- BG1: Age -->
+                    <div class="question">
+                        <h3>BG1 — What is your age?</h3>
+                        <input type="number" name="BG1_age" placeholder="Enter your age" min="18" max="120">
+                    </div>
+                    
+                    <!-- BG2: Gender -->
+                    <div class="question">
+                        <h3>BG2 — What is your gender?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="BG2_gender" value="woman">
+                                <span class="option-text">Woman</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG2_gender" value="man">
+                                <span class="option-text">Man</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG2_gender" value="non_binary">
+                                <span class="option-text">Non-binary</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG2_gender" value="prefer_not_to_say">
+                                <span class="option-text">Prefer not to say</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- BG3: Height -->
+                    <div class="question">
+                        <h3>BG3 — What is your height?</h3>
+                        <input type="text" name="BG3_height" placeholder="Enter height in cm or ft/in (e.g., 175 cm or 5'9&quot;)">
+                    </div>
+                    
+                    <!-- BG4: Weight -->
+                    <div class="question">
+                        <h3>BG4 — What is your weight?</h3>
+                        <input type="text" name="BG4_weight" placeholder="Enter weight in kg or lb (e.g., 70 kg or 154 lbs)">
+                    </div>
+                    
+                    <!-- BG5: Menstrual Period -->
+                    <div class="question">
+                        <h3>BG5 — Have you gone 12+ months without a menstrual period?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="BG5_menstrual_period" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG5_menstrual_period" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG5_menstrual_period" value="not_sure">
+                                <span class="option-text">Not sure</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG5_menstrual_period" value="not_applicable">
+                                <span class="option-text">Not applicable</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- BG6: Hormone Therapy -->
+                    <div class="question">
+                        <h3>BG6 — Are you currently using hormone therapy?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="BG6_hormone_therapy" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG6_hormone_therapy" value="estrogen">
+                                <span class="option-text">Estrogen</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG6_hormone_therapy" value="progesterone">
+                                <span class="option-text">Progesterone</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG6_hormone_therapy" value="combined">
+                                <span class="option-text">Combined estrogen + progesterone</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG6_hormone_therapy" value="testosterone_dhea">
+                                <span class="option-text">Testosterone or DHEA</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG6_hormone_therapy" value="not_sure">
+                                <span class="option-text">Not sure</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- BG7: Medical History -->
+                    <div class="question">
+                        <h3>BG7 — Have you ever been told by a healthcare professional that you have any of the following? (select all that apply)</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="checkbox" name="BG7_medical_history" value="high_blood_pressure">
+                                <span class="option-text">High blood pressure</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG7_medical_history" value="high_cholesterol">
+                                <span class="option-text">High cholesterol</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG7_medical_history" value="prediabetes_diabetes">
+                                <span class="option-text">Prediabetes or diabetes</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG7_medical_history" value="thyroid_condition">
+                                <span class="option-text">Thyroid condition</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG7_medical_history" value="anxiety_depression">
+                                <span class="option-text">Anxiety or depression</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG7_medical_history" value="autoimmune_condition">
+                                <span class="option-text">Autoimmune condition</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG7_medical_history" value="none">
+                                <span class="option-text">None of the above</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- BG8: Family History -->
+                    <div class="question">
+                        <h3>BG8 — Family history: Did any close family member develop any of the following before age 60? (select all that apply)</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="checkbox" name="BG8_family_history" value="heart_disease_stroke">
+                                <span class="option-text">Heart disease or stroke</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG8_family_history" value="diabetes">
+                                <span class="option-text">Diabetes</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG8_family_history" value="dementia">
+                                <span class="option-text">Dementia or significant memory decline</span>
+                            </label>
+                            <label class="option">
+                                <input type="checkbox" name="BG8_family_history" value="none">
+                                <span class="option-text">None of the above</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- BG9: Upcoming Travel -->
+                    <div class="question">
+                        <h3>BG9 — Do you have upcoming travel in the next 6 weeks?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="BG9_upcoming_travel" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG9_upcoming_travel" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- BG10: Travel Seating Duration -->
+                    <div class="question">
+                        <h3>BG10 — On typical travel days, how long are you seated (car, train, flights)?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="BG10_travel_seating" value="less_than_2_hours">
+                                <span class="option-text">&lt;2 hours</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG10_travel_seating" value="2_to_4_hours">
+                                <span class="option-text">2–4 hours</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG10_travel_seating" value="4_to_6_hours">
+                                <span class="option-text">4–6 hours</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG10_travel_seating" value="6_to_8_hours">
+                                <span class="option-text">6–8 hours</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="BG10_travel_seating" value="8_plus_hours">
+                                <span class="option-text">8+ hours</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 1: Energy, Fatigue & Vitality -->
+            <div id="section1" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>🔹 SECTION 1 — Energy, Fatigue & Vitality</h1>
+                    <p>PROMIS-inspired fatigue domain</p>
+                    <p style="font-size: 0.9rem; color: #b0b0b0; margin-top: 0.5rem;">Answer scale: Never / Rarely / Sometimes / Often / Almost always</p>
+                </div>
+                <div class="questions-container">
+                    <!-- F1: Physically worn out -->
+                    <div class="question">
+                        <h3>F1 — How often do you feel physically worn out by early afternoon?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="F1_worn_out" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F1_worn_out" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F1_worn_out" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F1_worn_out" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F1_worn_out" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- F2: Low energy limits -->
+                    <div class="question">
+                        <h3>F2 — How often does low energy limit what you can do during the day?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="F2_low_energy_limits" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F2_low_energy_limits" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F2_low_energy_limits" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F2_low_energy_limits" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F2_low_energy_limits" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- F3: Refreshed when waking -->
+                    <div class="question">
+                        <h3>F3 — How refreshed do you feel when waking up?</h3>
+                        <p style="font-size: 0.9rem; color: #b0b0b0; margin-bottom: 1rem;">Scale: Not at all → Extremely</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="F3_refreshed_waking" value="not_at_all">
+                                <span class="option-text">Not at all</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F3_refreshed_waking" value="slightly">
+                                <span class="option-text">Slightly</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F3_refreshed_waking" value="moderately">
+                                <span class="option-text">Moderately</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F3_refreshed_waking" value="very">
+                                <span class="option-text">Very</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="F3_refreshed_waking" value="extremely">
+                                <span class="option-text">Extremely</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Sleep & Circadian Rhythm -->
+            <div id="section2" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>🔹 SECTION 2 — Sleep & Circadian Rhythm</h1>
+                    <p>PROMIS Sleep Disturbance + DEGS sleep behaviors</p>
+                    <p style="font-size: 0.9rem; color: #b0b0b0; margin-top: 0.5rem;">Frequency scale unless noted otherwise</p>
+                </div>
+                <div class="questions-container">
+                    <!-- S1: Struggle to fall asleep -->
+                    <div class="question">
+                        <h3>S1 — How often do you struggle to fall asleep within a reasonable time?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="S1_struggle_fall_asleep" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S1_struggle_fall_asleep" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S1_struggle_fall_asleep" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S1_struggle_fall_asleep" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S1_struggle_fall_asleep" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- S2: Wake during night -->
+                    <div class="question">
+                        <h3>S2 — How often do you wake during the night and stay awake longer than you want?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="S2_wake_during_night" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S2_wake_during_night" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S2_wake_during_night" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S2_wake_during_night" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S2_wake_during_night" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- S3: Bedtime consistency -->
+                    <div class="question">
+                        <h3>S3 — How consistent is your bedtime from day to day?</h3>
+                        <p style="font-size: 0.9rem; color: #b0b0b0; margin-bottom: 1rem;">Scale: Very consistent → Very inconsistent</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="S3_bedtime_consistency" value="very_consistent">
+                                <span class="option-text">Very consistent</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S3_bedtime_consistency" value="somewhat_consistent">
+                                <span class="option-text">Somewhat consistent</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S3_bedtime_consistency" value="neutral">
+                                <span class="option-text">Neutral</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S3_bedtime_consistency" value="somewhat_inconsistent">
+                                <span class="option-text">Somewhat inconsistent</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S3_bedtime_consistency" value="very_inconsistent">
+                                <span class="option-text">Very inconsistent</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- S4: Travel disrupts sleep -->
+                    <div class="question">
+                        <h3>S4 — How often does travel, work, or schedule changes disrupt your sleep?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="S4_travel_disrupts_sleep" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S4_travel_disrupts_sleep" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S4_travel_disrupts_sleep" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S4_travel_disrupts_sleep" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S4_travel_disrupts_sleep" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- S5: Poor sleep affects mood -->
+                    <div class="question">
+                        <h3>S5 — How often does poor sleep affect your mood or thinking the next day?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="S5_poor_sleep_affects" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S5_poor_sleep_affects" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S5_poor_sleep_affects" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S5_poor_sleep_affects" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="S5_poor_sleep_affects" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Stress & Emotional Wellbeing -->
+            <div id="section3" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>🔹 SECTION 3 — Stress & Emotional Wellbeing</h1>
+                    <p>PROMIS Anxiety/Depression domains</p>
+                </div>
+                <div class="questions-container">
+                    <!-- ST1: Mentally overwhelmed -->
+                    <div class="question">
+                        <h3>ST1 — How often do you feel mentally overwhelmed by daily responsibilities?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="ST1_mentally_overwhelmed" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="ST1_mentally_overwhelmed" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="ST1_mentally_overwhelmed" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="ST1_mentally_overwhelmed" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="ST1_mentally_overwhelmed" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- ST2: Unable to relax -->
+                    <div class="question">
+                        <h3>ST2 — How often do you feel unable to relax, even when you have downtime?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="ST2_unable_to_relax" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="ST2_unable_to_relax" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="ST2_unable_to_relax" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="ST2_unable_to_relax" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="ST2_unable_to_relax" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- M1: Down/discouraged -->
+                    <div class="question">
+                        <h3>M1 — How often do you feel down, discouraged, or low in mood?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="M1_down_discouraged" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="M1_down_discouraged" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="M1_down_discouraged" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="M1_down_discouraged" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="M1_down_discouraged" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- M2: Worry/stress affects focus -->
+                    <div class="question">
+                        <h3>M2 — How often do worry or stress make it hard to focus?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="M2_worry_stress_focus" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="M2_worry_stress_focus" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="M2_worry_stress_focus" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="M2_worry_stress_focus" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="M2_worry_stress_focus" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Pain, Physical Function & Mobility -->
+            <div id="section4" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>🔹 SECTION 4 — Pain, Physical Function & Mobility</h1>
+                    <p>DEGS physical health + PROMIS Physical Function & Pain Interference</p>
+                </div>
+                <div class="questions-container">
+                    <!-- P1: Aches/pains limit activities -->
+                    <div class="question">
+                        <h3>P1 — How often do aches or pains limit your daily activities?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="P1_pains_limit_activities" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="P1_pains_limit_activities" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="P1_pains_limit_activities" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="P1_pains_limit_activities" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="P1_pains_limit_activities" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- P2: Avoid movement due to discomfort -->
+                    <div class="question">
+                        <h3>P2 — How often do you avoid movement or exercise because of discomfort?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="P2_avoid_movement" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="P2_avoid_movement" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="P2_avoid_movement" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="P2_avoid_movement" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="P2_avoid_movement" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- PF1: Stay active during travel -->
+                    <div class="question">
+                        <h3>PF1 — How difficult is it to stay active (walking, stairs, lifting) during travel days?</h3>
+                        <p style="font-size: 0.9rem; color: #b0b0b0; margin-bottom: 1rem;">Scale: Not difficult → Extremely difficult</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="PF1_stay_active_travel" value="not_difficult">
+                                <span class="option-text">Not difficult</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="PF1_stay_active_travel" value="slightly_difficult">
+                                <span class="option-text">Slightly difficult</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="PF1_stay_active_travel" value="moderately_difficult">
+                                <span class="option-text">Moderately difficult</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="PF1_stay_active_travel" value="very_difficult">
+                                <span class="option-text">Very difficult</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="PF1_stay_active_travel" value="extremely_difficult">
+                                <span class="option-text">Extremely difficult</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- PF2: Long sitting causes stiffness -->
+                    <div class="question">
+                        <h3>PF2 — How often do long periods of sitting (flights/trains) cause stiffness or soreness?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="PF2_sitting_stiffness" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="PF2_sitting_stiffness" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="PF2_sitting_stiffness" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="PF2_sitting_stiffness" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="PF2_sitting_stiffness" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Cognition & Focus -->
+            <div id="section5" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>🔹 SECTION 5 — Cognition & Focus</h1>
+                    <p>PROMIS Cognitive Function domain</p>
+                </div>
+                <div class="questions-container">
+                    <!-- C1: Lose track of tasks -->
+                    <div class="question">
+                        <h3>C1 — How often do you lose track of tasks or conversations?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="C1_lose_track" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="C1_lose_track" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="C1_lose_track" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="C1_lose_track" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="C1_lose_track" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- C2: Struggle to stay sharp -->
+                    <div class="question">
+                        <h3>C2 — How often do you struggle to stay mentally sharp when tired or stressed?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="C2_struggle_stay_sharp" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="C2_struggle_stay_sharp" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="C2_struggle_stay_sharp" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="C2_struggle_stay_sharp" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="C2_struggle_stay_sharp" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Digestive & Immune Wellness -->
+            <div id="section6" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>🔹 SECTION 6 — Digestive & Immune Wellness</h1>
+                    <p>DEGS somatic symptoms + travel-related immune resilience</p>
+                </div>
+                <div class="questions-container">
+                    <!-- G1: Bloating/digestive discomfort -->
+                    <div class="question">
+                        <h3>G1 — How often do you experience bloating, digestive discomfort, or irregularity?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="G1_bloating_digestive" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="G1_bloating_digestive" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="G1_bloating_digestive" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="G1_bloating_digestive" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="G1_bloating_digestive" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- IMM1: Run-down during travel -->
+                    <div class="question">
+                        <h3>IMM1 — How often do you feel run-down or more prone to getting sick during travel?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="IMM1_run_down_travel" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="IMM1_run_down_travel" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="IMM1_run_down_travel" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="IMM1_run_down_travel" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="IMM1_run_down_travel" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Lifestyle, Nutrition & Movement -->
+            <div id="section7" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>🔹 SECTION 7 — Lifestyle, Nutrition & Movement</h1>
+                    <p>DEGS lifestyle risk factors</p>
+                </div>
+                <div class="questions-container">
+                    <!-- L1: Processed/sugary foods -->
+                    <div class="question">
+                        <h3>L1 — How often do you consume highly processed or sugary foods on busy/travel days?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="L1_processed_foods" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="L1_processed_foods" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="L1_processed_foods" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="L1_processed_foods" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="L1_processed_foods" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- L2: Moderate movement -->
+                    <div class="question">
+                        <h3>L2 — How often do you reach at least 20 minutes of moderate movement (walking, stairs, mobility drills)?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="L2_moderate_movement" value="never">
+                                <span class="option-text">Never</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="L2_moderate_movement" value="rarely">
+                                <span class="option-text">Rarely</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="L2_moderate_movement" value="sometimes">
+                                <span class="option-text">Sometimes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="L2_moderate_movement" value="often">
+                                <span class="option-text">Often</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="L2_moderate_movement" value="almost_always">
+                                <span class="option-text">Almost always</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 8: Safety / Medical Red Flags -->
+            <div id="section8" class="section" style="display: none;">
+                <div class="section-header">
+                    <h1>🔹 SECTION 8 — Safety / Medical Red Flags</h1>
+                    <p>Neutral, non-diagnostic, modeled on clinical triage safety</p>
+                </div>
+                <div class="questions-container">
+                    <!-- R1: Chest discomfort -->
+                    <div class="question">
+                        <h3>R1 — Have you recently experienced chest discomfort, unexplained breathlessness, or sudden dizziness?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="R1_chest_discomfort" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="R1_chest_discomfort" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- R2: Stress/mood affects function -->
+                    <div class="question">
+                        <h3>R2 — In the past month, has stress or mood significantly affected your ability to function?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="R2_stress_mood_function" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="R2_stress_mood_function" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- R3: Symptoms need medical evaluation -->
+                    <div class="question">
+                        <h3>R3 — Are you experiencing any symptoms you feel may need prompt medical evaluation?</h3>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="R3_symptoms_medical_eval" value="yes">
+                                <span class="option-text">Yes</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="R3_symptoms_medical_eval" value="no">
+                                <span class="option-text">No</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Navigation Buttons -->
             <div class="navigation-buttons">
                 <button id="prevBtn" class="nav-btn prev-btn" disabled>Previous</button>
@@ -1475,12 +2441,46 @@
         
         // Global variables
         let currentSectionIndex = 0;
-        const sections = ["demographics", "lifestyle", "symptoms", "screenings", "additional"];
+        let sections = ["demographics", "lifestyle", "symptoms", "screenings", "additional"];
         let formData = {};
+        let persona = null;
+        
+        // Detect persona from URL or localStorage
+        function detectPersona() {
+            // Check URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const personaParam = urlParams.get('persona');
+            
+            // Check localStorage
+            const storedPersona = localStorage.getItem('selectedPersona');
+            
+            // Check route pathname
+            let routePersona = null;
+            if (window.location.pathname.includes('traveler')) {
+                routePersona = 'traveler';
+            } else if (window.location.pathname.includes('women')) {
+                routePersona = 'women';
+            } else if (window.location.pathname.includes('rebuilder')) {
+                routePersona = 'rebuilder';
+            }
+            
+            persona = personaParam || storedPersona || routePersona;
+            console.log("Detected persona:", persona);
+            
+            // If traveler persona, update sections for Global Mover questionnaire
+            if (persona === 'traveler') {
+                sections = ["section0", "section1", "section2", "section3", "section4", "section5", "section6", "section7", "section8"];
+            }
+            
+            return persona;
+        }
         
         // Initialize everything when page loads
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Comprehensive questionnaire initializing...");
+            
+            // Detect persona first
+            detectPersona();
             
             // Clear any previous questionnaire data to ensure fresh start
             clearPreviousData();
@@ -1501,6 +2501,34 @@
         
         function initializeQuestionnaire() {
             console.log("Setting up comprehensive questionnaire...");
+            
+            // Show/hide sections based on persona
+            if (persona === 'traveler') {
+                document.getElementById('defaultSections').style.display = 'none';
+                const travelerNav = document.getElementById('travelerSections');
+                travelerNav.style.display = 'flex';
+                travelerNav.style.flexDirection = 'column';
+                // Hide default sections, show traveler sections
+                document.querySelectorAll('.section').forEach(section => {
+                    if (!section.id.startsWith('section')) {
+                        section.style.display = 'none';
+                    }
+                });
+            } else {
+                const defaultNav = document.getElementById('defaultSections');
+                defaultNav.style.display = 'flex';
+                defaultNav.style.flexDirection = 'column';
+                document.getElementById('travelerSections').style.display = 'none';
+                // Hide traveler sections, show default sections
+                document.querySelectorAll('.section').forEach(section => {
+                    if (section.id.startsWith('section')) {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Update section links based on persona
+            updateSectionLinks();
             
             // Set up section navigation
             setupSectionNavigation();

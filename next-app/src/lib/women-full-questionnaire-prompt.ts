@@ -168,10 +168,23 @@ export function createWomenFullQuestionnairePrompt(
   answers: any,
   scoringResult: any
 ): string {
-  // Parse height and weight
-  const heightWeight = (answers['0.2'] || '').split(/[,\s]+/);
-  const height_cm = heightWeight[0] ? parseFloat(heightWeight[0].replace(/[^0-9.]/g, '')) : undefined;
-  const weight_kg = heightWeight[1] ? parseFloat(heightWeight[1].replace(/[^0-9.]/g, '')) : undefined;
+  // Parse height and weight - handle both old format (0.2 combined) and new format (0.2_h, 0.2_w separate)
+  let height_cm: number | undefined;
+  let weight_kg: number | undefined;
+  
+  if (answers['0.2_h'] || answers['0.2_height']) {
+    height_cm = parseFloat(String(answers['0.2_h'] || answers['0.2_height']).replace(/[^0-9.]/g, ''));
+  }
+  if (answers['0.2_w'] || answers['0.2_weight']) {
+    weight_kg = parseFloat(String(answers['0.2_w'] || answers['0.2_weight']).replace(/[^0-9.]/g, ''));
+  }
+  
+  // Fallback to old combined format if new format not present
+  if (!height_cm || !weight_kg) {
+    const heightWeight = (answers['0.2'] || '').split(/[,\s]+/);
+    height_cm = height_cm || (heightWeight[0] ? parseFloat(heightWeight[0].replace(/[^0-9.]/g, '')) : undefined);
+    weight_kg = weight_kg || (heightWeight[1] ? parseFloat(heightWeight[1].replace(/[^0-9.]/g, '')) : undefined);
+  }
   
   // Calculate BMI
   const bmi = height_cm && weight_kg ? (weight_kg / Math.pow(height_cm / 100, 2)) : undefined;

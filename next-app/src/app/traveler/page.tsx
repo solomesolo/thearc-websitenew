@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import { HowItWorksSection } from "../../components/HowItWorksSection";
@@ -93,7 +94,6 @@ const travelerWhyItWorks = [
 ];
 
 export default function TravelerPage() {
-
   return (
     <main className="persona-traveler min-h-screen text-slate-50">
       <TravelerHero />
@@ -102,7 +102,7 @@ export default function TravelerPage() {
 
       <section className="persona-section-fade py-20 md:py-24">
         <div className="max-w-5xl mx-auto px-6">
-          <p className="text-white/40 tracking-[0.3em] uppercase text-xs md:text-sm mb-12">
+          <p className="text-white/40 tracking-[0.3em] uppercase text-xs md:text-sm mb-12 text-center">
             Challenges We Commonly See
           </p>
 
@@ -149,9 +149,11 @@ export default function TravelerPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-semibold mb-4">Why This Happens</h2>
-            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto text-center">
-              The world changes around you faster than your biology can adapt.
-            </p>
+            <div className="flex justify-center">
+              <p className="text-lg md:text-xl text-white/70 max-w-3xl text-center">
+                The world changes around you faster than your biology can adapt.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -339,14 +341,15 @@ export default function TravelerPage() {
             <h2 className="text-4xl md:text-5xl font-bold tracking-wide leading-tight">
               Start building stability
             </h2>
-            <p className="text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl mx-auto text-center">
               Your lifestyle is global. Your health can be too.
             </p>
-            <button 
+            <Link 
+              href="/screening/welcome/traveler"
               className="inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-slate-950 bg-[var(--persona-accent)] hover:bg-[var(--persona-accent)]/90 shadow-lg shadow-[var(--persona-accent)]/40 transition-all"
             >
               Start free screening
-            </button>
+            </Link>
           </motion.div>
         </div>
       </section>

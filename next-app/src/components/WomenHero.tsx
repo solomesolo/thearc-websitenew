@@ -18,26 +18,23 @@ export default function WomenHero() {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url("/header-explorer.png")`,
+          backgroundImage: `url("/Menopause%20Header.webp")`,
           backgroundSize: "cover",
           backgroundPosition: "75% center",
-          filter: "saturate(0.9) brightness(0.85)",
+          filter: "saturate(1.0) brightness(1.0)",
         }}
       />
-      <div className="absolute inset-0 bg-black/60" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/50 to-black/15 backdrop-blur-[0.5px]" />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 20% 30%, rgba(0,0,0,0.35), transparent 60%), radial-gradient(circle at 85% 20%, rgba(0,0,0,0.25), transparent 55%)",
-        }}
-      />
+      <div className="absolute inset-0 bg-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-black/5 backdrop-blur-[0.5px]" />
+      {/* Persona accent halo with consistent glow */}
+      <div className="absolute inset-0 persona-portrait-halo -z-10" style={{ background: "radial-gradient(circle at 20% 30%, var(--persona-accent-soft) 0%, transparent 65%)" }} />
+      {/* Additional persona glow layers for consistency */}
+      <div className="absolute inset-0 pointer-events-none opacity-40" style={{ background: "radial-gradient(circle at 50% 50%, var(--persona-accent-soft) 0%, transparent 70%)" }} />
 
       <div className="relative max-w-[1320px] mx-auto px-6 lg:px-10 pt-32 md:pt-40 pb-28 min-h-[90vh] flex items-center">
         <div className="max-w-[650px] space-y-8">
           <motion.p
-            className="text-[12px] tracking-[0.35em] uppercase text-white/55"
+            className="text-[12px] tracking-[0.35em] uppercase persona-accent-text"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.6 }}

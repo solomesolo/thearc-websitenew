@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { PERSONAS } from "@/lib/persona";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,10 +36,11 @@ export default function Header() {
     };
   }, [isDropdownOpen]);
 
+  // Use persona config to ensure consistency
   const personaLinks = [
-    { label: "Busy Professionals", href: "/professional" },
-    { label: "Travellers & Nomads", href: "/traveler" },
-    { label: "Health Rebuilders", href: "/rebuilder" },
+    { label: PERSONAS.women.name, href: PERSONAS.women.route },
+    { label: PERSONAS.traveler.name, href: PERSONAS.traveler.route },
+    { label: PERSONAS.rebuilder.name, href: PERSONAS.rebuilder.route },
   ];
 
   return (

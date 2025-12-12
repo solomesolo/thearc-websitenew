@@ -44,10 +44,16 @@ function getClientIp(req: NextRequest): string {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    console.log("📝 Registration request received:", {
+      email: body.email,
+      hasMandatoryConsents: !!body.mandatoryConsents,
+      consents: body.mandatoryConsents,
+    });
     
     // Validate input
     const parsed = registrationSchema.safeParse(body);
     if (!parsed.success) {
+      console.error("❌ Validation failed:", parsed.error.flatten());
       return NextResponse.json(
         { error: "Validation failed", details: parsed.error.flatten() },
         { status: 400 }
@@ -71,8 +77,22 @@ export async function POST(req: NextRequest) {
       !mandatoryConsents.terms ||
       !mandatoryConsents.ageConfirmed
     ) {
+      console.error("❌ Missing mandatory consents:", {
+        healthData: mandatoryConsents.healthData,
+        dataTransfer: mandatoryConsents.dataTransfer,
+        terms: mandatoryConsents.terms,
+        ageConfirmed: mandatoryConsents.ageConfirmed,
+      });
       return NextResponse.json(
-        { error: "All mandatory consents must be accepted." },
+        { 
+          error: "All mandatory consents must be accepted.",
+          details: {
+            healthData: mandatoryConsents.healthData,
+            dataTransfer: mandatoryConsents.dataTransfer,
+            terms: mandatoryConsents.terms,
+            ageConfirmed: mandatoryConsents.ageConfirmed,
+          }
+        },
         { status: 400 }
       );
     }
@@ -158,19 +178,54 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Registration error:", error);
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorStack = error instanceof Error ? error.stack : undefined;
     
-    // Handle unique constraint violation (email already exists)
-    if (error instanceof Error && error.message.includes("Unique constraint")) {
-      return NextResponse.json(
-        { error: "Email already registered" },
-        { status: 409 }
-      );
+    // Log full error details in development
+    if (process.env.NODE_ENV === "development") {
+      console.error("Full error details:", {
+        message: errorMessage,
+        stack: errorStack,
+        error: error,
+      });
+    }
+    
+    // Handle Prisma/database errors
+    if (error instanceof Error) {
+      // Handle unique constraint violation (email already exists)
+      if (error.message.includes("Unique constraint") || error.message.includes("Unique")) {
+        return NextResponse.json(
+          { error: "Email already registered" },
+          { status: 409 }
+        );
+      }
+      
+      // Handle database connection errors
+      if (error.message.includes("connect") || error.message.includes("Connection") || error.message.includes("ECONNREFUSED")) {
+        return NextResponse.json(
+          { 
+            error: "Database connection failed",
+            details: process.env.NODE_ENV === "development" ? errorMessage : undefined,
+          },
+          { status: 503 }
+        );
+      }
+      
+      // Handle Prisma errors
+      if (error.message.includes("prisma") || error.message.includes("Prisma")) {
+        return NextResponse.json(
+          { 
+            error: "Database error occurred",
+            details: process.env.NODE_ENV === "development" ? errorMessage : undefined,
+          },
+          { status: 500 }
+        );
+      }
     }
     
     return NextResponse.json(
       {
         error: "Registration failed",
-        details: process.env.NODE_ENV === "development" ? errorMessage : undefined,
+        details: process.env.NODE_ENV === "development" ? errorMessage : "Please try again later",
       },
       { status: 500 }
     );

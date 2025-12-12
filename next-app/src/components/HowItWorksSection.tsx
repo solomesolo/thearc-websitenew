@@ -275,7 +275,7 @@ export function HowItWorksSection({
     <section
       id="arc-how-it-works"
       ref={sectionRef}
-      className="scroll-steps w-full bg-black text-white relative"
+      className="scroll-steps w-full text-white relative how-it-works-section"
     >
       {/* Header */}
       <div className="w-full py-16 lg:py-20 relative z-10">
@@ -340,7 +340,7 @@ export function HowItWorksSection({
       })}
 
       {/* Final CTA */}
-      <div className="bg-black py-16 lg:py-20 text-center border-t border-white/5 relative z-10">
+      <div className="py-16 lg:py-20 text-center border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <ArcButton href={ctaHref}>{ctaLabel}</ArcButton>
         </div>
