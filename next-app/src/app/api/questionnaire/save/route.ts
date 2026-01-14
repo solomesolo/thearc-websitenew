@@ -23,6 +23,15 @@ const saveQuestionnaireSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  // Database functionality has been removed
+  return NextResponse.json(
+    { 
+      error: "Questionnaire saving is not available",
+      message: "Database functionality has been disabled. This is a static website.",
+    },
+    { status: 503 }
+  );
+
   try {
     // 1. Verify user session
     const session = getSessionFromRequest(req);

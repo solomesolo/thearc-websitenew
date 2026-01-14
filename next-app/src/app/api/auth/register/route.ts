@@ -60,6 +60,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Database functionality has been removed - return service unavailable
+    return NextResponse.json(
+      { 
+        error: "Registration service is not available",
+        message: "Database functionality has been disabled. This is a static website.",
+      },
+      { status: 503 }
+    );
+
     const {
       firstName,
       lastName,

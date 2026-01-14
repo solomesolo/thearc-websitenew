@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
+  return NextResponse.json({
+    success: false,
+    error: "Database functionality has been removed",
+    message: "Prisma has been removed. This is a static website.",
+  });
+  
   // Only allow in development
   if (process.env.NODE_ENV === "production") {
     return NextResponse.json(

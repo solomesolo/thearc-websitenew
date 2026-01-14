@@ -35,17 +35,14 @@ export async function POST(req: NextRequest) {
     password = password.trim();
 
     try {
-      // Check if DATABASE_URL is set
-      if (!process.env.DATABASE_URL || process.env.DATABASE_URL === "") {
-        console.error("❌ DATABASE_URL environment variable is not set");
-        return NextResponse.json(
-          { 
-            error: "Database connection failed",
-            details: process.env.NODE_ENV === "development" ? "DATABASE_URL environment variable is not set" : undefined,
-          },
-          { status: 503 }
-        );
-      }
+      // Database functionality has been removed - return service unavailable
+      return NextResponse.json(
+        { 
+          error: "Authentication service is not available",
+          message: "Database functionality has been disabled. This is a static website.",
+        },
+        { status: 503 }
+      );
 
       // Test database connection first
       await prisma.$connect();
