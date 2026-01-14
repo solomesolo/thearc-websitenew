@@ -1,6 +1,6 @@
-# Ignore everything except next-app directory
+# Ignore everything except next-app-clean directory
 *
-!next-app/
-!next-app/**
+!next-app-clean/
+!next-app-clean/**
 !package.json
 !vercel.json

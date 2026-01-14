@@ -1,9 +1,16 @@
 {
   "version": 2,
+  "buildCommand": "cd next-app-clean && npm install && npm run build",
+  "outputDirectory": "next-app-clean/.next",
+  "installCommand": "cd next-app-clean && npm install",
+  "framework": null,
   "builds": [
     {
       "src": "next-app-clean/package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/next",
+      "config": {
+        "zeroConfig": true
+      }
     }
   ]
 }
