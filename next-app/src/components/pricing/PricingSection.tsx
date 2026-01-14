@@ -4,6 +4,11 @@ import Link from "next/link";
 import React, { useId } from "react";
 import { motion } from "framer-motion";
 
+interface PricingSectionProps {
+  onPlanClick?: () => void;
+  onScreeningClick?: () => void;
+}
+
 const CheckIcon = () => {
   const gradientId = useId();
   return (
@@ -81,7 +86,7 @@ const cards = [
   },
 ];
 
-export function PricingSection() {
+export function PricingSection({ onPlanClick, onScreeningClick }: PricingSectionProps = {}) {
   return (
     <section id="plans" className="relative w-full bg-black py-36 overflow-hidden">
       <div
@@ -145,10 +150,39 @@ export function PricingSection() {
                 ))}
               </div>
 
-              <div className="pt-2 flex justify-center">
-                <Link href={card.ctaHref} className="premium-button w-full md:w-auto text-center">
-                  {card.ctaLabel}
-                </Link>
+              <div className="pt-2 flex flex-col gap-3">
+                {index < 2 ? (
+                  <>
+                    {onPlanClick ? (
+                      <button onClick={onPlanClick} className="premium-button w-full text-center">
+                        Choose plan
+                      </button>
+                    ) : (
+                      <Link href={index === 1 ? "/checkout/education" : card.ctaHref} className="premium-button w-full text-center">
+                        Choose plan
+                      </Link>
+                    )}
+                    {onScreeningClick ? (
+                      <button onClick={onScreeningClick} className="premium-button w-full text-center border border-white/10 bg-transparent hover:bg-white/5">
+                        Start with the free blueprint
+                      </button>
+                    ) : (
+                      <Link href="/free-screening" className="premium-button w-full text-center border border-white/10 bg-transparent hover:bg-white/5">
+                        Start with the free blueprint
+                      </Link>
+                    )}
+                  </>
+                ) : (
+                  onPlanClick ? (
+                    <button onClick={onPlanClick} className="premium-button w-full text-center">
+                      {card.ctaLabel}
+                    </button>
+                  ) : (
+                    <Link href={card.ctaHref} className="premium-button w-full text-center">
+                      {card.ctaLabel}
+                    </Link>
+                  )
+                )}
               </div>
             </motion.div>
           ))}

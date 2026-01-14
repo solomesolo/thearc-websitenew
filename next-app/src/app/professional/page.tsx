@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import EmailSignupModal from "../../components/EmailSignupModal";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import { HowItWorksSection } from "../../components/HowItWorksSection";
@@ -70,7 +72,7 @@ const professionalSteps = [
   },
   {
     number: "03",
-    title: "Your 6-month plan",
+    title: "Your personalised health plan",
     text: "A personalised, performance-focused roadmap that stabilises your biology and supports resilience — without slowing your pace.",
   },
   {
@@ -92,9 +94,11 @@ const professionalWhyItWorks = [
 ];
 
 export default function ProfessionalPage() {
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
   return (
     <main className="bg-black text-white">
-      <ProfessionalHero />
+      <ProfessionalHero onCTAClick={() => setShowEmailModal(true)} />
 
       <ProfessionalPersonaSection />
 
@@ -190,6 +194,7 @@ export default function ProfessionalPage() {
       <HowItWorksSection
         description="A data-led process that translates complex health signals into simple routines built for demanding careers."
         steps={professionalSteps}
+        ctaOnClick={() => setShowEmailModal(true)}
       />
 
       {/* Why It Works */}
@@ -200,7 +205,7 @@ export default function ProfessionalPage() {
       />
 
       {/* Professional Pricing */}
-      <TravelerPricingSection />
+      <TravelerPricingSection onPlanClick={() => setShowEmailModal(true)} />
       <ProfessionalBlueprint />
       <ProfessionalFAQ />
 
@@ -222,11 +227,12 @@ export default function ProfessionalPage() {
           <p className="text-[22px] text-white/75 leading-relaxed">
             Your ambition is high. Your energy should match it.
           </p>
-          <ArcButton href="/free-screening" className="cta-button">
+          <ArcButton onClick={() => setShowEmailModal(true)} className="cta-button">
             Start free screening
           </ArcButton>
         </motion.div>
       </section>
+      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
     </main>
   );
 }

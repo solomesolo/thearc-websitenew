@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import DNAParticles from '../../../../components/DNAParticles';
 import DNABackground from '../../../../components/DNABackground';
-import Footer from '../../../../components/Footer';
 import BurgerMenu from '../../../../components/BurgerMenu';
 import { trackMarketplaceView } from '../../../../utils/mixpanel';
 import { Product, Provider, Biomarker } from '../../../../lib/types';
@@ -405,8 +404,6 @@ export default function ProductDetailPage() {
           )}
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

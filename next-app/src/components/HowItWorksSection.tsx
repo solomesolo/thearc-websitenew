@@ -14,6 +14,7 @@ interface HowItWorksSectionProps {
   description?: string;
   ctaHref?: string;
   ctaLabel?: string;
+  ctaOnClick?: () => void;
   steps?: StepItem[];
 }
 
@@ -69,6 +70,7 @@ export function HowItWorksSection({
   description = "A simple, intelligent operating system for your biology.",
   ctaHref = "/free-screening",
   ctaLabel = "Start free screening",
+  ctaOnClick,
   steps = defaultSteps,
 }: HowItWorksSectionProps) {
   const [activeStep, setActiveStep] = useState(0);
@@ -342,7 +344,7 @@ export function HowItWorksSection({
       {/* Final CTA */}
       <div className="py-16 lg:py-20 text-center border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <ArcButton href={ctaHref}>{ctaLabel}</ArcButton>
+          <ArcButton href={ctaOnClick ? undefined : ctaHref} onClick={ctaOnClick}>{ctaLabel}</ArcButton>
         </div>
       </div>
     </section>

@@ -93,6 +93,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <MainLayoutClient>
           {children}
         </MainLayoutClient>
+        <Footer />
         <CookieConsent />
         <Analytics />
       </body>

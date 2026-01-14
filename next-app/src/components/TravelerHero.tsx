@@ -12,13 +12,13 @@ const textVariants = {
   }),
 };
 
-export default function TravelerHero() {
+export default function TravelerHero({ onCTAClick }: { onCTAClick?: () => void }) {
   return (
     <section className="relative w-full overflow-hidden bg-black">
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url("/header-explorer.png")`,
+          backgroundImage: `url("/hero-background-traveler.jpg")`,
           backgroundSize: "cover",
           backgroundPosition: "75% center",
           filter: "saturate(0.9) brightness(0.85)",
@@ -98,7 +98,7 @@ export default function TravelerHero() {
             custom={0.35}
             variants={textVariants}
           >
-            <ArcButton href="/screening/welcome/traveler">
+            <ArcButton href={onCTAClick ? undefined : "/screening/welcome/traveler"} onClick={onCTAClick}>
               Start free screening
             </ArcButton>
           </motion.div>

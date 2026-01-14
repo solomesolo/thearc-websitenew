@@ -7,8 +7,8 @@ interface HeroSectionProps {
   title: string;
   subtitle: string;
   bullets?: string[];
-  primaryCTA: { label: string; href: string };
-  secondaryCTA?: { label: string; href: string };
+  primaryCTA?: { label: string; href?: string; onClick?: () => void };
+  secondaryCTA?: { label: string; href?: string; onClick?: () => void };
   image?: { src: string; alt?: string };
 }
 
@@ -50,17 +50,22 @@ export function HeroSection({
             </div>
           )}
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <ArcButton href={primaryCTA.href}>{primaryCTA.label}</ArcButton>
-            {secondaryCTA && (
-              <ArcButton
-                href={secondaryCTA.href}
-                className="border border-white/30 text-[#4DEECD] bg-transparent"
-              >
-                {secondaryCTA.label}
-              </ArcButton>
-            )}
-          </div>
+          {(primaryCTA || secondaryCTA) && (
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              {primaryCTA && (
+                <ArcButton href={primaryCTA.href} onClick={primaryCTA.onClick}>{primaryCTA.label}</ArcButton>
+              )}
+              {secondaryCTA && (
+                <ArcButton
+                  href={secondaryCTA.href}
+                  onClick={secondaryCTA.onClick}
+                  className="border border-white/30 text-[#4DEECD] bg-transparent"
+                >
+                  {secondaryCTA.label}
+                </ArcButton>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>

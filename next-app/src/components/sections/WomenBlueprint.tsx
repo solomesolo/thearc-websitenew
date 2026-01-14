@@ -18,15 +18,18 @@ const CardWrapper = ({ children }: { children: React.ReactNode }) => (
 export function WomenBlueprint() {
   return (
     <section className="relative w-full py-20 md:py-24">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="flex flex-col items-center text-center space-y-4 mb-12">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white">Your Personal Arc Blueprint</h2>
+          <p className="text-lg text-gray-300 max-w-2xl">
+            A preview of the clarity and structure you receive after your first assessment.
+          </p>
+          <div className="pt-4">
+            <ArcButton href="/women/blueprint/sample">View the sample of the Blueprint</ArcButton>
+          </div>
+        </div>
 
-      <div className="max-w-5xl mx-auto px-6 text-center space-y-4">
-        <h2 className="text-4xl md:text-5xl font-semibold text-white">Your Personal Arc Blueprint</h2>
-        <p className="text-lg text-gray-300">
-          A preview of the clarity and structure you receive after your first assessment.
-        </p>
-      </div>
-
-      <div className="max-w-5xl mx-auto mt-12 grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-8 lg:grid-cols-3">
         {/* CARD 1 — Predisposition Map (UNCHANGED) */}
         <CardWrapper>
           <div className="space-y-2">
@@ -140,10 +143,11 @@ export function WomenBlueprint() {
             </div>
           </div>
         </CardWrapper>
-      </div>
+        </div>
 
-      <div className="relative z-10 mt-12 flex justify-center">
-        <ArcButton href="/women/blueprint/sample">View a sample Blueprint</ArcButton>
+        <div className="relative z-10 mt-12 flex justify-center">
+          <ArcButton href="/dashboard/example">View a sample Blueprint</ArcButton>
+        </div>
       </div>
     </section>
   );

@@ -12,7 +12,7 @@ const textVariants = {
   }),
 };
 
-export default function ProfessionalHero() {
+export default function ProfessionalHero({ onCTAClick }: { onCTAClick?: () => void }) {
   return (
     <section className="relative w-full overflow-hidden bg-black">
       <div
@@ -89,7 +89,7 @@ export default function ProfessionalHero() {
             custom={0.35}
             variants={textVariants}
           >
-            <ArcButton href="/free-screening">
+            <ArcButton href={onCTAClick ? undefined : "/free-screening"} onClick={onCTAClick}>
               Start free screening
             </ArcButton>
           </motion.div>

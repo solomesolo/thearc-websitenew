@@ -3,10 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import DNAParticles from "../../components/DNAParticles";
-import DNABackground from "../../components/DNABackground";
-import Footer from "../../components/Footer";
-import BurgerMenu from "../../components/BurgerMenu";
 import { trackMarketplaceView } from "../../utils/mixpanel";
 import { SupabaseService } from "../../lib/supabaseService";
 import { Provider, Product, ProviderFilters, ProductFilters } from "../../lib/types";
@@ -50,49 +46,94 @@ function MarketplacePageContent() {
     const loadData = async () => {
       try {
         setLoading(true);
+        setError(null);
+        
+        // Check if Supabase is configured
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+        
+        if (!supabaseUrl || !supabaseKey || 
+            supabaseUrl === 'YOUR_SUPABASE_URL' || 
+            supabaseKey === 'YOUR_SUPABASE_ANON_KEY') {
+          console.warn('Supabase not configured - marketplace will show empty state');
+          setProviders([]);
+          setProducts([]);
+          setFilteredProviders([]);
+          setAvailableBiomarkers([]);
+          setLoading(false);
+          return;
+        }
+        
         const [providersData, productsData] = await Promise.all([
-          SupabaseService.getProviders(),
-          SupabaseService.getProducts({ available: true })
+          SupabaseService.getProviders().catch(err => {
+            console.error('Error loading providers:', err);
+            return [];
+          }),
+          SupabaseService.getProducts({ available: true }).catch(err => {
+            console.error('Error loading products:', err);
+            return [];
+          })
         ]);
         
-        setProviders(providersData);
-        setProducts(productsData);
-        setFilteredProviders(providersData);
-        
-        // Extract biomarkers from products (simpler approach)
-        const allBiomarkers = new Set<string>();
-        productsData.forEach(product => {
-          if (product.biomarkers) {
-            const biomarkers = SupabaseService.extractProductBiomarkers(product.biomarkers);
-            biomarkers.forEach(bio => {
-              allBiomarkers.add(bio.name);
-            });
-          }
-        });
-        setAvailableBiomarkers(Array.from(allBiomarkers).sort());
+        // If both are empty, show error; otherwise show what we have
+        if (providersData.length === 0 && productsData.length === 0) {
+          setError('Unable to load marketplace data. Please check your connection and try again.');
+        } else {
+          setProviders(providersData);
+          setProducts(productsData);
+          setFilteredProviders(providersData);
+          
+          // Extract biomarkers from products (simpler approach)
+          const allBiomarkers = new Set<string>();
+          productsData.forEach(product => {
+            if (product.biomarkers) {
+              try {
+                const biomarkers = SupabaseService.extractProductBiomarkers(product.biomarkers);
+                biomarkers.forEach(bio => {
+                  allBiomarkers.add(bio.name);
+                });
+              } catch (err) {
+                console.warn('Error extracting biomarkers from product:', err);
+              }
+            }
+          });
+          setAvailableBiomarkers(Array.from(allBiomarkers).sort());
+        }
       } catch (error) {
         console.error('Error loading data:', error);
-        setError('Failed to load marketplace data');
+        setError('Failed to load marketplace data. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
 
-    loadData();
-  }, []);
+    if (mounted) {
+      loadData();
+    }
+  }, [mounted]);
+
+  // Handle country from URL - set filter immediately
+  useEffect(() => {
+    if (!mounted) return;
+    const countryFromUrl = searchParams.get('country');
+    if (countryFromUrl) {
+      setSelectedCountry(countryFromUrl);
+      setProviderFilters(prev => ({
+        ...prev,
+        locations: [countryFromUrl]
+      }));
+    }
+  }, [mounted, searchParams]);
 
   // Handle search parameters from URL (simplified)
   useEffect(() => {
     if (!mounted || products.length === 0 || providers.length === 0) return;
     
     const searchFromUrl = searchParams.get('search');
-    const countryFromUrl = searchParams.get('country');
     
-    console.log('🔍 Search parameter processing:', { searchFromUrl, countryFromUrl, productsCount: products.length, providersCount: providers.length });
+    if (!searchFromUrl) return;
     
-    if (countryFromUrl) {
-      setSelectedCountry(countryFromUrl);
-    }
+    console.log('🔍 Search parameter processing:', { searchFromUrl, productsCount: products.length, providersCount: providers.length });
     
     if (searchFromUrl) {
       console.log('🔍 Processing search term:', searchFromUrl);
@@ -153,10 +194,11 @@ function MarketplacePageContent() {
 
       let filtered = [...providers];
 
-    // Apply provider filters
-    if (providerFilters.locations.length > 0) {
+    // Apply provider filters - prioritize country from URL
+    const locationsToFilter = selectedCountry ? [selectedCountry] : providerFilters.locations;
+    if (locationsToFilter.length > 0) {
       filtered = filtered.filter(provider => 
-        providerFilters.locations.some(location => 
+        locationsToFilter.some(location => 
           provider['Company Location']?.toLowerCase().includes(location.toLowerCase())
         )
       );
@@ -192,7 +234,7 @@ function MarketplacePageContent() {
     };
 
     applyFilters();
-  }, [providers, products, providerFilters, productFilters]);
+  }, [providers, products, providerFilters, productFilters, selectedCountry]);
 
   const handleProviderTagChange = useCallback((tag: string, checked: boolean) => {
     const normalizedTag = tag.replace(/\s+/g, '_');
@@ -328,15 +370,19 @@ function MarketplacePageContent() {
     );
   }
 
-  if (error) {
+  if (error && !loading) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+        <div className="text-center max-w-md">
           <h1 className="text-2xl font-bold mb-4">Error Loading Marketplace</h1>
-          <p className="text-gray-400 mb-4">{error}</p>
+          <p className="text-white/70 mb-6">{error}</p>
           <button 
-            onClick={() => window.location.reload()} 
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg"
+            onClick={() => {
+              setError(null);
+              setLoading(true);
+              window.location.reload();
+            }} 
+            className="bg-[#40e0c2] hover:bg-[#40e0c2]/90 text-black px-6 py-3 rounded-full font-medium transition-all"
           >
             Retry
           </button>
@@ -347,34 +393,7 @@ function MarketplacePageContent() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <DNABackground />
-      <DNAParticles />
       
-      {/* Header */}
-      <header className="relative z-10 bg-black/80 backdrop-blur-sm border-b border-white/10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-white">
-              TheArc
-            </Link>
-            <BurgerMenu />
-          </div>
-        </div>
-      </header>
-
-      {/* Breadcrumbs */}
-      <div className="relative z-10 bg-black/60 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-2">
-          <nav className="text-sm text-gray-300">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <span className="mx-2">→</span>
-            <Link href="/catalog" className="hover:text-white">Catalog</Link>
-            <span className="mx-2">→</span>
-            <span className="text-white">Marketplace</span>
-          </nav>
-        </div>
-      </div>
-
       {/* Main Content */}
       <main className="relative z-10">
         <div className="container mx-auto px-4 py-8">
@@ -614,8 +633,6 @@ function MarketplacePageContent() {
           </div>
         </div>
       </main>
-
-      <Footer />
 
       {/* Product Modal */}
       {showProductModal && (

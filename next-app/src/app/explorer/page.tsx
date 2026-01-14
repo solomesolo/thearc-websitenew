@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import Footer from "../../components/Footer";
+import EmailSignupModal from "../../components/EmailSignupModal";
 
 function trackEvent(name: string, payload?: Record<string, any>) {
   if (typeof window !== 'undefined' && (window as any).mixpanel) {
@@ -415,6 +416,7 @@ function TimelineRoadmap() {
 
 export default function ExplorerPage() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showEmailModal, setShowEmailModal] = useState(false);
   const sectionsRef = useRef<HTMLElement[]>([]);
   const timelineProgressRef = useRef<HTMLDivElement>(null);
   const dotsRef = useRef<HTMLDivElement[]>([]);
@@ -508,13 +510,15 @@ export default function ExplorerPage() {
             <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
               Your health should travel with you. Discover how to stay energized and balanced wherever life leads.
             </p>
-            <a
-              href="/free-screening?persona=explorer"
+            <button
               className="btn-primary"
-              onClick={() => trackEvent('cta_click', { persona: 'explorer', location: 'hero', cta: 'free_check' })}
+              onClick={() => {
+                trackEvent('cta_click', { persona: 'explorer', location: 'hero', cta: 'free_check' });
+                setShowEmailModal(true);
+              }}
             >
               Take Your Free Health Check
-            </a>
+            </button>
             <p className="caption mt-4 text-gray-400">
               3-minute test · Private · Simple results
             </p>
@@ -643,13 +647,15 @@ export default function ExplorerPage() {
                 <p className="text-lg text-gray-300 mb-8">
                   Our free health screening gives you quick insight into how travel affects your sleep, stress, and energy. It takes just a few minutes and gives you clear guidance.
                 </p>
-                <a
-                  href="/free-screening?persona=explorer"
+                <button
                   className="btn-primary"
-                  onClick={() => trackEvent('cta_click', { persona: 'explorer', location: 'insight', cta: 'free_test' })}
+                  onClick={() => {
+                    trackEvent('cta_click', { persona: 'explorer', location: 'insight', cta: 'free_test' });
+                    setShowEmailModal(true);
+                  }}
                 >
                   Take the Free Test
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -705,13 +711,15 @@ export default function ExplorerPage() {
             <p className="text-lg text-gray-300 mb-10">
               Wellness can move with you. Start today and feel grounded wherever you go.
             </p>
-            <a
-              href="/free-screening?persona=explorer"
+            <button
               className="btn-primary"
-              onClick={() => trackEvent('cta_click', { persona: 'explorer', location: 'transformation', cta: 'combo' })}
+              onClick={() => {
+                trackEvent('cta_click', { persona: 'explorer', location: 'transformation', cta: 'combo' });
+                setShowEmailModal(true);
+              }}
             >
               Try Free Screening + Plan Combo
-            </a>
+            </button>
             <div className="mt-6">
               <Link 
                 href="/"
@@ -726,6 +734,7 @@ export default function ExplorerPage() {
 
       {/* Footer */}
       <Footer />
+      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
     </div>
   );
 }

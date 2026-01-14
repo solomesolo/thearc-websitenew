@@ -12,7 +12,7 @@ const textVariants = {
   }),
 };
 
-export default function RebuilderHero() {
+export default function RebuilderHero({ onCTAClick }: { onCTAClick?: () => void }) {
   return (
     <section className="relative w-full overflow-hidden bg-black">
       <div
@@ -100,7 +100,7 @@ export default function RebuilderHero() {
             custom={0.35}
             variants={textVariants}
           >
-            <ArcButton href="/free-screening">
+            <ArcButton href={onCTAClick ? undefined : "/free-screening"} onClick={onCTAClick}>
               Start free screening
             </ArcButton>
           </motion.div>

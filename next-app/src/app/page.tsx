@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Footer from "../components/Footer";
+import EmailSignupModal from "../components/EmailSignupModal";
+import PartnershipModal from "../components/PartnershipModal";
 import { HeroSection } from "../components/HeroSection";
 import { ScatteredKineticSection } from "../components/ScatteredKineticSection";
 import { ArcOperatingSystemSection } from "@/components/ArcOperatingSystemSection";
@@ -49,6 +50,9 @@ const personaCards = [
 ];
 
 export default function HomePage() {
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showPartnershipModal, setShowPartnershipModal] = useState(false);
+
   useEffect(() => {
     const hwCards = Array.from(document.querySelectorAll<HTMLDivElement>(".hw-card-magnetic"));
     if (!hwCards.length) return;
@@ -137,8 +141,8 @@ export default function HomePage() {
         title="Your Health Needs an Operating System. So We Built One."
         subtitle="ARC unifies everything you know about your body into one intelligent system that detects risks early, adapts to your life, and guides you with medical precision."
         bullets={["Not an app.", "Not a program.", "Your personal HealthOS."]}
-        primaryCTA={{ label: "Start Free Screening →", href: "/free-screening" }}
-        secondaryCTA={{ label: "Explore ARC Marketplace →", href: "/marketplace" }}
+        primaryCTA={{ label: "Build your longevity plan →", href: "#personas" }}
+        secondaryCTA={{ label: "Explore ARC Marketplace →", href: "/catalog/countries" }}
         image={{ src: "/header main page.png", alt: "The Arc cinematic hero" }}
       />
       <ScatteredKineticSection />
@@ -180,7 +184,7 @@ export default function HomePage() {
 
       {/* 2️⃣ Intelligence Journey → OS Canvas → How It Works */}
       <ArcOSCanvasSection />
-      <HowItWorksSection />
+      <HowItWorksSection ctaOnClick={() => setShowEmailModal(true)} />
 
       {/* 3️⃣ Three Personas Section */}
       <Section id="personas">
@@ -277,17 +281,17 @@ export default function HomePage() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
           <Link
-            href="/catalog"
+            href="/catalog/countries"
             className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
           >
             Explore the Catalog
           </Link>
-          <Link
-            href="/contact"
+          <button
+            onClick={() => setShowPartnershipModal(true)}
             className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
           >
             Partner With Us
-          </Link>
+          </button>
         </div>
         </div>
       </Section>
@@ -411,18 +415,18 @@ export default function HomePage() {
               Find your own formula. See what works for you. Keep what matters.
             </Paragraph>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
-              <CTAButton href="/free-screening" variant="primary">
+              <CTAButton onClick={() => setShowEmailModal(true)} variant="primary">
                 Start free screening
               </CTAButton>
-              <CTAButton href="#plans" variant="secondary">
+              <CTAButton onClick={() => setShowEmailModal(true)} variant="secondary">
                 See plans
               </CTAButton>
           </div>
         </div>
       </Section>
 
-      {/* 9️⃣ Footer */}
-      <Footer />
+      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
+      <PartnershipModal isOpen={showPartnershipModal} onClose={() => setShowPartnershipModal(false)} />
         </div>
   );
 }

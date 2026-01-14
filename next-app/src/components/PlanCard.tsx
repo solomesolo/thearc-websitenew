@@ -12,6 +12,7 @@ interface PlanCardProps {
   featured?: boolean;
   waitlist?: boolean;
   ctaHref?: string;
+  onPlanClick?: () => void;
 }
 
 export default function PlanCard({ 
@@ -21,7 +22,8 @@ export default function PlanCard({
   highlights, 
   featured = false, 
   waitlist = false,
-  ctaHref = "/checkout"
+  ctaHref = "/checkout",
+  onPlanClick
 }: PlanCardProps) {
   return (
     <Card
@@ -52,12 +54,21 @@ export default function PlanCard({
           Join waitlist
         </button>
       ) : (
-        <Link
-          href={ctaHref}
-          className="inline-flex items-center justify-center w-full px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
-        >
-          Choose plan
-        </Link>
+        onPlanClick ? (
+          <button
+            onClick={onPlanClick}
+            className="inline-flex items-center justify-center w-full px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
+          >
+            Choose plan
+          </button>
+        ) : (
+          <Link
+            href={ctaHref}
+            className="inline-flex items-center justify-center w-full px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
+          >
+            Choose plan
+          </Link>
+        )
       )}
     </Card>
   );

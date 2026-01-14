@@ -7,25 +7,37 @@ export class SupabaseService {
 	static async getProviders(filters?: ProviderFilters) {
 		if (!supabase) {
 			console.warn('Supabase client not initialized - returning empty array');
+			console.warn('Check if NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in .env.local');
 			return [];
 		}
 		
-		let query = supabase
-			.from(TABLES.PROVIDERS)
-			.select('*');
+		try {
+			console.log('Fetching providers from table:', TABLES.PROVIDERS);
+			let query = supabase
+				.from(TABLES.PROVIDERS)
+				.select('*');
 
-		if (filters?.locations && filters.locations.length > 0) {
-			query = query.in('Company Location', filters.locations);
-		}
+			if (filters?.locations && filters.locations.length > 0) {
+				query = query.in('Company Location', filters.locations);
+			}
 
-		const { data, error } = await query;
-		
-		if (error) {
-			console.error('Error fetching providers:', error);
-			throw error;
-		}
+			const { data, error } = await query;
+			
+			if (error) {
+				console.error('Error fetching providers:', error);
+				console.error('Error details:', {
+					message: error.message,
+					details: error.details,
+					hint: error.hint,
+					code: error.code
+				});
+				// Return empty array instead of throwing to prevent breaking the UI
+				return [];
+			}
+			
+			console.log(`Successfully fetched ${data?.length || 0} providers`);
 
-		let filteredData = data as Provider[];
+			let filteredData = data as Provider[];
 
 		// Apply tag filtering in memory since Supabase doesn't support complex JSONB queries easily
 		if (filters?.tags && filters.tags.length > 0) {
@@ -45,14 +57,24 @@ export class SupabaseService {
 			});
 		}
 
-		// Apply hasProducts filter
-		if (filters?.hasProducts) {
-			const providersWithProducts = await this.getProvidersWithProducts();
-			const providerIdsWithProducts = new Set(providersWithProducts.map((p: Provider) => p.id));
-			filteredData = filteredData.filter(provider => providerIdsWithProducts.has(provider.id));
-		}
+			// Apply hasProducts filter
+			if (filters?.hasProducts) {
+				try {
+					const providersWithProducts = await this.getProvidersWithProducts();
+					const providerIdsWithProducts = new Set(providersWithProducts.map((p: Provider) => p.id));
+					filteredData = filteredData.filter(provider => providerIdsWithProducts.has(provider.id));
+				} catch (err) {
+					console.warn('Error filtering providers with products:', err);
+					// Continue without this filter if it fails
+				}
+			}
 
-		return filteredData;
+			return filteredData;
+		} catch (error) {
+			console.error('Unexpected error in getProviders:', error);
+			// Return empty array on any unexpected error
+			return [];
+		}
 	}
 
 	static async getProviderById(id: number) {
@@ -93,46 +115,62 @@ export class SupabaseService {
 			return [];
 		}
 		
-		let query = supabase
-			.from(TABLES.PRODUCTS)
-			.select('*');
+		try {
+			console.log('Fetching products from table:', TABLES.PRODUCTS);
+			let query = supabase
+				.from(TABLES.PRODUCTS)
+				.select('*');
 
-		if (filters?.available !== undefined) {
-			query = query.eq('available', filters.available);
+			if (filters?.available !== undefined) {
+				query = query.eq('available', filters.available);
+			}
+
+			const { data, error } = await query;
+			
+			if (error) {
+				console.error('Error fetching products:', error);
+				console.error('Error details:', {
+					message: error.message,
+					details: error.details,
+					hint: error.hint,
+					code: error.code
+				});
+				// Return empty array instead of throwing to prevent breaking the UI
+				return [];
+			}
+			
+			console.log(`Successfully fetched ${data?.length || 0} products`);
+
+			let filteredData = data as Product[];
+
+			// Apply tag filtering
+			if (filters?.tags && filters.tags.length > 0) {
+				filteredData = filteredData.filter(product => {
+					if (!product.tags) return false;
+					
+					const productTags = this.extractProductTags(product.tags);
+					return (filters.tags || []).some(filterTag => productTags.includes(filterTag));
+				});
+			}
+
+			// Apply biomarker filtering
+			if (filters?.biomarkers && filters.biomarkers.length > 0) {
+				filteredData = filteredData.filter(product => {
+					if (!product.biomarkers) return false;
+					
+					const productBiomarkers = this.extractProductBiomarkers(product.biomarkers);
+					return (filters.biomarkers || []).some(filterBiomarker => 
+						safeBiomarkersIncludes(product.biomarkers, filterBiomarker)
+					);
+				});
+			}
+
+			return filteredData;
+		} catch (error) {
+			console.error('Unexpected error in getProducts:', error);
+			// Return empty array on any unexpected error
+			return [];
 		}
-
-		const { data, error } = await query;
-		
-		if (error) {
-			console.error('Error fetching products:', error);
-			throw error;
-		}
-
-		let filteredData = data as Product[];
-
-		// Apply tag filtering
-		if (filters?.tags && filters.tags.length > 0) {
-			filteredData = filteredData.filter(product => {
-				if (!product.tags) return false;
-				
-				const productTags = this.extractProductTags(product.tags);
-				return (filters.tags || []).some(filterTag => productTags.includes(filterTag));
-			});
-		}
-
-		// Apply biomarker filtering
-		if (filters?.biomarkers && filters.biomarkers.length > 0) {
-			filteredData = filteredData.filter(product => {
-				if (!product.biomarkers) return false;
-				
-				const productBiomarkers = this.extractProductBiomarkers(product.biomarkers);
-				return (filters.biomarkers || []).some(filterBiomarker => 
-					safeBiomarkersIncludes(product.biomarkers, filterBiomarker)
-				);
-			});
-		}
-
-		return filteredData;
 	}
 
 	static async getProductById(id: number) {

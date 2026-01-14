@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import EmailSignupModal from "../../components/EmailSignupModal";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import { HowItWorksSection } from "../../components/HowItWorksSection";
@@ -12,7 +14,6 @@ import WhyItWorks from "../../components/sections/WhyItWorks";
 import { PersonalBlueprint } from "../../components/sections/PersonalBlueprint";
 import { TravelerFAQ } from "../../components/sections/TravelerFAQ";
 import { TravelerPricingSection } from "../../components/sections/TravelerPricingSection";
-import Footer from "../../components/Footer";
 
 const travelerChallengesDetailed = [
   "Jet lag and sleep cycles that never fully reset",
@@ -73,7 +74,7 @@ const travelerSteps = [
   },
   {
     number: "03",
-    title: "Your 6-month plan",
+    title: "Your personalised health plan",
     text: "A personalised, travel-proof roadmap that stabilises your biology and supports longevity — wherever you live next.",
   },
   {
@@ -94,9 +95,11 @@ const travelerWhyItWorks = [
 ];
 
 export default function TravelerPage() {
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
   return (
     <main className="persona-traveler min-h-screen text-slate-50">
-      <TravelerHero />
+      <TravelerHero onCTAClick={() => setShowEmailModal(true)} />
 
       <TravelerPersonaSection />
 
@@ -107,11 +110,11 @@ export default function TravelerPage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div className="relative w-full h-[400px] md:h-[520px] lg:h-[600px]">
+            <div className="relative w-full h-[400px] md:h-[520px] lg:h-[600px] overflow-hidden rounded-2xl">
               <img
-                src="/header-explorer.png"
+                src="/chalanges_Traveller.jpg"
                 alt="Global travelers with luggage"
-                className="w-full h-full object-cover rounded-2xl persona-shadow"
+                className="w-full h-full object-cover object-[75%_center] rounded-2xl persona-shadow"
               />
             </div>
 
@@ -209,16 +212,18 @@ export default function TravelerPage() {
             will-change: transform !important;
           }
         `}} />
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs tracking-[0.25em] text-white/35 uppercase mb-3">
-            How It Works
-          </p>
-          <h2 className="text-3xl md:text-[2.2rem] font-semibold tracking-tight text-white">
-            How The Arc Supports You
-          </h2>
-          <p className="mt-3 text-sm md:text-base text-white/60">
-            We become your consistent health system — wherever you go.
-          </p>
+        <div className="mx-auto max-w-4xl">
+          <div className="flex flex-col items-center text-center">
+            <p className="text-xs tracking-[0.25em] text-white/35 uppercase mb-3">
+              How It Works
+            </p>
+            <h2 className="text-3xl md:text-[2.2rem] font-semibold tracking-tight text-white">
+              How The Arc Supports You
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-white/60 max-w-2xl">
+              We become your consistent health system — wherever you go.
+            </p>
+          </div>
         </div>
 
         <div className="relative mx-auto mt-16 max-w-5xl">
@@ -304,6 +309,7 @@ export default function TravelerPage() {
         <HowItWorksSection
           description="A structured, global-first process designed for people who live everywhere."
           steps={travelerSteps}
+          ctaOnClick={() => setShowEmailModal(true)}
         />
       </div>
 
@@ -319,7 +325,7 @@ export default function TravelerPage() {
 
       {/* Traveller Pricing */}
       <div className="persona-section-fade">
-        <TravelerPricingSection />
+        <TravelerPricingSection onPlanClick={() => setShowEmailModal(true)} />
       </div>
       <div className="persona-section-fade">
         <PersonalBlueprint />
@@ -344,18 +350,16 @@ export default function TravelerPage() {
             <p className="text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl mx-auto text-center">
               Your lifestyle is global. Your health can be too.
             </p>
-            <Link 
-              href="/screening/welcome/traveler"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-slate-950 bg-[var(--persona-accent)] hover:bg-[var(--persona-accent)]/90 shadow-lg shadow-[var(--persona-accent)]/40 transition-all"
+            <button 
+              onClick={() => setShowEmailModal(true)}
+              className="inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold bg-black border border-white/10 text-[#40e0c2] hover:bg-black/80 hover:border-[#40e0c2]/30 transition-all"
             >
               Start free screening
-            </Link>
+            </button>
           </motion.div>
         </div>
       </section>
-
-      {/* Footer */}
-      <Footer accentColor="#40e0c2" />
+      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
     </main>
   );
 }

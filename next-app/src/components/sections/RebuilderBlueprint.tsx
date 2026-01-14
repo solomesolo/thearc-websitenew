@@ -53,11 +53,14 @@ export function RebuilderBlueprint() {
   return (
     <section className="relative w-full py-20 md:py-24">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="text-center space-y-4 mb-12">
+        <div className="flex flex-col items-center text-center space-y-4 mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold text-white">Your Personal Arc Blueprint</h2>
-          <p className="text-lg text-gray-300">
+          <p className="text-lg text-gray-300 max-w-2xl">
             A preview of the clarity and structure you receive after your first assessment.
           </p>
+          <div className="pt-4">
+            <ArcButton href="/rebuilder/blueprint/sample">View the sample of the Blueprint</ArcButton>
+          </div>
         </div>
 
       <div className="grid gap-8 lg:grid-cols-3">

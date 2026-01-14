@@ -77,6 +77,9 @@ export function ProfessionalBlueprint() {
         <p className="text-lg text-gray-300">
           A preview of the clarity and structure you receive after your first assessment.
         </p>
+        <div className="pt-4">
+          <ArcButton href="/professional/blueprint/sample">View the sample of the Blueprint</ArcButton>
+        </div>
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto mt-12 grid gap-8 lg:grid-cols-3">
@@ -173,7 +176,7 @@ export function ProfessionalBlueprint() {
       </div>
 
       <div className="relative z-10 mt-12 flex justify-center">
-        <ArcButton href="/blueprint/sample">View a sample Blueprint</ArcButton>
+        <ArcButton href="/dashboard/example">View a sample Blueprint</ArcButton>
       </div>
     </section>
   );

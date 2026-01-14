@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import EmailSignupModal from "../../components/EmailSignupModal";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import { HowItWorksSection } from "../../components/HowItWorksSection";
@@ -11,7 +13,6 @@ import WhyItWorks from "../../components/sections/WhyItWorks";
 import { WomenBlueprint } from "../../components/sections/WomenBlueprint";
 import { WomenFAQ } from "../../components/sections/WomenFAQ";
 import { WomenPricingSection } from "../../components/sections/WomenPricingSection";
-import Footer from "../../components/Footer";
 
 const womenChallengesDetailed = [
   "Broken or unpredictable sleep",
@@ -65,7 +66,7 @@ const womenSteps = [
   },
   {
     number: "03",
-    title: "Your 6-month plan",
+    title: "Your personalised health plan",
     text: "Stabilisation plan for hormones, energy, sleep, weight, longevity markers.",
   },
   {
@@ -87,10 +88,11 @@ const womenWhyItWorks = [
 ];
 
 export default function WomenPage() {
+  const [showEmailModal, setShowEmailModal] = useState(false);
 
   return (
     <main className="persona-layout persona-menopause min-h-screen text-white">
-      <WomenHero />
+      <WomenHero onCTAClick={() => setShowEmailModal(true)} />
 
       <WomenPersonaSection />
 
@@ -198,16 +200,18 @@ export default function WomenPage() {
             will-change: transform !important;
           }
         `}} />
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs tracking-[0.25em] text-white/35 uppercase mb-3">
-            How It Works
-          </p>
-          <h2 className="text-3xl md:text-[2.2rem] font-semibold tracking-tight text-white">
-            How The Arc Supports You
-          </h2>
-          <p className="mt-3 text-sm md:text-base text-white/60">
-            ARC becomes your long-term hormonal navigation system.
-          </p>
+        <div className="mx-auto max-w-4xl">
+          <div className="flex flex-col items-center text-center">
+            <p className="text-xs tracking-[0.25em] text-white/35 uppercase mb-3">
+              How It Works
+            </p>
+            <h2 className="text-3xl md:text-[2.2rem] font-semibold tracking-tight text-white">
+              How The Arc Supports You
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-white/60 max-w-2xl">
+              ARC becomes your long-term hormonal navigation system.
+            </p>
+          </div>
         </div>
 
         <div className="relative mx-auto mt-16 max-w-5xl">
@@ -296,6 +300,7 @@ export default function WomenPage() {
         <HowItWorksSection
           description="A structured process designed for women navigating hormonal transitions."
           steps={womenSteps}
+          ctaOnClick={() => setShowEmailModal(true)}
         />
       </div>
 
@@ -311,7 +316,7 @@ export default function WomenPage() {
 
       {/* Women Pricing */}
       <div className="persona-section-fade">
-        <WomenPricingSection />
+        <WomenPricingSection onPlanClick={() => setShowEmailModal(true)} />
       </div>
       <div className="persona-section-fade">
         <WomenBlueprint />
@@ -336,15 +341,13 @@ export default function WomenPage() {
             <p className="text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl mx-auto text-center">
               Your biology is changing. Your support shouldn't disappear.
             </p>
-            <ArcButton href="/free-screening?persona=women" className="cta-button">
+            <ArcButton onClick={() => setShowEmailModal(true)} className="cta-button">
               Start free screening
             </ArcButton>
           </motion.div>
         </div>
       </section>
-
-      {/* Footer */}
-      <Footer accentColor="#F472B6" />
+      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
     </main>
   );
 }

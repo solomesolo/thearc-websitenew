@@ -12,7 +12,7 @@ const textVariants = {
   }),
 };
 
-export default function WomenHero() {
+export default function WomenHero({ onCTAClick }: { onCTAClick?: () => void }) {
   return (
     <section className="relative w-full overflow-hidden bg-black">
       <div
@@ -93,7 +93,7 @@ export default function WomenHero() {
             custom={0.35}
             variants={textVariants}
           >
-            <ArcButton href="/free-screening?persona=women">
+            <ArcButton href={onCTAClick ? undefined : "/free-screening?persona=women"} onClick={onCTAClick}>
               Start free screening
             </ArcButton>
           </motion.div>

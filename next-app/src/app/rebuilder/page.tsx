@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import EmailSignupModal from "../../components/EmailSignupModal";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import { HowItWorksSection } from "../../components/HowItWorksSection";
@@ -11,7 +13,6 @@ import WhyItWorks from "../../components/sections/WhyItWorks";
 import { RebuilderBlueprint } from "../../components/sections/RebuilderBlueprint";
 import { RebuilderFAQ } from "../../components/sections/RebuilderFAQ";
 import { RebuilderPricingSection } from "../../components/sections/RebuilderPricingSection";
-import Footer from "../../components/Footer";
 
 const rebuilderChallengesDetailed = [
   "Persistent fatigue even after rest",
@@ -57,7 +58,7 @@ const rebuilderSteps = [
   },
   {
     number: "03",
-    title: "Your 6-month plan",
+    title: "Your personalised health plan",
     text: "A structured rebuild roadmap focused on stability, energy, and resilience.",
   },
   {
@@ -78,10 +79,11 @@ const rebuilderWhyItWorks = [
 ];
 
 export default function RebuilderPage() {
+  const [showEmailModal, setShowEmailModal] = useState(false);
 
   return (
     <main className="persona-rebuilder min-h-screen text-slate-50">
-      <RebuilderHero />
+      <RebuilderHero onCTAClick={() => setShowEmailModal(true)} />
 
       <RebuilderPersonaSection />
 
@@ -188,16 +190,18 @@ export default function RebuilderPage() {
             will-change: transform !important;
           }
         `}} />
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs tracking-[0.25em] text-white/35 uppercase mb-3">
-            How It Works
-          </p>
-          <h2 className="text-3xl md:text-[2.2rem] font-semibold tracking-tight text-white">
-            How The Arc Supports You
-          </h2>
-          <p className="mt-3 text-sm md:text-base text-white/60">
-            ARC becomes your clarity system and your long-term rebuilding plan.
-          </p>
+        <div className="mx-auto max-w-4xl">
+          <div className="flex flex-col items-center text-center">
+            <p className="text-xs tracking-[0.25em] text-white/35 uppercase mb-3">
+              How It Works
+            </p>
+            <h2 className="text-3xl md:text-[2.2rem] font-semibold tracking-tight text-white">
+              How The Arc Supports You
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-white/60 max-w-2xl">
+              ARC becomes your clarity system and your long-term rebuilding plan.
+            </p>
+          </div>
         </div>
 
         <div className="relative mx-auto mt-16 max-w-5xl">
@@ -283,6 +287,7 @@ export default function RebuilderPage() {
         <HowItWorksSection
           description="A structured process designed to rebuild stability, energy, and confidence."
           steps={rebuilderSteps}
+          ctaOnClick={() => setShowEmailModal(true)}
         />
       </div>
 
@@ -298,7 +303,7 @@ export default function RebuilderPage() {
 
       {/* Rebuilder Pricing */}
       <div className="persona-section-fade">
-        <RebuilderPricingSection />
+        <RebuilderPricingSection onPlanClick={() => setShowEmailModal(true)} />
       </div>
       <div className="persona-section-fade">
         <RebuilderBlueprint />
@@ -324,6 +329,7 @@ export default function RebuilderPage() {
               Your symptoms are real. Your path to clarity shouldn't be.
             </p>
             <button 
+              onClick={() => setShowEmailModal(true)}
               className="inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-slate-950 bg-[var(--persona-accent)] hover:bg-[var(--persona-accent)]/90 shadow-lg shadow-[var(--persona-accent)]/40 transition-all"
             >
               Start free screening
@@ -331,9 +337,7 @@ export default function RebuilderPage() {
           </motion.div>
         </div>
       </section>
-
-      {/* Footer */}
-      <Footer accentColor="#4ade80" />
+      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
     </main>
   );
 }

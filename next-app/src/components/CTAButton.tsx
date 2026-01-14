@@ -4,18 +4,32 @@ import Link from "next/link";
 import React from "react";
 
 interface CTAButtonProps {
-  href: string;
+  href?: string;
+  onClick?: () => void;
   children: React.ReactNode;
   variant?: "primary" | "secondary";
   className?: string;
 }
 
-export default function CTAButton({ href, children, variant = "primary", className = "" }: CTAButtonProps) {
+export default function CTAButton({ href, onClick, children, variant = "primary", className = "" }: CTAButtonProps) {
+  const baseClasses = `inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black ${className}`;
+
+  if (onClick) {
+    return (
+      <button
+        onClick={onClick}
+        className={baseClasses}
+      >
+        {children}
+      </button>
+    );
+  }
+
   if (variant === "primary") {
     return (
       <Link
-        href={href}
-        className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black ${className}`}
+        href={href || "#"}
+        className={baseClasses}
       >
         {children}
       </Link>
@@ -24,8 +38,8 @@ export default function CTAButton({ href, children, variant = "primary", classNa
   
   return (
     <Link
-      href={href}
-      className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black ${className}`}
+      href={href || "#"}
+      className={baseClasses}
     >
       {children}
     </Link>
