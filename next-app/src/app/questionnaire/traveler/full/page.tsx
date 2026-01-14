@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { GlowCard } from "@/components/ui/GlowCard";
@@ -766,7 +766,7 @@ const sections: Section[] = [
   },
 ];
 
-export default function WomenFullQuestionnairePage() {
+function TravelerFullQuestionnaireContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
@@ -1034,5 +1034,19 @@ export default function WomenFullQuestionnairePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TravelerFullQuestionnairePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white text-center">
+          <p>Loading...</p>
+        </div>
+      </div>
+    }>
+      <TravelerFullQuestionnaireContent />
+    </Suspense>
   );
 }

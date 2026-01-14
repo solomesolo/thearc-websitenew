@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { PersonaType, PERSONAS, getStoredPersona, setPersona, getPersonaFromRoute } from "@/lib/persona";
 
-export default function ScreeningWelcomePage() {
+function ScreeningWelcomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [persona, setPersonaState] = useState<PersonaType | null>(null);
@@ -188,6 +188,20 @@ export default function ScreeningWelcomePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ScreeningWelcomePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] flex items-center justify-center">
+        <div className="text-white text-center">
+          <p>Loading...</p>
+        </div>
+      </div>
+    }>
+      <ScreeningWelcomeContent />
+    </Suspense>
   );
 }
 

@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getStoredPersona, PERSONAS } from "@/lib/persona";
 import ResultsLoading from "@/components/ResultsLoading";
 
-export default function LoadingPage() {
+function LoadingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [progress, setProgress] = useState(0);
@@ -182,5 +182,19 @@ export default function LoadingPage() {
       personaLabel={config.name}
       stageLabel={getStageLabel(status)}
     />
+  );
+}
+
+export default function LoadingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white text-center">
+          <p>Loading...</p>
+        </div>
+      </div>
+    }>
+      <LoadingContent />
+    </Suspense>
   );
 }

@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "prisma generate",
     "deploy:local": "bash -c 'kill -9 $(lsof -ti :3000 2>/dev/null) $(lsof -ti :3001 2>/dev/null) 2>/dev/null || true; rm -rf .next; NEXT_DISABLE_ESLINT=true NEXT_DISABLE_TYPECHECK=true next build; PORT=3001 next start'"
   },
   "dependencies": {
@@ -36,10 +37,7 @@
     "puppeteer": "^24.26.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-tsparticles": "^2.12.2",
     "resend": "^6.7.0",
-    "tsparticles-engine": "^2.12.0",
-    "tsparticles-preset-links": "^2.12.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

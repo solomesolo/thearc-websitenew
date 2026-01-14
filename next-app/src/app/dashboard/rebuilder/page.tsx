@@ -22,7 +22,7 @@ import { TravelProtocol } from "@/components/dashboard/blueprint/TravelProtocol"
 import { RedFlags } from "@/components/dashboard/blueprint/RedFlags";
 import { ImplementationCalendar } from "@/components/dashboard/blueprint/ImplementationCalendar";
 import { WeeklyActions } from "@/components/dashboard/weekly/WeeklyActions";
-import { Sidebar } from "@/components/Sidebar";
+import Sidebar from "@/components/Sidebar";
 import { motion } from "framer-motion";
 
 interface FullQuestionnaireResults {
