@@ -1,0 +1,2558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Right Screening Finder - Health Assessment</title>
+    <style>
+        /* Reset all default styles and force dark theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            background-color: #0a0a0a !important;
+            background-image: none !important;
+            color-scheme: dark !important;
+        }
+        
+        body {
+            background-color: #0a0a0a !important;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            color: #ffffff !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+            color-scheme: dark !important;
+        }
+        
+        /* Multiple background layers to ensure dark background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #0a0a0a;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            z-index: -10;
+            pointer-events: none;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -5;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 4rem);
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Left Sidebar - Sections */
+        .sidebar {
+            background-color: #2a2a2a !important;
+            background-image: none;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .sidebar h2 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .section-list {
+            list-style: none;
+        }
+        
+        .section-item {
+            margin-bottom: 1rem;
+        }
+        
+        .section-link {
+            display: block;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            background-image: none;
+            border-radius: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-link:hover {
+            background-color: rgba(102, 126, 234, 0.2);
+            background-image: none;
+            transform: translateY(-2px);
+        }
+        
+        .section-link.active {
+            background-color: rgba(102, 126, 234, 0.3);
+            background-image: none;
+            border-color: #667eea;
+        }
+        
+        .section-link.completed {
+            background-color: rgba(34, 197, 94, 0.03) !important;
+            background-image: none;
+            border-color: #14532d !important;
+        }
+        
+        
+        /* Main Content Area */
+        .main-content {
+            background-color: #2a2a2a !important;
+            background-image: none;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section h2 {
+            color: #ffffff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section p {
+            color: #e0e0e0;
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+        }
+        
+        .question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            background-image: none;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .question h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .question h4 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .question-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            background-image: none;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+            background-image: none;
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        
+        .option.selected {
+            background-color: rgba(102, 126, 234, 0.2);
+            background-image: none;
+            border-color: #667eea;
+        }
+        
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            border-radius: 50% !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            background-image: none;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        
+        /* Force ALL inputs to be circles - override any other rules */
+        input[type="radio"],
+        input[type="checkbox"] {
+            border-radius: 50% !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+        }
+        
+        .option label {
+            color: #ffffff;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .question select {
+            width: 100%;
+            padding: 1rem;
+            background-color: #2a2a2a !important;
+            background-image: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .question select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .question select option {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        /* COMPLETELY NEW INPUT STYLING - MAXIMUM SPECIFICITY */
+        .question input[type="text"],
+        .question input[type="number"],
+        .question input[type="email"],
+        .question textarea,
+        .main-content .question input[type="text"],
+        .main-content .question input[type="number"],
+        .main-content .question input[type="email"],
+        .main-content .question textarea,
+        .container .question input[type="text"],
+        .container .question input[type="number"],
+        .container .question input[type="email"],
+        .container .question textarea {
+            width: 100% !important;
+            padding: 1rem !important;
+            background-color: #2a2a2a !important;
+            background-image: none !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            font-size: 1rem !important;
+            box-sizing: border-box !important;
+        }
+        
+        .question input[type="text"]:focus,
+        .question input[type="number"]:focus,
+        .question input[type="email"]:focus,
+        .question textarea:focus,
+        .main-content .question input[type="text"]:focus,
+        .main-content .question input[type="number"]:focus,
+        .main-content .question input[type="email"]:focus,
+        .main-content .question textarea:focus,
+        .container .question input[type="text"]:focus,
+        .container .question input[type="number"]:focus,
+        .container .question input[type="email"]:focus,
+        .container .question textarea:focus {
+            outline: none !important;
+            border-color: #667eea !important;
+            background-color: #2a2a2a !important;
+        }
+        
+        .question input[type="text"]::placeholder,
+        .question input[type="number"]::placeholder,
+        .question input[type="email"]::placeholder,
+        .question textarea::placeholder,
+        .main-content .question input[type="text"]::placeholder,
+        .main-content .question input[type="number"]::placeholder,
+        .main-content .question input[type="email"]::placeholder,
+        .main-content .question textarea::placeholder,
+        .container .question input[type="text"]::placeholder,
+        .container .question input[type="number"]::placeholder,
+        .container .question input[type="email"]::placeholder,
+        .container .question textarea::placeholder {
+            color: #b0b0b0 !important;
+            font-style: italic !important;
+        }
+        
+        .screening-grid {
+        
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .screening-label {
+            color: #ffffff;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #667eea;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            background-image: none;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #667eea;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            color: #ffffff;
+            text-align: center;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .sidebar {
+                position: static;
+                order: 2;
+            }
+            
+            .main-content {
+                order: 1;
+            }
+            
+            .screening-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Safari-specific fixes */
+        
+        /* COMPREHENSIVE DESIGN IMPROVEMENTS */
+        
+        /* Progress Bar Container */
+        .progress-container {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Enhanced Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .progress-text {
+            color: #ffffff;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        /* Enhanced Navigation Buttons */
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 1.25rem 2.5rem;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            min-width: 140px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+        
+        .nav-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .nav-btn:disabled {
+            background: #2a2a2a;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-btn:disabled::before {
+            display: none;
+        }
+        
+        /* Previous Button Specific Styling */
+        #prevBtn:not(:disabled) {
+            background: #2a2a2a;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        #prevBtn:not(:disabled):hover {
+            background: #3a3a3a;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Next Button Specific Styling */
+        #nextBtn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        #nextBtn:hover {
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+        
+        /* Submit Button Styling */
+        #nextBtn[style*="background: linear-gradient(135deg, #10b981 0%, #059669 100%)"] {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        #nextBtn[style*="background: linear-gradient(135deg, #10b981 0%, #059669 100%)"]:hover {
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.6);
+        }        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #2a2a2a;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Previous Button Specific Styling */
+        #prevBtn:not(:disabled) {
+            background: #2a2a2a;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+        
+        #prevBtn:not(:disabled):hover {
+            background: #3a3a3a;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Enhanced Select Dropdowns for Biomarkers */
+        .screening-grid select,
+        .question select {
+            width: 100%;
+            padding: 1rem;
+            background-color: #2a2a2a !important;
+            background-image: none !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            font-size: 1rem !important;
+            cursor: pointer !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"%23ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"%3e%3cpolyline points=\"6,9 12,15 18,9\"%3e%3c/polyline%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 1rem center !important;
+            background-size: 16px !important;
+            padding-right: 3rem !important;
+        }
+        
+        .screening-grid select:focus,
+        .question select:focus {
+            outline: none !important;
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+        }
+        
+        .screening-grid select option,
+        .question select option {
+            background-color: #1a1a1a !important;
+            color: #ffffff !important;
+            padding: 0.5rem !important;
+        }
+        
+        /* Enhanced Section Titles */
+        .section h2 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        /* Enhanced Question Styling */
+        
+        /* Enhanced Option Selection Styling */
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.3s;
+        }
+        
+        .option:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .option:hover::before {
+            left: 100%;
+        }
+        
+        .option.selected {
+            background-color: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .option.selected::before {
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+        }
+        
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .option input[type="checkbox"] {
+            border-radius: 4px;
+        }
+        
+        .option input[type="radio"]:checked,
+        .option input[type="checkbox"]:checked {
+            background: #667eea;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        .option input[type="radio"]:checked::after,
+        .option input[type="checkbox"]:checked::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+        
+        .option input[type="checkbox"]:checked::after {
+            border-radius: 2px;
+        }
+        
+        .option label {
+            color: #ffffff;
+            cursor: pointer;
+            flex: 1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .option:hover label {
+            color: #e0e0e0;
+        }
+        
+        .option.selected label {
+            color: #ffffff;
+            font-weight: 600;
+        }        .question h3 {
+            color: #3b82f6;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .question h4 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        /* Enhanced Screening Grid */
+        .screening-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .screening-label {
+            color: #e0e0e0;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        /* Enhanced Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1rem;
+            }
+            
+            .sidebar {
+                position: static;
+                order: 2;
+                margin-top: 2rem;
+            }
+            
+            .main-content {
+                order: 1;
+            }
+            
+            .screening-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .sidebar,
+            .main-content {
+                padding: 1.5rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sidebar,
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .question h3 {
+                font-size: 1.1rem;
+            }
+        }        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            body {
+                background-color: #0a0a0a !important;
+                background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            }
+            
+            .sidebar {
+                background-color: rgba(26, 26, 26, 0.95) !important;
+            }
+            
+            .main-content {
+                background-color: rgba(26, 26, 26, 0.95) !important;
+            }
+            
+            .question {
+                background-color: rgba(255, 255, 255, 0.05) !important;
+            }
+            
+            .option {
+                background-color: rgba(255, 255, 255, 0.05) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0% Complete</div>
+            </div>
+            <h2>Assessment Sections</h2>
+            <ul class="section-list">
+                <li class="section-item">
+                    <a href="#" class="section-link active" data-section="demographics">1. General Health & Demographics</a>
+                </li>
+                <li class="section-item">
+                    <a href="#" class="section-link" data-section="lifestyle">2. Lifestyle & Risk Factors</a>
+                </li>
+                <li class="section-item">
+                    <a href="#" class="section-link" data-section="symptoms">3. Current Symptoms & Clinical Clues</a>
+                </li>
+                <li class="section-item">
+                    <a href="#" class="section-link" data-section="screenings">4. History of Health Screenings</a>
+                </li>
+                <li class="section-item">
+                    <a href="#" class="section-link" data-section="additional">5. Additional Information</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% Complete</div>
+
+            <!-- Section 1: General Health & Demographics -->
+            <div class="section active" id="demographics">
+                <h2>General Health & Demographics</h2>
+                <p>Let's start with some basic information about your health profile.</p>
+                
+                <div class="question">
+                    <h3>1. What is your age?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="age" value="under_18" id="age1">
+                            <label for="age1">Under 18</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="age" value="18_25" id="age2">
+                            <label for="age2">18-25</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="age" value="26_35" id="age3">
+                            <label for="age3">26-35</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="age" value="36_45" id="age4">
+                            <label for="age4">36-45</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="age" value="46_55" id="age5">
+                            <label for="age5">46-55</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="age" value="56_65" id="age6">
+                            <label for="age6">56-65</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="age" value="66_75" id="age7">
+                            <label for="age7">66-75</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="age" value="over_75" id="age8">
+                            <label for="age8">Over 75</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>2. What is your biological sex at birth?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="sex" value="male" id="sex1">
+                            <label for="sex1">Male</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="sex" value="female" id="sex2">
+                            <label for="sex2">Female</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>3. What is your height?</h3>
+                    <input type="text" name="height" placeholder="Enter height in cm or ft/inches (e.g., 175 cm or 5'9&quot;)">
+                </div>
+
+                <div class="question">
+                    <h3>4. What is your weight?</h3>
+                    <input type="text" name="weight" placeholder="Enter weight in kg or lbs (e.g., 70 kg or 154 lbs)">
+                </div>
+
+                <div class="question">
+                    <h3>5. Do you have a family history of chronic diseases?</h3>
+                    <p style="color: #e0e0e0; font-size: 0.9rem; margin-bottom: 1rem;">Select all that apply</p>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="heart_disease" id="family1">
+                            <label for="family1">Heart disease</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="diabetes" id="family2">
+                            <label for="family2">Diabetes</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="cancer" id="family3">
+                            <label for="family3">Cancer</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="dementia" id="family4">
+                            <label for="family4">Dementia/Alzheimer's</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="stroke" id="family5">
+                            <label for="family5">Stroke</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="autoimmune" id="family6">
+                            <label for="family6">Autoimmune diseases</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="mental_health" id="family7">
+                            <label for="family7">Mental health disorders</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="none" id="family8">
+                            <label for="family8">None of the above</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="family_history" value="dont_know" id="family9">
+                            <label for="family9">Don't know</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>6. Do you have any current or past medical diagnoses?</h3>
+                    <p style="color: #e0e0e0; font-size: 0.9rem; margin-bottom: 1rem;">Select all that apply</p>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="hypertension" id="medical1">
+                            <label for="medical1">Hypertension (high blood pressure)</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="thyroid" id="medical2">
+                            <label for="medical2">Thyroid disease</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="metabolic_syndrome" id="medical3">
+                            <label for="medical3">Metabolic syndrome</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="diabetes" id="medical4">
+                            <label for="medical4">Diabetes</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="heart_disease" id="medical5">
+                            <label for="medical5">Heart disease</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="autoimmune" id="medical6">
+                            <label for="medical6">Autoimmune condition</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="cancer" id="medical7">
+                            <label for="medical7">Cancer</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="mental_health" id="medical8">
+                            <label for="medical8">Mental health condition</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="other" id="medical9">
+                            <label for="medical9">Other</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="medical_diagnoses" value="none" id="medical10">
+                            <label for="medical10">None of the above</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>7. Do you currently take prescription medications or long-term supplements?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="medications" value="yes" id="med1">
+                            <label for="med1">Yes</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="medications" value="no" id="med2">
+                            <label for="med2">No</label>
+                        </div>
+                    </div>
+                    <div id="medications_details" style="margin-top: 1rem; display: none;">
+                        <textarea name="medications_list" placeholder="Please list your medications and supplements"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Section 2: Lifestyle & Risk Factors -->
+            <div class="section" id="lifestyle">
+                <h2>Lifestyle & Risk Factors</h2>
+                <p>Tell us about your daily habits and lifestyle choices.</p>
+                
+                <div class="question">
+                    <h3>8. How would you describe your diet?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="diet" value="plant_based" id="diet1">
+                            <label for="diet1">Plant-based/Vegetarian/Vegan</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="diet" value="mediterranean" id="diet2">
+                            <label for="diet2">Mediterranean diet</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="diet" value="high_protein" id="diet3">
+                            <label for="diet3">High-protein/Low-carb</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="diet" value="western" id="diet4">
+                            <label for="diet4">Standard Western diet</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="diet" value="processed" id="diet5">
+                            <label for="diet5">Processed foods/Fast food heavy</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="diet" value="intermittent_fasting" id="diet6">
+                            <label for="diet6">Intermittent fasting</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="diet" value="other" id="diet7">
+                            <label for="diet7">Other</label>
+                        </div>
+                    </div>
+                    <div id="diet_other" style="margin-top: 1rem; display: none;">
+                        <input type="text" name="diet_other_text" placeholder="Please describe your diet">
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>9. How often do you consume alcohol?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="alcohol" value="never" id="alcohol1">
+                            <label for="alcohol1">Never</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="alcohol" value="rarely" id="alcohol2">
+                            <label for="alcohol2">Rarely (few times per year)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="alcohol" value="occasionally" id="alcohol3">
+                            <label for="alcohol3">Occasionally (1-3 times per month)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="alcohol" value="moderately" id="alcohol4">
+                            <label for="alcohol4">Moderately (1-2 drinks per week)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="alcohol" value="regularly" id="alcohol5">
+                            <label for="alcohol5">Regularly (3-7 drinks per week)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="alcohol" value="heavily" id="alcohol6">
+                            <label for="alcohol6">Heavily (more than 7 drinks per week)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>10. Do you use nicotine products?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="nicotine" value="never" id="nicotine1">
+                            <label for="nicotine1">Never</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="nicotine" value="former" id="nicotine2">
+                            <label for="nicotine2">Former smoker/user (quit more than 1 year ago)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="nicotine" value="occasionally" id="nicotine3">
+                            <label for="nicotine3">Occasionally</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="nicotine" value="daily_smoker" id="nicotine4">
+                            <label for="nicotine4">Daily smoker</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="nicotine" value="daily_vaping" id="nicotine5">
+                            <label for="nicotine5">Daily vaping/e-cigarettes</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="nicotine" value="other_tobacco" id="nicotine6">
+                            <label for="nicotine6">Other tobacco products</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>11. How many hours of sleep do you usually get per night?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="sleep" value="less_than_5" id="sleep1">
+                            <label for="sleep1">Less than 5 hours</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="sleep" value="5_6" id="sleep2">
+                            <label for="sleep2">5-6 hours</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="sleep" value="6_7" id="sleep3">
+                            <label for="sleep3">6-7 hours</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="sleep" value="7_8" id="sleep4">
+                            <label for="sleep4">7-8 hours</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="sleep" value="8_9" id="sleep5">
+                            <label for="sleep5">8-9 hours</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="sleep" value="more_than_9" id="sleep6">
+                            <label for="sleep6">More than 9 hours</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>12. How physically active are you?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="activity" value="sedentary" id="activity1">
+                            <label for="activity1">Sedentary (little to no exercise)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="activity" value="light" id="activity2">
+                            <label for="activity2">Light activity (walking, occasional exercise)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="activity" value="moderate" id="activity3">
+                            <label for="activity3">Moderate activity (2-3 times per week)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="activity" value="regular" id="activity4">
+                            <label for="activity4">Regular activity (4-5 times per week)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="activity" value="very_active" id="activity5">
+                            <label for="activity5">Very active (6-7 times per week)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="activity" value="athlete" id="activity6">
+                            <label for="activity6">Athlete level training</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>13. What type of exercise do you primarily do?</h3>
+                    <p style="color: #e0e0e0; font-size: 0.9rem; margin-bottom: 1rem;">Select all that apply</p>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="checkbox" name="exercise_type" value="cardio" id="exercise1">
+                            <label for="exercise1">Cardio (running, cycling, swimming)</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="exercise_type" value="strength" id="exercise2">
+                            <label for="exercise2">Strength training/Weight lifting</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="exercise_type" value="yoga" id="exercise3">
+                            <label for="exercise3">Yoga/Pilates</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="exercise_type" value="sports" id="exercise4">
+                            <label for="exercise4">Sports activities</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="exercise_type" value="walking" id="exercise5">
+                            <label for="exercise5">Walking/Hiking</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="exercise_type" value="none" id="exercise6">
+                            <label for="exercise6">None</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="exercise_type" value="other" id="exercise7">
+                            <label for="exercise7">Other</label>
+                        </div>
+                    </div>
+                    <div id="exercise_other" style="margin-top: 1rem; display: none;">
+                        <input type="text" name="exercise_other_text" placeholder="Please describe your exercise type">
+                    </div>
+                </div>
+            </div>
+            <!-- Section 3: Current Symptoms & Clinical Clues -->
+            <div class="section" id="symptoms">
+                <h2>Current Symptoms & Clinical Clues</h2>
+                <p>Help us understand any current symptoms or changes you've noticed.</p>
+                
+                <div class="question">
+                    <h3>14. Do you experience unexplained fatigue, brain fog, or low energy?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="fatigue" value="never" id="fatigue1">
+                            <label for="fatigue1">Never</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="fatigue" value="rarely" id="fatigue2">
+                            <label for="fatigue2">Rarely</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="fatigue" value="sometimes" id="fatigue3">
+                            <label for="fatigue3">Sometimes</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="fatigue" value="often" id="fatigue4">
+                            <label for="fatigue4">Often</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="fatigue" value="always" id="fatigue5">
+                            <label for="fatigue5">Always</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>15. Have you noticed changes in skin, hair, or nails recently?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="skin_changes" value="yes" id="skin1">
+                            <label for="skin1">Yes</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="skin_changes" value="no" id="skin2">
+                            <label for="skin2">No</label>
+                        </div>
+                    </div>
+                    <div id="skin_details" style="margin-top: 1rem; display: none;">
+                        <textarea name="skin_changes_text" placeholder="Please describe the changes you've noticed"></textarea>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>16. Have you experienced mood changes, depression, or anxiety beyond normal stress in the last 3 months?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="mood_changes" value="yes" id="mood1">
+                            <label for="mood1">Yes</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="mood_changes" value="no" id="mood2">
+                            <label for="mood2">No</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="mood_changes" value="not_sure" id="mood3">
+                            <label for="mood3">I'm not sure</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>17. Do you have sleep disturbances?</h3>
+                    <p style="color: #e0e0e0; font-size: 0.9rem; margin-bottom: 1rem;">Select all that apply</p>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="checkbox" name="sleep_disturbances" value="difficulty_falling" id="sleep_dist1">
+                            <label for="sleep_dist1">Difficulty falling asleep</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="sleep_disturbances" value="waking_frequently" id="sleep_dist2">
+                            <label for="sleep_dist2">Waking up frequently during the night</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="sleep_disturbances" value="not_rested" id="sleep_dist3">
+                            <label for="sleep_dist3">Not feeling rested after sleep</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="sleep_disturbances" value="early_awakening" id="sleep_dist4">
+                            <label for="sleep_dist4">Early morning awakening</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="sleep_disturbances" value="none" id="sleep_dist5">
+                            <label for="sleep_dist5">None of the above</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>18. Have you noticed unexplained weight changes in the past year?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="weight_changes" value="weight_gain" id="weight1">
+                            <label for="weight1">Significant weight gain</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="weight_changes" value="difficulty_losing" id="weight2">
+                            <label for="weight2">Difficulty losing weight despite efforts</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="weight_changes" value="weight_loss" id="weight3">
+                            <label for="weight3">Unexplained weight loss</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="weight_changes" value="fluctuations" id="weight4">
+                            <label for="weight4">Weight fluctuations</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="weight_changes" value="no_changes" id="weight5">
+                            <label for="weight5">No changes</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>19. Have you noticed decreased muscle strength or endurance compared to previous years?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="muscle_strength" value="significantly" id="muscle1">
+                            <label for="muscle1">Yes, significantly</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="muscle_strength" value="somewhat" id="muscle2">
+                            <label for="muscle2">Yes, somewhat</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="muscle_strength" value="no_change" id="muscle3">
+                            <label for="muscle3">No change</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="muscle_strength" value="improved" id="muscle4">
+                            <label for="muscle4">Improved</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>20. For women: Are your menstrual cycles regular?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="menstrual_cycles" value="regular" id="menstrual1">
+                            <label for="menstrual1">Regular and normal</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="menstrual_cycles" value="irregular" id="menstrual2">
+                            <label for="menstrual2">Irregular timing</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="menstrual_cycles" value="heavy" id="menstrual3">
+                            <label for="menstrual3">Very heavy periods</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="menstrual_cycles" value="light" id="menstrual4">
+                            <label for="menstrual4">Very light periods</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="menstrual_cycles" value="absent" id="menstrual5">
+                            <label for="menstrual5">Absent periods</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="menstrual_cycles" value="post_menopausal" id="menstrual6">
+                            <label for="menstrual6">Post-menopausal</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="menstrual_cycles" value="not_applicable" id="menstrual7">
+                            <label for="menstrual7">Not applicable</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>21. For men: Have you noticed changes in libido or erectile function?</h3>
+                    <div class="question-options">
+                        <div class="option">
+                            <input type="radio" name="libido" value="no_changes" id="libido1">
+                            <label for="libido1">No changes</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="libido" value="decreased_libido" id="libido2">
+                            <label for="libido2">Decreased libido</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="libido" value="erectile_dysfunction" id="libido3">
+                            <label for="libido3">Erectile dysfunction</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="libido" value="both" id="libido4">
+                            <label for="libido4">Both decreased libido and ED</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="libido" value="not_applicable" id="libido5">
+                            <label for="libido5">Not applicable</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Section 4: History of Health Screenings -->
+            <div class="section" id="screenings">
+                <h2>History of Health Screenings</h2>
+                <p>For each test below, please indicate: When was your last test and were the results normal?</p>
+                
+                <div class="question">
+                    <h3>Cardiovascular Health</h3>
+                    
+                    <div class="question">
+                        <h4>22. Lipid panel (cholesterol, LDL, HDL, triglycerides)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="lipid_panel_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="lipid_panel_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>23. ApoB (apolipoprotein B)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="apob_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="apob_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>24. Lp(a) (lipoprotein(a))</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="lpa_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="lpa_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>25. hs-CRP (high sensitivity C-reactive protein)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="hscrp_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="hscrp_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>26. Homocysteine</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="homocysteine_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="homocysteine_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Metabolic Health</h3>
+                    
+                    <div class="question">
+                        <h4>27. Fasting glucose</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="glucose_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="glucose_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>28. HbA1c (3-month average blood sugar)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="hba1c_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="hba1c_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>29. Fasting insulin or HOMA-IR</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="insulin_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="insulin_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>30. Liver enzymes (ALT, AST, GGT)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="liver_enzymes_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="liver_enzymes_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>31. Kidney function (creatinine, eGFR)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="kidney_function_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="kidney_function_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>Hormones & Endocrine Health</h3>
+                    
+                    <div class="question">
+                        <h4>32. Thyroid function (TSH, free T4, free T3)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="thyroid_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="thyroid_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>33. Thyroid antibodies</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="thyroid_antibodies_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="thyroid_antibodies_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>34. For men: Testosterone (total & free), SHBG</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="testosterone_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="testosterone_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                    <option value="not_applicable">Not applicable</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>35. For women: Estrogen, progesterone, FSH/LH</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="female_hormones_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="female_hormones_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                    <option value="not_applicable">Not applicable</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>36. DHEA-S (adrenal health)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="dhea_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="dhea_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>37. Cortisol (morning or daily curve)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="cortisol_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="cortisol_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Nutritional Status</h3>
+                    
+                    <div class="question">
+                        <h4>38. Vitamin D</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="vitamin_d_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="vitamin_d_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>39. Vitamin B12 & folate</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="b12_folate_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="b12_folate_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>40. Ferritin (iron stores)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="ferritin_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="ferritin_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>41. Magnesium & zinc</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="magnesium_zinc_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="magnesium_zinc_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>42. Omega-3 index or fatty acid profile</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="omega3_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="omega3_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>General & Longevity Biomarkers</h3>
+                    
+                    <div class="question">
+                        <h4>43. CBC (complete blood count)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="cbc_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="cbc_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>44. Electrolytes (sodium, potassium, calcium, phosphate)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="electrolytes_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="electrolytes_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>45. Biological aging marker (epigenetic age, telomere length, glycan age)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="aging_markers_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="aging_markers_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>46. Microbiome or stool test</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="microbiome_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="microbiome_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>47. Genetic health risk screen (cardiovascular, cancer, dementia predisposition)</h4>
+                        <div class="screening-grid">
+                            <div>
+                                <label class="screening-label">When:</label>
+                                <select name="genetic_screen_when">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never tested</option>
+                                    <option value="more_than_4_years">More than 4 years ago</option>
+                                    <option value="3_4_years">3-4 years ago</option>
+                                    <option value="1_2_years">1-2 years ago</option>
+                                    <option value="less_than_1_year">Less than 1 year ago</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="screening-label">Results:</label>
+                                <select name="genetic_screen_results">
+                                    <option value="">Select...</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="borderline">Borderline</option>
+                                    <option value="abnormal">Abnormal</option>
+                                    <option value="dont_know">Don't know</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Section 5: Additional Information -->
+            <div class="section" id="additional">
+                <h2>Additional Information</h2>
+                <p>Is there anything else about your health, symptoms, or test history that you think is important for us to know?</p>
+                
+                <div class="question">
+                    <h3>48. Additional comments</h3>
+                    <textarea name="additional_comments" placeholder="Please share any additional information about your health, symptoms, or test history that you think is important for us to know..." rows="6"></textarea>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="previousSection()" disabled>Previous</button>
+                <button class="nav-btn" id="nextBtn" onclick="nextSection()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // COMPLETE QUESTIONNAIRE FUNCTIONALITY
+        // ========================================
+        
+        // Global variables
+        let currentSectionIndex = 0;
+        const sections = ["demographics", "lifestyle", "symptoms", "screenings", "additional"];
+        let formData = {};
+        
+        // Initialize everything when page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Questionnaire initializing...");
+            initializeQuestionnaire();
+        });
+        
+        function initializeQuestionnaire() {
+            console.log("Setting up questionnaire...");
+            
+            // Set up section navigation
+            setupSectionNavigation();
+            
+            // Set up form interactions
+            setupFormInteractions();
+            
+            // Set up navigation buttons
+            setupNavigationButtons();
+            
+            // Show first section
+            showSection(0);
+            
+            // Update progress
+            updateProgress();
+            
+            console.log("Questionnaire initialized successfully");
+        }
+        
+        function setupSectionNavigation() {
+            const sectionLinks = document.querySelectorAll(".section-link");
+            sectionLinks.forEach((link, index) => {
+                link.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const sectionName = this.getAttribute("data-section");
+                    const sectionIndex = sections.indexOf(sectionName);
+                    if (sectionIndex !== -1) {
+                        showSection(sectionIndex);
+                    }
+                });
+            });
+        }
+        
+        function setupFormInteractions() {
+            // Handle radio buttons and checkboxes
+            document.querySelectorAll("input[type=\"radio\"], input[type=\"checkbox\"]").forEach(input => {
+                input.addEventListener("change", function() {
+                    handleInputChange(this);
+                });
+            });
+            
+            // Handle text inputs and textareas
+            document.querySelectorAll("input[type=\"text\"], input[type=\"number\"], input[type=\"email\"], textarea, select").forEach(input => {
+                input.addEventListener("input", function() {
+                    handleInputChange(this);
+                });
+                input.addEventListener("change", function() {
+                    handleInputChange(this);
+                });
+            });
+            
+            // Handle option clicks
+            document.querySelectorAll(".option").forEach(option => {
+                option.addEventListener("click", function() {
+                    const input = this.querySelector("input");
+                    if (input) {
+                        input.checked = true;
+                        handleInputChange(input);
+                    }
+                });
+            });
+        }
+        
+        function setupNavigationButtons() {
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            
+            if (prevBtn) {
+                prevBtn.addEventListener("click", function() {
+                    if (currentSectionIndex > 0) {
+                        showSection(currentSectionIndex - 1);
+                    }
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener("click", function() {
+                    if (currentSectionIndex < sections.length - 1) {
+                        showSection(currentSectionIndex + 1);
+                    } else {
+                        submitForm();
+                    }
+                });
+            }
+        }
+        
+        function showSection(index) {
+            console.log("Showing section:", index, sections[index]);
+            
+            // Hide all sections
+            document.querySelectorAll(".section").forEach(section => {
+                section.style.display = "none";
+            });
+            
+            // Show target section
+            const targetSection = document.getElementById(sections[index]);
+            if (targetSection) {
+                targetSection.style.display = "block";
+                currentSectionIndex = index;
+                updateNavigationButtons();
+                updateSectionLinks();
+                updateProgress();
+            }
+        }
+        
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            
+            if (prevBtn) {
+                prevBtn.disabled = currentSectionIndex === 0;
+                prevBtn.style.display = currentSectionIndex > 0 ? "inline-flex" : "none";
+            }
+            
+            if (nextBtn) {
+                if (currentSectionIndex === sections.length - 1) {
+                    nextBtn.textContent = "Submit Assessment";
+                    nextBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+                } else {
+                    nextBtn.textContent = "Next";
+                    nextBtn.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+                }
+                nextBtn.style.display = "inline-flex";
+            }
+        }
+        
+        function updateSectionLinks() {
+            document.querySelectorAll(".section-link").forEach(link => {
+                link.classList.remove("active");
+                const sectionName = link.getAttribute("data-section");
+                if (sectionName === sections[currentSectionIndex]) {
+                    link.classList.add("active");
+                }
+            });
+        }
+        
+        function handleInputChange(input) {
+            console.log("Input changed:", input.name, input.value, input.checked);
+            
+            // Save the value
+            if (input.type === "radio" || input.type === "checkbox") {
+                if (input.checked) {
+                    if (input.type === "checkbox") {
+                        if (!formData[input.name]) {
+                            formData[input.name] = [];
+                        }
+                        if (!formData[input.name].includes(input.value)) {
+                            formData[input.name].push(input.value);
+                        }
+                    } else {
+                        formData[input.name] = input.value;
+                    }
+                } else if (input.type === "checkbox") {
+                    if (formData[input.name] && Array.isArray(formData[input.name])) {
+                        formData[input.name] = formData[input.name].filter(v => v !== input.value);
+                        if (formData[input.name].length === 0) {
+                            delete formData[input.name];
+                        }
+                    }
+                }
+            } else {
+                if (input.value.trim() !== "") {
+                    formData[input.name] = input.value;
+                } else {
+                    delete formData[input.name];
+                }
+            }
+            
+            // Update visual state
+            updateOptionVisualState(input);
+            
+            // Update progress
+            updateProgress();
+            
+            // Save to localStorage
+            saveFormData();
+        }
+        
+        function updateOptionVisualState(input) {
+            if (input.type === "radio" || input.type === "checkbox") {
+                const option = input.closest(".option");
+                if (option) {
+                    // Remove selected class from all options in the same group
+                    const name = input.name;
+                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                        const radioOption = radio.closest(".option");
+                        if (radioOption) {
+                            radioOption.classList.remove("selected");
+                        }
+                    });
+                    
+                    // Add selected class to current option
+                    if (input.checked) {
+                        option.classList.add("selected");
+                    }
+                }
+            }
+        }
+        
+        function updateProgress() {
+            let answeredQuestions = 0;
+            const totalQuestions = document.querySelectorAll("input[type=\"radio\"], input[type=\"checkbox\"], input[type=\"text\"], input[type=\"number\"], input[type=\"email\"], textarea, select").length;
+            
+            // Count answered questions
+            document.querySelectorAll("input[type=\"radio\"]:checked, input[type=\"checkbox\"]:checked").forEach(input => {
+                answeredQuestions++;
+            });
+            
+            document.querySelectorAll("input[type=\"text\"], input[type=\"number\"], input[type=\"email\"], textarea, select").forEach(input => {
+                if (input.value.trim() !== "") {
+                    answeredQuestions++;
+                }
+            });
+            
+            const progress = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
+            
+            // Update progress bar
+            const progressFill = document.getElementById("progressFill");
+            const progressText = document.getElementById("progressText");
+            
+            if (progressFill) {
+                progressFill.style.width = progress + "%";
+            }
+            if (progressText) {
+                progressText.textContent = Math.round(progress) + "% Complete";
+            }
+            
+            console.log("Progress:", Math.round(progress) + "%", "(" + answeredQuestions + "/" + totalQuestions + ")");
+        }
+        
+        function saveFormData() {
+            try {
+                localStorage.setItem("questionnaireData", JSON.stringify(formData));
+            } catch (error) {
+                console.error("Error saving form data:", error);
+            }
+        }
+        
+        function loadFormData() {
+            try {
+                const saved = localStorage.getItem("questionnaireData");
+                if (saved) {
+                    formData = JSON.parse(saved);
+                    
+                    // Restore form values
+                    Object.keys(formData).forEach(name => {
+                        const value = formData[name];
+                        const inputs = document.querySelectorAll(`[name="${name}"]`);
+                        
+                        inputs.forEach(input => {
+                            if (input.type === "radio" || input.type === "checkbox") {
+                                if (Array.isArray(value)) {
+                                    input.checked = value.includes(input.value);
+                                } else {
+                                    input.checked = input.value === value;
+                                }
+                            } else {
+                                input.value = value;
+                            }
+                        });
+                    });
+                    
+                    // Update visual states
+                    document.querySelectorAll("input[type=\"radio\"]:checked, input[type=\"checkbox\"]:checked").forEach(input => {
+                        updateOptionVisualState(input);
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading form data:", error);
+            }
+        }
+        
+        function submitForm() {
+            console.log("Submitting form...", formData);
+            
+            // Create FormData object
+            const submitData = new FormData();
+            Object.keys(formData).forEach(key => {
+                const value = formData[key];
+                if (Array.isArray(value)) {
+                    value.forEach(v => submitData.append(key, v));
+                } else {
+                    submitData.append(key, value);
+                }
+            });
+            
+            // Submit to backend
+            fetch("/api/analyze-health", {
+                method: "POST",
+                body: submitData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Form submitted successfully:", data);
+                // Clear saved data
+                localStorage.removeItem("questionnaireData");
+                // Redirect to results
+                window.location.href = "/results.html";
+            })
+            .catch(error => {
+                console.error("Error submitting form:", error);
+                alert("There was an error submitting your assessment. Please try again.");
+            });
+        }
+        
+        // Load saved data when page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            loadFormData();
+        });
+        
+        // Force input styling
+        function forceInputStyling() {
+            const inputs = document.querySelectorAll("input[type=\"text\"], input[type=\"number\"], input[type=\"email\"], textarea");
+            inputs.forEach(input => {
+                input.style.backgroundColor = "#2a2a2a";
+                input.style.backgroundImage = "none";
+                input.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+                input.style.borderRadius = "8px";
+                input.style.color = "#ffffff";
+                input.style.padding = "1rem";
+                input.style.fontSize = "1rem";
+                input.style.boxSizing = "border-box";
+                input.style.width = "100%";
+            });
+        }
+        
+        // Apply styling
+        document.addEventListener("DOMContentLoaded", function() {
+            forceInputStyling();
+            setTimeout(forceInputStyling, 100);
+            setTimeout(forceInputStyling, 500);
+        });
+    </script></html>

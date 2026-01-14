@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Email Collection - The Arc Personalization Framework</title>
+    
+    <style>
+        /* Reset all default styles and force dark theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            background-color: #0a0a0a !important;
+            background-image: none !important;
+            color-scheme: dark !important;
+        }
+        
+        body {
+            background-color: #0a0a0a !important;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            color: #ffffff !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo p {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: #a0aec0;
+            font-size: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #ffffff;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group input::placeholder {
+            color: #a0aec0;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .success-message {
+            color: #51cf66;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .privacy-note {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .privacy-note p {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .form-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>The Arc</h1>
+            <p>Personalization Framework</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Get Your Personalized Report</h2>
+                <p>Enter your email to receive your comprehensive longevity blueprint</p>
+            </div>
+            
+            <form id="emailForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your.email@example.com" 
+                        required
+                    >
+                    <div class="error-message" id="emailError"></div>
+                    <div class="success-message" id="emailSuccess"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Get My Personalized Report
+                </button>
+                
+                <div class="loading" id="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Processing your request...</p>
+                </div>
+            </form>
+            
+            <div class="privacy-note">
+                <p><strong>Privacy & Security:</strong> Your email and health data are encrypted and stored securely. We never share your personal information with third parties. You can unsubscribe at any time.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('emailForm');
+            const emailInput = document.getElementById('email');
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const emailError = document.getElementById('emailError');
+            const emailSuccess = document.getElementById('emailSuccess');
+            
+            // Check if we have questionnaire data
+            const questionnaireData = localStorage.getItem('personalizationFrameworkData');
+            if (!questionnaireData) {
+                console.log('No questionnaire data found, redirecting to questionnaire');
+                window.location.href = '/personalization-framework.html';
+                return;
+            }
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = emailInput.value.trim();
+                
+                if (!email) {
+                    showError('Please enter your email address');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    showError('Please enter a valid email address');
+                    return;
+                }
+                
+                // Store email in localStorage
+                localStorage.setItem('userEmail', email);
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                loading.style.display = 'block';
+                hideError();
+                hideSuccess();
+                
+                try {
+                    // Process the personalization framework data
+                    await processPersonalizationData(email);
+                    
+                    // Show success message
+                    showSuccess('Email saved! Redirecting to generate your report...');
+                    
+                    // Redirect to loading page after a short delay
+                    setTimeout(() => {
+                        window.location.href = '/loading-personalization.html';
+                    }, 2000);
+                    
+                } catch (error) {
+                    console.error('Error processing personalization data:', error);
+                    showError('An error occurred. Please try again.');
+                    submitBtn.disabled = false;
+                    loading.style.display = 'none';
+                }
+            });
+            
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+            
+            function showError(message) {
+                emailError.textContent = message;
+                emailError.style.display = 'block';
+                emailSuccess.style.display = 'none';
+            }
+            
+            function hideError() {
+                emailError.style.display = 'none';
+            }
+            
+            function showSuccess(message) {
+                emailSuccess.textContent = message;
+                emailSuccess.style.display = 'block';
+                emailError.style.display = 'none';
+            }
+            
+            function hideSuccess() {
+                emailSuccess.style.display = 'none';
+            }
+            
+            async function processPersonalizationData(email) {
+                try {
+                    // Get the questionnaire data
+                    const questionnaireData = JSON.parse(localStorage.getItem('personalizationFrameworkData'));
+                    
+                    // Transform the data for the API
+                    const transformedData = transformPersonalizationData(questionnaireData);
+                    
+                    // Store the transformed data for the loading page
+                    localStorage.setItem('personalizationFrameworkTransformed', JSON.stringify(transformedData));
+                    
+                    console.log('Personalization data processed and stored');
+                    
+                } catch (error) {
+                    console.error('Error processing personalization data:', error);
+                    throw error;
+                }
+            }
+            
+            function transformPersonalizationData(data) {
+                // Transform the personalization framework data into the format expected by our APIs
+                const transformed = {
+                    user: {
+                        name: data.name || 'User',
+                        age: parseInt(data.age) || 30,
+                        sex: data.gender || 'other',
+                        email: localStorage.getItem('userEmail')
+                    },
+                    family_history: {
+                        cvd: {
+                            present: data.family_health_challenges === 'Yes',
+                            first_degree: data.family_health_challenges === 'Yes',
+                            onset: 'unknown'
+                        },
+                        diabetes: {
+                            present: data.family_health_challenges === 'Yes',
+                            first_degree: data.family_health_challenges === 'Yes',
+                            onset: 'unknown'
+                        },
+                        cancer: data.family_health_challenges === 'Yes' ? [{
+                            type: 'unknown',
+                            relative: 'unknown',
+                            onset: 'unknown'
+                        }] : []
+                    },
+                    physiological_patterns: {
+                        compass31_raw: 0,
+                        compass31_max: 62,
+                        // Map questionnaire data to physiological patterns
+                        lightheaded_standing: data.lightheaded_standing || 'never',
+                        skin_color_changes: data.skin_color_changes === 'yes',
+                        temperature_sensitivity: data.temperature_sensitivity || 'low'
+                    },
+                    lifestyle_load: {
+                        pss10_raw: 0,
+                        pss10_max: 40,
+                        sleep_hours: 7,
+                        sleep_quality: 'good',
+                        // Map questionnaire data to lifestyle load
+                        overwhelmed: data.overwhelmed || 'never',
+                        confidence_handling: data.confidence_handling || 'often',
+                        in_control: data.in_control || 'often'
+                    },
+                    biological_signals: {
+                        waist_cm: 70,
+                        height_cm: 170,
+                        smoking: 'never',
+                        activity_min_week: 150,
+                        // Add biological factors
+                        location: data.location || 'urban',
+                        education: data.education || 'university',
+                        work_status: data.work_status || 'employed',
+                        labs_optional: {
+                            crp_mg_L: null,
+                            hba1c_percent: null,
+                            vitamin_d_ng_ml: null,
+                            lipids: {
+                                ldl: null,
+                                hdl: null,
+                                tg: null
+                            }
+                        }
+                    },
+                    cognitive_rhythm: {
+                        cfq_raw: 0,
+                        cfq_max: 100,
+                        who5_raw: 0,
+                        who5_max: 25,
+                        // Map questionnaire data to cognitive rhythm
+                        upset_annoyed: data.upset_annoyed || 'never',
+                        tense_nervous: data.tense_nervous || 'never',
+                        too_many_demands: data.too_many_demands || 'never'
+                    },
+                    symptoms: {
+                        gut: data.digestive_issues === 'sometimes' || data.digestive_issues === 'often',
+                        skin: data.skin_color_changes === 'yes',
+                        fatigue: data.unusually_tired === 'often' || data.unusually_tired === 'sometimes'
+                    },
+                    preferences: {
+                        diet: 'flexible',
+                        equipment: 'minimal',
+                        budget: 'low'
+                    }
+                };
+                
+                return transformed;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/* Mobile Layout Fixes - Comprehensive Solution */
+
+/* 1. Viewport and Container Fixes */
+@media (max-width: 768px) {
+  html, body {
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  /* Ensure all containers respect viewport */
+  .container, .max-w-7xl, .max-w-4xl, .max-w-2xl {
+    max-width: 100vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* 2. Header Mobile Fixes */
+@media (max-width: 768px) {
+  /* Header container */
+  header .max-w-7xl {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  /* Header height adjustment */
+  header .h-14 {
+    height: 3.5rem; /* 56px instead of 56px */
+  }
+  
+  /* Logo sizing */
+  header .text-xl {
+    font-size: 1.125rem; /* 18px */
+  }
+}
+
+/* 3. Burger Menu Mobile Fixes */
+@media (max-width: 768px) {
+  /* Burger button */
+  .burger-button {
+    width: 2rem; /* 32px */
+    height: 2rem; /* 32px */
+    padding: 0.25rem;
+  }
+  
+  /* Mobile menu width - responsive */
+  .mobile-menu {
+    width: min(320px, 85vw);
+    max-width: 85vw;
+  }
+  
+  /* Small screens */
+  @media (max-width: 375px) {
+    .mobile-menu {
+      width: min(280px, 90vw);
+      max-width: 90vw;
+    }
+  }
+  
+  /* Extra small screens */
+  @media (max-width: 320px) {
+    .mobile-menu {
+      width: min(260px, 95vw);
+      max-width: 95vw;
+    }
+  }
+}
+
+/* 4. Mobile Menu Button Fixes */
+@media (max-width: 768px) {
+  /* Menu buttons */
+  .mobile-menu .action-button {
+    font-size: 0.875rem; /* 14px */
+    padding: 0.5rem 0.75rem;
+    line-height: 1.25;
+    min-height: 2.5rem; /* 40px */
+  }
+  
+  /* Small screens */
+  @media (max-width: 375px) {
+    .mobile-menu .action-button {
+      font-size: 0.8rem; /* 12.8px */
+      padding: 0.375rem 0.5rem;
+      min-height: 2.25rem; /* 36px */
+    }
+  }
+  
+  /* Extra small screens */
+  @media (max-width: 320px) {
+    .mobile-menu .action-button {
+      font-size: 0.75rem; /* 12px */
+      padding: 0.25rem 0.5rem;
+      min-height: 2rem; /* 32px */
+    }
+  }
+}
+
+/* 5. Hero Section Mobile Fixes */
+@media (max-width: 768px) {
+  /* Hero buttons */
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .hero-buttons .hero-button {
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.875rem;
+    padding: 0.75rem 1.5rem;
+    min-height: 2.75rem; /* 44px */
+  }
+  
+  /* Small screens */
+  @media (max-width: 375px) {
+    .hero-buttons .hero-button {
+      font-size: 0.8rem;
+      padding: 0.625rem 1.25rem;
+      min-height: 2.5rem; /* 40px */
+    }
+  }
+}
+
+/* 6. Static HTML Files Mobile Fixes */
+@media (max-width: 768px) {
+  /* Questionnaire buttons */
+  .nav-btn {
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    min-height: 2.75rem; /* 44px */
+  }
+  
+  /* Results page buttons */
+  .download-btn, .share-btn, .new-assessment-btn {
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    min-height: 2.75rem; /* 44px */
+    margin: 0.5rem 0;
+  }
+  
+  /* Small screens */
+  @media (max-width: 375px) {
+    .nav-btn, .download-btn, .share-btn, .new-assessment-btn {
+      font-size: 0.8rem;
+      padding: 0.625rem 0.875rem;
+      min-height: 2.5rem; /* 40px */
+    }
+  }
+}
+
+/* 7. General Mobile Button Fixes */
+@media (max-width: 768px) {
+  /* All buttons should respect viewport */
+  button, .btn, [role="button"] {
+    max-width: 100%;
+    word-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+  }
+  
+  /* Prevent horizontal overflow */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure text doesn't overflow */
+  .text-overflow-fix {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
+/* 8. Touch Target Improvements */
+@media (max-width: 768px) {
+  /* Ensure minimum touch target size */
+  button, .btn, [role="button"], a {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Small screens */
+  @media (max-width: 375px) {
+    button, .btn, [role="button"], a {
+      min-height: 40px;
+      min-width: 40px;
+    }
+  }
+}
+
+/* 9. Container Padding Fixes */
+@media (max-width: 768px) {
+  /* Reduce padding on small screens */
+  .container, .px-4 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  /* Extra small screens */
+  @media (max-width: 375px) {
+    .container, .px-4 {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+}
+
+/* 10. Text Size Adjustments */
+@media (max-width: 768px) {
+  /* Reduce text sizes for better fit */
+  .text-lg {
+    font-size: 1rem; /* 16px */
+  }
+  
+  .text-xl {
+    font-size: 1.125rem; /* 18px */
+  }
+  
+  .text-2xl {
+    font-size: 1.25rem; /* 20px */
+  }
+  
+  /* Small screens */
+  @media (max-width: 375px) {
+    .text-lg {
+      font-size: 0.9rem; /* 14.4px */
+    }
+    
+    .text-xl {
+      font-size: 1rem; /* 16px */
+    }
+    
+    .text-2xl {
+      font-size: 1.125rem; /* 18px */
+    }
+  }
+}

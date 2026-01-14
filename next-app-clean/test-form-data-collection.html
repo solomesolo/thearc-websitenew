@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form Data Collection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .success { border-left: 4px solid #28a745; }
+        .error { border-left: 4px solid #dc3545; }
+        .loading { border-left: 4px solid #ffc107; }
+        form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Form Data Collection</h1>
+    
+    <div class="test-section">
+        <h2>📋 Test Form</h2>
+        <p>Fill out this form to test if data collection is working:</p>
+        
+        <form id="testForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="Test User">
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" value="35">
+            </div>
+            
+            <div class="form-group">
+                <label>Gender:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="radio" name="gender" value="male" id="gender_male">
+                        <label for="gender_male">Male</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" name="gender" value="female" id="gender_female" checked>
+                        <label for="gender_female">Female</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" name="gender" value="other" id="gender_other">
+                        <label for="gender_other">Other</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Family Health Patterns:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="family_health_patterns" value="heart_disease" id="heart_disease" checked>
+                        <label for="heart_disease">Heart Disease</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="family_health_patterns" value="diabetes" id="diabetes" checked>
+                        <label for="diabetes">Diabetes</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="family_health_patterns" value="cancer" id="cancer">
+                        <label for="cancer">Cancer</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Lightheaded Standing:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="radio" name="lightheaded_standing" value="no" id="lightheaded_no">
+                        <label for="lightheaded_no">No</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" name="lightheaded_standing" value="yes" id="lightheaded_yes" checked>
+                        <label for="lightheaded_yes">Yes</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Skin Color Changes:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="radio" name="skin_color_changes" value="no" id="skin_no" checked>
+                        <label for="skin_no">No</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" name="skin_color_changes" value="yes" id="skin_yes">
+                        <label for="skin_yes">Yes</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Temperature Sensitivity:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="radio" name="temperature_sensitivity" value="no" id="temp_no">
+                        <label for="temp_no">No</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" name="temperature_sensitivity" value="yes" id="temp_yes" checked>
+                        <label for="temp_yes">Yes</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Overwhelmed:</label>
+                <select name="overwhelmed">
+                    <option value="never">Never</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="sometimes" selected>Sometimes</option>
+                    <option value="often">Often</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Confidence Handling:</label>
+                <select name="confidence_handling">
+                    <option value="never">Never</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="fairly_often" selected>Fairly Often</option>
+                    <option value="often">Often</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>In Control:</label>
+                <select name="in_control">
+                    <option value="never">Never</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="sometimes" selected>Sometimes</option>
+                    <option value="often">Often</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Upset/Annoyed:</label>
+                <select name="upset_annoyed">
+                    <option value="never">Never</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="sometimes" selected>Sometimes</option>
+                    <option value="often">Often</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Tense/Nervous:</label>
+                <select name="tense_nervous">
+                    <option value="never">Never</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="fairly_often" selected>Fairly Often</option>
+                    <option value="often">Often</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Too Many Demands:</label>
+                <select name="too_many_demands">
+                    <option value="never">Never</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="sometimes" selected>Sometimes</option>
+                    <option value="often">Often</option>
+                </select>
+            </div>
+            
+            <button type="button" class="btn" onclick="testFormDataCollection()">🧪 Test Form Data Collection</button>
+            <button type="button" class="btn" onclick="testDataTransformation()">🔄 Test Data Transformation</button>
+            <button type="button" class="btn" onclick="testScoreCalculation()">📊 Test Score Calculation</button>
+        </form>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Test Results</h2>
+        <div id="testResults"></div>
+    </div>
+
+    <script>
+        // Simulate the form data collection from the questionnaire
+        function testFormDataCollection() {
+            const testResults = document.getElementById('testResults');
+            testResults.innerHTML = '<div class="result loading">⏳ Testing form data collection...</div>';
+            
+            try {
+                // Get form data
+                const form = document.getElementById('testForm');
+                const formData = new FormData(form);
+                const data = {};
+                
+                // Convert FormData to object
+                for (let [key, value] of formData.entries()) {
+                    if (data[key]) {
+                        data[key] += ',' + value;
+                    } else {
+                        data[key] = value;
+                    }
+                }
+                
+                // Handle checkboxes separately
+                const checkboxes = form.querySelectorAll('input[type="checkbox"]:checked');
+                checkboxes.forEach(checkbox => {
+                    if (data[checkbox.name]) {
+                        data[checkbox.name] += ',' + checkbox.value;
+                    } else {
+                        data[checkbox.name] = checkbox.value;
+                    }
+                });
+                
+                testResults.innerHTML = `
+                    <div class="result success">
+                        ✅ Form Data Collection Test Successful!
+                        
+                        📋 Collected Form Data:
+                        ${JSON.stringify(data, null, 2)}
+                        
+                        📊 Form Fields Count: ${Object.keys(data).length}
+                        📊 Key Fields Present: ${Object.keys(data).length >= 10 ? 'Yes' : 'No'}
+                        
+                        🔍 Key Field Values:
+                        • family_health_patterns: ${data.family_health_patterns || 'NOT FOUND'}
+                        • lightheaded_standing: ${data.lightheaded_standing || 'NOT FOUND'}
+                        • skin_color_changes: ${data.skin_color_changes || 'NOT FOUND'}
+                        • temperature_sensitivity: ${data.temperature_sensitivity || 'NOT FOUND'}
+                        • overwhelmed: ${data.overwhelmed || 'NOT FOUND'}
+                        • confidence_handling: ${data.confidence_handling || 'NOT FOUND'}
+                        • in_control: ${data.in_control || 'NOT FOUND'}
+                        • upset_annoyed: ${data.upset_annoyed || 'NOT FOUND'}
+                        • tense_nervous: ${data.tense_nervous || 'NOT FOUND'}
+                        • too_many_demands: ${data.too_many_demands || 'NOT FOUND'}
+                    </div>
+                `;
+                
+            } catch (error) {
+                testResults.innerHTML = `
+                    <div class="result error">
+                        ❌ Form Data Collection Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function testDataTransformation() {
+            const testResults = document.getElementById('testResults');
+            testResults.innerHTML = '<div class="result loading">⏳ Testing data transformation...</div>';
+            
+            try {
+                // Get form data
+                const form = document.getElementById('testForm');
+                const formData = new FormData(form);
+                const data = {};
+                
+                // Convert FormData to object
+                for (let [key, value] of formData.entries()) {
+                    if (data[key]) {
+                        data[key] += ',' + value;
+                    } else {
+                        data[key] = value;
+                    }
+                }
+                
+                // Handle checkboxes separately
+                const checkboxes = form.querySelectorAll('input[type="checkbox"]:checked');
+                checkboxes.forEach(checkbox => {
+                    if (data[checkbox.name]) {
+                        data[checkbox.name] += ',' + checkbox.value;
+                    } else {
+                        data[checkbox.name] = checkbox.value;
+                    }
+                });
+                
+                // Transform the data
+                const transformedData = {
+                    user: {
+                        name: data.name || "User",
+                        age: parseInt(data.age) || 30,
+                        sex: data.gender || "other",
+                        email: data.email || ""
+                    },
+                    family_history: {
+                        cvd: {
+                            present: data.family_health_patterns && data.family_health_patterns.includes('heart_disease'),
+                            first_degree: data.family_health_patterns && data.family_health_patterns.includes('heart_disease'),
+                            onset: '<60'
+                        },
+                        diabetes: {
+                            present: data.family_health_patterns && data.family_health_patterns.includes('diabetes'),
+                            first_degree: data.family_health_patterns && data.family_health_patterns.includes('diabetes')
+                        },
+                        cancer: data.family_health_patterns && data.family_health_patterns.includes('cancer') ? 
+                            [{ type: 'colorectal', relative: 'mother' }] : []
+                    },
+                    physiological_patterns: {
+                        lightheaded_standing: data.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                        skin_color_changes: data.skin_color_changes === 'yes',
+                        temperature_sensitivity: data.temperature_sensitivity === 'yes' ? 'high' : 'normal'
+                    },
+                    lifestyle_load: {
+                        overwhelmed: data.overwhelmed || 'never',
+                        confidence_handling: data.confidence_handling || 'never',
+                        in_control: data.in_control || 'never'
+                    },
+                    biological_signals: {
+                        age: parseInt(data.age) || 30,
+                        gender: data.gender || 'other',
+                        location: data.location || 'urban',
+                        education: data.education || 'university',
+                        work_status: data.work_status || 'employed'
+                    },
+                    cognitive_rhythm: {
+                        upset_annoyed: data.upset_annoyed || 'never',
+                        tense_nervous: data.tense_nervous || 'never',
+                        too_many_demands: data.too_many_demands || 'never'
+                    },
+                    symptoms: {
+                        fatigue: false,
+                        sleep_issues: false,
+                        digestive_issues: false
+                    },
+                    preferences: {
+                        budget: 'moderate',
+                        equipment: 'basic',
+                        diet: 'flexible'
+                    }
+                };
+                
+                testResults.innerHTML = `
+                    <div class="result success">
+                        ✅ Data Transformation Test Successful!
+                        
+                        📊 Transformed Data:
+                        ${JSON.stringify(transformedData, null, 2)}
+                        
+                        🔍 Critical Values for Score Calculation:
+                        • Family History CVD Present: ${transformedData.family_history.cvd.present}
+                        • Family History Diabetes Present: ${transformedData.family_history.diabetes.present}
+                        • Physiological Lightheaded: ${transformedData.physiological_patterns.lightheaded_standing}
+                        • Physiological Temperature: ${transformedData.physiological_patterns.temperature_sensitivity}
+                        • Lifestyle Overwhelmed: ${transformedData.lifestyle_load.overwhelmed}
+                        • Cognitive Upset: ${transformedData.cognitive_rhythm.upset_annoyed}
+                        
+                        📊 Expected Scores (should be > 0):
+                        • Family Risk: ${transformedData.family_history.cvd.present ? '40+' : '0'} (CVD) + ${transformedData.family_history.diabetes.present ? '25+' : '0'} (Diabetes)
+                        • Physiological: ${transformedData.physiological_patterns.lightheaded_standing === 'sometimes' ? '20+' : '0'} (Lightheaded) + ${transformedData.physiological_patterns.temperature_sensitivity === 'high' ? '30+' : '0'} (Temperature)
+                        • Lifestyle: ${transformedData.lifestyle_load.overwhelmed === 'sometimes' ? '20+' : '0'} (Overwhelmed) + ${transformedData.lifestyle_load.confidence_handling === 'fairly_often' ? '0' : '15+'} (Confidence)
+                        • Cognitive: ${transformedData.cognitive_rhythm.upset_annoyed === 'sometimes' ? '15+' : '0'} (Upset) + ${transformedData.cognitive_rhythm.tense_nervous === 'fairly_often' ? '15+' : '0'} (Tense)
+                    </div>
+                `;
+                
+            } catch (error) {
+                testResults.innerHTML = `
+                    <div class="result error">
+                        ❌ Data Transformation Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function testScoreCalculation() {
+            const testResults = document.getElementById('testResults');
+            testResults.innerHTML = '<div class="result loading">⏳ Testing score calculation...</div>';
+            
+            try {
+                // Simulate the score calculation functions
+                function calculateFamilyRisk(familyHistory) {
+                    let score = 0;
+                    
+                    if (familyHistory.cvd.present && familyHistory.cvd.first_degree && familyHistory.cvd.onset === '<60') {
+                        score += 40;
+                    }
+                    
+                    if (familyHistory.diabetes.present && familyHistory.diabetes.first_degree) {
+                        score += 25;
+                    }
+                    
+                    if (familyHistory.cancer.length > 0) {
+                        const colorectalCancer = familyHistory.cancer.find((c) => c.type === 'colorectal');
+                        if (colorectalCancer && colorectalCancer.relative === 'mother') {
+                            score += 20;
+                        }
+                    }
+                    
+                    return Math.min(score, 100);
+                }
+                
+                function calculatePhysiological(physiological) {
+                    let score = 0;
+                    
+                    if (physiological.lightheaded_standing === 'often') score += 40;
+                    else if (physiological.lightheaded_standing === 'sometimes') score += 20;
+                    
+                    if (physiological.skin_color_changes) score += 30;
+                    
+                    if (physiological.temperature_sensitivity === 'high') score += 30;
+                    else if (physiological.temperature_sensitivity === 'moderate') score += 15;
+                    
+                    return Math.min(score, 100);
+                }
+                
+                function calculateLifestyleLoad(lifestyle) {
+                    let score = 0;
+                    
+                    if (lifestyle.overwhelmed === 'often') score += 40;
+                    else if (lifestyle.overwhelmed === 'sometimes') score += 20;
+                    
+                    if (lifestyle.confidence_handling === 'never') score += 30;
+                    else if (lifestyle.confidence_handling === 'rarely') score += 15;
+                    
+                    if (lifestyle.in_control === 'never') score += 30;
+                    else if (lifestyle.in_control === 'rarely') score += 15;
+                    
+                    return Math.min(score, 100);
+                }
+                
+                function calculateBiological(biological) {
+                    let score = 0;
+                    
+                    if (biological.age >= 65) score += 30;
+                    else if (biological.age >= 45) score += 20;
+                    else if (biological.age >= 35) score += 10;
+                    
+                    if (biological.gender === 'male') score += 10;
+                    
+                    if (biological.location === 'rural') score += 5;
+                    
+                    if (biological.education === 'high_school') score += 15;
+                    else if (biological.education === 'university') score += 5;
+                    
+                    if (biological.work_status === 'unemployed') score += 20;
+                    else if (biological.work_status === 'retired') score += 10;
+                    
+                    return Math.min(score, 100);
+                }
+                
+                function calculateCognitive(cognitive) {
+                    let score = 0;
+                    
+                    if (cognitive.upset_annoyed === 'often') score += 30;
+                    else if (cognitive.upset_annoyed === 'sometimes') score += 15;
+                    
+                    if (cognitive.tense_nervous === 'often') score += 30;
+                    else if (cognitive.tense_nervous === 'sometimes') score += 15;
+                    
+                    if (cognitive.too_many_demands === 'often') score += 30;
+                    else if (cognitive.too_many_demands === 'sometimes') score += 15;
+                    
+                    return Math.min(score, 100);
+                }
+                
+                // Test data (should produce scores > 0)
+                const testData = {
+                    family_history: {
+                        cvd: { present: true, first_degree: true, onset: '<60' },
+                        diabetes: { present: true, first_degree: true },
+                        cancer: []
+                    },
+                    physiological_patterns: {
+                        lightheaded_standing: 'sometimes',
+                        skin_color_changes: false,
+                        temperature_sensitivity: 'high'
+                    },
+                    lifestyle_load: {
+                        overwhelmed: 'sometimes',
+                        confidence_handling: 'fairly_often',
+                        in_control: 'sometimes'
+                    },
+                    biological_signals: {
+                        age: 35,
+                        gender: 'female',
+                        location: 'city',
+                        education: 'university',
+                        work_status: 'employed'
+                    },
+                    cognitive_rhythm: {
+                        upset_annoyed: 'sometimes',
+                        tense_nervous: 'fairly_often',
+                        too_many_demands: 'sometimes'
+                    }
+                };
+                
+                // Calculate scores
+                const scores = {
+                    family_risk: calculateFamilyRisk(testData.family_history),
+                    physiological: calculatePhysiological(testData.physiological_patterns),
+                    lifestyle_load: calculateLifestyleLoad(testData.lifestyle_load),
+                    biological: calculateBiological(testData.biological_signals),
+                    cognitive: calculateCognitive(testData.cognitive_rhythm)
+                };
+                
+                testResults.innerHTML = `
+                    <div class="result success">
+                        ✅ Score Calculation Test Successful!
+                        
+                        📊 Calculated Scores:
+                        • Family Risk: ${scores.family_risk} (Expected: 65+)
+                        • Physiological: ${scores.physiological} (Expected: 50+)
+                        • Lifestyle Load: ${scores.lifestyle_load} (Expected: 20+)
+                        • Biological: ${scores.biological} (Expected: 15+)
+                        • Cognitive: ${scores.cognitive} (Expected: 30+)
+                        
+                        📊 All Scores > 0: ${Object.values(scores).every(score => score > 0) ? '✅ Yes' : '❌ No'}
+                        📊 Total Score: ${Object.values(scores).reduce((a, b) => a + b, 0)}
+                        
+                        🎯 Expected vs Actual:
+                        • Family Risk: Expected 65+ (CVD: 40 + Diabetes: 25), Got ${scores.family_risk}
+                        • Physiological: Expected 50+ (Lightheaded: 20 + Temperature: 30), Got ${scores.physiological}
+                        • Lifestyle: Expected 20+ (Overwhelmed: 20), Got ${scores.lifestyle_load}
+                        • Biological: Expected 15+ (Age: 10 + Gender: 0 + Education: 5), Got ${scores.biological}
+                        • Cognitive: Expected 30+ (Upset: 15 + Tense: 15), Got ${scores.cognitive}
+                    </div>
+                `;
+                
+            } catch (error) {
+                testResults.innerHTML = `
+                    <div class="result error">
+                        ❌ Score Calculation Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+

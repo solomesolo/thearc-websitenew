@@ -1,0 +1,419 @@
+.healthint-section {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(circle at top, rgba(3, 18, 15, 0.85), #010203 70%);
+  padding: 5.5rem 0 6.5rem;
+  overflow: visible;
+}
+
+.healthint-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  overflow: visible;
+}
+
+.healthint-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.45em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.healthint-title {
+  font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+  color: #f7fdf9;
+  font-weight: 600;
+  margin-bottom: 1.1rem;
+  line-height: 1.25;
+}
+
+.healthint-subtitle {
+  font-size: 1rem;
+  color: rgba(230, 240, 236, 0.78);
+  max-width: 640px;
+  margin: 0 auto 3rem;
+  line-height: 1.65;
+}
+
+.healthint-layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.healthint-radial {
+  position: relative;
+  width: min(1200px, 95vw);
+  height: min(1000px, 90vw);
+  margin: 0 auto;
+  min-height: 700px;
+  padding-bottom: 4rem; /* Extra space for point 07 below silhouette */
+}
+
+/* Silhouette Styles */
+.silhouette-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  height: 550px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.silhouette-glow {
+  position: absolute;
+  inset: -80px;
+  background: radial-gradient(
+    circle at center,
+    rgba(46, 228, 193, 0.35) 0%,
+    rgba(15, 43, 39, 0.35) 40%,
+    transparent 75%
+  );
+  filter: blur(40px);
+  z-index: 0;
+  animation: pulseGlow 4s ease-in-out infinite alternate;
+}
+
+.silhouette-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.42; /* 40% less bright (0.7 * 0.6 = 0.42) */
+}
+
+.silhouette-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: 
+    brightness(0.6)
+    contrast(1.2)
+    blur(2px)
+    drop-shadow(0 0 20px rgba(46, 228, 193, 0.2));
+}
+
+.silhouette-motion-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.85; }
+  100% { opacity: 1.0; }
+}
+
+/* Intelligence Point Styles */
+.intelligence-point {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+  width: 100%;
+  max-width: 450px;
+  /* Removed float animation - text stays fixed */
+}
+
+/* Ensure dot and badge are centered with text content */
+.intelligence-point .point-dot,
+.intelligence-point .point-badge {
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.intelligence-point .point-content {
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* Right side points - centered alignment */
+.intelligence-point[class*="point-02"],
+.intelligence-point[class*="point-03"],
+.intelligence-point[class*="point-05"] {
+  align-items: center;
+}
+
+/* Glowing Dot - centered */
+.point-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 255, 200, 0.9);
+  box-shadow: 0 0 12px rgba(0, 255, 200, 0.55);
+  margin: 0 auto 0.5rem;
+  display: block;
+  flex-shrink: 0;
+  /* Removed animation - dot stays fixed */
+}
+
+/* Number Badge - centered */
+.point-badge {
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: rgba(0, 255, 200, 0.9);
+  margin: 0 auto 0.75rem;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  width: 100%;
+}
+
+/* Point Content - All centered */
+.point-content {
+  max-width: 380px;
+  text-align: center;
+  margin: 0.5rem auto 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Left side points - symmetric distance from center */
+/* Using calc to ensure exact symmetry: center (50%) - distance = left position */
+.intelligence-point[class*="point-01"],
+.intelligence-point[class*="point-04"],
+.intelligence-point[class*="point-06"] {
+  left: calc(50% - 38%) !important; /* 12% from left = 38% from center */
+  margin-left: 0;
+  transform: translate(-50%, -50%) !important; /* Ensure transform is applied */
+}
+
+.intelligence-point[class*="point-01"] .point-content,
+.intelligence-point[class*="point-04"] .point-content,
+.intelligence-point[class*="point-06"] .point-content {
+  text-align: center;
+  max-width: 380px;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+/* Center points - ensure they stay exactly centered */
+.intelligence-point[class*="point-07"],
+.intelligence-point[class*="point-08"] {
+  left: 50% !important;
+  margin-left: 0 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Point 07 - positioned under silhouette, higher but not crossing */
+.intelligence-point[class*="point-07"] {
+  top: 85% !important;
+  margin-top: 1rem; /* Reduced spacing to move it higher */
+}
+
+/* Point 08 - positioned above silhouette, symmetric with bottom (07) */
+.intelligence-point[class*="point-08"] {
+  top: 8% !important;
+}
+
+.intelligence-point[class*="point-07"] .point-content,
+.intelligence-point[class*="point-08"] .point-content {
+  text-align: center;
+  max-width: 380px;
+  margin-left: 0;
+  padding: 0;
+}
+
+/* Right side points - symmetric distance from center (mirror of left) */
+/* Using calc to ensure exact symmetry: center (50%) + distance = right position */
+.intelligence-point[class*="point-02"],
+.intelligence-point[class*="point-03"],
+.intelligence-point[class*="point-05"] {
+  left: calc(50% + 38%) !important; /* 88% from left = 38% from center */
+  margin-right: 0;
+  margin-left: 0; /* Ensure no left margin affects positioning */
+  transform: translate(-50%, -50%) !important; /* Ensure transform is applied */
+}
+
+.intelligence-point[class*="point-02"] .point-content,
+.intelligence-point[class*="point-03"] .point-content,
+.intelligence-point[class*="point-05"] .point-content {
+  text-align: center;
+  max-width: 380px;
+  padding-right: 0;
+  margin-right: 0;
+}
+
+.point-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+.point-description {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.point-details {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem auto 0;
+  text-align: center;
+  max-width: 100%;
+}
+
+.point-details li {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+  margin-bottom: 0.4rem;
+  padding-left: 0;
+  position: relative;
+  text-align: center;
+}
+
+.point-details li::before {
+  content: "•";
+  color: rgba(0, 255, 200, 0.6);
+  margin-right: 0.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+  .healthint-radial {
+    width: min(700px, 90vw);
+    height: min(700px, 90vw);
+    min-height: 500px;
+  }
+
+  .silhouette-wrapper {
+    width: 400px;
+    height: 400px;
+  }
+
+  .silhouette-glow {
+    inset: -60px;
+    filter: blur(30px);
+  }
+
+  .point-content {
+    max-width: 280px;
+  }
+
+  .intelligence-point[class*="point-02"] .point-content,
+  .intelligence-point[class*="point-03"] .point-content,
+  .intelligence-point[class*="point-05"] .point-content {
+    min-width: 250px;
+    text-align: center;
+  }
+
+  .intelligence-point[class*="point-01"] .point-content,
+  .intelligence-point[class*="point-04"] .point-content,
+  .intelligence-point[class*="point-06"] .point-content {
+    text-align: center;
+    max-width: 320px;
+  }
+
+  .point-title {
+    font-size: 0.9rem;
+  }
+
+  .point-description {
+    font-size: 0.85rem;
+  }
+
+  .point-details li {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .healthint-radial {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    padding-bottom: 2rem;
+  }
+
+  .silhouette-wrapper {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 2rem auto;
+    opacity: 0.3;
+  }
+
+  .silhouette-glow {
+    inset: -40px;
+    filter: blur(20px);
+  }
+
+  .intelligence-point {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 1.5rem 0;
+    width: 100%;
+    max-width: 320px;
+    animation-duration: 2.4s; /* 40% reduction */
+  }
+
+  .point-content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .point-title {
+    font-size: 1rem;
+  }
+
+  .point-description {
+    font-size: 0.9rem;
+  }
+
+  .point-details {
+    text-align: left;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .point-details li {
+    font-size: 0.8rem;
+  }
+}
+
+/* Ensure points don't overlap */
+.intelligence-point {
+  min-width: 300px;
+}
+
+/* Right side - symmetric with left (no negative margins) */
+.intelligence-point[class*="point-02"],
+.intelligence-point[class*="point-03"],
+.intelligence-point[class*="point-05"] {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .point-dot,
+  .silhouette-glow {
+    animation: none;
+  }
+}

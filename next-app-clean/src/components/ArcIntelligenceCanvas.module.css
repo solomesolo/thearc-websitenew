@@ -1,0 +1,215 @@
+.section {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(circle at top, rgba(9, 38, 30, 0.6), #010101 70%);
+  padding: 6rem 0 7rem;
+  overflow: hidden;
+}
+
+.inner {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  z-index: 2;
+}
+
+.headline {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.pretitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  font-weight: 600;
+  color: #f7fdf9;
+  margin-bottom: 1.75rem;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.canvas {
+  position: relative;
+  min-height: 900px;
+}
+
+.sphereWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 0 45px rgba(80, 240, 200, 0.18));
+  z-index: 0;
+}
+
+.sphereCore {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(111, 240, 193, 0.65), rgba(4, 20, 17, 0.5));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+
+.sphereInnerRing {
+  position: absolute;
+  inset: 25%;
+  border-radius: 50%;
+  border: 1px solid rgba(111, 240, 193, 0.6);
+  filter: blur(1px);
+  opacity: 0.8;
+}
+
+.sphereGlow {
+  position: absolute;
+  inset: -55px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(77, 238, 203, 0.18), transparent 70%);
+  filter: blur(45px);
+}
+
+.nodesLayer {
+  position: relative;
+  min-height: 900px;
+}
+
+.nodeCard {
+  position: absolute;
+  width: 320px;
+  padding: 1.8rem;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 18px rgba(0, 255, 180, 0.14);
+  color: rgba(240, 250, 247, 0.85);
+  transition: all 0.45s ease;
+  opacity: 0.45;
+  transform: translate(-50%, 20px);
+  z-index: 2;
+}
+
+.nodeActive {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.nodeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.nodeNumber {
+  font-size: 0.85rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.3s ease;
+}
+
+.nodeNumberActive {
+  color: #6ef0c1;
+}
+
+.nodeIndicator {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #6ef2c1;
+  box-shadow: 0 0 12px rgba(110, 242, 193, 0.6);
+  animation: pulseDot 2.5s ease-in-out infinite;
+}
+
+.nodeTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f8fffc;
+  margin-bottom: 0.5rem;
+}
+
+.nodeDescription {
+  font-size: 0.97rem;
+  line-height: 1.65;
+  color: rgba(226, 241, 237, 0.85);
+}
+
+.connectorSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: blur(2px);
+  z-index: 1;
+}
+
+.connectorPath {
+  stroke: rgba(110, 242, 193, 0.12);
+  stroke-width: 1.1;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 0.4; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+@media (max-width: 1024px) {
+  .canvas {
+    min-height: auto;
+  }
+
+  .nodesLayer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    min-height: auto;
+  }
+
+  .nodeCard {
+    position: static;
+    width: 100%;
+    transform: translateY(15px);
+    opacity: 0.85;
+  }
+
+  .connectorSvg {
+    display: none;
+  }
+
+  .sphereWrapper {
+    width: 220px;
+    height: 220px;
+    opacity: 0.45;
+    top: 18%;
+  }
+}
+
+@media (max-width: 640px) {
+  .nodesLayer {
+    grid-template-columns: 1fr;
+  }
+
+  .sphereWrapper {
+    display: none;
+  }
+}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixpanel Events Test</title>
+    
+    <!-- Fixed Mixpanel Script -->
+    <script src="/mixpanel-fixed.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Mixpanel Events Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Page View Event</h2>
+        <p>This should be tracked automatically when the page loads.</p>
+        <button onclick="testPageView()">Test Page View</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Test Start Event</h2>
+        <p>Simulates clicking the "Submit Assessment" button.</p>
+        <button id="start-test-btn" onclick="testTestStart()">Submit Assessment</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Test Complete Event</h2>
+        <p>Simulates completing the test and viewing results.</p>
+        <button onclick="testTestComplete()">Test Complete</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Share Reveal Event</h2>
+        <p>Simulates sharing results.</p>
+        <button onclick="testShareReveal()">Share Results</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. Marketplace View Event</h2>
+        <p>Simulates clicking provider links.</p>
+        <a href="#" class="provider-link" data-provider-id="test-provider" data-category="health" onclick="testMarketplaceView()">Test Provider Link</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>6. Manual Test Event</h2>
+        <p>Send a custom test event.</p>
+        <button onclick="testMixpanel()">Send Test Event</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Event Log</h2>
+        <div id="log" class="log">Waiting for events...\n</div>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+    
+    <script>
+        // Override console.log to capture events
+        const originalLog = console.log;
+        const logElement = document.getElementById('log');
+        
+        function addToLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            logElement.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.join(' ');
+            if (message.includes('Mixpanel') || message.includes('tracked') || message.includes('✅')) {
+                addToLog(message, 'success');
+            } else if (message.includes('❌') || message.includes('error')) {
+                addToLog(message, 'error');
+            } else {
+                addToLog(message, 'info');
+            }
+        };
+        
+        // Test functions
+        function testPageView() {
+            addToLog('Testing page_view event...', 'info');
+            if (window.mixpanel && window.mixpanel.track) {
+                window.mixpanel.track('page_view', {
+                    page: window.location.pathname,
+                    title: document.title,
+                    test: true
+                });
+                addToLog('✅ page_view event sent!', 'success');
+            } else {
+                addToLog('❌ Mixpanel not available', 'error');
+            }
+        }
+        
+        function testTestStart() {
+            addToLog('Testing test_start event...', 'info');
+            // Simulate the actual button click that triggers the event
+            const button = document.getElementById('start-test-btn');
+            if (button) {
+                button.click();
+                addToLog('✅ test_start event triggered via button click!', 'success');
+            } else {
+                addToLog('❌ start-test-btn not found', 'error');
+            }
+        }
+        
+        function testTestComplete() {
+            addToLog('Testing test_complete event...', 'info');
+            if (window.onTestComplete) {
+                window.onTestComplete('test_baseline_word');
+                addToLog('✅ test_complete event sent!', 'success');
+            } else {
+                addToLog('❌ onTestComplete function not available', 'error');
+            }
+        }
+        
+        function testShareReveal() {
+            addToLog('Testing share_reveal event...', 'info');
+            if (window.trackShareReveal) {
+                window.trackShareReveal();
+                addToLog('✅ share_reveal event sent!', 'success');
+            } else {
+                addToLog('❌ trackShareReveal function not available', 'error');
+            }
+        }
+        
+        function testMarketplaceView() {
+            addToLog('Testing marketplace_view event...', 'info');
+            if (window.mixpanel && window.mixpanel.track) {
+                window.mixpanel.track('marketplace_view', {
+                    provider_id: 'test-provider',
+                    provider_category: 'health',
+                    test: true
+                });
+                addToLog('✅ marketplace_view event sent!', 'success');
+            } else {
+                addToLog('❌ Mixpanel not available', 'error');
+            }
+        }
+        
+        function clearLog() {
+            logElement.innerHTML = 'Log cleared...\n';
+        }
+        
+        // Check Mixpanel status on load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                addToLog('🔍 Checking Mixpanel status...', 'info');
+                if (window.mixpanel) {
+                    addToLog('✅ Mixpanel object available', 'success');
+                    if (window.mixpanel.track) {
+                        addToLog('✅ Mixpanel track function available', 'success');
+                    } else {
+                        addToLog('❌ Mixpanel track function not available', 'error');
+                    }
+                } else {
+                    addToLog('❌ Mixpanel object not available', 'error');
+                }
+                
+                if (window.mixpanelUserId) {
+                    addToLog(`✅ User ID: ${window.mixpanelUserId}`, 'success');
+                } else {
+                    addToLog('❌ User ID not available', 'error');
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

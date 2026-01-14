@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Email Collection - Right Screening Finder</title>
+    
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-MJ4KKD9N');
+    </script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-90L63EEKYH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-90L63EEKYH');
+    </script>
+    
+    <!-- Fixed Mixpanel Script -->
+    <script src="/mixpanel-fixed.js"></script>
+    
+    <style>
+        /* Reset all default styles and force dark theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            background-color: #0a0a0a !important;
+            background-image: none !important;
+            color-scheme: dark !important;
+        }
+        
+        body {
+            background-color: #0a0a0a !important;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            color: #ffffff !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            color-scheme: dark !important;
+        }
+        
+        /* Multiple background layers to ensure dark background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #0a0a0a;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            z-index: -10;
+            pointer-events: none;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -5;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 0 2rem;
+        }
+        
+        .email-card {
+            background-color: rgba(26, 26, 26, 0.95) !important;
+            background-image: none !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .email-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        input[type="email"] {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background-color: rgba(26, 26, 26, 0.95) !important;
+            background-image: none !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        input[type="email"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background-color: #3b82f6;
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .privacy-note {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+        
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+        
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .email-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            input[type="email"] {
+                padding: 1rem 1.25rem;
+                font-size: 0.9rem;
+            }
+            
+            .submit-btn {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+                min-height: 2.75rem;
+            }
+        }
+        
+        /* Small screens */
+        @media (max-width: 375px) {
+            .container {
+                padding: 0 0.75rem;
+            }
+            
+            .email-card {
+                padding: 1.5rem 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            input[type="email"] {
+                padding: 0.875rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .submit-btn {
+                padding: 0.875rem 1.25rem;
+                font-size: 0.9rem;
+                min-height: 2.5rem;
+            }
+        }
+        
+        /* Safari-specific fixes */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            body {
+                background-color: #0a0a0a !important;
+                background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            }
+            
+            .email-card {
+                background-color: rgba(26, 26, 26, 0.95) !important;
+            }
+            
+            input[type="email"] {
+                background-color: rgba(26, 26, 26, 0.95) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MJ4KKD9N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <div class="container">
+        <div class="email-card">
+            <h1>Your personalized screening plan is ready.</h1>
+            <p class="subtitle">For the seek of data protection, your data won't be saved on the platform. Enter your email to get a copy of your results and receive early access to new prevention tools and community news</p>
+            
+            <form id="emailForm">
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="email" id="emailInput" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div id="errorMessage" class="error-message" style="display: none;"></div>
+                    <div id="successMessage" class="success-message" style="display: none;"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">Next</button>
+                
+                <p class="privacy-note">We value your decision, you can unsubscribe anytime</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Force dark background immediately on load
+        document.documentElement.style.backgroundColor = '#0a0a0a';
+        document.documentElement.style.backgroundImage = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%)';
+        document.body.style.backgroundColor = '#0a0a0a';
+        document.body.style.backgroundImage = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%)';
+        
+        // Email validation function
+        function validateEmail(email) {
+            const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+            
+            if (!email) {
+                return { valid: false, message: 'Email is required' };
+            }
+            
+            if (email.length < 5) {
+                return { valid: false, message: 'Email is too short' };
+            }
+            
+            if (email.length > 254) {
+                return { valid: false, message: 'Email is too long' };
+            }
+            
+            if (!email.includes('@')) {
+                return { valid: false, message: 'Email must contain @ symbol' };
+            }
+            
+            if (email.indexOf('@') !== email.lastIndexOf('@')) {
+                return { valid: false, message: 'Email can only contain one @ symbol' };
+            }
+            
+            const [localPart, domain] = email.split('@');
+            
+            if (localPart.length === 0) {
+                return { valid: false, message: 'Email must have text before @ symbol' };
+            }
+            
+            if (localPart.length > 64) {
+                return { valid: false, message: 'Local part of email is too long' };
+            }
+            
+            if (domain.length === 0) {
+                return { valid: false, message: 'Email must have domain after @ symbol' };
+            }
+            
+            if (domain.length > 253) {
+                return { valid: false, message: 'Domain part of email is too long' };
+            }
+            
+            if (!domain.includes('.')) {
+                return { valid: false, message: 'Domain must contain a dot' };
+            }
+            
+            if (!emailRegex.test(email)) {
+                return { valid: false, message: 'Please enter a valid email address' };
+            }
+            
+            // Check for common typos
+            const commonDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
+            const userDomain = domain.toLowerCase();
+            const similarDomain = commonDomains.find(d => {
+                const distance = levenshteinDistance(userDomain, d);
+                return distance <= 2 && distance > 0;
+            });
+            
+            if (similarDomain) {
+                return { valid: false, message: `Did you mean ${localPart}@${similarDomain}?` };
+            }
+            
+            return { valid: true, message: 'Valid email' };
+        }
+        
+        // Levenshtein distance function for typo detection
+        function levenshteinDistance(str1, str2) {
+            const matrix = [];
+            
+            for (let i = 0; i <= str2.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= str1.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= str2.length; i++) {
+                for (let j = 1; j <= str1.length; j++) {
+                    if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            
+            return matrix[str2.length][str1.length];
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            successDiv.style.display = 'none';
+        }
+        
+        function showSuccess(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            errorDiv.style.display = 'none';
+        }
+        
+        function hideMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+        function showSuccessMessage(message) {
+            const successElement = document.getElementById('successMessage');
+            if (successElement) {
+                successElement.textContent = message;
+                successElement.style.display = 'block';
+                hideMessages();
+                setTimeout(() => {
+                    successElement.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        function showErrorMessage(message) {
+            const errorElement = document.getElementById('errorMessage');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+                hideMessages();
+                setTimeout(() => {
+                    errorElement.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        
+        async function sendResultsEmail(email) {
+            try {
+                // Get the health assessment results from localStorage
+                let results = JSON.parse(localStorage.getItem('healthAssessmentResults') || '{}');
+                
+                if (!results || Object.keys(results).length === 0) {
+                    console.log('📧 No results found in localStorage, skipping email send');
+                    return;
+                }
+                
+                // Generate HTML email content
+                const htmlContent = generateEmailHTML(results);
+                const textContent = generateEmailText(results);
+                
+                console.log('📧 Sending email with results to:', email);
+                
+                const emailResponse = await fetch('/api/send_email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        to: email,
+                        subject: 'Your Personalized Health Screening Plan - Right Screening Finder',
+                        htmlContent: htmlContent,
+                        textContent: textContent
+                    })
+                });
+                
+                if (!emailResponse.ok) {
+                    const errorData = await emailResponse.json().catch(() => ({ error: 'Unknown error' }));
+                    console.error('📧 Email API error:', errorData);
+                    throw new Error(errorData.error || `Failed to send email: ${emailResponse.status}`);
+                }
+                
+                const emailData = await emailResponse.json();
+                console.log('📧 Email sent successfully:', emailData);
+                
+                // Show success message to user
+                showSuccessMessage('Your results have been sent to your email!');
+                
+            } catch (error) {
+                console.error('📧 Error sending email:', error);
+                // Show user-friendly error message
+                showErrorMessage('Unable to send email automatically. Your results are still saved and you can view them below.');
+                console.log('📧 Continuing without email...');
+            }
+        }
+        
+        function generateEmailHTML(results) {
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Your Health Screening Plan</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                        .header { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+                        .content { background: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; }
+                        .section { margin-bottom: 25px; }
+                        .section h3 { color: #3b82f6; margin-bottom: 15px; }
+                        .test-item { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #3b82f6; }
+                        .urgent { border-left-color: #ef4444; }
+                        .footer { text-align: center; margin-top: 30px; padding: 20px; color: #666; font-size: 14px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h1>Your Personalized Health Screening Plan</h1>
+                            <p>Based on your health assessment responses</p>
+                        </div>
+                        <div class="content">
+                            <div class="section">
+                                <h3>Assessment Summary</h3>
+                                <p>${results.assessment_summary || results.assessmentSummary || 'Your personalized health screening plan has been generated based on your responses.'}</p>
+                            </div>
+                            
+                            ${results.urgent_tests || results.urgentTests ? `
+                            <div class="section">
+                                <h3>Urgent Tests</h3>
+                                ${(results.urgent_tests || results.urgentTests).map(test => `
+                                    <div class="test-item urgent">
+                                        <strong>${test.test || test.name}</strong><br>
+                                        ${test.reason || test.explanation}<br>
+                                        <em>Timeframe: ${test.timeframe}</em>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            ` : ''}
+                            
+                            ${results.categories ? `
+                            <div class="section">
+                                <h3>Health Categories</h3>
+                                ${results.categories.map(category => `
+                                    <div class="test-item">
+                                        <strong>${category.category_name}</strong><br>
+                                        ${category.category_description}<br>
+                                        <ul>
+                                            ${category.tests.map(test => `<li>${test.test || test.name || 'Test'} - ${test.reason || test.description || test.explanation || 'No description'}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            ` : ''}
+                            
+                            ${results.next_steps || results.nextSteps ? `
+                            <div class="section">
+                                <h3>Next Steps</h3>
+                                ${(results.next_steps || results.nextSteps).map(step => `
+                                    <div class="test-item">
+                                        <strong>${step.timeframe}</strong><br>
+                                        <ul>
+                                            ${step.actions.map(action => `<li>${action}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            ` : ''}
+                        </div>
+                        <div class="footer">
+                            <p>This email was generated by Right Screening Finder</p>
+                            <p>For questions, contact us at thearc@thearcme.com</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+        
+        function generateEmailText(results) {
+            return `
+                Your Personalized Health Screening Plan
+                
+                Assessment Summary:
+                ${results.assessment_summary || results.assessmentSummary || 'Your personalized health screening plan has been generated based on your responses.'}
+                
+                ${results.urgent_tests || results.urgentTests ? `
+                Urgent Tests:
+                ${(results.urgent_tests || results.urgentTests).map(test => `- ${test.test || test.name}: ${test.reason || test.explanation} (${test.timeframe})`).join('\n')}
+                ` : ''}
+                
+                ${results.categories ? `
+                Health Categories:
+                ${results.categories.map(category => `
+                ${category.category_name}:
+                ${category.category_description}
+                Tests: ${category.tests.map(test => test.test || test.name || 'Test').join(', ')}
+                `).join('\n')}
+                ` : ''}
+                
+                ${results.next_steps || results.nextSteps ? `
+                Next Steps:
+                ${(results.next_steps || results.nextSteps).map(step => `
+                ${step.timeframe}:
+                ${step.actions.map(action => `- ${action}`).join('\n')}
+                `).join('\n')}
+                ` : ''}
+                
+                ---
+                This email was generated by Right Screening Finder
+                For questions, contact us at thearc@thearcme.com
+            `;
+        }
+        
+        async function handleEmailSubmit(event) {
+            console.log('🚨 FORM SUBMISSION STARTED!');
+            event.preventDefault();
+            
+            const emailInput = document.getElementById('emailInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const email = emailInput.value.trim();
+            
+            // Validate email
+            const validation = validateEmail(email);
+            if (!validation.valid) {
+                showError(validation.message);
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            hideMessages();
+            
+            try {
+                // Save email to Notion database
+                console.log('📧 Submitting email:', email);
+                console.log('📧 Timestamp:', new Date().toISOString());
+                console.log('📧 Full data:', { email, timestamp: new Date().toISOString(), consent: true, source: 'questionnaire' });
+                
+                console.log('📧 Making API call to:', '/api/save_email');
+                const saveResponse = await fetch('/api/save_email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        timestamp: new Date().toISOString(),
+                        consent: true,
+                        source: 'questionnaire'
+                    })
+                });
+                
+                console.log('📧 Response status:', saveResponse.status);
+                console.log('📧 Response ok:', saveResponse.ok);
+                
+                if (!saveResponse.ok) {
+                    const errorText = await saveResponse.text();
+                    console.error('📧 Error response:', errorText);
+                    throw new Error(`Failed to save email: ${errorText}`);
+                }
+                
+                const responseData = await saveResponse.json();
+                console.log('📧 Success response:', responseData);
+                
+                // Store email for later use in results page
+                localStorage.setItem('userEmail', email);
+                console.log('📧 Email stored for later use:', email);
+                console.log('🔍 DEBUGGING EMAIL SAVE:');
+                console.log('🔍 Email saved:', email);
+                console.log('🔍 localStorage check:', localStorage.getItem('userEmail'));
+                console.log('🔍 All localStorage keys after save:', Object.keys(localStorage));
+                
+                showSuccess('Email saved successfully! Sending your results...');
+                
+                // Send the results email
+                await sendResultsEmail(email);
+                
+                // Redirect to results page
+                setTimeout(() => {
+                    window.location.href = '/results';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('🚨 ERROR in handleEmailSubmit:', error);
+                console.error('🚨 Error message:', error.message);
+                console.error('🚨 Error stack:', error.stack);
+                showError(`Error: ${error.message}`);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Next';
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('emailForm').addEventListener('submit', handleEmailSubmit);
+        
+        // Real-time validation
+        document.getElementById('emailInput').addEventListener('input', function() {
+            const email = this.value.trim();
+            if (email.length > 0) {
+                const validation = validateEmail(email);
+                if (!validation.valid) {
+                    showError(validation.message);
+                } else {
+                    hideMessages();
+                }
+            } else {
+                hideMessages();
+            }
+        });
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Force dark background again after DOM load
+            document.documentElement.style.backgroundColor = '#0a0a0a';
+            document.body.style.backgroundColor = '#0a0a0a';
+            
+            // Force dark background with timeout
+            setTimeout(function() {
+                document.documentElement.style.backgroundColor = '#0a0a0a';
+                document.body.style.backgroundColor = '#0a0a0a';
+            }, 100);
+        });
+    </script>
+    
+    <!-- Real backend API integration -->
+</body>
+</html>

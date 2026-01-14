@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Questionnaire Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .success { border-left: 4px solid #28a745; }
+        .error { border-left: 4px solid #dc3545; }
+        .loading { border-left: 4px solid #ffc107; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug Questionnaire Data Collection</h1>
+    
+    <div class="debug-section">
+        <h2>📋 Test Form Data Collection</h2>
+        <p>This will test if the questionnaire form data is being collected correctly:</p>
+        
+        <button class="btn" onclick="testFormDataCollection()">🔍 Test Form Data Collection</button>
+        <button class="btn" onclick="testDataTransformation()">🔄 Test Data Transformation</button>
+        <button class="btn" onclick="testScoreCalculation()">📊 Test Score Calculation</button>
+        <button class="btn" onclick="clearDebugResults()">🗑️ Clear Results</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>📊 Debug Results</h2>
+        <div id="debugResults"></div>
+    </div>
+
+    <script>
+        // Simulate the questionnaire form data collection
+        function testFormDataCollection() {
+            const debugResults = document.getElementById('debugResults');
+            debugResults.innerHTML = '<div class="result loading">⏳ Testing form data collection...</div>';
+            
+            try {
+                // Simulate form data that would be collected from the questionnaire
+                const mockFormData = {
+                    name: "Test User",
+                    age: "35",
+                    gender: "male",
+                    email: "test@example.com",
+                    location: "city",
+                    education: "university",
+                    work_status: "employed",
+                    family_health_patterns: "heart_disease,diabetes",
+                    lightheaded_standing: "yes",
+                    skin_color_changes: "no",
+                    temperature_sensitivity: "yes",
+                    overwhelmed: "sometimes",
+                    confidence_handling: "fairly_often",
+                    in_control: "sometimes",
+                    upset_annoyed: "sometimes",
+                    tense_nervous: "fairly_often",
+                    too_many_demands: "sometimes"
+                };
+                
+                debugResults.innerHTML = `
+                    <div class="result success">
+                        ✅ Form Data Collection Test Successful!
+                        
+                        📋 Collected Form Data:
+                        ${JSON.stringify(mockFormData, null, 2)}
+                        
+                        📊 Form Fields Count: ${Object.keys(mockFormData).length}
+                        📊 Required Fields Present: ${Object.keys(mockFormData).length >= 15 ? 'Yes' : 'No'}
+                    </div>
+                `;
+                
+            } catch (error) {
+                debugResults.innerHTML = `
+                    <div class="result error">
+                        ❌ Form Data Collection Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function testDataTransformation() {
+            const debugResults = document.getElementById('debugResults');
+            debugResults.innerHTML = '<div class="result loading">⏳ Testing data transformation...</div>';
+            
+            try {
+                // Simulate the transformation function
+                const mockFormData = {
+                    name: "Test User",
+                    age: "35",
+                    gender: "male",
+                    email: "test@example.com",
+                    location: "city",
+                    education: "university",
+                    work_status: "employed",
+                    family_health_patterns: "heart_disease,diabetes",
+                    lightheaded_standing: "yes",
+                    skin_color_changes: "no",
+                    temperature_sensitivity: "yes",
+                    overwhelmed: "sometimes",
+                    confidence_handling: "fairly_often",
+                    in_control: "sometimes",
+                    upset_annoyed: "sometimes",
+                    tense_nervous: "fairly_often",
+                    too_many_demands: "sometimes"
+                };
+                
+                // Transform the data
+                const transformedData = {
+                    user: {
+                        name: mockFormData.name || "User",
+                        age: parseInt(mockFormData.age) || 30,
+                        sex: mockFormData.gender || "other",
+                        email: mockFormData.email || ""
+                    },
+                    family_history: {
+                        cvd: {
+                            present: mockFormData.family_health_patterns && mockFormData.family_health_patterns.includes('heart_disease'),
+                            first_degree: mockFormData.family_health_patterns && mockFormData.family_health_patterns.includes('heart_disease'),
+                            onset: '<60'
+                        },
+                        diabetes: {
+                            present: mockFormData.family_health_patterns && mockFormData.family_health_patterns.includes('diabetes'),
+                            first_degree: mockFormData.family_health_patterns && mockFormData.family_health_patterns.includes('diabetes')
+                        },
+                        cancer: []
+                    },
+                    physiological_patterns: {
+                        lightheaded_standing: mockFormData.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                        skin_color_changes: mockFormData.skin_color_changes === 'yes',
+                        temperature_sensitivity: mockFormData.temperature_sensitivity === 'yes' ? 'high' : 'normal'
+                    },
+                    lifestyle_load: {
+                        overwhelmed: mockFormData.overwhelmed || 'never',
+                        confidence_handling: mockFormData.confidence_handling || 'never',
+                        in_control: mockFormData.in_control || 'never'
+                    },
+                    biological_signals: {
+                        age: parseInt(mockFormData.age) || 30,
+                        gender: mockFormData.gender || 'other',
+                        location: mockFormData.location || 'urban',
+                        education: mockFormData.education || 'university',
+                        work_status: mockFormData.work_status || 'employed'
+                    },
+                    cognitive_rhythm: {
+                        upset_annoyed: mockFormData.upset_annoyed || 'never',
+                        tense_nervous: mockFormData.tense_nervous || 'never',
+                        too_many_demands: mockFormData.too_many_demands || 'never'
+                    },
+                    symptoms: {
+                        fatigue: false,
+                        sleep_issues: false,
+                        digestive_issues: false
+                    },
+                    preferences: {
+                        budget: 'moderate',
+                        equipment: 'basic',
+                        diet: 'flexible'
+                    }
+                };
+                
+                debugResults.innerHTML = `
+                    <div class="result success">
+                        ✅ Data Transformation Test Successful!
+                        
+                        📊 Transformed Data:
+                        ${JSON.stringify(transformedData, null, 2)}
+                        
+                        📊 Family History CVD: ${transformedData.family_history.cvd.present}
+                        📊 Family History Diabetes: ${transformedData.family_history.diabetes.present}
+                        📊 Physiological Lightheaded: ${transformedData.physiological_patterns.lightheaded_standing}
+                        📊 Physiological Temperature: ${transformedData.physiological_patterns.temperature_sensitivity}
+                        📊 Lifestyle Overwhelmed: ${transformedData.lifestyle_load.overwhelmed}
+                        📊 Cognitive Upset: ${transformedData.cognitive_rhythm.upset_annoyed}
+                    </div>
+                `;
+                
+            } catch (error) {
+                debugResults.innerHTML = `
+                    <div class="result error">
+                        ❌ Data Transformation Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function testScoreCalculation() {
+            const debugResults = document.getElementById('debugResults');
+            debugResults.innerHTML = '<div class="result loading">⏳ Testing score calculation...</div>';
+            
+            try {
+                // Simulate the score calculation functions
+                function calculateFamilyRisk(familyHistory) {
+                    let score = 0;
+                    
+                    if (familyHistory.cvd.present && familyHistory.cvd.first_degree && familyHistory.cvd.onset === '<60') {
+                        score += 40;
+                    }
+                    
+                    if (familyHistory.diabetes.present && familyHistory.diabetes.first_degree) {
+                        score += 25;
+                    }
+                    
+                    if (familyHistory.cancer.length > 0) {
+                        const colorectalCancer = familyHistory.cancer.find((c) => c.type === 'colorectal');
+                        if (colorectalCancer && colorectalCancer.relative === 'mother') {
+                            score += 20;
+                        }
+                    }
+                    
+                    return Math.min(score, 100);
+                }
+                
+                function calculatePhysiological(physiological) {
+                    let score = 0;
+                    
+                    if (physiological.lightheaded_standing === 'often') score += 40;
+                    else if (physiological.lightheaded_standing === 'sometimes') score += 20;
+                    
+                    if (physiological.skin_color_changes) score += 30;
+                    
+                    if (physiological.temperature_sensitivity === 'high') score += 30;
+                    else if (physiological.temperature_sensitivity === 'moderate') score += 15;
+                    
+                    return Math.min(score, 100);
+                }
+                
+                function calculateLifestyleLoad(lifestyle) {
+                    let score = 0;
+                    
+                    if (lifestyle.overwhelmed === 'often') score += 40;
+                    else if (lifestyle.overwhelmed === 'sometimes') score += 20;
+                    
+                    if (lifestyle.confidence_handling === 'never') score += 30;
+                    else if (lifestyle.confidence_handling === 'rarely') score += 15;
+                    
+                    if (lifestyle.in_control === 'never') score += 30;
+                    else if (lifestyle.in_control === 'rarely') score += 15;
+                    
+                    return Math.min(score, 100);
+                }
+                
+                function calculateBiological(biological) {
+                    let score = 0;
+                    
+                    if (biological.age >= 65) score += 30;
+                    else if (biological.age >= 45) score += 20;
+                    else if (biological.age >= 35) score += 10;
+                    
+                    if (biological.gender === 'male') score += 10;
+                    
+                    if (biological.location === 'rural') score += 5;
+                    
+                    if (biological.education === 'high_school') score += 15;
+                    else if (biological.education === 'university') score += 5;
+                    
+                    if (biological.work_status === 'unemployed') score += 20;
+                    else if (biological.work_status === 'retired') score += 10;
+                    
+                    return Math.min(score, 100);
+                }
+                
+                function calculateCognitive(cognitive) {
+                    let score = 0;
+                    
+                    if (cognitive.upset_annoyed === 'often') score += 30;
+                    else if (cognitive.upset_annoyed === 'sometimes') score += 15;
+                    
+                    if (cognitive.tense_nervous === 'often') score += 30;
+                    else if (cognitive.tense_nervous === 'sometimes') score += 15;
+                    
+                    if (cognitive.too_many_demands === 'often') score += 30;
+                    else if (cognitive.too_many_demands === 'sometimes') score += 15;
+                    
+                    return Math.min(score, 100);
+                }
+                
+                // Test data
+                const testData = {
+                    family_history: {
+                        cvd: { present: true, first_degree: true, onset: '<60' },
+                        diabetes: { present: true, first_degree: true },
+                        cancer: []
+                    },
+                    physiological_patterns: {
+                        lightheaded_standing: 'sometimes',
+                        skin_color_changes: false,
+                        temperature_sensitivity: 'high'
+                    },
+                    lifestyle_load: {
+                        overwhelmed: 'sometimes',
+                        confidence_handling: 'fairly_often',
+                        in_control: 'sometimes'
+                    },
+                    biological_signals: {
+                        age: 35,
+                        gender: 'male',
+                        location: 'city',
+                        education: 'university',
+                        work_status: 'employed'
+                    },
+                    cognitive_rhythm: {
+                        upset_annoyed: 'sometimes',
+                        tense_nervous: 'fairly_often',
+                        too_many_demands: 'sometimes'
+                    }
+                };
+                
+                // Calculate scores
+                const scores = {
+                    family_risk: calculateFamilyRisk(testData.family_history),
+                    physiological: calculatePhysiological(testData.physiological_patterns),
+                    lifestyle_load: calculateLifestyleLoad(testData.lifestyle_load),
+                    biological: calculateBiological(testData.biological_signals),
+                    cognitive: calculateCognitive(testData.cognitive_rhythm)
+                };
+                
+                debugResults.innerHTML = `
+                    <div class="result success">
+                        ✅ Score Calculation Test Successful!
+                        
+                        📊 Calculated Scores:
+                        • Family Risk: ${scores.family_risk}
+                        • Physiological: ${scores.physiological}
+                        • Lifestyle Load: ${scores.lifestyle_load}
+                        • Biological: ${scores.biological}
+                        • Cognitive: ${scores.cognitive}
+                        
+                        📊 All Scores > 0: ${Object.values(scores).every(score => score > 0) ? 'Yes' : 'No'}
+                        📊 Total Score: ${Object.values(scores).reduce((a, b) => a + b, 0)}
+                    </div>
+                `;
+                
+            } catch (error) {
+                debugResults.innerHTML = `
+                    <div class="result error">
+                        ❌ Score Calculation Test Failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function clearDebugResults() {
+            document.getElementById('debugResults').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+

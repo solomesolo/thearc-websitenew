@@ -1,0 +1,12 @@
+[build]
+  functions = "api"
+  publish = "."
+  command = "npm install"
+
+[functions]
+  node_bundler = "nft"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

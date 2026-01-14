@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Email Collection</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin: 10px 0;
+        }
+        .success {
+            color: green;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Email Collection</h1>
+        <p>This is a test page to verify API endpoints are working.</p>
+        
+        <form id="testForm">
+            <input type="email" id="emailInput" placeholder="Enter your email" value="test@example.com" required>
+            <button type="submit">Test API Call</button>
+        </form>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value;
+            const resultDiv = document.getElementById('result');
+            
+            console.log('🧪 TEST: Starting API call with email:', email);
+            console.log('🧪 TEST: Making API call to:', '/api/test_save_email');
+            
+            try {
+                const response = await fetch('/api/test_save_email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        timestamp: new Date().toISOString(),
+                        consent: true,
+                        source: 'test'
+                    })
+                });
+                
+                console.log('🧪 TEST: Response status:', response.status);
+                console.log('🧪 TEST: Response ok:', response.ok);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('🧪 TEST: Success data:', data);
+                    resultDiv.innerHTML = '<div class="success">✅ API call successful! Check console for details.</div>';
+                } else {
+                    const errorText = await response.text();
+                    console.log('🧪 TEST: Error response:', errorText);
+                    resultDiv.innerHTML = '<div class="error">❌ API call failed. Check console for details.</div>';
+                }
+            } catch (error) {
+                console.error('🧪 TEST: Error:', error);
+                resultDiv.innerHTML = '<div class="error">❌ Network error. Check console for details.</div>';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Arc — Executive Longevity Blueprint (v3 Montserrat)</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* =====================================================
+           TYPE, PALETTE, TOKENS (Professional / "expensive")
+        ====================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+        :root{
+          /* Ink & surface */
+          --paper:#ffffff;           /* same page color everywhere */
+          --ink-900:#0b1220;         /* titles (near-black slate) */
+          --ink-700:#22304a;         /* body */
+          --ink-500:#5b6a83;         /* muted */
+          --line:#e3e8ef;            /* hairlines */
+
+          /* Brand accents — understated, corporate */
+          --brand:#1d3d8f;           /* deep blue */
+          --brand-soft:#f0f4ff;      /* light accent bg */
+          --gold:#b78b28;            /* premium accent for small touches */
+
+          /* Status */
+          --danger:#b11a2b;          /* red flags */
+          --warn:#b87300;            /* disclaimer */
+          --success:#226b3a;         /* positive */
+
+          /* Type scale */
+          --base:13.75px;            /* readable, dense for A4 */
+          --lh:1.7;
+        }
+
+        html,body{height:100%}
+        body{
+          font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,sans-serif;
+          font-size:var(--base);
+          line-height:var(--lh);
+          color:var(--ink-700);
+          background:var(--paper);
+          margin:0;
+        }
+
+        /* ============================================
+           PAGED MEDIA
+        ============================================= */
+        @page{
+          size:A4 portrait;
+          margin:2.1cm 2.1cm 2.1cm 2.1cm;
+          @bottom-right{ content: counter(page); font-size:9px; color:var(--ink-500); }
+          @top-left{ content: string(runningTitle); font-size:9px; color:var(--ink-500); }
+        }
+        @page cover, @page toc { @top-left{content:none} @bottom-right{content:none} }
+
+        .page{ page-break-after:always; }
+        .page:last-child{ page-break-after:auto; }
+
+        /* running header comes from nearest h2 */
+        h2{ string-set: runningTitle content(text); }
+
+        /* Keep units intact */
+        h1,h2,h3,h4{ break-after:avoid; }
+        section, .card, table, .list, .worksheet{ break-inside:avoid; }
+
+        /* ============================================
+           HEADINGS
+        ============================================= */
+        h1{ font-size:2.5rem; line-height:1.15; color:var(--ink-900); margin:0 0 .6rem 0; font-weight:800; }
+        h2{ font-size:1.55rem; line-height:1.25; color:var(--ink-900); margin:2.2rem 0 .8rem; font-weight:700; position:relative; padding-left:1rem; }
+        h2::before{ content:''; position:absolute; left:0; top:.2rem; bottom:.2rem; width:3px; background:var(--brand); border-radius:2px; }
+        h3{ font-size:1.05rem; color:var(--brand); font-weight:700; margin:1.2rem 0 .45rem; }
+        h4{ font-size:.95rem; color:var(--ink-900); font-weight:600; margin:.8rem 0 .35rem; }
+        .kicker{ text-transform:uppercase; letter-spacing:.06em; font-weight:600; color:var(--ink-500); }
+        .lead{ font-size:1.07rem; }
+
+        /* ============================================
+           LAYOUT
+        ============================================= */
+        .page{ padding:0; width:100%; box-sizing:border-box; }
+        .two-col{ columns:2; column-gap:2rem; margin:1.5rem 0; }
+        .two-col .card{ break-inside:avoid; margin-bottom:1.5rem; }
+
+        /* ============================================
+           CARDS & CALLOUTS
+        ============================================= */
+        .card{ background:var(--brand-soft); border-left:3px solid var(--brand); border-radius:4px; padding:1.25rem; margin:1.5rem 0; break-inside:avoid; }
+        .card.warning{ background:#fef3cd; border-left-color:var(--warn); }
+        .card.danger{ background:#fef2f2; border-left-color:var(--danger); }
+        .card h4{ margin-top:0; margin-bottom:.75rem; color:var(--ink-900); }
+        .score{ font-size:2.2rem; font-weight:700; color:var(--brand); margin:.5rem 0; }
+        
+        /* Score card specific spacing for elegance */
+        .score-card{ margin:1.8rem 0; }
+        .score-card:first-child{ margin-top:0; }
+        .score-card:last-child{ margin-bottom:0; }
+
+        /* ============================================
+           LISTS
+        ============================================= */
+        ul,ol{ margin:.75rem 0; padding-left:1.5rem; }
+        ul li{ margin:.5rem 0; line-height:1.6; }
+        ul li::before{ content:'•'; color:var(--brand); font-weight:bold; display:inline-block; width:1em; margin-left:-1em; }
+        .checklist ul li::before{ content:'✓'; color:var(--brand); }
+
+        /* ============================================
+           TABLES
+        ============================================= */
+        table{ width:100%; border-collapse:collapse; margin:1.5rem 0; break-inside:avoid; }
+        th{ background:var(--brand-soft); color:var(--ink-900); font-weight:600; padding:.75rem; text-align:left; border-bottom:2px solid var(--line); }
+        td{ padding:.75rem; border-bottom:1px solid var(--line); }
+        tr:nth-child(even) td{ background:#fafafa; }
+
+        /* ============================================
+           COVER PAGE
+        ============================================= */
+        .cover{ page:cover; background:var(--paper); color:var(--ink-900); min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:3rem; }
+        .cover h1{ color:var(--ink-900); font-size:3rem; margin-bottom:1rem; text-transform:uppercase; letter-spacing:.05em; }
+        .cover .subtitle{ font-size:1.1rem; color:var(--ink-700); margin-bottom:2rem; }
+        .cover .meta{ font-size:.9rem; color:var(--ink-500); }
+
+        /* ============================================
+           TOC
+        ============================================= */
+        .toc{ page:toc; }
+        .toc h2{ margin-top:0; }
+        .toc ul{ columns:2; column-gap:2rem; list-style:none; padding-left:0; }
+        .toc li{ margin:.5rem 0; break-inside:avoid; }
+        .toc li::before{ content:none; } /* Remove bullets from TOC */
+        .toc a{ color:var(--ink-700); text-decoration:none; display:flex; justify-content:space-between; align-items:baseline; font-size:1.1rem; font-weight:500; }
+        .toc a::after{ content: leader('.') target-counter(attr(href), page); color:var(--ink-500); font-size:.9em; }
+        .toc a:hover{ color:var(--brand); }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="page cover">
+        <h1>The Arc — Executive Longevity Blueprint</h1>
+        <div class="subtitle">Designed for: {{user.name}} • Age: {{user.age}} • Edition: Executive Series</div>
+        <div class="meta">Date: {{date}}</div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="page">
+        <section id="executive-summary">
+            <h2>Executive Summary</h2>
+            <div class="card">
+                <p>{{executive_summary}}</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contents -->
+    <div class="page toc">
+        <section id="contents">
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#the-concept">The Concept</a></li>
+                <li><a href="#predisposition-map">Predisposition Map</a></li>
+                <li><a href="#screening-plan">Precision Screening Plan</a></li>
+                <li><a href="#six-phases">Six Phases</a></li>
+                <li><a href="#nutrition">Nutrition</a></li>
+                <li><a href="#movement-recovery">Movement & Recovery</a></li>
+                <li><a href="#supplements">Supplements</a></li>
+                <li><a href="#metrics">Metrics Dashboard</a></li>
+                <li><a href="#risk-plans">Risk-Focused Micro-Plans</a></li>
+                <li><a href="#environmental">Environmental Reset</a></li>
+                <li><a href="#travel">Travel Protocol</a></li>
+                <li><a href="#red-flags">Red Flags</a></li>
+                <li><a href="#implementation">Implementation Calendar</a></li>
+                <li><a href="#faqs">FAQs</a></li>
+                <li><a href="#closing">Closing Notes</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- The Concept -->
+    <div class="page">
+        <section id="the-concept">
+            <h2>1) The Concept</h2>
+            <p>Modern health is noisy. Devices and dashboards proliferate while clarity declines. The Arc takes the opposite approach: one focus per month, three daily micro-actions, and periodic reflections. The aim is not perfection but rhythm—a stable pattern your biology can trust.</p>
+            <p>Each phase teaches why an action matters, not just what to do, so you can self-adjust when life changes. This is a prevention-first framework: small, repeated behaviours that reduce friction in sleep, glucose, inflammation, and stress signalling. The result is sustained energy, steadier mood, and quieter physiology—foundations of long healthspan.</p>
+        </section>
+    </div>
+
+    <!-- Predisposition Map -->
+    <div class="page">
+        <section id="predisposition-map">
+            <h2>2) Predisposition Map</h2>
+            <p class="highlight-subtitle">Scores (0–100; higher = more attention pays off)</p>
+            
+            <div class="two-col">
+                {{#each scores}}
+                <div class="card">
+                    <h4>{{@key}}</h4>
+                    <div class="score">{{this}}</div>
+                    <p>{{explanations.explanations.[@key]}}</p>
+                </div>
+                {{/each}}
+            </div>
+        </section>
+    </div>
+
+    <!-- Precision Screening Plan -->
+    <div class="page">
+        <section id="screening-plan">
+            <h2>3) Precision Screening Plan</h2>
+            <p>Based on your scores and family history, here are the recommended screenings:</p>
+            
+            <table class="screenings-table">
+                <thead>
+                    <tr>
+                        <th>Test</th>
+                        <th>Why</th>
+                        <th>When</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each screenings}}
+                    <tr>
+                        <td><strong>{{name}}</strong></td>
+                        <td>{{why}}</td>
+                        <td>{{when}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Six Phases -->
+    <div class="page">
+        <section id="six-phases">
+            <h2>4) Six Phases</h2>
+            <p>Your personalized monthly modules:</p>
+            
+            {{#each months}}
+            <div class="card">
+                <h3>{{name}}</h3>
+                <p><strong>Goal:</strong> {{goal}}</p>
+                <p><strong>Why:</strong> {{why}}</p>
+                <h4>Daily Actions:</h4>
+                <ul class="checklist">
+                    {{#each daily}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+                <p><strong>Weekly Reflection:</strong> {{weekly_reflection}}</p>
+            </div>
+            {{/each}}
+        </section>
+    </div>
+
+    <!-- Nutrition -->
+    <div class="page">
+        <section id="nutrition">
+            <h2>5) Nutrition</h2>
+            <p><strong>Archetype:</strong> {{nutrition.archetype}}</p>
+            
+            <h3>Principles:</h3>
+            <ul>
+                {{#each nutrition.principles}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            
+            <h3>3-Day Meal Plan:</h3>
+            {{#each nutrition.days}}
+            <div class="card">
+                <h4>Day {{day}}</h4>
+                <p><strong>Breakfast:</strong> {{breakfast}}</p>
+                <p><strong>Lunch:</strong> {{lunch}}</p>
+                <p><strong>Dinner:</strong> {{dinner}}</p>
+                <p><strong>Snacks:</strong> {{#each snacks}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
+            </div>
+            {{/each}}
+        </section>
+    </div>
+
+    <!-- Movement & Recovery -->
+    <div class="page">
+        <section id="movement-recovery">
+            <h2>6) Movement & Recovery</h2>
+            <p>Your personalized movement and recovery protocols:</p>
+            
+            {{#each breath_recovery}}
+            <div class="card">
+                <h3>{{name}}</h3>
+                <p>{{how}}</p>
+            </div>
+            {{/each}}
+        </section>
+    </div>
+
+    <!-- Supplements -->
+    <div class="page">
+        <section id="supplements">
+            <h2>7) Supplements</h2>
+            <p>Your personalized supplement protocol:</p>
+            
+            {{#each supplements}}
+            <div class="card">
+                <h3>{{name}}</h3>
+                <p><strong>Dose:</strong> {{dose}}</p>
+                <p><strong>Timing:</strong> {{timing}}</p>
+                <p><strong>Why:</strong> {{why}}</p>
+                <p><strong>Safety:</strong> {{safety}}</p>
+            </div>
+            {{/each}}
+        </section>
+    </div>
+
+    <!-- Closing Notes -->
+    <div class="page">
+        <section id="closing">
+            <h2>Closing Notes</h2>
+            <div class="card warning">
+                <p><strong>Disclaimer:</strong> {{disclaimer}}</p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

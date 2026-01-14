@@ -1,0 +1,50 @@
+{
+  "user": {
+    "name": "Anna",
+    "age": 35,
+    "sex": "female"
+  },
+  "scores": {
+    "family_risk": 85,
+    "physiological": 52,
+    "lifestyle_load": 65,
+    "biological": 10,
+    "cognitive": 56
+  },
+  "family_history": {
+    "cvd": {
+      "present": true,
+      "first_degree": true,
+      "onset": "<60"
+    },
+    "diabetes": {
+      "present": true,
+      "first_degree": true,
+      "onset": "40-60"
+    },
+    "cancer": [
+      {
+        "type": "colorectal",
+        "relative": "mother",
+        "onset": "50-60"
+      }
+    ]
+  },
+  "symptoms": {
+    "gut": true,
+    "skin": true,
+    "fatigue": true
+  },
+  "selections": {
+    "phase_order": ["Decode", "Rebalance", "Strengthen", "Nourish", "Refine", "Sustain"],
+    "screenings": ["CRP", "Lipid panel", "HbA1c", "Vitamin D", "AM Cortisol"],
+    "nutrition_archetype": "Anti-inflammatory Mediterranean",
+    "supplements": ["Omega-3", "Magnesium glycinate", "Vitamin D3 + K2", "Probiotic"],
+    "breath_recovery": ["Cardiac coherence", "Physiological sighs", "Box breathing"]
+  },
+  "preferences": {
+    "diet": "flexible",
+    "equipment": "minimal",
+    "budget": "low"
+  }
+}

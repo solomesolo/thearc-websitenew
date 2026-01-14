@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test APIs</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #1a1a1a; color: #f0f0f0; }
+        .container { max-width: 800px; margin: auto; background-color: #2a2a2a; padding: 20px; border-radius: 8px; }
+        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background-color: #0056b3; }
+        #response { margin-top: 20px; padding: 10px; border: 1px solid #444; border-radius: 4px; background-color: #333; white-space: pre-wrap; word-wrap: break-word; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Testing Dashboard</h1>
+        <p>Test all API endpoints to diagnose issues.</p>
+        
+        <button onclick="testEnvironment()">Test Environment Variables</button>
+        <button onclick="testSaveEmail()">Test Save Email</button>
+        <button onclick="testAnalyzeHealth()">Test Analyze Health</button>
+        <button onclick="testSendEmail()">Test Send Email</button>
+        
+        <div id="response"></div>
+    </div>
+
+    <script>
+        async function testEnvironment() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = 'Testing environment variables...';
+            responseDiv.className = '';
+
+            try {
+                const response = await fetch('/api/test_env');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    responseDiv.className = 'success';
+                    responseDiv.innerHTML = `Environment Variables Status:
+OpenAI API Key: ${data.OPENAI_API_KEY_EXISTS ? '✅ EXISTS' : '❌ MISSING'} (Length: ${data.OPENAI_API_KEY_LENGTH})
+Notion Token: ${data.NOTION_TOKEN_EXISTS ? '✅ EXISTS' : '❌ MISSING'}
+Notion Database ID: ${data.NOTION_DATABASE_ID_EXISTS ? '✅ EXISTS' : '❌ MISSING'}
+SendGrid API Key: ${data.SENDGRID_API_KEY_EXISTS ? '✅ EXISTS' : '❌ MISSING'}
+SendGrid From Email: ${data.SENDGRID_FROM_EMAIL_EXISTS ? '✅ EXISTS' : '❌ MISSING'} (${data.SENDGRID_FROM_EMAIL_VALUE})`;
+                } else {
+                    responseDiv.className = 'error';
+                    responseDiv.innerHTML = `Error: ${data.error}`;
+                }
+            } catch (error) {
+                responseDiv.className = 'error';
+                responseDiv.innerHTML = `Fetch Error: ${error.message}`;
+            }
+        }
+
+        async function testSaveEmail() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = 'Testing save email API...';
+            responseDiv.className = '';
+
+            try {
+                const response = await fetch('/api/save_email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'test@example.com',
+                        timestamp: new Date().toISOString(),
+                        consent: true,
+                        source: 'test-page'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    responseDiv.className = 'success';
+                    responseDiv.innerHTML = `Save Email API: ✅ SUCCESS
+${JSON.stringify(data, null, 2)}`;
+                } else {
+                    responseDiv.className = 'error';
+                    responseDiv.innerHTML = `Save Email API: ❌ FAILED
+Status: ${response.status}
+Error: ${data.error || data.message}`;
+                }
+            } catch (error) {
+                responseDiv.className = 'error';
+                responseDiv.innerHTML = `Save Email API: ❌ ERROR
+${error.message}`;
+            }
+        }
+
+        async function testAnalyzeHealth() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = 'Testing analyze health API...';
+            responseDiv.className = '';
+
+            try {
+                const response = await fetch('/api/analyze_health', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        responses: [
+                            { question: "What is your age?", answer: "30" },
+                            { question: "What is your gender?", answer: "Male" }
+                        ]
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    responseDiv.className = 'success';
+                    responseDiv.innerHTML = `Analyze Health API: ✅ SUCCESS
+Response received: ${data.success ? 'Yes' : 'No'}
+Categories: ${data.results?.categories?.length || 0}
+Urgent Tests: ${data.results?.urgent_tests?.length || 0}`;
+                } else {
+                    responseDiv.className = 'error';
+                    responseDiv.innerHTML = `Analyze Health API: ❌ FAILED
+Status: ${response.status}
+Error: ${data.error || data.message}`;
+                }
+            } catch (error) {
+                responseDiv.className = 'error';
+                responseDiv.innerHTML = `Analyze Health API: ❌ ERROR
+${error.message}`;
+            }
+        }
+
+        async function testSendEmail() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = 'Testing send email API...';
+            responseDiv.className = '';
+
+            try {
+                const response = await fetch('/api/send_email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        to: 'test@example.com',
+                        subject: 'Test Email',
+                        htmlContent: '<p>Test email content</p>',
+                        textContent: 'Test email content'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    responseDiv.className = 'success';
+                    responseDiv.innerHTML = `Send Email API: ✅ SUCCESS
+${JSON.stringify(data, null, 2)}`;
+                } else {
+                    responseDiv.className = 'error';
+                    responseDiv.innerHTML = `Send Email API: ❌ FAILED
+Status: ${response.status}
+Error: ${data.error || data.message}`;
+                }
+            } catch (error) {
+                responseDiv.className = 'error';
+                responseDiv.innerHTML = `Send Email API: ❌ ERROR
+${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

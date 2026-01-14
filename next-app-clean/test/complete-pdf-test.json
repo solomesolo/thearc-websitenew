@@ -1,0 +1,79 @@
+{
+  "user": {
+    "name": "Anna Smith",
+    "age": 35,
+    "sex": "female"
+  },
+  "scores": {
+    "family_risk": 75,
+    "physiological": 60,
+    "lifestyle_load": 45,
+    "biological": 80,
+    "cognitive": 70
+  },
+  "explanations": {
+    "explanations": {
+      "family_risk": "Your family history shows moderate cardiovascular risk factors that warrant attention through preventive measures.",
+      "physiological": "Your autonomic nervous system shows some dysregulation patterns that can be improved with targeted interventions.",
+      "lifestyle_load": "Your current stress levels are manageable but could benefit from structured stress management techniques.",
+      "biological": "Your metabolic markers indicate good overall health with room for optimization in specific areas.",
+      "cognitive": "Your cognitive function shows strong performance with opportunities for enhancement through targeted interventions."
+    }
+  },
+  "screenings": [
+    {
+      "name": "Comprehensive Metabolic Panel",
+      "why": "Essential for assessing metabolic health and identifying potential risk factors for chronic disease.",
+      "when": "Annually, or as recommended by your healthcare provider"
+    },
+    {
+      "name": "Lipid Panel",
+      "why": "Critical for cardiovascular risk assessment and monitoring cholesterol levels.",
+      "when": "Every 6 months if risk factors present, annually otherwise"
+    }
+  ],
+  "nutrition": {
+    "archetype": "Anti-Inflammatory",
+    "principles": [
+      "Focus on omega-3 rich foods",
+      "Minimize processed foods",
+      "Emphasize colorful vegetables"
+    ],
+    "days": [
+      {
+        "day": 1,
+        "breakfast": "Overnight oats with berries and chia seeds",
+        "lunch": "Quinoa salad with mixed vegetables",
+        "dinner": "Grilled salmon with roasted vegetables",
+        "snacks": ["Mixed nuts", "Green tea"]
+      }
+    ]
+  },
+  "supplements": [
+    {
+      "name": "Omega-3 Fish Oil",
+      "dose": "1000mg daily",
+      "timing": "With breakfast",
+      "why": "Supports cardiovascular health and reduces inflammation",
+      "safety": "Generally safe, consult if taking blood thinners"
+    }
+  ],
+  "breath_recovery": [
+    {
+      "name": "4-7-8 Breathing",
+      "how": "Inhale for 4 counts, hold for 7, exhale for 8. Repeat 4 cycles."
+    }
+  ],
+  "phase_order": ["Foundation", "Optimization", "Maintenance"],
+  "months": [
+    {
+      "name": "Foundation Phase",
+      "goal": "Establish baseline health markers",
+      "why": "Creates a solid foundation for future interventions",
+      "daily": ["Morning routine", "Hydration tracking", "Sleep optimization"],
+      "weekly_reflection": "Assess energy levels and mood patterns"
+    }
+  ],
+  "executive_summary": "Based on your comprehensive health assessment, we've identified key areas for optimization including cardiovascular risk management, stress reduction, and metabolic enhancement. Your personalized plan focuses on evidence-based interventions tailored to your specific needs and goals.",
+  "disclaimer": "This report is educational and for informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment."
+}

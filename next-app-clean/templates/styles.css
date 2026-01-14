@@ -1,0 +1,428 @@
+/* PDF Blueprint Styles - Print-Optimized */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #333;
+    background: white;
+}
+
+/* Page Layout */
+.page {
+    page-break-after: always;
+    padding: 2cm;
+    min-height: 29.7cm; /* A4 height */
+    width: 21cm; /* A4 width */
+    position: relative;
+}
+
+.page:last-child {
+    page-break-after: avoid;
+}
+
+/* Cover Page */
+.cover-page {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.cover-content {
+    max-width: 16cm;
+}
+
+.cover-title {
+    font-size: 36pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 1cm;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cover-subtitle {
+    font-size: 18pt;
+    color: #666;
+    margin-bottom: 2cm;
+    font-weight: 300;
+}
+
+.cover-user {
+    background: white;
+    padding: 1.5cm;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.user-name {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5cm;
+}
+
+.user-details {
+    font-size: 14pt;
+    color: #666;
+    margin-bottom: 0.3cm;
+}
+
+.user-date {
+    font-size: 12pt;
+    color: #999;
+    font-style: italic;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 1cm;
+    padding-bottom: 0.3cm;
+    border-bottom: 2px solid #003366;
+    page-break-after: avoid;
+}
+
+/* Executive Summary */
+.executive-summary {
+    font-size: 12pt;
+    line-height: 1.6;
+    text-align: justify;
+    background: #f8f9fa;
+    padding: 1cm;
+    border-radius: 8px;
+    border-left: 4px solid #003366;
+}
+
+/* Scores Grid */
+.scores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8cm, 1fr));
+    gap: 1cm;
+    margin-bottom: 1cm;
+}
+
+.score-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1cm;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    page-break-inside: avoid;
+}
+
+.score-title {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #0056b3;
+    margin-bottom: 0.5cm;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.score-value {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5cm;
+    text-align: center;
+}
+
+.score-explanation {
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #666;
+    text-align: justify;
+}
+
+/* Screenings */
+.screenings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1cm;
+}
+
+.screening-item {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1cm;
+    page-break-inside: avoid;
+}
+
+.screening-name {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5cm;
+}
+
+.screening-why,
+.screening-when {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin-bottom: 0.3cm;
+}
+
+.screening-why strong,
+.screening-when strong {
+    color: #0056b3;
+}
+
+/* Nutrition */
+.nutrition-principles {
+    margin-bottom: 1cm;
+}
+
+.nutrition-principles h3 {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5cm;
+}
+
+.nutrition-principles ul {
+    margin-left: 1cm;
+    margin-bottom: 1cm;
+}
+
+.nutrition-principles li {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin-bottom: 0.3cm;
+}
+
+.nutrition-days {
+    display: flex;
+    flex-direction: column;
+    gap: 1cm;
+}
+
+.nutrition-day {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1cm;
+    page-break-inside: avoid;
+}
+
+.nutrition-day h4 {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5cm;
+}
+
+.meal {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin-bottom: 0.3cm;
+}
+
+.meal strong {
+    color: #0056b3;
+}
+
+/* Supplements */
+.supplements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1cm;
+}
+
+.supplement-item {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1cm;
+    page-break-inside: avoid;
+}
+
+.supplement-name {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5cm;
+}
+
+.supplement-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5cm;
+}
+
+.supplement-dose,
+.supplement-timing,
+.supplement-why,
+.supplement-safety {
+    font-size: 11pt;
+    line-height: 1.5;
+}
+
+.supplement-dose strong,
+.supplement-timing strong,
+.supplement-why strong,
+.supplement-safety strong {
+    color: #0056b3;
+}
+
+/* Breathwork */
+.breathwork-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1cm;
+}
+
+.breathwork-item {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1cm;
+    page-break-inside: avoid;
+}
+
+.breathwork-name {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5cm;
+}
+
+.breathwork-how {
+    font-size: 11pt;
+    line-height: 1.5;
+}
+
+.breathwork-how strong {
+    color: #0056b3;
+}
+
+/* Monthly Modules */
+.modules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1cm;
+}
+
+.module-item {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1cm;
+    page-break-inside: avoid;
+}
+
+.module-name {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5cm;
+}
+
+.module-goal,
+.module-why,
+.module-reflection {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin-bottom: 0.3cm;
+}
+
+.module-goal strong,
+.module-why strong,
+.module-reflection strong {
+    color: #0056b3;
+}
+
+.module-daily {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin-bottom: 0.3cm;
+}
+
+.module-daily strong {
+    color: #0056b3;
+}
+
+.module-daily ul {
+    margin-left: 1cm;
+    margin-top: 0.3cm;
+}
+
+.module-daily li {
+    margin-bottom: 0.2cm;
+}
+
+/* Disclaimer */
+.disclaimer {
+    font-size: 9pt;
+    color: #666;
+    line-height: 1.4;
+    text-align: justify;
+    background: #f8f9fa;
+    padding: 1cm;
+    border-radius: 8px;
+    border-left: 4px solid #dc3545;
+}
+
+/* Print Optimizations */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .page {
+        margin: 0;
+        padding: 2cm;
+    }
+    
+    .cover-page {
+        background: white !important;
+    }
+    
+    .score-card,
+    .screening-item,
+    .nutrition-day,
+    .supplement-item,
+    .breathwork-item,
+    .module-item {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+}
+
+/* Page Break Utilities */
+.page-break-before {
+    page-break-before: always;
+}
+
+.page-break-after {
+    page-break-after: always;
+}
+
+.page-break-inside-avoid {
+    page-break-inside: avoid;
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 21cm) {
+    .scores-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .supplement-details {
+        grid-template-columns: 1fr;
+    }
+}

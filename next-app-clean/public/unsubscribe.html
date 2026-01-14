@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsubscribe - Right Screening Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: radial-gradient(ellipse at top, #000000 0%, #0a0a0a 50%, #000000 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 0 2rem;
+        }
+        
+        .unsubscribe-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        input[type="email"] {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #ef4444;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        input[type="email"]::placeholder {
+            color: #94a3b8;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .unsubscribe-button {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .unsubscribe-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+        }
+        
+        .unsubscribe-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .back-link {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .back-link a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .unsubscribe-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="unsubscribe-card">
+            <h1>Unsubscribe</h1>
+            <p class="subtitle">We're sorry to see you go. Enter your email address to unsubscribe from our communications.</p>
+            
+            <form id="unsubscribeForm">
+                <div class="form-group">
+                    <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                    <div id="errorMessage" class="error-message"></div>
+                    <div id="successMessage" class="success-message"></div>
+                </div>
+                
+                <button type="submit" id="unsubscribeButton" class="unsubscribe-button">Unsubscribe</button>
+            </form>
+            
+            <div class="back-link">
+                <a href="/">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced email validation
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email.trim());
+        }
+        
+        // Handle unsubscribe
+        async function handleUnsubscribe(email) {
+            try {
+                const response = await fetch('/api/unsubscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        reason: 'User requested unsubscribe via unsubscribe page'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to unsubscribe');
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error unsubscribing:', error);
+                throw error;
+            }
+        }
+        
+        // Form submission
+        document.getElementById('unsubscribeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('emailInput');
+            const unsubscribeButton = document.getElementById('unsubscribeButton');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            const email = emailInput.value.trim();
+            
+            // Clear previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Validate email
+            if (!email) {
+                errorMessage.textContent = 'Please enter your email address';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                errorMessage.textContent = 'Please enter a valid email address';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Disable button and show loading state
+            unsubscribeButton.disabled = true;
+            unsubscribeButton.textContent = 'Processing...';
+            
+            try {
+                await handleUnsubscribe(email);
+                
+                successMessage.textContent = 'You have been successfully unsubscribed. You will no longer receive emails from us.';
+                successMessage.style.display = 'block';
+                
+                // Clear the form
+                emailInput.value = '';
+                
+            } catch (error) {
+                errorMessage.textContent = 'Something went wrong. Please try again or contact support.';
+                errorMessage.style.display = 'block';
+            } finally {
+                unsubscribeButton.disabled = false;
+                unsubscribeButton.textContent = 'Unsubscribe';
+            }
+        });
+    </script>
+</body>
+</html>

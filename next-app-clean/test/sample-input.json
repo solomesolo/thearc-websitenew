@@ -1,0 +1,70 @@
+{
+  "user": {
+    "id": "uuid-123",
+    "name": "Anna",
+    "age": 35,
+    "sex": "female",
+    "email": "anna@example.com"
+  },
+  "family_history": {
+    "cvd": {
+      "present": true,
+      "first_degree": true,
+      "onset": "<60"
+    },
+    "diabetes": {
+      "present": true,
+      "first_degree": true,
+      "onset": "40-60"
+    },
+    "cancer": [
+      {
+        "type": "colorectal",
+        "relative": "mother",
+        "onset": "50-60"
+      }
+    ]
+  },
+  "physiological_patterns": {
+    "compass31_raw": 32,
+    "compass31_max": 62
+  },
+  "lifestyle_load": {
+    "pss10_raw": 26,
+    "pss10_max": 40,
+    "sleep_hours": 7,
+    "sleep_quality": "good"
+  },
+  "biological_signals": {
+    "waist_cm": 65,
+    "height_cm": 176,
+    "smoking": "never",
+    "activity_min_week": 140,
+    "labs_optional": {
+      "crp_mg_L": null,
+      "hba1c_percent": null,
+      "vitamin_d_ng_ml": null,
+      "lipids": {
+        "ldl": null,
+        "hdl": null,
+        "tg": null
+      }
+    }
+  },
+  "cognitive_rhythm": {
+    "cfq_raw": 20,
+    "cfq_max": 100,
+    "who5_raw": 14,
+    "who5_max": 25
+  },
+  "symptoms": {
+    "gut": true,
+    "skin": true,
+    "fatigue": true
+  },
+  "preferences": {
+    "diet": "flexible",
+    "equipment": "minimal",
+    "budget": "low"
+  }
+}

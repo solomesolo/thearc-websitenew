@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decoding Your Health Blueprint - Right Screening Finder</title>
+    
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-MJ4KKD9N');
+    </script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-90L63EEKYH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-90L63EEKYH');
+    </script>
+    
+    <!-- Fixed Mixpanel Script -->
+    <script src="/mixpanel-fixed.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            background-color: #0a0a0a !important;
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            color: #ffffff !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color-scheme: dark !important;
+        }
+        
+        .loading-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+        
+        .loading-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .loading-subtitle {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+        
+        .loading-note {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+        
+        .progress-container {
+            background-color: rgba(26, 26, 26, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 4s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            transition: width 1s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .loading-facts {
+            background-color: rgba(26, 26, 26, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .fact-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+        
+        .fact-content {
+            font-size: 1rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MJ4KKD9N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <div class="loading-container">
+        <div class="loading-header">
+            <h1>Decoding Your Health Blueprint</h1>
+            <p class="loading-subtitle">Analyzing your responses to create a personalized screening plan...</p>
+            <p class="loading-note">⏱️ This process typically takes 60-90 seconds to ensure accurate results</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="spinner"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Initializing analysis...</div>
+        </div>
+        
+        <div class="loading-facts">
+            <h3 class="fact-title">Did You Know?</h3>
+            <div class="fact-content" id="factContent">
+                Loading interesting health facts...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Force dark background
+        document.documentElement.style.backgroundColor = '#0a0a0a';
+        document.body.style.backgroundColor = '#0a0a0a';
+        
+        const facts = [
+            "70% of chronic diseases can be prevented with early detection through proper screening.",
+            "Many health conditions show no symptoms until they reach advanced stages.",
+            "Regular health screenings can detect issues 5-10 years before symptoms appear.",
+            "Personalized screening plans are more effective than one-size-fits-all approaches.",
+            "Early detection can reduce treatment costs by up to 80%.",
+            "Your genetic makeup influences which screenings are most important for you.",
+            "Lifestyle factors like diet and exercise affect your screening needs.",
+            "Age-appropriate screenings can extend your healthy lifespan by years.",
+            "Family history plays a crucial role in determining your screening priorities.",
+            "Preventive care is 10 times more cost-effective than treatment."
+        ];
+        
+        let currentFactIndex = 0;
+        let progress = 0;
+        let progressInterval;
+        let factInterval;
+        let startTime = Date.now();
+        let estimatedDuration = 90000; // 90 seconds estimated (60-90 seconds range)
+        let apiCallStarted = false;
+        let apiCallCompleted = false;
+        let currentProgress = 0;
+        let progressTarget = 0;
+        let lastProgressUpdate = Date.now();
+        let progressStage = 0;
+        
+        // Completely new strategy: Much slower, more realistic progress
+        function updateProgress() {
+            const now = Date.now();
+            const elapsed = now - startTime;
+            const timeSinceLastUpdate = now - lastProgressUpdate;
+            
+            // Only update progress every 3 seconds to make it much slower
+            if (timeSinceLastUpdate < 3000) {
+                return;
+            }
+            
+            lastProgressUpdate = now;
+            
+            // Calculate target progress based on elapsed time with much slower progression
+            let targetProgress;
+            if (elapsed < 30000) { // First 30 seconds: 0-20%
+                targetProgress = (elapsed / 30000) * 20;
+                progressStage = 0;
+            } else if (elapsed < 50000) { // Next 20 seconds: 20-35%
+                targetProgress = 20 + ((elapsed - 30000) / 20000) * 15;
+                progressStage = 1;
+            } else if (elapsed < 70000) { // Next 20 seconds: 35-50%
+                targetProgress = 35 + ((elapsed - 50000) / 20000) * 15;
+                progressStage = 2;
+            } else if (elapsed < 80000) { // Next 10 seconds: 50-65%
+                targetProgress = 50 + ((elapsed - 70000) / 10000) * 15;
+                progressStage = 3;
+            } else if (apiCallStarted && !apiCallCompleted) { // During API call: 65-85%
+                targetProgress = 65 + Math.min((elapsed - 80000) / 10000, 1) * 20;
+                progressStage = 4;
+            } else if (apiCallCompleted) { // After API call: 85-100%
+                targetProgress = 85 + Math.min((elapsed - 80000) / 10000, 1) * 15;
+                progressStage = 5;
+            } else { // Before API call: cap at 65%
+                targetProgress = Math.min(65, 50 + ((elapsed - 70000) / 10000) * 15);
+                progressStage = 3;
+            }
+            
+            // Smooth progress animation - only move 1% per update maximum
+            const progressDiff = targetProgress - currentProgress;
+            if (progressDiff > 0) {
+                currentProgress += Math.min(progressDiff, 1); // Max 1% per update
+            }
+            
+            // Cap progress based on API state
+            if (!apiCallStarted) {
+                currentProgress = Math.min(currentProgress, 65);
+            } else if (!apiCallCompleted) {
+                currentProgress = Math.min(currentProgress, 85);
+            }
+            
+            document.getElementById('progressFill').style.width = currentProgress + '%';
+            
+            // Update progress text based on current stage
+            if (progressStage === 0) {
+                document.getElementById('progressText').textContent = 'Initializing analysis...';
+            } else if (progressStage === 1) {
+                document.getElementById('progressText').textContent = 'Analyzing your responses...';
+            } else if (progressStage === 2) {
+                document.getElementById('progressText').textContent = 'Processing health data...';
+            } else if (progressStage === 3) {
+                document.getElementById('progressText').textContent = 'Evaluating risk factors...';
+            } else if (progressStage === 4) {
+                document.getElementById('progressText').textContent = 'AI is analyzing your health data...';
+            } else if (progressStage === 5) {
+                document.getElementById('progressText').textContent = 'Processing AI response...';
+            } else {
+                document.getElementById('progressText').textContent = 'Almost ready...';
+            }
+        }
+        
+        function showNextFact() {
+            document.getElementById('factContent').textContent = facts[currentFactIndex];
+            currentFactIndex = (currentFactIndex + 1) % facts.length;
+        }
+        
+        // Transform questionnaire data into API-expected format
+        function transformQuestionnaireData(rawData) {
+            const transformed = [];
+            
+            // Map questionnaire fields to question-answer pairs
+            const fieldMappings = {
+                'age': 'What is your age?',
+                'gender': 'What is your gender?',
+                'height': 'What is your height?',
+                'weight': 'What is your weight?',
+                'family_history': 'Do you have a family history of any of the following conditions?',
+                'medical_diagnoses': 'Have you been diagnosed with any of the following conditions?',
+                'medications': 'Do you currently take prescription medications or long-term supplements?',
+                'medications_list': 'List your current medications/supplements',
+                'diet_type': 'What type of diet do you follow?',
+                'diet_other': 'Please specify your diet',
+                'exercise_frequency': 'How often do you exercise?',
+                'exercise_type': 'What type of exercise do you do?',
+                'exercise_other': 'Please specify your exercise type',
+                'sleep_hours': 'How many hours of sleep do you get per night?',
+                'sleep_quality': 'How would you rate your sleep quality?',
+                'stress_level': 'How would you rate your stress level?',
+                'smoking': 'Do you smoke or use tobacco products?',
+                'alcohol': 'How often do you drink alcohol?',
+                'skin_changes': 'Have you noticed any changes in your skin?',
+                'skin_changes_desc': 'Describe the skin changes',
+                'additional_info': 'Is there anything else about your health that you think is important for us to know?'
+            };
+            
+            // Transform each field
+            Object.keys(fieldMappings).forEach(field => {
+                if (rawData[field] !== undefined && rawData[field] !== null && rawData[field] !== '') {
+                    let answer = rawData[field];
+                    
+                    // Handle arrays (like family_history)
+                    if (Array.isArray(answer)) {
+                        answer = answer.join(', ');
+                    }
+                    
+                    // Handle boolean values
+                    if (typeof answer === 'boolean') {
+                        answer = answer ? 'Yes' : 'No';
+                    }
+                    
+                    transformed.push({
+                        question: fieldMappings[field],
+                        answer: answer
+                    });
+                }
+            });
+            
+            return transformed;
+        }
+        
+        async function processHealthData() {
+            try {
+                console.log('Starting health data processing...');
+                
+                // Mark API call as started
+                apiCallStarted = true;
+                document.getElementById('progressText').textContent = 'Connecting to AI analysis...';
+                
+                // Get answers from localStorage
+                const rawAnswers = JSON.parse(localStorage.getItem('questionnaireData') || '{}');
+                console.log('Raw answers from localStorage:', rawAnswers);
+                
+                // Transform questionnaire data into API-expected format
+                const answers = transformQuestionnaireData(rawAnswers);
+                console.log('Transformed answers for API:', answers);
+                
+                // Check if we have cached results
+                const cachedResults = localStorage.getItem('cachedResults');
+                if (cachedResults) {
+                    console.log('Using cached results');
+                    localStorage.setItem('healthAssessmentResults', cachedResults);
+                    setTimeout(() => {
+                        console.log('Redirecting to /email-collection.html');
+                        window.location.href = '/email-collection.html';
+                    }, 2000);
+                    return;
+                }
+                
+                // Process the data first, then redirect to email collection
+                console.log('🔄 Processing questionnaire data without email requirement...');
+                
+                // Make API call to analyze health
+                console.log('Making API call with answers:', answers);
+                document.getElementById('progressText').textContent = 'AI is analyzing your health data...';
+                
+                const response = await fetch('/api/analyze_health', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        responses: answers
+                    })
+                });
+                
+                document.getElementById('progressText').textContent = 'Processing AI response...';
+                
+                console.log('API response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to analyze health data');
+                }
+                
+                const results = await response.json();
+                console.log('API results:', results);
+                
+                // Use the results field from successful API response
+                const healthData = results.results;
+                console.log('Health data to save:', healthData);
+                console.log('Number of categories:', healthData.categories ? healthData.categories.length : 'No categories');
+                
+                // Store results in localStorage
+                localStorage.setItem('healthAssessmentResults', JSON.stringify(healthData));
+                
+                // Cache the results
+                localStorage.setItem('cachedResults', JSON.stringify(healthData));
+                
+                // Mark API call as completed
+                apiCallCompleted = true;
+                
+                // Complete the progress bar
+                document.getElementById('progressFill').style.width = '100%';
+                document.getElementById('progressText').textContent = 'Analysis complete! Redirecting...';
+                
+                // Redirect to email collection page
+                setTimeout(() => {
+                    console.log('Redirecting to /email-collection.html');
+                    window.location.href = '/email-collection.html';
+                }, 2000);
+                
+            } catch (error) {
+                console.log('Error in processHealthData:', error);
+                console.log('Error details:', error.message);
+                
+                // If there's an error, redirect to start new assessment
+                console.log('API call failed, redirecting to start new assessment');
+                window.location.href = '/';
+                return;
+            }
+        }
+        
+        // Initialize loading screen
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Loading page initialized');
+            
+            // Clear any old cached results to ensure fresh data
+            localStorage.removeItem('cachedResults');
+            console.log('Cleared old cached results for fresh data');
+            
+            // Reset start time
+            startTime = Date.now();
+            
+            // Start progress animation (much slower updates - every 3 seconds)
+            progressInterval = setInterval(updateProgress, 3000);
+            
+            // Start fact rotation (much slower changes - 12 seconds per fact)
+            showNextFact();
+            factInterval = setInterval(showNextFact, 12000);
+            
+            // Start health data processing after a much longer delay to let progress build up
+            setTimeout(processHealthData, 15000);
+        });
+        
+        // Cleanup intervals when page unloads
+        window.addEventListener('beforeunload', function() {
+            if (progressInterval) clearInterval(progressInterval);
+            if (factInterval) clearInterval(factInterval);
+        });
+    </script>
+    
+    <!-- Real backend API integration -->
+</body>
+</html>

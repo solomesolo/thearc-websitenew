@@ -1,0 +1,669 @@
+/* Comprehensive Mobile Responsiveness Fixes */
+
+/* ============================================
+   1. GLOBAL MOBILE FIXES
+   ============================================ */
+
+/* Prevent horizontal overflow */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Text overflow handling */
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Long URLs and email addresses */
+  a {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* ============================================
+   2. IMAGE RESPONSIVENESS
+   ============================================ */
+
+img, picture, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  /* Next.js Image component */
+  span[style*="position: relative"] img {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* ============================================
+   3. GRID LAYOUTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Force single column on mobile */
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Responsive grid utilities */
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  /* Two column grids become single */
+  .grid-cols-2,
+  .md\:grid-cols-2,
+  .lg\:grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  /* Three column grids become single */
+  .grid-cols-3,
+  .md\:grid-cols-3,
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  /* Four column grids become single */
+  .grid-cols-4,
+  .md\:grid-cols-4,
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+/* Tablet: 2 columns max */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid-cols-3,
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .grid-cols-4,
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ============================================
+   4. BUTTON RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Buttons should be full width on mobile */
+  button,
+  .btn,
+  [role="button"] {
+    min-height: 44px; /* Touch target size */
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  
+  /* Button groups stack vertically */
+  .flex-row button,
+  .flex-row .btn {
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+  
+  .flex-row button:last-child,
+  .flex-row .btn:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Inline buttons */
+  .inline-flex {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 375px) {
+  button,
+  .btn,
+  [role="button"] {
+    font-size: 0.875rem;
+    padding: 0.625rem 0.875rem;
+    min-height: 40px;
+  }
+}
+
+/* ============================================
+   5. MODAL RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Modal containers */
+  [class*="modal"],
+  [class*="Modal"],
+  .fixed.inset-0 {
+    padding: 1rem !important;
+  }
+  
+  /* Modal content */
+  [class*="modal"] > div,
+  [class*="Modal"] > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    max-height: calc(100vh - 2rem) !important;
+    border-radius: 1rem !important;
+  }
+  
+  /* Modal padding */
+  [class*="modal"] .p-6,
+  [class*="modal"] .p-8,
+  [class*="Modal"] .p-6,
+  [class*="Modal"] .p-8 {
+    padding: 1rem !important;
+  }
+  
+  /* Modal text sizes */
+  [class*="modal"] h2,
+  [class*="Modal"] h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  [class*="modal"] p,
+  [class*="Modal"] p {
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Close button */
+  [class*="modal"] button[aria-label*="Close"],
+  [class*="Modal"] button[aria-label*="Close"] {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    font-size: 1.5rem !important;
+  }
+}
+
+/* ============================================
+   6. NAVIGATION RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Header */
+  header,
+  .premium-nav-header {
+    padding: 0.75rem 1rem !important;
+  }
+  
+  /* Mobile menu */
+  .premium-nav-mobile {
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+  
+  /* Navigation items */
+  .premium-nav-mobile-item {
+    padding: 1rem !important;
+    font-size: 1rem !important;
+    min-height: 44px !important;
+  }
+  
+  /* Dropdown items */
+  .premium-nav-dropdown {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ============================================
+   7. TYPOGRAPHY RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Headings */
+  h1,
+  .text-4xl,
+  .text-5xl,
+  .text-6xl {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  h2,
+  .text-3xl,
+  .text-4xl {
+    font-size: 1.75rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  h3,
+  .text-2xl {
+    font-size: 1.5rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Body text */
+  p,
+  .text-base,
+  .text-lg {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+  
+  /* Small text */
+  .text-sm {
+    font-size: 0.875rem !important;
+  }
+  
+  .text-xs {
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (max-width: 375px) {
+  h1,
+  .text-4xl,
+  .text-5xl,
+  .text-6xl {
+    font-size: 1.75rem !important;
+  }
+  
+  h2,
+  .text-3xl {
+    font-size: 1.5rem !important;
+  }
+  
+  h3,
+  .text-2xl {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* ============================================
+   8. SPACING & PADDING
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Reduce padding */
+  .px-6,
+  .px-8,
+  .px-10,
+  .px-12 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .py-12,
+  .py-16,
+  .py-20,
+  .py-24 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  /* Reduce margins */
+  .mb-12,
+  .mb-16,
+  .mb-20 {
+    margin-bottom: 2rem !important;
+  }
+  
+  .mt-12,
+  .mt-16,
+  .mt-20 {
+    margin-top: 2rem !important;
+  }
+  
+  /* Gap spacing */
+  .gap-8,
+  .gap-12,
+  .gap-16 {
+    gap: 1.5rem !important;
+  }
+  
+  .gap-24 {
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .px-6,
+  .px-8,
+  .px-10,
+  .px-12 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .py-12,
+  .py-16,
+  .py-20,
+  .py-24 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+}
+
+/* ============================================
+   9. CONTAINER & MAX-WIDTH
+   ============================================ */
+
+@media (max-width: 768px) {
+  .max-w-2xl,
+  .max-w-3xl,
+  .max-w-4xl,
+  .max-w-5xl,
+  .max-w-6xl,
+  .max-w-7xl {
+    max-width: 100% !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* ============================================
+   10. FLEXBOX RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Stack flex items vertically */
+  .flex-row,
+  .sm\:flex-row {
+    flex-direction: column !important;
+  }
+  
+  /* Full width flex items */
+  .flex > * {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Space between becomes space-y */
+  .justify-between {
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+}
+
+/* ============================================
+   11. CARDS & PANELS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Card padding */
+  [class*="card"],
+  [class*="Card"],
+  .rounded-2xl,
+  .rounded-xl {
+    padding: 1rem !important;
+  }
+  
+  /* Card spacing */
+  .space-y-6 > * + *,
+  .space-y-8 > * + * {
+    margin-top: 1rem !important;
+  }
+}
+
+/* ============================================
+   12. FORMS & INPUTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Form inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100% !important;
+    min-height: 44px !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+  
+  /* Form labels */
+  label {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* Form groups */
+  .space-y-4 > * + * {
+    margin-top: 1rem !important;
+  }
+}
+
+/* ============================================
+   13. TABLES
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Hide table on mobile, show as cards */
+  table {
+    display: none;
+  }
+  
+  /* Alternative: Make tables scrollable */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .table-responsive table {
+    display: table;
+    min-width: 600px;
+  }
+}
+
+/* ============================================
+   14. HERO SECTIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Hero padding */
+  section[class*="hero"],
+  .hero-section {
+    padding: 2rem 1rem !important;
+    min-height: auto !important;
+  }
+  
+  /* Hero text */
+  .hero-section h1 {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .hero-section p {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+  
+  /* Hero buttons */
+  .hero-section .flex {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+  
+  .hero-section button,
+  .hero-section a {
+    width: 100% !important;
+  }
+}
+
+/* ============================================
+   15. FOOTER RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+  footer {
+    padding: 2rem 1rem !important;
+  }
+  
+  /* Footer grid becomes single column */
+  footer .grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  
+  /* Footer links */
+  footer a {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 0 !important;
+  }
+  
+  /* Footer social icons */
+  footer .flex {
+    justify-content: flex-start !important;
+    gap: 1rem !important;
+  }
+}
+
+/* ============================================
+   16. DASHBOARD SPECIFIC
+   ============================================ */
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem !important;
+  }
+  
+  /* Dashboard cards */
+  .dashboard-container .grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Dashboard metrics */
+  .dashboard-container .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container .grid-cols-4 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================
+   17. UTILITY CLASSES
+   ============================================ */
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+/* Show only on mobile */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* Text alignment */
+@media (max-width: 768px) {
+  .text-left-mobile {
+    text-align: left !important;
+  }
+  
+  .text-center-mobile {
+    text-align: center !important;
+  }
+}
+
+/* ============================================
+   18. OVERFLOW HANDLING
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  /* Scrollable containers */
+  .overflow-y-auto,
+  .overflow-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Long content */
+  pre,
+  code {
+    overflow-x: auto;
+    word-wrap: break-word;
+  }
+}
+
+/* ============================================
+   19. ACCESSIBILITY IMPROVEMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Touch targets */
+  a,
+  button,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Focus states */
+  a:focus,
+  button:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: 2px solid #4DE4C1;
+    outline-offset: 2px;
+  }
+}
+
+/* ============================================
+   20. PRINT STYLES
+   ============================================ */
+
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+  }
+  
+  header,
+  footer,
+  nav,
+  .premium-nav-header,
+  .premium-nav-mobile {
+    display: none !important;
+  }
+}
+

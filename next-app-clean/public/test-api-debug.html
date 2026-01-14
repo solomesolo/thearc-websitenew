@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Debug Test</h1>
+    
+    <div class="test-section">
+        <h2>Test API Endpoint</h2>
+        <p>This test will call the API directly to see if it's working and returning proper scores.</p>
+        <button onclick="testAPI()">Test API Call</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+    
+    <div id="results" class="test-section">
+        <h2>Test Results</h2>
+        <div id="testOutput"></div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '<h3>Testing API...</h3>';
+            
+            // Test data that matches what the questionnaire would send
+            const testData = {
+                user: {
+                    name: "Test User",
+                    age: 35,
+                    sex: "male",
+                    email: "test@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: true,
+                        first_degree: true,
+                        onset: '<60'
+                    },
+                    diabetes: {
+                        present: true,
+                        first_degree: true,
+                        onset: '<60'
+                    },
+                    cancer: [{
+                        type: 'colorectal',
+                        relative: 'mother',
+                        onset: '<60'
+                    }]
+                },
+                physiological_patterns: {
+                    compass31_raw: 0,
+                    compass31_max: 62,
+                    lightheaded_standing: 'sometimes',
+                    skin_color_changes: true,
+                    temperature_sensitivity: 'high'
+                },
+                lifestyle_load: {
+                    pss10_raw: 0,
+                    pss10_max: 40,
+                    sleep_hours: 7,
+                    sleep_quality: 'good',
+                    overwhelmed: 'often',
+                    confidence_handling: 'rarely',
+                    in_control: 'sometimes'
+                },
+                biological_signals: {
+                    waist_cm: 70,
+                    height_cm: 170,
+                    smoking: 'never',
+                    activity_min_week: 150,
+                    location: 'city',
+                    education: 'university',
+                    work_status: 'employed',
+                    labs_optional: {
+                        crp_mg_L: null,
+                        hba1c_percent: null,
+                        vitamin_d_ng_ml: null,
+                        lipids: {
+                            ldl: null,
+                            hdl: null,
+                            tg: null
+                        }
+                    }
+                },
+                cognitive_rhythm: {
+                    cfq_raw: 0,
+                    cfq_max: 100,
+                    who5_raw: 0,
+                    who5_max: 25,
+                    upset_annoyed: 'sometimes',
+                    tense_nervous: 'often',
+                    too_many_demands: 'sometimes'
+                },
+                symptoms: {
+                    gut: true,
+                    skin: true,
+                    fatigue: true
+                },
+                preferences: {
+                    diet: 'flexible',
+                    equipment: 'minimal',
+                    budget: 'low'
+                }
+            };
+            
+            try {
+                console.log('Sending data to API:', testData);
+                
+                const response = await fetch('http://localhost:3003/api/process-personalization-v2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('API Response status:', response.status);
+                console.log('API Response headers:', response.headers);
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+                }
+                
+                const results = await response.json();
+                console.log('API Response data:', results);
+                
+                // Display results
+                let html = '<h3>API Test Results:</h3>';
+                
+                if (results.ok && results.scores) {
+                    html += '<div style="background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 10px 0;">';
+                    html += `<p><strong>Family Risk:</strong> ${results.scores.family_risk}%</p>`;
+                    html += `<p><strong>Physiological:</strong> ${results.scores.physiological}%</p>`;
+                    html += `<p><strong>Lifestyle Load:</strong> ${results.scores.lifestyle_load}%</p>`;
+                    html += `<p><strong>Biological:</strong> ${results.scores.biological}%</p>`;
+                    html += `<p><strong>Cognitive:</strong> ${results.scores.cognitive}%</p>`;
+                    html += '</div>';
+                    
+                    // Check if scores are reasonable
+                    const allZero = Object.values(results.scores).every(score => score === 0);
+                    if (allZero) {
+                        html += '<p class="error">❌ ERROR: All scores are 0! The API is not calculating scores correctly.</p>';
+                    } else {
+                        html += '<p class="success">✅ SUCCESS: API is returning calculated scores!</p>';
+                    }
+                } else {
+                    html += '<p class="error">❌ ERROR: API response does not contain scores or is not ok.</p>';
+                }
+                
+                html += '<h4>Full API Response:</h4>';
+                html += '<pre>' + JSON.stringify(results, null, 2) + '</pre>';
+                
+                output.innerHTML = html;
+                
+            } catch (error) {
+                console.error('API Test Error:', error);
+                output.innerHTML = '<h3>API Test Failed</h3><p class="error">Error: ' + error.message + '</p>';
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('testOutput').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Full Flow</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; cursor: pointer; margin: 5px; }
+        .results { background: #e8f5e8; padding: 15px; margin: 10px 0; }
+        .error { background: #ffe6e6; padding: 15px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug Full Flow - Step by Step Analysis</h1>
+    
+    <div class="debug-section">
+        <h3>Step 1: Test Data Collection</h3>
+        <button onclick="testDataCollection()">Test Data Collection</button>
+        <div id="collectionResults">No data yet</div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Step 2: Test Transformation</h3>
+        <button onclick="testTransformation()">Test Transformation</button>
+        <div id="transformationResults">No data yet</div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Step 3: Test API Call</h3>
+        <button onclick="testAPICall()">Test API Call</button>
+        <div id="apiResults">No data yet</div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Step 4: Test Results Storage</h3>
+        <button onclick="testResultsStorage()">Test Results Storage</button>
+        <div id="storageResults">No data yet</div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Step 5: Test Results Display</h3>
+        <button onclick="testResultsDisplay()">Test Results Display</button>
+        <div id="displayResults">No data yet</div>
+    </div>
+
+    <script>
+        // Test data with realistic responses
+        const testFormData = {
+            age: 35,
+            gender: 'female',
+            location: 'town',
+            education: 'university',
+            work_status: 'unemployed',
+            family_health_patterns: 'heart_disease,diabetes,cancer,stroke',
+            lightheaded_standing: 'yes',
+            lightheaded_frequency: 'often',
+            skin_color_changes: 'yes',
+            temperature_sensitivity: 'no',
+            overwhelmed: 'almost_never',
+            confidence_handling: 'fairly_often',
+            in_control: 'very_often',
+            upset_annoyed: 'fairly_often',
+            tense_nervous: 'sometimes',
+            too_many_demands: 'never'
+        };
+
+        function testDataCollection() {
+            console.log("=== STEP 1: DATA COLLECTION TEST ===");
+            console.log("Test form data:", testFormData);
+            console.log("Family health patterns:", testFormData.family_health_patterns);
+            console.log("Lightheaded standing:", testFormData.lightheaded_standing);
+            console.log("Skin color changes:", testFormData.skin_color_changes);
+            
+            document.getElementById('collectionResults').innerHTML = 
+                '<div class="results">' +
+                '<h4>✅ Data Collection Test Passed</h4>' +
+                '<p><strong>Family Health Patterns:</strong> ' + testFormData.family_health_patterns + '</p>' +
+                '<p><strong>Lightheaded Standing:</strong> ' + testFormData.lightheaded_standing + '</p>' +
+                '<p><strong>Skin Color Changes:</strong> ' + testFormData.skin_color_changes + '</p>' +
+                '</div>';
+        }
+
+        function testTransformation() {
+            console.log("=== STEP 2: TRANSFORMATION TEST ===");
+            
+            // Parse family health patterns
+            const familyHealthPatterns = testFormData.family_health_patterns ? 
+                testFormData.family_health_patterns.split(',').map(item => item.trim()) : [];
+
+            console.log("Family health patterns array:", familyHealthPatterns);
+
+            const transformedData = {
+                user: {
+                    name: "Test User",
+                    age: parseInt(testFormData.age) || 35,
+                    sex: testFormData.gender || 'female',
+                    email: "test@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: familyHealthPatterns.includes('heart_disease'),
+                        first_degree: familyHealthPatterns.includes('heart_disease'),
+                        onset: familyHealthPatterns.includes('heart_disease') ? '<60' : 'unknown'
+                    },
+                    diabetes: {
+                        present: familyHealthPatterns.includes('diabetes'),
+                        first_degree: familyHealthPatterns.includes('diabetes'),
+                        onset: familyHealthPatterns.includes('diabetes') ? '<60' : 'unknown'
+                    },
+                    cancer: familyHealthPatterns.includes('cancer') ? 
+                        [{type: 'colorectal', relative: 'mother', onset: '<60'}] : []
+                },
+                physiological_patterns: {
+                    compass31_raw: 5, // Simulated score
+                    compass31_max: 62,
+                    lightheaded_standing: testFormData.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                    skin_color_changes: testFormData.skin_color_changes === 'yes',
+                    temperature_sensitivity: testFormData.temperature_sensitivity === 'yes' ? 'high' : 'normal'
+                },
+                lifestyle_load: {
+                    pss10_raw: 8, // Simulated score
+                    pss10_max: 40,
+                    sleep_hours: 7,
+                    sleep_quality: 'good',
+                    overwhelmed: testFormData.overwhelmed || 'never',
+                    confidence_handling: testFormData.confidence_handling || 'often',
+                    in_control: testFormData.in_control || 'often'
+                },
+                biological_signals: {
+                    waist_cm: 70,
+                    height_cm: 170,
+                    smoking: 'never',
+                    activity_min_week: 150,
+                    location: testFormData.location || 'city',
+                    education: testFormData.education || 'university',
+                    work_status: testFormData.work_status || 'employed',
+                    labs_optional: {
+                        crp_mg_L: null,
+                        hba1c_percent: null,
+                        vitamin_d_ng_ml: null,
+                        lipids: { ldl: null, hdl: null, tg: null }
+                    }
+                },
+                cognitive_rhythm: {
+                    cfq_raw: 12, // Simulated score
+                    cfq_max: 100,
+                    who5_raw: 15, // Simulated score
+                    who5_max: 25,
+                    upset_annoyed: testFormData.upset_annoyed || 'never',
+                    tense_nervous: testFormData.tense_nervous || 'never',
+                    too_many_demands: testFormData.too_many_demands || 'never'
+                },
+                symptoms: {
+                    gut: false,
+                    skin: testFormData.skin_color_changes === 'yes',
+                    fatigue: false,
+                    sleep_issues: false,
+                    digestive_issues: false
+                },
+                preferences: {
+                    budget: 'moderate',
+                    equipment: 'basic',
+                    diet: 'flexible'
+                }
+            };
+
+            console.log("Transformed data:", transformedData);
+            console.log("Family history CVD present:", transformedData.family_history.cvd.present);
+            console.log("Family history diabetes present:", transformedData.family_history.diabetes.present);
+            console.log("Physiological lightheaded:", transformedData.physiological_patterns.lightheaded_standing);
+            console.log("Physiological skin changes:", transformedData.physiological_patterns.skin_color_changes);
+
+            document.getElementById('transformationResults').innerHTML = 
+                '<div class="results">' +
+                '<h4>✅ Transformation Test Passed</h4>' +
+                '<p><strong>Family CVD Present:</strong> ' + transformedData.family_history.cvd.present + '</p>' +
+                '<p><strong>Family Diabetes Present:</strong> ' + transformedData.family_history.diabetes.present + '</p>' +
+                '<p><strong>Physiological Lightheaded:</strong> ' + transformedData.physiological_patterns.lightheaded_standing + '</p>' +
+                '<p><strong>Physiological Skin Changes:</strong> ' + transformedData.physiological_patterns.skin_color_changes + '</p>' +
+                '<p><strong>COMPASS-31 Raw:</strong> ' + transformedData.physiological_patterns.compass31_raw + '</p>' +
+                '</div>';
+        }
+
+        function testAPICall() {
+            console.log("=== STEP 3: API CALL TEST ===");
+            
+            const transformedData = {
+                user: {
+                    name: "Test User",
+                    age: 35,
+                    sex: 'female',
+                    email: "test@example.com"
+                },
+                family_history: {
+                    cvd: { present: true, first_degree: true, onset: '<60' },
+                    diabetes: { present: true, first_degree: true, onset: '<60' },
+                    cancer: [{type: 'colorectal', relative: 'mother', onset: '<60'}]
+                },
+                physiological_patterns: {
+                    compass31_raw: 5,
+                    compass31_max: 62,
+                    lightheaded_standing: 'sometimes',
+                    skin_color_changes: true,
+                    temperature_sensitivity: 'normal'
+                },
+                lifestyle_load: {
+                    pss10_raw: 8,
+                    pss10_max: 40,
+                    sleep_hours: 7,
+                    sleep_quality: 'good',
+                    overwhelmed: 'almost_never',
+                    confidence_handling: 'fairly_often',
+                    in_control: 'very_often'
+                },
+                biological_signals: {
+                    waist_cm: 70,
+                    height_cm: 170,
+                    smoking: 'never',
+                    activity_min_week: 150,
+                    location: 'town',
+                    education: 'university',
+                    work_status: 'unemployed',
+                    labs_optional: {
+                        crp_mg_L: null,
+                        hba1c_percent: null,
+                        vitamin_d_ng_ml: null,
+                        lipids: { ldl: null, hdl: null, tg: null }
+                    }
+                },
+                cognitive_rhythm: {
+                    cfq_raw: 12,
+                    cfq_max: 100,
+                    who5_raw: 15,
+                    who5_max: 25,
+                    upset_annoyed: 'fairly_often',
+                    tense_nervous: 'sometimes',
+                    too_many_demands: 'never'
+                },
+                symptoms: {
+                    gut: false,
+                    skin: true,
+                    fatigue: false,
+                    sleep_issues: false,
+                    digestive_issues: false
+                },
+                preferences: {
+                    budget: 'moderate',
+                    equipment: 'basic',
+                    diet: 'flexible'
+                }
+            };
+
+            console.log("Sending to API:", transformedData);
+
+            fetch('http://localhost:3003/api/process-personalization-v2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(transformedData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("API Response:", data);
+                
+                if (data.scores) {
+                    document.getElementById('apiResults').innerHTML = 
+                        '<div class="results">' +
+                        '<h4>✅ API Call Test Passed</h4>' +
+                        '<p><strong>Family Risk:</strong> ' + data.scores.family_risk + '</p>' +
+                        '<p><strong>Physiological:</strong> ' + data.scores.physiological + '</p>' +
+                        '<p><strong>Lifestyle Load:</strong> ' + data.scores.lifestyle_load + '</p>' +
+                        '<p><strong>Biological:</strong> ' + data.scores.biological + '</p>' +
+                        '<p><strong>Cognitive:</strong> ' + data.scores.cognitive + '</p>' +
+                        '</div>';
+                } else {
+                    document.getElementById('apiResults').innerHTML = 
+                        '<div class="error">' +
+                        '<h4>❌ API Call Test Failed</h4>' +
+                        '<p>No scores returned from API</p>' +
+                        '</div>';
+                }
+            })
+            .catch(error => {
+                console.error("API Error:", error);
+                document.getElementById('apiResults').innerHTML = 
+                    '<div class="error">' +
+                    '<h4>❌ API Call Test Failed</h4>' +
+                    '<p>Error: ' + error.message + '</p>' +
+                    '</div>';
+            });
+        }
+
+        function testResultsStorage() {
+            console.log("=== STEP 4: RESULTS STORAGE TEST ===");
+            
+            const mockResults = {
+                ok: true,
+                scores: {
+                    family_risk: 85,
+                    physiological: 25,
+                    lifestyle_load: 20,
+                    biological: 40,
+                    cognitive: 15
+                },
+                phase_order: ["Decode", "Rebalance", "Strengthen", "Nourish", "Refine", "Sustain"],
+                screenings: ["CRP", "Lipid panel", "HbA1c", "Vitamin D"],
+                nutrition_archetype: "Balanced Mediterranean",
+                supplements: ["Omega-3", "Magnesium glycinate", "Vitamin D3 + K2"],
+                breath_recovery: ["Cardiac coherence", "Physiological sighs", "Box breathing"]
+            };
+
+            localStorage.setItem('personalizationFrameworkResults', JSON.stringify(mockResults));
+            console.log("Results stored in localStorage");
+
+            const stored = localStorage.getItem('personalizationFrameworkResults');
+            console.log("Stored results:", stored);
+
+            document.getElementById('storageResults').innerHTML = 
+                '<div class="results">' +
+                '<h4>✅ Results Storage Test Passed</h4>' +
+                '<p>Results successfully stored and retrieved from localStorage</p>' +
+                '<p><strong>Family Risk Score:</strong> ' + mockResults.scores.family_risk + '</p>' +
+                '<p><strong>Physiological Score:</strong> ' + mockResults.scores.physiological + '</p>' +
+                '</div>';
+        }
+
+        function testResultsDisplay() {
+            console.log("=== STEP 5: RESULTS DISPLAY TEST ===");
+            
+            const stored = localStorage.getItem('personalizationFrameworkResults');
+            if (stored) {
+                const results = JSON.parse(stored);
+                console.log("Retrieved results:", results);
+                
+                document.getElementById('displayResults').innerHTML = 
+                    '<div class="results">' +
+                    '<h4>✅ Results Display Test Passed</h4>' +
+                    '<p><strong>Family Risk:</strong> ' + results.scores.family_risk + '</p>' +
+                    '<p><strong>Physiological:</strong> ' + results.scores.physiological + '</p>' +
+                    '<p><strong>Lifestyle Load:</strong> ' + results.scores.lifestyle_load + '</p>' +
+                    '<p><strong>Biological:</strong> ' + results.scores.biological + '</p>' +
+                    '<p><strong>Cognitive:</strong> ' + results.scores.cognitive + '</p>' +
+                    '</div>';
+            } else {
+                document.getElementById('displayResults').innerHTML = 
+                    '<div class="error">' +
+                    '<h4>❌ Results Display Test Failed</h4>' +
+                    '<p>No results found in localStorage</p>' +
+                    '</div>';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+

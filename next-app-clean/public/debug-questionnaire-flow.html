@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Questionnaire Flow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Questionnaire Flow</h1>
+    
+    <div class="test-section">
+        <h2>Test Complete Data Flow</h2>
+        <p>This test simulates the complete questionnaire data flow to find where the issue is.</p>
+        <button onclick="testCompleteFlow()">Test Complete Flow</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+    
+    <div id="results" class="test-section">
+        <h2>Debug Results</h2>
+        <div id="testOutput"></div>
+    </div>
+
+    <script>
+        // Simulate the scoring functions from the API
+        function calculateFamilyRisk(familyHistory) {
+            let score = 0;
+            
+            if (familyHistory.cvd && familyHistory.cvd.present && familyHistory.cvd.first_degree && familyHistory.cvd.onset === '<60') {
+                score += 40;
+            }
+            
+            if (familyHistory.diabetes && familyHistory.diabetes.present && familyHistory.diabetes.first_degree) {
+                score += 25;
+            }
+            
+            if (familyHistory.cancer && familyHistory.cancer.length > 0) {
+                const colorectalCancer = familyHistory.cancer.find((c) => c.type === 'colorectal');
+                if (colorectalCancer && colorectalCancer.relative === 'mother') {
+                    score += 20;
+                }
+            }
+            
+            return Math.min(score, 100);
+        }
+
+        function calculatePhysiological(physiological) {
+            let score = 0;
+            
+            if (physiological.lightheaded_standing) {
+                if (physiological.lightheaded_standing === 'often') score += 40;
+                else if (physiological.lightheaded_standing === 'sometimes') score += 20;
+            } else if (physiological.compass31_raw !== undefined) {
+                score += (physiological.compass31_raw / physiological.compass31_max) * 100;
+            }
+            
+            if (physiological.skin_color_changes) score += 30;
+            
+            if (physiological.temperature_sensitivity === 'high') score += 30;
+            else if (physiological.temperature_sensitivity === 'moderate') score += 15;
+            
+            return Math.min(score, 100);
+        }
+
+        function calculateLifestyleLoad(lifestyle) {
+            let score = 0;
+            
+            if (lifestyle.overwhelmed) {
+                if (lifestyle.overwhelmed === 'often') score += 40;
+                else if (lifestyle.overwhelmed === 'sometimes') score += 20;
+            } else if (lifestyle.pss10_raw !== undefined) {
+                score += (lifestyle.pss10_raw / lifestyle.pss10_max) * 100;
+            }
+            
+            if (lifestyle.confidence_handling === 'never') score += 30;
+            else if (lifestyle.confidence_handling === 'rarely') score += 15;
+            
+            if (lifestyle.in_control === 'never') score += 30;
+            else if (lifestyle.in_control === 'rarely') score += 15;
+            
+            return Math.min(score, 100);
+        }
+
+        function calculateBiological(biological, user) {
+            let score = 0;
+            
+            if (user.age >= 65) score += 30;
+            else if (user.age >= 45) score += 20;
+            else if (user.age >= 35) score += 10;
+            
+            if (user.sex === 'male') score += 10;
+            
+            if (biological.location === 'rural') score += 5;
+            
+            if (biological.education === 'high_school') score += 15;
+            else if (biological.education === 'university') score += 5;
+            
+            if (biological.work_status === 'unemployed') score += 20;
+            else if (biological.work_status === 'retired') score += 10;
+            
+            return Math.min(score, 100);
+        }
+
+        function calculateCognitive(cognitive) {
+            let score = 0;
+            
+            if (cognitive.upset_annoyed) {
+                if (cognitive.upset_annoyed === 'often') score += 30;
+                else if (cognitive.upset_annoyed === 'sometimes') score += 15;
+            } else if (cognitive.cfq_raw !== undefined) {
+                score += (cognitive.cfq_raw / cognitive.cfq_max) * 100;
+            }
+            
+            if (cognitive.tense_nervous === 'often') score += 30;
+            else if (cognitive.tense_nervous === 'sometimes') score += 15;
+            
+            if (cognitive.too_many_demands === 'often') score += 30;
+            else if (cognitive.too_many_demands === 'sometimes') score += 15;
+            
+            return Math.min(score, 100);
+        }
+
+        // Mapping functions (same as in the real questionnaire)
+        function mapOverwhelmedValue(value) {
+            if (!value) return 'never';
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'never';
+            }
+        }
+        
+        function mapConfidenceValue(value) {
+            if (!value) return 'often';
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'often';
+            }
+        }
+        
+        function mapControlValue(value) {
+            if (!value) return 'often';
+            switch(value) {
+                case 'never': return 'never';
+                case 'almost_never': return 'rarely';
+                case 'sometimes': return 'sometimes';
+                case 'fairly_often': return 'often';
+                case 'very_often': return 'often';
+                default: return 'often';
+            }
+        }
+
+        async function testCompleteFlow() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '<h3>Testing complete questionnaire flow...</h3>';
+            
+            // Step 1: Simulate questionnaire data collection
+            const questionnaireData = {
+                name: 'Test User',
+                age: '35',
+                gender: 'male',
+                family_health_patterns: 'heart_disease,diabetes,cancer', // Comma-separated string
+                lightheaded_standing: 'yes',
+                skin_color_changes: 'yes',
+                temperature_sensitivity: 'yes',
+                overwhelmed: 'fairly_often',
+                confidence_handling: 'almost_never',
+                in_control: 'sometimes',
+                location: 'city',
+                education: 'university',
+                work_status: 'employed',
+                upset_annoyed: 'sometimes',
+                tense_nervous: 'fairly_often',
+                too_many_demands: 'sometimes',
+                digestive_issues: 'often',
+                unusually_tired: 'often'
+            };
+            
+            let html = '<h3>Step 1: Questionnaire Data</h3>';
+            html += '<pre>' + JSON.stringify(questionnaireData, null, 2) + '</pre>';
+            
+            // Step 2: Transform data (same as in personalization-framework.html)
+            const familyHealthPatterns = questionnaireData.family_health_patterns ? 
+                questionnaireData.family_health_patterns.split(',').map(item => item.trim()) : [];
+            
+            const transformedData = {
+                user: {
+                    name: questionnaireData.name || "User",
+                    age: parseInt(questionnaireData.age) || 35,
+                    sex: questionnaireData.gender || "other",
+                    email: "test@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: familyHealthPatterns.includes('heart_disease'),
+                        first_degree: familyHealthPatterns.includes('heart_disease'),
+                        onset: familyHealthPatterns.includes('heart_disease') ? '<60' : 'unknown'
+                    },
+                    diabetes: {
+                        present: familyHealthPatterns.includes('diabetes'),
+                        first_degree: familyHealthPatterns.includes('diabetes'),
+                        onset: familyHealthPatterns.includes('diabetes') ? '<60' : 'unknown'
+                    },
+                    cancer: familyHealthPatterns.includes('cancer') ? [{
+                        type: 'colorectal',
+                        relative: 'mother',
+                        onset: '<60'
+                    }] : []
+                },
+                physiological_patterns: {
+                    compass31_raw: 0,
+                    compass31_max: 62,
+                    lightheaded_standing: questionnaireData.lightheaded_standing === 'yes' ? 'sometimes' : 'never',
+                    skin_color_changes: questionnaireData.skin_color_changes === 'yes',
+                    temperature_sensitivity: questionnaireData.temperature_sensitivity === 'yes' ? 'high' : 'normal'
+                },
+                lifestyle_load: {
+                    pss10_raw: 0,
+                    pss10_max: 40,
+                    sleep_hours: 7,
+                    sleep_quality: 'good',
+                    overwhelmed: mapOverwhelmedValue(questionnaireData.overwhelmed),
+                    confidence_handling: mapConfidenceValue(questionnaireData.confidence_handling),
+                    in_control: mapControlValue(questionnaireData.in_control)
+                },
+                biological_signals: {
+                    waist_cm: 70,
+                    height_cm: 170,
+                    smoking: 'never',
+                    activity_min_week: 150,
+                    location: questionnaireData.location,
+                    education: questionnaireData.education,
+                    work_status: questionnaireData.work_status,
+                    labs_optional: {
+                        crp_mg_L: null,
+                        hba1c_percent: null,
+                        vitamin_d_ng_ml: null,
+                        lipids: {
+                            ldl: null,
+                            hdl: null,
+                            tg: null
+                        }
+                    }
+                },
+                cognitive_rhythm: {
+                    cfq_raw: 0,
+                    cfq_max: 100,
+                    who5_raw: 0,
+                    who5_max: 25,
+                    upset_annoyed: mapOverwhelmedValue(questionnaireData.upset_annoyed),
+                    tense_nervous: mapOverwhelmedValue(questionnaireData.tense_nervous),
+                    too_many_demands: mapOverwhelmedValue(questionnaireData.too_many_demands)
+                },
+                symptoms: {
+                    gut: questionnaireData.digestive_issues === 'often' || questionnaireData.digestive_issues === 'very_often',
+                    skin: questionnaireData.skin_color_changes === 'yes',
+                    fatigue: questionnaireData.unusually_tired === 'often' || questionnaireData.unusually_tired === 'very_often'
+                },
+                preferences: {
+                    diet: 'flexible',
+                    equipment: 'minimal',
+                    budget: 'low'
+                }
+            };
+            
+            html += '<h3>Step 2: Transformed Data</h3>';
+            html += '<pre>' + JSON.stringify(transformedData, null, 2) + '</pre>';
+            
+            // Step 3: Calculate scores locally
+            const localScores = {
+                family_risk: calculateFamilyRisk(transformedData.family_history),
+                physiological: calculatePhysiological(transformedData.physiological_patterns),
+                lifestyle_load: calculateLifestyleLoad(transformedData.lifestyle_load),
+                biological: calculateBiological(transformedData.biological_signals, transformedData.user),
+                cognitive: calculateCognitive(transformedData.cognitive_rhythm)
+            };
+            
+            html += '<h3>Step 3: Local Score Calculation</h3>';
+            html += '<div style="background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 10px 0;">';
+            html += `<p><strong>Family Risk:</strong> ${localScores.family_risk}%</p>`;
+            html += `<p><strong>Physiological:</strong> ${localScores.physiological}%</p>`;
+            html += `<p><strong>Lifestyle Load:</strong> ${localScores.lifestyle_load}%</p>`;
+            html += `<p><strong>Biological:</strong> ${localScores.biological}%</p>`;
+            html += `<p><strong>Cognitive:</strong> ${localScores.cognitive}%</p>`;
+            html += '</div>';
+            
+            // Step 4: Call API
+            try {
+                html += '<h3>Step 4: API Call</h3>';
+                const response = await fetch('http://localhost:3003/api/process-personalization-v2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(transformedData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+                }
+                
+                const apiResults = await response.json();
+                html += '<h4>API Response:</h4>';
+                html += '<div style="background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 10px 0;">';
+                html += `<p><strong>Family Risk:</strong> ${apiResults.scores.family_risk}%</p>`;
+                html += `<p><strong>Physiological:</strong> ${apiResults.scores.physiological}%</p>`;
+                html += `<p><strong>Lifestyle Load:</strong> ${apiResults.scores.lifestyle_load}%</p>`;
+                html += `<p><strong>Biological:</strong> ${apiResults.scores.biological}%</p>`;
+                html += `<p><strong>Cognitive:</strong> ${apiResults.scores.cognitive}%</p>`;
+                html += '</div>';
+                
+                // Compare local vs API scores
+                html += '<h4>Comparison (Local vs API):</h4>';
+                html += '<table border="1" style="border-collapse: collapse; width: 100%;">';
+                html += '<tr><th>Category</th><th>Local</th><th>API</th><th>Match</th></tr>';
+                Object.keys(localScores).forEach(key => {
+                    const local = localScores[key];
+                    const api = apiResults.scores[key];
+                    const match = local === api ? '✅' : '❌';
+                    html += `<tr><td>${key}</td><td>${local}</td><td>${api}</td><td>${match}</td></tr>`;
+                });
+                html += '</table>';
+                
+                // Check if scores are reasonable
+                const allZero = Object.values(apiResults.scores).every(score => score === 0);
+                if (allZero) {
+                    html += '<p class="error">❌ ERROR: All API scores are 0! There is an issue with the scoring functions.</p>';
+                } else {
+                    html += '<p class="success">✅ SUCCESS: API is returning calculated scores!</p>';
+                }
+                
+            } catch (error) {
+                html += '<p class="error">❌ API Error: ' + error.message + '</p>';
+            }
+            
+            output.innerHTML = html;
+        }
+
+        function clearResults() {
+            document.getElementById('testOutput').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+

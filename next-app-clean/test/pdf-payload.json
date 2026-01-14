@@ -1,0 +1,203 @@
+{
+  "user": {
+    "name": "Anna",
+    "age": 35,
+    "sex": "female"
+  },
+  "scores": {
+    "family_risk": 85,
+    "physiological": 52,
+    "lifestyle_load": 65,
+    "biological": 10,
+    "cognitive": 56
+  },
+  "explanations": {
+    "family_risk": "Family risk score of 85 indicates a high genetic predisposition to health problems. This is due to the presence of cardiovascular disease and diabetes in first-degree relatives, and colorectal cancer in the mother.",
+    "physiological": "A physiological score of 52 suggests average physiological health. This score reflects the body's current physical state, including vital signs and organ function.",
+    "lifestyle_load": "Lifestyle load score of 65 shows a moderate impact of lifestyle factors on health. This could be due to factors like diet, exercise, stress, and sleep patterns.",
+    "biological": "A biological score of 10 indicates a low level of biological aging, suggesting good health at the cellular and molecular level.",
+    "cognitive": "Cognitive score of 56 suggests average cognitive health. This score reflects brain health and mental function."
+  },
+  "screenings": [
+    {
+      "name": "CRP",
+      "why": "To monitor inflammation and assess cardiovascular disease risk.",
+      "when": "once now, then every 6–12 months"
+    },
+    {
+      "name": "HbA1c",
+      "why": "To monitor blood sugar levels and assess diabetes risk.",
+      "when": "once now, then every 3 months"
+    },
+    {
+      "name": "Lipid panel",
+      "why": "To assess cholesterol levels and cardiovascular disease risk.",
+      "when": "once now, then every 5 years"
+    },
+    {
+      "name": "Vitamin D",
+      "why": "To assess vitamin D levels which can affect various health conditions.",
+      "when": "once now, then annually"
+    },
+    {
+      "name": "AM Cortisol",
+      "why": "To assess adrenal function and stress response.",
+      "when": "once now, then as needed"
+    }
+  ],
+  "nutrition": {
+    "archetype": "Anti-inflammatory Mediterranean",
+    "principles": [
+      "High in fruits and vegetables",
+      "Low in red meat",
+      "High in whole grains"
+    ],
+    "days": [
+      {
+        "day": 1,
+        "breakfast": "Greek yogurt with mixed berries and a drizzle of honey",
+        "lunch": "Grilled vegetable salad with olive oil and lemon dressing",
+        "dinner": "Baked salmon with quinoa and steamed broccoli",
+        "snacks": [
+          "A handful of almonds",
+          "Sliced cucumber with hummus"
+        ]
+      },
+      {
+        "day": 2,
+        "breakfast": "Scrambled eggs with spinach and feta cheese",
+        "lunch": "Lentil soup with a side of whole grain bread",
+        "dinner": "Grilled chicken with brown rice and mixed vegetables",
+        "snacks": [
+          "An apple",
+          "Carrot sticks with tzatziki sauce"
+        ]
+      },
+      {
+        "day": 3,
+        "breakfast": "Whole grain toast with avocado and a sprinkle of chia seeds",
+        "lunch": "Quinoa salad with cherry tomatoes, cucumber, and feta cheese",
+        "dinner": "Baked cod with sweet potato and green beans",
+        "snacks": [
+          "A banana",
+          "Bell pepper slices with hummus"
+        ]
+      }
+    ]
+  },
+  "supplements": [
+    {
+      "name": "Magnesium glycinate",
+      "dose": "200–400 mg",
+      "timing": "evening",
+      "why": "Supports muscle relaxation and sleep quality",
+      "safety": "Generally well-tolerated, may cause loose stools at high doses"
+    },
+    {
+      "name": "Omega-3 EPA/DHA",
+      "dose": "1–2 g/day",
+      "timing": "with meals",
+      "why": "Reduces inflammation and supports cardiovascular health",
+      "safety": "Safe for most people, may interact with blood thinners"
+    },
+    {
+      "name": "Vitamin D3 + K2",
+      "dose": "1000–2000 IU D3, 100–200 mcg K2",
+      "timing": "with breakfast",
+      "why": "Supports bone health and immune function",
+      "safety": "Monitor blood levels, avoid excessive doses"
+    },
+    {
+      "name": "Probiotic",
+      "dose": "10–50 billion CFU",
+      "timing": "on empty stomach",
+      "why": "Supports gut health and immune function",
+      "safety": "Start with lower doses, may cause mild digestive upset initially"
+    }
+  ],
+  "breath_recovery": [
+    {
+      "name": "Cardiac coherence",
+      "how": "Inhale 4s, exhale 6s, 5 minutes morning."
+    },
+    {
+      "name": "Physiological sigh",
+      "how": "Two short inhales, long exhale; repeat 3–5 times when stressed."
+    },
+    {
+      "name": "Box breathing",
+      "how": "Inhale 4s, hold 4s, exhale 4s, hold 4s; repeat for 5 minutes."
+    }
+  ],
+  "phase_order": ["Decode", "Rebalance", "Strengthen", "Nourish", "Refine", "Sustain"],
+  "months": [
+    {
+      "name": "Decode",
+      "goal": "Understand your current health baseline",
+      "why": "Foundation for all subsequent interventions",
+      "daily": [
+        "Track symptoms in a journal",
+        "Monitor energy levels throughout the day",
+        "Practice breathwork for 5 minutes"
+      ],
+      "weekly_reflection": "Assess progress and adjust approach based on how you feel"
+    },
+    {
+      "name": "Rebalance",
+      "goal": "Address immediate stress and lifestyle factors",
+      "why": "Reduce chronic stress and improve daily habits",
+      "daily": [
+        "Implement stress management techniques",
+        "Follow the nutrition plan consistently",
+        "Practice breathwork twice daily"
+      ],
+      "weekly_reflection": "Evaluate stress levels and lifestyle changes"
+    },
+    {
+      "name": "Strengthen",
+      "goal": "Build physical resilience and strength",
+      "why": "Improve physical capacity and metabolic health",
+      "daily": [
+        "Engage in moderate exercise",
+        "Continue nutrition plan",
+        "Take recommended supplements"
+      ],
+      "weekly_reflection": "Assess physical improvements and energy levels"
+    },
+    {
+      "name": "Nourish",
+      "goal": "Optimize nutrition and cellular health",
+      "why": "Support cellular repair and metabolic function",
+      "daily": [
+        "Follow the detailed meal plan",
+        "Take all recommended supplements",
+        "Practice mindful eating"
+      ],
+      "weekly_reflection": "Evaluate nutritional adherence and health markers"
+    },
+    {
+      "name": "Refine",
+      "goal": "Fine-tune and optimize all interventions",
+      "why": "Maximize benefits and address any remaining issues",
+      "daily": [
+        "Maintain all established habits",
+        "Add advanced techniques as needed",
+        "Monitor progress closely"
+      ],
+      "weekly_reflection": "Assess overall progress and make final adjustments"
+    },
+    {
+      "name": "Sustain",
+      "goal": "Maintain long-term health improvements",
+      "why": "Ensure lasting benefits and prevent regression",
+      "daily": [
+        "Maintain all healthy habits",
+        "Continue monitoring and adjusting",
+        "Share knowledge with others"
+      ],
+      "weekly_reflection": "Celebrate achievements and plan for continued growth"
+    }
+  ],
+  "executive_summary": "The personalised longevity blueprint is a comprehensive plan designed for a 35-year-old female, considering her family history, lifestyle, and cognitive factors. The blueprint identifies top risks and provides tailored strategies to mitigate them. The plan recommends an Anti-inflammatory Mediterranean nutrition plan, a six-phase health journey, and the implementation of four targeted supplements to enhance overall health and longevity. Additionally, the blueprint suggests the practice of three breathwork techniques to improve cognitive function. This personalised approach aims to promote longevity and a healthier lifestyle.",
+  "disclaimer": "This report is educational and informational only. It is not intended to replace professional medical advice, diagnosis, or treatment. Always consult with qualified healthcare professionals before making significant changes to your health routine."
+}

@@ -1,0 +1,48 @@
+{
+  "responses": {
+    "pregnancy_status": "pregnant",
+    "medications": ["Warfarin", "Prenatal vitamins"],
+    "medical_conditions": ["GERD", "Chronic kidney disease", "Hypothyroidism"],
+    "gerd": true,
+    "kidney_disease": true,
+    "thyroid_disease": true,
+    "anticoagulants": true
+  },
+  "supplements": [
+    {
+      "name": "Omega-3 EPA/DHA",
+      "dose": "1-2 g/day",
+      "timing": "with meals",
+      "why": "Reduces inflammation and supports cardiovascular health",
+      "safety": "Safe for most people, may interact with blood thinners"
+    },
+    {
+      "name": "Magnesium glycinate",
+      "dose": "200-400 mg",
+      "timing": "evening",
+      "why": "Supports muscle relaxation and sleep quality",
+      "safety": "Generally well-tolerated, may cause loose stools at high doses"
+    },
+    {
+      "name": "Ashwagandha",
+      "dose": "300-600 mg",
+      "timing": "morning or evening",
+      "why": "Adaptogen that helps with stress and energy",
+      "safety": "Generally safe, may cause drowsiness"
+    },
+    {
+      "name": "Vitamin C",
+      "dose": "1000 mg",
+      "timing": "with breakfast",
+      "why": "Supports immune function and collagen synthesis",
+      "safety": "Water-soluble vitamin, excess is excreted"
+    },
+    {
+      "name": "Rhodiola",
+      "dose": "200-400 mg",
+      "timing": "morning",
+      "why": "Adaptogen for energy and stress management",
+      "safety": "Generally safe, may cause mild stimulation"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "scores": {
+    "family_risk": 85,
+    "physiological": 51.61,
+    "lifestyle_load": 65,
+    "biological": 10,
+    "cognitive": 56
+  },
+  "family_history": {
+    "cvd": {
+      "present": true,
+      "first_degree": true,
+      "onset": "<60"
+    }
+  },
+  "symptoms": {
+    "gut": true,
+    "skin": true,
+    "fatigue": true
+  },
+  "preferences": {
+    "diet": "flexible",
+    "equipment": "minimal",
+    "budget": "low"
+  }
+}

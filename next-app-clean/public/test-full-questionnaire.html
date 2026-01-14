@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Full Questionnaire with Pre-filled Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .score-display { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; cursor: pointer; margin: 5px; }
+        .results { background: #e8f5e8; padding: 15px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Full Questionnaire with Pre-filled Data</h1>
+    
+    <div class="test-section">
+        <h3>Test Data Setup</h3>
+        <button onclick="fillTestData()">Fill Test Data</button>
+        <button onclick="testScoring()">Test Scoring</button>
+        <button onclick="testAPI()">Test API Call</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Current Form Data</h3>
+        <div id="formDataDisplay">No data yet</div>
+    </div>
+
+    <div class="test-section">
+        <h3>Transformed Data</h3>
+        <div id="transformedDataDisplay">No data yet</div>
+    </div>
+
+    <div class="test-section">
+        <h3>API Results</h3>
+        <div id="apiResultsDisplay">No data yet</div>
+    </div>
+
+    <div class="test-section">
+        <h3>Calculated Scores</h3>
+        <div id="scoresDisplay">No scores yet</div>
+    </div>
+
+    <script>
+        // Test data with realistic health assessment responses
+        const testData = {
+            // Basic info
+            age: 35,
+            gender: 'male',
+            location: 'city',
+            education: 'university',
+            work_status: 'employed',
+            
+            // Family health patterns (multiple selections)
+            family_health_patterns: 'heart_disease,diabetes,cancer',
+            
+            // Physiological patterns
+            lightheaded_standing: 'yes',
+            lightheaded_frequency: 'sometimes',
+            lightheaded_severity: 'moderate',
+            lightheaded_change: 'same',
+            skin_color_changes: 'yes',
+            temperature_sensitivity: 'yes',
+            dry_mouth_eyes: 'yes',
+            sweating_changes: 'more',
+            moisture_changes: 'worse',
+            fullness_changes: 'slower',
+            bloating: 'sometimes',
+            vomiting: 'rarely',
+            digestive_issues: 'sometimes',
+            digestive_severity: 'moderate',
+            light_sensitivity: 'yes',
+            focus_issues: 'yes',
+            eye_issues_frequency: 'sometimes',
+            eye_issues_severity: 'moderate',
+            
+            // Lifestyle load
+            overwhelmed: 'sometimes',
+            confidence_handling: 'sometimes',
+            in_control: 'sometimes',
+            unpredictable: 'sometimes',
+            coping_well: 'sometimes',
+            
+            // Cognitive rhythm
+            upset_annoyed: 'sometimes',
+            tense_nervous: 'sometimes',
+            too_many_demands: 'sometimes',
+            stay_calm: 'sometimes',
+            problems_unbeatable: 'sometimes',
+            
+            // Fatigue symptoms
+            unusually_tired: 'sometimes',
+            trouble_starting: 'sometimes',
+            muscle_weakness: 'sometimes',
+            concentration_issues: 'sometimes',
+            physical_slowness: 'sometimes',
+            mental_drain: 'sometimes',
+            daytime_sleepiness: 'sometimes',
+            sleep_issues: 'sometimes',
+            worn_out_after_rest: 'sometimes',
+            lack_energy_activities: 'sometimes',
+            
+            // WHO-5 Well-being
+            cheerful_spirits: 'more_than_half_of_the_time',
+            calm_relaxed: 'more_than_half_of_the_time',
+            active_energy: 'more_than_half_of_the_time',
+            fresh_rested: 'more_than_half_of_the_time',
+            interesting_daily_life: 'more_than_half_of_the_time'
+        };
+
+        function fillTestData() {
+            console.log("=== FILLING TEST DATA ===");
+            console.log("Test data:", testData);
+            
+            // Update display
+            document.getElementById('formDataDisplay').innerHTML = 
+                '<pre>' + JSON.stringify(testData, null, 2) + '</pre>';
+            
+            console.log("Test data filled successfully!");
+        }
+
+        function testScoring() {
+            console.log("=== TESTING SCORING WITH PRE-FILLED DATA ===");
+            
+            // Transform the data using the same logic as the main form
+            const transformedData = transformQuestionnaireData(testData);
+            
+            console.log("Transformed data:", transformedData);
+            
+            // Update display
+            document.getElementById('transformedDataDisplay').innerHTML = 
+                '<pre>' + JSON.stringify(transformedData, null, 2) + '</pre>';
+            
+            console.log("Scoring test completed!");
+        }
+
+        function testAPI() {
+            console.log("=== TESTING API CALL ===");
+            
+            const transformedData = transformQuestionnaireData(testData);
+            
+            fetch('http://localhost:3003/api/process-personalization-v2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(transformedData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("API Response:", data);
+                
+                // Update displays
+                document.getElementById('apiResultsDisplay').innerHTML = 
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                
+                if (data.scores) {
+                    document.getElementById('scoresDisplay').innerHTML = 
+                        '<div class="results">' +
+                        '<h4>Calculated Scores:</h4>' +
+                        '<p><strong>Family Risk:</strong> ' + data.scores.family_risk + '</p>' +
+                        '<p><strong>Physiological:</strong> ' + data.scores.physiological + '</p>' +
+                        '<p><strong>Lifestyle Load:</strong> ' + data.scores.lifestyle_load + '</p>' +
+                        '<p><strong>Biological:</strong> ' + data.scores.biological + '</p>' +
+                        '<p><strong>Cognitive:</strong> ' + data.scores.cognitive + '</p>' +
+                        '</div>';
+                }
+            })
+            .catch(error => {
+                console.error("API Error:", error);
+                document.getElementById('apiResultsDisplay').innerHTML = 
+                    '<p style="color: red;">Error: ' + error.message + '</p>';
+            });
+        }
+
+        // Copy the transformation function from the main form
+        function transformQuestionnaireData(formData) {
+            console.log("=== TRANSFORMATION DEBUG ===");
+            console.log("Input formData:", formData);
+            console.log("Key fields check:");
+            console.log("- family_health_patterns:", formData.family_health_patterns);
+            console.log("- lightheaded_standing:", formData.lightheaded_standing);
+            console.log("- skin_color_changes:", formData.skin_color_changes);
+            console.log("- temperature_sensitivity:", formData.temperature_sensitivity);
+            console.log("- overwhelmed:", formData.overwhelmed);
+            console.log("- confidence_handling:", formData.confidence_handling);
+            console.log("- in_control:", formData.in_control);
+            console.log("- upset_annoyed:", formData.upset_annoyed);
+            console.log("- tense_nervous:", formData.tense_nervous);
+            console.log("- too_many_demands:", formData.too_many_demands);
+            console.log("=== END TRANSFORMATION DEBUG ===");
+
+            // Parse family health patterns
+            const familyHealthPatterns = formData.family_health_patterns ? 
+                formData.family_health_patterns.split(',').map(p => p.trim()) : [];
+
+            console.log("Family health patterns array:", familyHealthPatterns);
+
+            // Helper functions
+            function mapOverwhelmedValue(value) {
+                const mapping = {
+                    'never': 'never',
+                    'almost_never': 'almost_never', 
+                    'sometimes': 'sometimes',
+                    'fairly_often': 'fairly_often',
+                    'very_often': 'very_often'
+                };
+                return mapping[value] || 'never';
+            }
+
+            function mapConfidenceValue(value) {
+                const mapping = {
+                    'very_often': 'very_often',
+                    'fairly_often': 'fairly_often',
+                    'sometimes': 'sometimes', 
+                    'almost_never': 'almost_never',
+                    'never': 'never'
+                };
+                return mapping[value] || 'often';
+            }
+
+            function mapControlValue(value) {
+                const mapping = {
+                    'very_often': 'very_often',
+                    'fairly_often': 'fairly_often',
+                    'sometimes': 'sometimes',
+                    'almost_never': 'almost_never', 
+                    'never': 'never'
+                };
+                return mapping[value] || 'often';
+            }
+
+            function mapCognitiveValue(value) {
+                const mapping = {
+                    'never': 'never',
+                    'almost_never': 'almost_never',
+                    'sometimes': 'sometimes',
+                    'fairly_often': 'fairly_often',
+                    'very_often': 'very_often'
+                };
+                return mapping[value] || 'never';
+            }
+
+            function mapWHO5Value(value) {
+                const mapping = {
+                    'all_of_the_time': 'all_of_the_time',
+                    'most_of_the_time': 'most_of_the_time',
+                    'more_than_half_of_the_time': 'more_than_half_of_the_time',
+                    'less_than_half_of_the_time': 'less_than_half_of_the_time',
+                    'some_of_the_time': 'some_of_the_time',
+                    'at_no_time': 'at_no_time'
+                };
+                return mapping[value] || 'some_of_the_time';
+            }
+
+            // Calculate PSS-10 score (simplified)
+            const pss10Questions = [
+                formData.overwhelmed,
+                formData.unpredictable,
+                formData.coping_well,
+                formData.confidence_handling,
+                formData.in_control
+            ];
+            
+            const pss10Scores = pss10Questions.map(q => {
+                const mapping = {
+                    'never': 0, 'almost_never': 1, 'sometimes': 2, 
+                    'fairly_often': 3, 'very_often': 4
+                };
+                return mapping[q] || 0;
+            });
+            
+            const pss10Raw = pss10Scores.reduce((sum, score) => sum + score, 0);
+
+            // Calculate CFQ score (simplified)
+            const cfqQuestions = [
+                formData.unusually_tired,
+                formData.trouble_starting,
+                formData.muscle_weakness,
+                formData.concentration_issues,
+                formData.physical_slowness,
+                formData.mental_drain,
+                formData.daytime_sleepiness,
+                formData.sleep_issues,
+                formData.worn_out_after_rest,
+                formData.lack_energy_activities
+            ];
+            
+            const cfqScores = cfqQuestions.map(q => {
+                const mapping = {
+                    'never': 0, 'rarely': 1, 'sometimes': 2, 
+                    'often': 3, 'very_often': 4
+                };
+                return mapping[q] || 0;
+            });
+            
+            const cfqRaw = cfqScores.reduce((sum, score) => sum + score, 0);
+
+            // Calculate WHO-5 score
+            const who5Questions = [
+                formData.cheerful_spirits,
+                formData.calm_relaxed,
+                formData.active_energy,
+                formData.fresh_rested,
+                formData.interesting_daily_life
+            ];
+            
+            const who5Scores = who5Questions.map(q => {
+                const mapping = {
+                    'all_of_the_time': 5, 'most_of_the_time': 4, 'more_than_half_of_the_time': 3,
+                    'less_than_half_of_the_time': 2, 'some_of_the_time': 1, 'at_no_time': 0
+                };
+                return mapping[q] || 1;
+            });
+            
+            const who5Raw = who5Scores.reduce((sum, score) => sum + score, 0);
+
+            // Calculate COMPASS-31 score (simplified)
+            const compass31Questions = [
+                formData.lightheaded_standing === 'yes' ? formData.lightheaded_frequency : 'never',
+                formData.skin_color_changes === 'yes' ? 'sometimes' : 'never',
+                formData.temperature_sensitivity === 'yes' ? 'sometimes' : 'never',
+                formData.dry_mouth_eyes === 'yes' ? 'sometimes' : 'never',
+                formData.sweating_changes !== 'no' ? 'sometimes' : 'never',
+                formData.moisture_changes !== 'same' ? 'sometimes' : 'never',
+                formData.fullness_changes !== 'no' ? 'sometimes' : 'never',
+                formData.bloating,
+                formData.vomiting,
+                formData.digestive_issues,
+                formData.light_sensitivity === 'yes' ? 'sometimes' : 'never',
+                formData.focus_issues === 'yes' ? formData.eye_issues_frequency : 'never'
+            ];
+            
+            const compass31Scores = compass31Questions.map(q => {
+                const mapping = {
+                    'never': 0, 'rarely': 1, 'sometimes': 2, 
+                    'often': 3, 'almost_always': 4, 'always': 5
+                };
+                return mapping[q] || 0;
+            });
+            
+            const compass31Raw = compass31Scores.reduce((sum, score) => sum + score, 0);
+
+            const transformedData = {
+                user: {
+                    name: "Test User",
+                    age: parseInt(formData.age) || 35,
+                    sex: formData.gender || 'male',
+                    email: "test@example.com"
+                },
+                family_history: {
+                    cvd: {
+                        present: familyHealthPatterns.includes('heart_disease'),
+                        first_degree: familyHealthPatterns.includes('heart_disease'),
+                        onset: familyHealthPatterns.includes('heart_disease') ? '<60' : 'unknown'
+                    },
+                    diabetes: {
+                        present: familyHealthPatterns.includes('diabetes'),
+                        first_degree: familyHealthPatterns.includes('diabetes'),
+                        onset: familyHealthPatterns.includes('diabetes') ? '<60' : 'unknown'
+                    },
+                    cancer: familyHealthPatterns.includes('cancer') ? 
+                        [{type: 'colorectal', relative: 'mother', onset: '<60'}] : []
+                },
+                physiological_patterns: {
+                    compass31_raw: compass31Raw,
+                    compass31_max: 62,
+                    lightheaded_standing: formData.lightheaded_standing || 'no',
+                    skin_color_changes: formData.skin_color_changes === 'yes',
+                    temperature_sensitivity: formData.temperature_sensitivity === 'yes' ? 'abnormal' : 'normal'
+                },
+                lifestyle_load: {
+                    pss10_raw: pss10Raw,
+                    pss10_max: 40,
+                    sleep_hours: 7,
+                    sleep_quality: 'good',
+                    overwhelmed: mapOverwhelmedValue(formData.overwhelmed),
+                    confidence_handling: mapConfidenceValue(formData.confidence_handling),
+                    in_control: mapControlValue(formData.in_control)
+                },
+                biological_signals: {
+                    waist_cm: 70,
+                    height_cm: 170,
+                    smoking: 'never',
+                    activity_min_week: 150,
+                    location: formData.location || 'city',
+                    education: formData.education || 'university',
+                    work_status: formData.work_status || 'employed',
+                    labs_optional: {
+                        crp_mg_L: null,
+                        hba1c_percent: null,
+                        vitamin_d_ng_ml: null,
+                        lipids: {
+                            ldl: null,
+                            hdl: null,
+                            tg: null
+                        }
+                    }
+                },
+                cognitive_rhythm: {
+                    cfq_raw: cfqRaw,
+                    cfq_max: 100,
+                    who5_raw: who5Raw,
+                    who5_max: 25,
+                    upset_annoyed: mapCognitiveValue(formData.upset_annoyed),
+                    tense_nervous: mapCognitiveValue(formData.tense_nervous),
+                    too_many_demands: mapCognitiveValue(formData.too_many_demands)
+                },
+                symptoms: {
+                    gut: formData.digestive_issues === 'sometimes' || formData.digestive_issues === 'often',
+                    skin: formData.skin_color_changes === 'yes',
+                    fatigue: formData.unusually_tired === 'sometimes' || formData.unusually_tired === 'often',
+                    sleep_issues: formData.sleep_issues === 'sometimes' || formData.sleep_issues === 'often',
+                    digestive_issues: formData.digestive_issues === 'sometimes' || formData.digestive_issues === 'often'
+                },
+                preferences: {
+                    budget: 'moderate',
+                    equipment: 'basic',
+                    diet: 'flexible'
+                }
+            };
+
+            console.log("=== TRANSFORMED DATA DEBUG ===");
+            console.log("Transformed data:", transformedData);
+            console.log("Family history CVD present:", transformedData.family_history.cvd.present);
+            console.log("Family history diabetes present:", transformedData.family_history.diabetes.present);
+            console.log("Physiological lightheaded:", transformedData.physiological_patterns.lightheaded_standing);
+            console.log("Physiological temperature:", transformedData.physiological_patterns.temperature_sensitivity);
+            console.log("Lifestyle overwhelmed:", transformedData.lifestyle_load.overwhelmed);
+            console.log("Cognitive upset:", transformedData.cognitive_rhythm.upset_annoyed);
+            console.log("=== END TRANSFORMED DATA DEBUG ===");
+
+            return transformedData;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
